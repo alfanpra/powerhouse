@@ -69,6 +69,7 @@
       text-rendering: optimizeLegibility;
       overflow-x: hidden;
       cursor: none;
+      maxwidth: 100vw;
     }
     img, svg { display: block; }
     a { text-decoration: none; }
@@ -818,6 +819,7 @@
       top: 0; left: 0; right: 0;
       z-index: 500;
       height: 68px;
+      width: 100vw;
       display: flex;
       align-items: center;
       justify-content: space-between;
@@ -2232,35 +2234,65 @@
       .mobile-menu-cta { padding: 18px 20px; font-size: 11px; }
       .mobile-menu-eyebrow { margin-bottom: 24px; }
 
-      /* Chat */
-      #chat-launcher { right: 16px; bottom: 16px; width: 52px; height: 52px; }
+      /* Chat — respect iOS safe areas and viewport edges */
+      #chat-launcher {
+        right: max(14px, env(safe-area-inset-right));
+        bottom: max(14px, env(safe-area-inset-bottom));
+        width: 50px;
+        height: 50px;
+      }
+      .launcher-status {
+        top: 3px;
+        right: 3px;
+        width: 7px;
+        height: 7px;
+      }
       #chat-panel {
-        right: 12px; left: 12px;
-        bottom: 80px;
+        right: 10px;
+        left: 10px;
+        bottom: calc(72px + env(safe-area-inset-bottom, 0px));
         top: auto;
         width: auto;
         max-width: none;
-        height: calc(100vh - 100px);
+        height: calc(100vh - 92px - env(safe-area-inset-bottom, 0px));
         max-height: none;
+        border-radius: 6px;
       }
-      .chat-header { padding: 20px 22px 18px; gap: 12px; }
+      .chat-header { padding: 18px 20px 16px; gap: 12px; }
       .chat-title { font-size: 18px; }
       .chat-avatar { width: 34px; height: 34px; }
       .chat-avatar svg { width: 14px; height: 14px; }
-      .chat-body { padding: 18px 22px 14px; }
-      .chat-suggestions { padding: 14px 22px 16px; }
-      .chat-input-wrap { padding: 14px 18px 16px; }
+      .chat-body { padding: 18px 20px 14px; }
+      .chat-suggestions { padding: 14px 20px 16px; }
+      .chat-input-wrap { padding: 14px 16px 16px; }
       .chat-footer-meta { font-size: 8.5px; letter-spacing: 1.2px; }
 
-      /* Keep launcher visible on mobile but smaller when chat is open */
+      /* Hide launcher cleanly when chat is open on mobile */
       #chat-launcher.open {
-        transform: scale(0.85);
-        opacity: 0.85;
+        opacity: 0;
+        pointer-events: none;
+        transform: scale(0.7);
+        transition: opacity 0.35s, transform 0.45s var(--ease-out);
+      }
+      /* Hide launcher when mobile menu is open — no overlap */
+      body.menu-open #chat-launcher {
+        opacity: 0;
+        pointer-events: none;
+        transform: scale(0.7);
+        transition: opacity 0.35s, transform 0.45s var(--ease-out);
       }
 
       /* Misc */
       .label-tag { font-size: 9px; }
-      nav { padding: 0 16px; }
+      nav {
+        padding-left: max(16px, env(safe-area-inset-left));
+        padding-right: max(16px, env(safe-area-inset-right));
+      }
+      .mobile-menu-inner {
+        padding-left: max(24px, env(safe-area-inset-left));
+        padding-right: max(24px, env(safe-area-inset-right));
+        padding-bottom: max(32px, env(safe-area-inset-bottom));
+      }
     }
 
     /* ─── EXTRA SMALL ─── */
