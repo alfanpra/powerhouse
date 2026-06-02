@@ -1,0 +1,26 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(extract-text \"C:\\\\Users\\\\Alfan\\\\Downloads\\\\Powerhouse_Law_PRD.docx\")",
+      "Bash(pandoc \"C:\\\\Users\\\\Alfan\\\\Downloads\\\\Powerhouse_Law_PRD.docx\" -o /tmp/prd_output.md)",
+      "Read(//tmp/**)",
+      "PowerShell(python \"C:\\\\Users\\\\Alfan\\\\AppData\\\\Roaming\\\\Claude\\\\local-agent-mode-sessions\\\\skills-plugin\\\\87ffa739-6562-41f0-85a9-b34a2b67818b\\\\43440ef7-64e3-4f2b-8f1b-159c68ddb5d6\\\\skills\\\\docx\\\\scripts\\\\office\\\\unpack.py\" \"C:\\\\Users\\\\Alfan\\\\Downloads\\\\Powerhouse_Law_PRD.docx\" \"C:\\\\Users\\\\Alfan\\\\Downloads\\\\prd_unpacked\")",
+      "PowerShell(Add-Type -AssemblyName System.IO.Compression.FileSystem; $zip = [System.IO.Compression.ZipFile]::OpenRead\\(\"C:\\\\Users\\\\Alfan\\\\Downloads\\\\Powerhouse_Law_PRD.docx\"\\); $entry = $zip.Entries | Where-Object { $_.FullName -eq \"word/document.xml\" }; $stream = $entry.Open\\(\\); $reader = New-Object System.IO.StreamReader\\($stream\\); $content = $reader.ReadToEnd\\(\\); $reader.Close\\(\\); $zip.Dispose\\(\\); $content)",
+      "mcp__Claude_Preview__preview_start",
+      "mcp__ea3b4668-9f65-4ab4-b3bd-afa32073037a__use_figma",
+      "mcp__ea3b4668-9f65-4ab4-b3bd-afa32073037a__get_screenshot",
+      "WebFetch(domain:www.quastels.com)",
+      "mcp__Figma__get_metadata",
+      "mcp__Figma__get_screenshot",
+      "Bash(Get-Content \"C:\\\\Users\\\\Alfan\\\\.claude\\\\projects\\\\E--A---WORKS-A---ICTechnology-Works-Power-House-Law-Power-House-Law-Claude\\\\1b98c917-6241-4cac-8630-f810684d62e4\\\\tool-results\\\\mcp-Figma-get_metadata-1780376786607.txt\" -Raw)",
+      "Bash(Select-String -Pattern '\"text\"')",
+      "Bash(Select-Object -First 1)",
+      "mcp__Figma__get_design_context",
+      "PowerShell(\\(Get-Command npx -ErrorAction SilentlyContinue\\).Source; \\(Get-Command node -ErrorAction SilentlyContinue\\).Source)",
+      "PowerShell(Start-Process \"E:\\\\A - WORKS\\\\A - ICTechnology\\\\Works\\\\Power House Law\\\\Power House Law_Claude\\\\index.html\")",
+      "PowerShell(Get-ChildItem \"$env:USERPROFILE\\\\Downloads\" | Sort-Object LastWriteTime -Descending | Select-Object Name, LastWriteTime -First 10)",
+      "mcp__ea3b4668-9f65-4ab4-b3bd-afa32073037a__get_metadata",
+      "mcp__Claude_in_Chrome__navigate"
+    ]
+  }
+}
