@@ -1,0 +1,3056 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>Powerhouse Law — Sydney Criminal Defence</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="preconnect" href="https://api.fontshare.com" crossorigin />
+
+  <link
+    href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700&display=swap"
+    rel="stylesheet"
+  />
+  <link
+    href="https://api.fontshare.com/v2/css?f[]=switzer@300,400,500,600,700,401,501,601&display=swap"
+    rel="stylesheet"
+  />
+
+  <style>
+    :root {
+      --ink:           #14110f;
+      --ink-deep:      #0e0c0a;
+      --ink-soft:      #1e1a17;
+      --ink-elev:      #25201c;
+
+      --bone:          #f5f1ea;
+      --paper:         #ede7dc;
+      --linen:         #e5dfd2;
+
+      --cream:         #f0ebe1;
+      --cream-soft:    #d8d2c4;
+      --slate:         #8a847a;
+      --slate-dark:    #6e6a64;
+      --charcoal:      #2a2622;
+      --charcoal-soft: #4a443c;
+
+      --blood:         #7a1010;
+      --blood-deep:    #5a0a0a;
+      --blood-warm:    #8a1818;
+      --blood-soft:    #4a0808;
+      --gold-muted:    #c9a449;
+
+      --divider-dark:  rgba(240, 235, 225, 0.08);
+      --divider-light: rgba(42, 38, 34, 0.1);
+
+      --r-sm: 4px;
+      --r-md: 8px;
+      --r-lg: 12px;
+      --r-xl: 16px;
+
+      --font-display: 'Cormorant Garamond', Georgia, serif;
+      --font-body:    'Switzer', 'Inter', system-ui, sans-serif;
+      --font-mono:    'JetBrains Mono', monospace;
+
+      --ease-out:    cubic-bezier(0.16, 1, 0.3, 1);
+      --ease-inout:  cubic-bezier(0.76, 0, 0.24, 1);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; font-size: 16px; }
+
+    body {
+      background: var(--ink);
+      color: var(--cream);
+      font-family: var(--font-body);
+      font-feature-settings: "ss01";
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      text-rendering: optimizeLegibility;
+      overflow-x: hidden;
+    }
+
+    img, svg { display: block; max-width: 100%; }
+    a { text-decoration: none; color: inherit; }
+    button { font-family: inherit; }
+
+    /* ═══ GRAIN ═══ */
+    #grain {
+      position: fixed; inset: -50%;
+      width: 200%; height: 200%;
+      pointer-events: none;
+      z-index: 9997;
+      opacity: 0.02;
+      animation: grain-move 0.6s steps(1) infinite;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+      background-size: 256px 256px;
+    }
+    @keyframes grain-move {
+      0% { transform: translate(0,0); }    25% { transform: translate(-2%,-3%); }
+      50% { transform: translate(3%,2%); } 75% { transform: translate(-1%,4%); }
+      100% { transform: translate(2%,-2%); }
+    }
+
+    /* ═══ SCROLL PROGRESS ═══ */
+    #scroll-progress {
+      position: fixed;
+      top: 0; left: 0;
+      height: 2px;
+      background: var(--blood);
+      width: 0%;
+      z-index: 8000;
+      transition: width 0.1s linear;
+    }
+
+    /* ═══ LOADING SCREEN ═══ */
+    #loader {
+      position: fixed;
+      inset: 0;
+      z-index: 9000;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      background:
+        radial-gradient(ellipse 80% 70% at 50% 50%, rgba(122, 16, 16, 0.18) 0%, transparent 60%),
+        linear-gradient(180deg, var(--ink) 0%, var(--ink-deep) 100%);
+    }
+    .loader-emblem-wrap {
+      position: relative;
+      width: 120px;
+      height: 120px;
+      margin-bottom: 40px;
+      opacity: 0;
+      animation: loader-content-in 1.2s 0.2s var(--ease-out) forwards;
+    }
+    .loader-emblem-wrap::before {
+      content: '';
+      position: absolute;
+      inset: -20px;
+      border-radius: 50%;
+      border: 1px solid var(--divider-dark);
+    }
+    .loader-emblem-wrap::after {
+      content: '';
+      position: absolute;
+      inset: -20px;
+      border-radius: 50%;
+      border-top: 1px solid rgba(122, 16, 16, 0.6);
+      border-right: 1px solid transparent;
+      border-bottom: 1px solid transparent;
+      border-left: 1px solid transparent;
+      animation: loader-spin 4s linear infinite;
+    }
+    @keyframes loader-spin { to { transform: rotate(360deg); } }
+    .loader-emblem-wrap img {
+      width: 100%; height: 100%;
+      object-fit: contain;
+      opacity: 0.92;
+      filter: brightness(1.05);
+    }
+    @keyframes loader-content-in {
+      from { opacity: 0; transform: translateY(8px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .loader-wordmark {
+      font-family: var(--font-display);
+      font-size: 18px;
+      font-weight: 500;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      color: var(--cream);
+      margin-bottom: 8px;
+      opacity: 0;
+      animation: loader-content-in 1s 0.5s var(--ease-out) forwards;
+    }
+    .loader-tagline {
+      font-family: var(--font-display);
+      font-style: italic;
+      font-size: 14px;
+      color: var(--slate);
+      margin-bottom: 48px;
+      opacity: 0;
+      animation: loader-content-in 1s 0.7s var(--ease-out) forwards;
+    }
+    .loader-bar-wrap {
+      width: 220px;
+      opacity: 0;
+      animation: loader-content-in 1s 0.9s var(--ease-out) forwards;
+    }
+    .loader-track {
+      width: 100%;
+      height: 1px;
+      background: var(--divider-dark);
+      position: relative;
+      overflow: hidden;
+    }
+    .loader-fill {
+      height: 100%;
+      background: var(--blood);
+      width: 0%;
+      transition: width 0.1s linear;
+    }
+    .loader-percent {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      color: var(--slate);
+      letter-spacing: 2px;
+      text-align: center;
+      margin-top: 14px;
+    }
+    #loader.exit { animation: loader-exit 1.2s var(--ease-inout) forwards; }
+    @keyframes loader-exit { to { transform: translateY(-100%); } }
+
+    /* ═══ NAVIGATION ═══ */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 500;
+      height: 76px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 56px;
+      background: rgba(20, 17, 15, 0.85);
+      backdrop-filter: blur(16px) saturate(1.3);
+      -webkit-backdrop-filter: blur(16px) saturate(1.3);
+      border-bottom: 1px solid var(--divider-dark);
+      transition: background 0.4s, border-color 0.4s;
+    }
+    nav.scrolled {
+      background: rgba(20, 17, 15, 0.96);
+    }
+    .nav-logo {
+      display: flex;
+      align-items: center;
+      flex-shrink: 0;
+    }
+    .nav-logo img {
+      height: 42px;
+      width: auto;
+      object-fit: contain;
+      filter: brightness(1.05);
+    }
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 40px;
+      list-style: none;
+    }
+    .nav-links a {
+      font-size: 13px;
+      font-weight: 500;
+      letter-spacing: 0.3px;
+      color: var(--cream-soft);
+      position: relative;
+      transition: color 0.3s;
+    }
+    .nav-links a::after {
+      content: '';
+      position: absolute;
+      bottom: -6px; left: 50%; right: 50%;
+      height: 1px;
+      background: var(--blood);
+      transition: left 0.4s var(--ease-out), right 0.4s var(--ease-out);
+    }
+    .nav-links a:hover { color: var(--cream); }
+    .nav-links a:hover::after { left: 0; right: 0; }
+
+    .nav-right {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+    .nav-phone-cta {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 11px 18px;
+      background: rgba(122, 16, 16, 0.12);
+      border: 1px solid rgba(122, 16, 16, 0.4);
+      border-radius: var(--r-md);
+      transition: background 0.3s, border-color 0.3s;
+    }
+    .nav-phone-cta:hover {
+      background: rgba(122, 16, 16, 0.2);
+      border-color: rgba(122, 16, 16, 0.7);
+    }
+    .nav-phone-icon {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background: var(--blood);
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+      position: relative;
+    }
+    .nav-phone-icon::before {
+      content: '';
+      position: absolute;
+      inset: -3px;
+      border-radius: 50%;
+      border: 1px solid rgba(122, 16, 16, 0.5);
+      animation: phone-pulse 2.5s ease-out infinite;
+    }
+    @keyframes phone-pulse {
+      0% { transform: scale(1); opacity: 0.7; }
+      80% { transform: scale(1.45); opacity: 0; }
+      100% { transform: scale(1.45); opacity: 0; }
+    }
+    .nav-phone-icon svg { width: 13px; height: 13px; stroke: #fff; fill: none; stroke-width: 1.8; }
+    .nav-phone-text { display: flex; flex-direction: column; line-height: 1.1; }
+    .nav-phone-label {
+      font-family: var(--font-mono);
+      font-size: 9px;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: var(--slate);
+      margin-bottom: 2px;
+    }
+    .nav-phone-num {
+      font-family: var(--font-body);
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--cream);
+    }
+
+    /* ═══ BUTTONS ═══ */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      padding: 14px 26px;
+      font-family: var(--font-body);
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+      border-radius: var(--r-md);
+      border: 1px solid transparent;
+      cursor: pointer;
+      transition: background 0.4s, color 0.4s, border-color 0.4s, transform 0.4s var(--ease-out);
+      white-space: nowrap;
+    }
+    .btn-primary { background: var(--blood); color: #fff; }
+    .btn-primary:hover { background: var(--blood-warm); transform: translateY(-2px); }
+    .btn-ghost-dark {
+      background: transparent;
+      color: var(--cream);
+      border-color: rgba(240, 235, 225, 0.2);
+    }
+    .btn-ghost-dark:hover { border-color: var(--cream); background: rgba(240, 235, 225, 0.04); }
+    .btn-ghost-light {
+      background: transparent;
+      color: var(--charcoal);
+      border-color: rgba(42, 38, 34, 0.2);
+    }
+    .btn-ghost-light:hover { border-color: var(--charcoal); background: rgba(42, 38, 34, 0.04); }
+
+    /* ═══ HAMBURGER & MOBILE MENU ═══ */
+    .hamburger {
+      display: none;
+      position: relative;
+      width: 44px; height: 44px;
+      background: transparent;
+      border: 1px solid var(--divider-dark);
+      border-radius: var(--r-md);
+      cursor: pointer;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      gap: 5px;
+      padding: 0;
+      transition: border-color 0.4s, background 0.4s;
+      z-index: 510;
+    }
+    .hamburger:hover {
+      border-color: rgba(122, 16, 16, 0.5);
+      background: rgba(122, 16, 16, 0.06);
+    }
+    .hamburger-line {
+      display: block;
+      width: 18px; height: 1.5px;
+      background: var(--cream);
+      transition: transform 0.6s var(--ease-out), opacity 0.3s, width 0.4s;
+    }
+    .hamburger-line:nth-child(2) { width: 12px; align-self: flex-end; margin-right: 12px; }
+    .hamburger.open .hamburger-line:nth-child(1) {
+      transform: translateY(6.5px) rotate(45deg);
+      width: 18px;
+    }
+    .hamburger.open .hamburger-line:nth-child(2) { opacity: 0; }
+    .hamburger.open .hamburger-line:nth-child(3) {
+      transform: translateY(-6.5px) rotate(-45deg);
+    }
+
+    .mobile-menu {
+      position: fixed;
+      inset: 0;
+      z-index: 480;
+      pointer-events: none;
+      visibility: hidden;
+      transition: visibility 0s linear 0.8s;
+    }
+    .mobile-menu.open {
+      pointer-events: auto;
+      visibility: visible;
+      transition-delay: 0s;
+    }
+    .mobile-menu-bg {
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 70% 50% at 90% 10%, rgba(122, 16, 16, 0.2) 0%, transparent 60%),
+        linear-gradient(180deg, var(--ink) 0%, var(--ink-deep) 100%);
+      clip-path: circle(0% at calc(100% - 50px) 50px);
+      transition: clip-path 0.8s var(--ease-inout);
+    }
+    .mobile-menu.open .mobile-menu-bg {
+      clip-path: circle(150% at calc(100% - 50px) 50px);
+    }
+    .mobile-menu-watermark {
+      position: absolute;
+      bottom: -100px;
+      left: -80px;
+      width: 360px;
+      height: 360px;
+      opacity: 0.06;
+      pointer-events: none;
+    }
+    .mobile-menu-watermark img {
+      width: 100%; height: 100%;
+      object-fit: contain;
+      filter: invert(1) brightness(1.2);
+    }
+    .mobile-menu-inner {
+      position: relative;
+      height: 100%;
+      padding: 110px 32px 40px;
+      display: flex;
+      flex-direction: column;
+      overflow-y: auto;
+      opacity: 0;
+      transition: opacity 0.4s 0.3s var(--ease-out);
+    }
+    .mobile-menu.open .mobile-menu-inner { opacity: 1; }
+    .mobile-menu-eyebrow {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      letter-spacing: 2.5px;
+      text-transform: uppercase;
+      color: var(--slate);
+      margin-bottom: 36px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .mobile-menu-eyebrow::after {
+      content: '';
+      flex: 1; height: 1px;
+      background: var(--divider-dark);
+    }
+    .mobile-menu-list { list-style: none; }
+    .mobile-menu-list li {
+      border-bottom: 1px solid var(--divider-dark);
+    }
+    .mobile-menu-list a {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      padding: 22px 4px;
+      color: var(--cream);
+      font-family: var(--font-display);
+      font-size: 32px;
+      font-weight: 500;
+      letter-spacing: -0.5px;
+      transform: translateY(40px);
+      opacity: 0;
+      transition: color 0.4s, padding-left 0.5s var(--ease-out);
+    }
+    .mobile-menu.open .mobile-menu-list a {
+      animation: mm-item-in 0.7s var(--ease-out) forwards;
+    }
+    .mobile-menu-list li:nth-child(1) a { animation-delay: 0.35s; }
+    .mobile-menu-list li:nth-child(2) a { animation-delay: 0.42s; }
+    .mobile-menu-list li:nth-child(3) a { animation-delay: 0.49s; }
+    .mobile-menu-list li:nth-child(4) a { animation-delay: 0.56s; }
+    .mobile-menu-list li:nth-child(5) a { animation-delay: 0.63s; }
+    .mobile-menu-list li:nth-child(6) a { animation-delay: 0.70s; }
+    @keyframes mm-item-in {
+      to { transform: translateY(0); opacity: 1; }
+    }
+    .mm-num {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      letter-spacing: 1.5px;
+      color: var(--slate);
+      min-width: 28px;
+    }
+    .mm-label { flex: 1; }
+    .mm-arrow { color: var(--slate); font-size: 18px; transition: transform 0.4s var(--ease-out); }
+    .mobile-menu-list a:hover { padding-left: 12px; }
+    .mobile-menu-list a:hover .mm-arrow { transform: translateX(6px); color: var(--blood); }
+
+    .mobile-menu-footer {
+      margin-top: auto;
+      padding-top: 40px;
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.6s 0.8s var(--ease-out), transform 0.6s 0.8s var(--ease-out);
+    }
+    .mobile-menu.open .mobile-menu-footer {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .mobile-menu-phone {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 20px 0;
+      border-top: 1px solid var(--divider-dark);
+      border-bottom: 1px solid var(--divider-dark);
+      margin-bottom: 20px;
+    }
+    .mobile-menu-phone-icon {
+      width: 38px; height: 38px;
+      background: var(--blood);
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+    }
+    .mobile-menu-phone-icon svg { width: 16px; height: 16px; stroke: #fff; fill: none; stroke-width: 1.8; }
+    .mobile-menu-phone-info { flex: 1; }
+    .mobile-menu-phone-label {
+      font-family: var(--font-mono);
+      font-size: 9px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--slate);
+      margin-bottom: 3px;
+    }
+    .mobile-menu-phone-num {
+      font-size: 16px;
+      font-weight: 600;
+      color: var(--cream);
+    }
+    .mobile-menu-cta {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      padding: 18px 24px;
+      background: var(--blood);
+      color: #fff;
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+      border-radius: var(--r-md);
+    }
+    .mobile-menu-meta {
+      margin-top: 28px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      font-family: var(--font-mono);
+      font-size: 9px;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: var(--slate);
+    }
+    .mobile-menu-meta a { color: var(--slate); transition: color 0.3s; }
+    .mobile-menu-meta a:hover { color: var(--cream); }
+
+    body.menu-open { overflow: hidden; }
+
+    /* ═══ REVEAL ANIMATIONS ═══ */
+    [data-reveal] { opacity: 0; }
+    [data-reveal="up"]    { transform: translateY(40px); }
+    [data-reveal="left"]  { transform: translateX(-40px); }
+    [data-reveal="right"] { transform: translateX(40px); }
+    [data-reveal].in-view { animation: reveal-up 1.2s var(--ease-out) forwards; }
+    @keyframes reveal-up { to { opacity: 1; transform: none; } }
+    [data-delay="1"] { animation-delay: 0.1s !important; }
+    [data-delay="2"] { animation-delay: 0.2s !important; }
+    [data-delay="3"] { animation-delay: 0.3s !important; }
+    [data-delay="4"] { animation-delay: 0.45s !important; }
+    [data-delay="5"] { animation-delay: 0.6s !important; }
+
+    /* ═══ SECTION COMMONS ═══ */
+    .section {
+      padding: 140px 56px;
+      position: relative;
+    }
+    .section--dark { background: var(--ink); color: var(--cream); }
+    .section--light { background: var(--bone); color: var(--charcoal); }
+    .section--paper { background: var(--paper); color: var(--charcoal); }
+    .container { max-width: 1320px; margin: 0 auto; }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      font-family: var(--font-mono);
+      font-size: 10px;
+      font-weight: 500;
+      letter-spacing: 2.5px;
+      text-transform: uppercase;
+      margin-bottom: 28px;
+    }
+    .eyebrow--dark { color: var(--slate); }
+    .eyebrow--light { color: var(--charcoal-soft); }
+    .eyebrow::before {
+      content: '';
+      display: block;
+      width: 28px; height: 1px;
+      background: currentColor;
+      opacity: 0.6;
+    }
+
+    h1, h2, h3, .heading {
+      font-family: var(--font-display);
+      font-weight: 500;
+      letter-spacing: -0.015em;
+      line-height: 1.05;
+    }
+    .heading em {
+      font-style: italic;
+      color: var(--blood);
+      font-weight: 500;
+    }
+
+    .section-heading {
+      font-family: var(--font-display);
+      font-size: clamp(38px, 4.2vw, 60px);
+      font-weight: 500;
+      line-height: 1.06;
+      letter-spacing: -0.015em;
+      margin-bottom: 24px;
+    }
+    .section-heading em { font-style: italic; color: var(--blood); }
+
+    /* Section heading on LIGHT surfaces — must use dark text */
+    #reviews .section-heading,
+    #results .section-heading,
+    .section--light .section-heading,
+    .section--paper .section-heading {
+      color: var(--charcoal);
+    }
+    #reviews .section-heading em,
+    #results .section-heading em,
+    .section--light .section-heading em,
+    .section--paper .section-heading em {
+      color: var(--blood);
+    }
+
+    .lead {
+      font-size: 17px;
+      line-height: 1.7;
+      color: var(--slate);
+      max-width: 540px;
+    }
+    .section--light .lead { color: var(--charcoal-soft); }
+    #results .lead { color: var(--charcoal-soft); }
+
+    /* ═══ HERO — LIGHT + CENTERED ═══ */
+    #hero {
+      position: relative;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      background:
+        radial-gradient(ellipse 60% 55% at 50% 45%, rgba(122, 16, 16, 0.06) 0%, transparent 70%),
+        linear-gradient(180deg, var(--bone) 0%, var(--paper) 100%);
+      padding: 140px 56px 110px;
+      color: var(--charcoal);
+      text-align: center;
+    }
+
+    /* Large centered logo character behind content */
+    .hero-character-bg {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 780px;
+      height: 780px;
+      pointer-events: none;
+      opacity: 0.1;
+      animation: character-breathe 9s ease-in-out infinite;
+    }
+    .hero-character-bg img {
+      width: 100%; height: 100%;
+      object-fit: contain;
+      filter: none;
+    }
+    @keyframes character-breathe {
+      0%, 100% { transform: translate(-50%, -50%) scale(1); opacity: 0.1; }
+      50%       { transform: translate(-50%, -50%) scale(1.03); opacity: 0.14; }
+    }
+
+    /* Side decorative marks */
+    .hero-side-mark {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 280px;
+      height: 280px;
+      pointer-events: none;
+      opacity: 0.06;
+    }
+    .hero-side-mark.left  { left: -110px; }
+    .hero-side-mark.right { right: -110px; transform: translateY(-50%) scaleX(-1); }
+    .hero-side-mark img {
+      width: 100%; height: 100%;
+      object-fit: contain;
+      filter: none;
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      max-width: 1000px;
+      margin: 0 auto;
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .hero-eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      font-family: var(--font-mono);
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 2.5px;
+      text-transform: uppercase;
+      color: var(--charcoal-soft);
+      margin-bottom: 40px;
+      padding: 8px 18px;
+      border: 1px solid var(--divider-light);
+      border-radius: 100px;
+      background: rgba(255, 255, 255, 0.4);
+      backdrop-filter: blur(8px);
+      opacity: 0;
+      animation: hero-in 1s 0.3s var(--ease-out) forwards;
+    }
+    .hero-eyebrow-dot {
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: var(--blood);
+      box-shadow: 0 0 8px rgba(122, 16, 16, 0.5);
+      animation: pulse-dot 2.4s ease-in-out infinite;
+    }
+    @keyframes pulse-dot {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50%       { opacity: 0.5; transform: scale(0.85); }
+    }
+
+    .hero-h1 {
+      font-family: var(--font-display);
+      font-size: clamp(54px, 6.4vw, 92px);
+      font-weight: 400;
+      line-height: 1.02;
+      letter-spacing: -0.022em;
+      color: var(--charcoal);
+      margin-bottom: 4px;
+      opacity: 0;
+      animation: hero-in 1.2s 0.5s var(--ease-out) forwards;
+    }
+    .hero-h1-italic {
+      font-family: var(--font-display);
+      font-style: italic;
+      font-weight: 500;
+      font-size: clamp(54px, 6.4vw, 92px);
+      line-height: 1.02;
+      letter-spacing: -0.022em;
+      color: var(--blood);
+      margin-bottom: 40px;
+      display: block;
+      opacity: 0;
+      animation: hero-in 1.2s 0.7s var(--ease-out) forwards;
+    }
+    .hero-sub {
+      font-size: 17px;
+      line-height: 1.75;
+      color: var(--charcoal-soft);
+      max-width: 580px;
+      margin: 0 auto 48px;
+      opacity: 0;
+      animation: hero-in 1s 0.9s var(--ease-out) forwards;
+    }
+    .hero-cta {
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+      justify-content: center;
+      opacity: 0;
+      animation: hero-in 1s 1.1s var(--ease-out) forwards;
+    }
+    @keyframes hero-in {
+      from { opacity: 0; transform: translateY(24px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .hero-bottom {
+      position: absolute;
+      bottom: 40px;
+      left: 56px; right: 56px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      z-index: 2;
+    }
+    .hero-scroll {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      font-family: var(--font-mono);
+      font-size: 10px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--charcoal-soft);
+    }
+    .scroll-bar {
+      width: 36px; height: 1px;
+      background: var(--divider-light);
+      position: relative;
+      overflow: hidden;
+    }
+    .scroll-bar::after {
+      content: '';
+      position: absolute;
+      top: 0; left: -100%;
+      width: 100%; height: 100%;
+      background: var(--blood);
+      animation: scroll-dash 3s ease-in-out infinite;
+    }
+    @keyframes scroll-dash {
+      0% { left: -100%; } 50% { left: 0; } 100% { left: 100%; }
+    }
+    .hero-loc {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--charcoal-soft);
+    }
+
+    /* ═══ TRUST STRIP ═══ */
+    #trust {
+      background: var(--ink);
+      padding: 80px 56px 100px;
+      border-top: 1px solid var(--divider-dark);
+      border-bottom: 1px solid var(--divider-dark);
+      position: relative;
+      overflow: hidden;
+    }
+    .trust-watermark {
+      position: absolute;
+      bottom: -180px;
+      right: -100px;
+      width: 360px;
+      height: 360px;
+      opacity: 0.04;
+      pointer-events: none;
+    }
+    .trust-watermark img {
+      width: 100%; height: 100%;
+      object-fit: contain;
+      filter: invert(1);
+      transform: rotate(12deg);
+    }
+    .trust-grid {
+      max-width: 1320px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 56px;
+      position: relative;
+      z-index: 2;
+    }
+    .trust-block {
+      position: relative;
+      padding-left: 32px;
+    }
+    .trust-block:not(:first-child)::before {
+      content: '';
+      position: absolute;
+      left: 0; top: 8px; bottom: 8px;
+      width: 1px;
+      background: var(--divider-dark);
+    }
+    .trust-number {
+      font-family: var(--font-display);
+      font-size: clamp(38px, 3.8vw, 52px);
+      font-weight: 500;
+      line-height: 1;
+      letter-spacing: -0.02em;
+      color: var(--cream);
+      margin-bottom: 12px;
+    }
+    .trust-number.gold { color: var(--gold-muted); }
+    .trust-label {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--cream-soft);
+      margin-bottom: 6px;
+    }
+    .trust-sub {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      letter-spacing: 1.5px;
+      color: var(--slate);
+      text-transform: uppercase;
+    }
+
+    /* ═══ PRACTICE AREAS (dark) ═══ */
+    #practice {
+      position: relative;
+      overflow: hidden;
+    }
+    .practice-ornament {
+      position: absolute;
+      top: -100px;
+      right: -180px;
+      width: 600px;
+      height: 600px;
+      opacity: 0.04;
+      pointer-events: none;
+    }
+    .practice-ornament img {
+      width: 100%; height: 100%;
+      object-fit: contain;
+      filter: invert(1);
+      transform: rotate(8deg);
+    }
+    .practice-ornament-2 {
+      position: absolute;
+      bottom: -120px;
+      left: -100px;
+      width: 280px;
+      height: 280px;
+      opacity: 0.03;
+      pointer-events: none;
+    }
+    .practice-ornament-2 img {
+      width: 100%; height: 100%;
+      object-fit: contain;
+      filter: invert(1);
+      transform: rotate(-20deg);
+    }
+
+    .practice-head {
+      max-width: 1320px;
+      margin: 0 auto 80px;
+      display: grid;
+      grid-template-columns: 280px 1fr;
+      gap: 80px;
+      align-items: end;
+      position: relative;
+      z-index: 2;
+    }
+    .practice-list {
+      max-width: 1320px;
+      margin: 0 auto;
+      position: relative;
+      z-index: 2;
+    }
+    .practice-row {
+      display: grid;
+      grid-template-columns: 60px 1fr auto auto;
+      align-items: center;
+      gap: 40px;
+      padding: 40px 24px;
+      border-top: 1px solid var(--divider-dark);
+      transition: background 0.5s, padding-left 0.5s var(--ease-out);
+      border-radius: var(--r-md);
+      cursor: pointer;
+    }
+    .practice-row:last-child { border-bottom: 1px solid var(--divider-dark); }
+    .practice-row:hover {
+      background: rgba(240, 235, 225, 0.02);
+      padding-left: 36px;
+    }
+    .practice-num {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: var(--slate);
+      letter-spacing: 1px;
+    }
+    .practice-name {
+      font-family: var(--font-display);
+      font-size: clamp(24px, 2.4vw, 34px);
+      font-weight: 500;
+      color: var(--cream);
+      letter-spacing: -0.015em;
+      transition: color 0.4s;
+    }
+    .practice-row:hover .practice-name em { color: var(--blood-warm); }
+    .practice-desc {
+      font-size: 14px;
+      line-height: 1.7;
+      color: var(--slate);
+      max-width: 340px;
+      text-align: right;
+    }
+    .practice-arrow {
+      width: 36px; height: 36px;
+      border: 1px solid var(--divider-dark);
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      transition: background 0.4s, border-color 0.4s, transform 0.5s var(--ease-out);
+      flex-shrink: 0;
+    }
+    .practice-arrow svg {
+      width: 14px; height: 14px;
+      stroke: var(--slate);
+      stroke-width: 1.6;
+      fill: none;
+      transition: stroke 0.4s, transform 0.4s var(--ease-out);
+    }
+    .practice-row:hover .practice-arrow {
+      background: var(--blood);
+      border-color: var(--blood);
+    }
+    .practice-row:hover .practice-arrow svg {
+      stroke: #fff;
+      transform: translateX(2px);
+    }
+
+    /* ═══ ABOUT (light) ═══ */
+    #about {
+      position: relative;
+      overflow: hidden;
+    }
+    .about-ornament {
+      position: absolute;
+      bottom: -200px;
+      left: -150px;
+      width: 500px;
+      height: 500px;
+      opacity: 0.05;
+      pointer-events: none;
+    }
+    .about-ornament img {
+      width: 100%; height: 100%;
+      object-fit: contain;
+      filter: none;
+      transform: rotate(-10deg);
+    }
+    .about-ornament-2 {
+      position: absolute;
+      top: 60px;
+      right: -60px;
+      width: 220px;
+      height: 220px;
+      opacity: 0.04;
+      pointer-events: none;
+    }
+    .about-ornament-2 img {
+      width: 100%; height: 100%;
+      object-fit: contain;
+      filter: none;
+      transform: rotate(15deg);
+    }
+    .about-grid {
+      max-width: 1320px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr 1.1fr;
+      gap: 100px;
+      align-items: center;
+      position: relative;
+      z-index: 2;
+    }
+    .about-photo {
+      position: relative;
+      aspect-ratio: 4 / 5;
+      width: 100%;
+      border-radius: var(--r-lg);
+      overflow: hidden;
+      background: var(--linen);
+      box-shadow: 0 30px 60px rgba(42, 38, 34, 0.12),
+                  0 0 0 1px var(--divider-light);
+    }
+    .about-photo-placeholder {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 16px;
+      background:
+        radial-gradient(ellipse 60% 80% at 50% 30%, rgba(122, 16, 16, 0.04) 0%, transparent 60%),
+        var(--linen);
+    }
+    .about-photo-placeholder img {
+      width: 220px; height: 220px;
+      object-fit: contain;
+      opacity: 0.4;
+    }
+    .about-photo-caption {
+      position: absolute;
+      bottom: 20px; left: 24px; right: 24px;
+      padding: 16px 20px;
+      background: rgba(20, 17, 15, 0.85);
+      backdrop-filter: blur(8px);
+      color: var(--cream);
+      border-radius: var(--r-md);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .about-photo-caption-label {
+      font-family: var(--font-mono);
+      font-size: 9px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--slate);
+      margin-bottom: 4px;
+    }
+    .about-photo-caption-name {
+      font-family: var(--font-display);
+      font-size: 18px;
+      font-weight: 500;
+      color: var(--cream);
+    }
+    .about-photo-caption-link {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      letter-spacing: 1.5px;
+      color: var(--cream-soft);
+      text-transform: uppercase;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .about-heading {
+      font-family: var(--font-display);
+      font-size: clamp(40px, 4.2vw, 58px);
+      font-weight: 500;
+      line-height: 1.04;
+      letter-spacing: -0.02em;
+      color: var(--charcoal);
+      margin-bottom: 4px;
+    }
+    .about-heading-italic {
+      font-family: var(--font-display);
+      font-style: italic;
+      font-weight: 500;
+      font-size: clamp(40px, 4.2vw, 58px);
+      line-height: 1.04;
+      letter-spacing: -0.02em;
+      color: var(--blood);
+      margin-bottom: 36px;
+      display: block;
+    }
+    .about-body {
+      font-size: 16px;
+      line-height: 1.85;
+      color: var(--charcoal-soft);
+      margin-bottom: 32px;
+    }
+    .about-body p + p { margin-top: 18px; }
+    .about-credentials {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      padding: 24px 0;
+      border-top: 1px solid var(--divider-light);
+      border-bottom: 1px solid var(--divider-light);
+      margin-bottom: 36px;
+    }
+    .credential-row {
+      display: grid;
+      grid-template-columns: 140px 1fr;
+      gap: 24px;
+      align-items: baseline;
+    }
+    .credential-label {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: var(--charcoal-soft);
+    }
+    .credential-value {
+      font-size: 14px;
+      color: var(--charcoal);
+      line-height: 1.65;
+    }
+
+    /* ═══ REVIEWS (paper light) ═══ */
+    #reviews {
+      background: var(--paper);
+      position: relative;
+      overflow: hidden;
+    }
+    .reviews-watermark {
+      position: absolute;
+      top: 50%;
+      right: -150px;
+      transform: translateY(-50%);
+      width: 360px;
+      height: 360px;
+      opacity: 0.04;
+      pointer-events: none;
+    }
+    .reviews-watermark img {
+      width: 100%; height: 100%;
+      object-fit: contain;
+      filter: none;
+    }
+    .reviews-head {
+      max-width: 1320px;
+      margin: 0 auto 80px;
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 48px;
+      align-items: end;
+      position: relative;
+      z-index: 2;
+    }
+    .reviews-grid {
+      max-width: 1320px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 28px;
+      position: relative;
+      z-index: 2;
+    }
+    .review-card {
+      background: var(--bone);
+      border: 1px solid var(--divider-light);
+      border-radius: var(--r-lg);
+      padding: 36px 32px 32px;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      transition: transform 0.5s var(--ease-out), box-shadow 0.5s;
+      position: relative;
+    }
+    .review-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 20px 40px rgba(42, 38, 34, 0.08);
+    }
+    .review-stars {
+      display: flex; gap: 4px;
+      color: var(--gold-muted);
+    }
+    .review-quote {
+      font-family: var(--font-display);
+      font-size: 19px;
+      font-style: italic;
+      font-weight: 400;
+      line-height: 1.55;
+      color: var(--charcoal);
+      flex: 1;
+      letter-spacing: -0.005em;
+    }
+    .review-quote::before {
+      content: '"';
+      font-family: var(--font-display);
+      font-size: 48px;
+      color: var(--blood);
+      line-height: 0;
+      vertical-align: -16px;
+      margin-right: 4px;
+      opacity: 0.4;
+    }
+    .review-sep {
+      width: 28px; height: 1px;
+      background: var(--charcoal-soft);
+      opacity: 0.3;
+    }
+    .review-author {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--charcoal);
+      margin-bottom: 4px;
+    }
+    .review-detail {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      letter-spacing: 1.2px;
+      color: var(--charcoal-soft);
+      text-transform: uppercase;
+    }
+    .reviews-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-family: var(--font-mono);
+      font-size: 11px;
+      letter-spacing: 1.5px;
+      color: var(--charcoal);
+      text-transform: uppercase;
+      transition: color 0.3s;
+    }
+    .reviews-link:hover { color: var(--blood); }
+
+    /* ═══ CONTACT (dark) ═══ */
+    #contact {
+      position: relative;
+      overflow: hidden;
+      background: var(--ink-deep);
+    }
+    .contact-bg-mark {
+      position: absolute;
+      top: 50%;
+      right: -180px;
+      transform: translateY(-50%);
+      width: 700px;
+      height: 700px;
+      opacity: 0.06;
+      pointer-events: none;
+      animation: watermark-breathe 10s ease-in-out infinite;
+    }
+    .contact-bg-mark img {
+      width: 100%; height: 100%;
+      object-fit: contain;
+      filter: invert(1) brightness(1.2);
+    }
+    .contact-grid {
+      max-width: 1320px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1.2fr 1fr;
+      gap: 80px;
+      align-items: center;
+      position: relative;
+      z-index: 2;
+    }
+    .contact-heading {
+      font-family: var(--font-display);
+      font-size: clamp(40px, 4.4vw, 64px);
+      font-weight: 500;
+      line-height: 1.04;
+      letter-spacing: -0.02em;
+      color: var(--cream);
+      margin-bottom: 28px;
+    }
+    .contact-heading em { font-style: italic; color: var(--blood-warm); }
+    .contact-sub {
+      font-size: 17px;
+      line-height: 1.75;
+      color: var(--cream-soft);
+      margin-bottom: 40px;
+      max-width: 480px;
+    }
+    .contact-actions {
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+    .contact-card {
+      background: var(--ink-soft);
+      border: 1px solid var(--divider-dark);
+      border-radius: var(--r-lg);
+      padding: 40px;
+      position: relative;
+      overflow: hidden;
+    }
+    .contact-card-watermark {
+      position: absolute;
+      top: -40px;
+      right: -40px;
+      width: 160px;
+      height: 160px;
+      opacity: 0.06;
+      pointer-events: none;
+    }
+    .contact-card-watermark img {
+      width: 100%; height: 100%;
+      object-fit: contain;
+      filter: invert(1);
+    }
+    .contact-card-label {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      letter-spacing: 2px;
+      color: var(--blood-warm);
+      text-transform: uppercase;
+      margin-bottom: 20px;
+      position: relative;
+    }
+    .contact-detail {
+      padding: 18px 0;
+      border-bottom: 1px solid var(--divider-dark);
+      position: relative;
+    }
+    .contact-detail:last-child { border-bottom: none; }
+    .contact-detail-label {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: var(--slate);
+      margin-bottom: 8px;
+    }
+    .contact-detail-value {
+      font-size: 16px;
+      color: var(--cream);
+      font-weight: 500;
+    }
+    .contact-detail-value.large {
+      font-family: var(--font-display);
+      font-size: 28px;
+      font-weight: 500;
+      letter-spacing: -0.01em;
+    }
+    .contact-detail-sub {
+      font-size: 13px;
+      color: var(--slate);
+      margin-top: 6px;
+    }
+
+    /* ═══ RESULTS (paper light) ═══ */
+    #results {
+      position: relative;
+      overflow: hidden;
+    }
+    .results-watermark {
+      position: absolute;
+      top: -100px;
+      left: -120px;
+      width: 360px;
+      height: 360px;
+      opacity: 0.04;
+      pointer-events: none;
+    }
+    .results-watermark img {
+      width: 100%; height: 100%;
+      object-fit: contain;
+      transform: rotate(20deg);
+    }
+    .results-head {
+      max-width: 1320px;
+      margin: 0 auto 80px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      align-items: end;
+      position: relative;
+      z-index: 2;
+    }
+    .results-grid {
+      max-width: 1320px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 32px;
+      position: relative;
+      z-index: 2;
+    }
+    .result-card {
+      background: var(--bone);
+      border: 1px solid var(--divider-light);
+      border-radius: var(--r-lg);
+      padding: 40px;
+      transition: transform 0.5s var(--ease-out), box-shadow 0.5s;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+    .result-card-mark {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      width: 36px;
+      height: 36px;
+      opacity: 0.15;
+      pointer-events: none;
+      transition: opacity 0.4s;
+    }
+    .result-card:hover .result-card-mark { opacity: 0.3; }
+    .result-card-mark img {
+      width: 100%; height: 100%;
+      object-fit: contain;
+    }
+    .result-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 20px 40px rgba(42, 38, 34, 0.08);
+    }
+    .result-card-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 24px;
+      padding-right: 48px;
+    }
+    .result-tag {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: var(--charcoal-soft);
+      padding: 6px 12px;
+      border: 1px solid var(--divider-light);
+      border-radius: 100px;
+    }
+    .result-outcome {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: var(--blood);
+      font-weight: 600;
+    }
+    .result-charge {
+      font-family: var(--font-display);
+      font-size: 26px;
+      font-weight: 500;
+      line-height: 1.2;
+      color: var(--charcoal);
+      margin-bottom: 16px;
+      letter-spacing: -0.01em;
+    }
+    .result-charge em { font-style: italic; color: var(--blood); }
+    .result-body {
+      font-size: 15px;
+      line-height: 1.7;
+      color: var(--charcoal-soft);
+      margin-bottom: 28px;
+      flex: 1;
+    }
+    .result-meta {
+      display: flex;
+      gap: 20px;
+      padding-top: 20px;
+      border-top: 1px solid var(--divider-light);
+      font-family: var(--font-mono);
+      font-size: 10px;
+      letter-spacing: 1px;
+      color: var(--charcoal-soft);
+      text-transform: uppercase;
+    }
+    .result-meta-item {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+    .result-meta-label { opacity: 0.7; }
+    .result-meta-value { color: var(--charcoal); font-weight: 600; }
+
+    /* ═══ FAQ (dark) ═══ */
+    #faq { position: relative; overflow: hidden; }
+    .faq-watermark {
+      position: absolute;
+      bottom: -100px;
+      right: -100px;
+      width: 320px;
+      height: 320px;
+      opacity: 0.04;
+      pointer-events: none;
+    }
+    .faq-watermark img {
+      width: 100%; height: 100%;
+      object-fit: contain;
+      filter: invert(1);
+      transform: rotate(-12deg);
+    }
+    .faq-inner {
+      max-width: 1320px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 380px 1fr;
+      gap: 80px;
+      position: relative;
+      z-index: 2;
+    }
+    .faq-sidebar {
+      position: sticky;
+      top: 100px;
+      align-self: flex-start;
+    }
+    .faq-list {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+    .faq-item {
+      border: 1px solid var(--divider-dark);
+      border-radius: var(--r-md);
+      transition: background 0.4s, border-color 0.4s;
+      overflow: hidden;
+    }
+    .faq-item.open {
+      background: rgba(122, 16, 16, 0.04);
+      border-color: rgba(122, 16, 16, 0.25);
+    }
+    .faq-q {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+      padding: 28px 32px;
+      cursor: pointer;
+    }
+    .faq-q-text {
+      font-family: var(--font-display);
+      font-size: 19px;
+      font-weight: 500;
+      line-height: 1.4;
+      color: var(--cream);
+      flex: 1;
+      letter-spacing: -0.005em;
+    }
+    .faq-toggle {
+      width: 36px; height: 36px;
+      background: transparent;
+      border: 1px solid var(--divider-dark);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      transition: background 0.4s, border-color 0.4s, transform 0.6s var(--ease-out);
+    }
+    .faq-item.open .faq-toggle {
+      background: var(--blood);
+      border-color: var(--blood);
+      transform: rotate(45deg);
+    }
+    .faq-toggle svg {
+      width: 12px; height: 12px;
+      stroke: var(--cream-soft);
+      stroke-width: 1.8;
+      fill: none;
+      transition: stroke 0.4s;
+    }
+    .faq-item.open .faq-toggle svg { stroke: #fff; }
+    .faq-a {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.6s var(--ease-out);
+    }
+    .faq-item.open .faq-a { max-height: 600px; }
+    .faq-a-inner {
+      padding: 0 32px 32px;
+      font-size: 15px;
+      line-height: 1.8;
+      color: var(--cream-soft);
+    }
+    .faq-a-inner p + p { margin-top: 14px; }
+
+    /* ═══ FOOTER ═══ */
+    footer {
+      background: var(--ink-deep);
+      border-top: 1px solid var(--divider-dark);
+      padding: 100px 56px 48px;
+      position: relative;
+      overflow: hidden;
+    }
+    .footer-mark {
+      position: absolute;
+      bottom: -200px;
+      right: -120px;
+      width: 500px;
+      height: 500px;
+      opacity: 0.05;
+      pointer-events: none;
+    }
+    .footer-mark img {
+      width: 100%; height: 100%;
+      object-fit: contain;
+      filter: invert(1) brightness(1.2);
+    }
+    .footer-mark-2 {
+      position: absolute;
+      top: 80px;
+      left: -60px;
+      width: 200px;
+      height: 200px;
+      opacity: 0.03;
+      pointer-events: none;
+    }
+    .footer-mark-2 img {
+      width: 100%; height: 100%;
+      object-fit: contain;
+      filter: invert(1);
+      transform: rotate(18deg);
+    }
+    .footer-grid {
+      max-width: 1320px;
+      margin: 0 auto 80px;
+      display: grid;
+      grid-template-columns: 1.5fr 1fr 1fr 1fr;
+      gap: 60px;
+      position: relative;
+      z-index: 2;
+    }
+    .footer-brand-logo {
+      display: flex;
+      align-items: center;
+      margin-bottom: 28px;
+    }
+    .footer-brand-logo img {
+      height: 52px;
+      width: auto;
+      object-fit: contain;
+      filter: brightness(1.05);
+    }
+    .footer-tagline {
+      font-family: var(--font-display);
+      font-size: 22px;
+      font-weight: 500;
+      line-height: 1.2;
+      color: var(--cream);
+      margin-bottom: 12px;
+      letter-spacing: -0.01em;
+    }
+    .footer-tagline em { font-style: italic; color: var(--blood-warm); }
+    .footer-desc {
+      font-size: 14px;
+      line-height: 1.7;
+      color: var(--slate);
+      margin-bottom: 36px;
+      max-width: 320px;
+    }
+    .footer-phone {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      padding: 14px 20px;
+      background: rgba(122, 16, 16, 0.12);
+      border: 1px solid rgba(122, 16, 16, 0.4);
+      border-radius: var(--r-md);
+      transition: background 0.3s;
+    }
+    .footer-phone:hover { background: rgba(122, 16, 16, 0.2); }
+    .footer-phone-icon {
+      width: 28px; height: 28px;
+      background: var(--blood);
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .footer-phone-icon svg { width: 13px; height: 13px; stroke: #fff; fill: none; stroke-width: 1.8; }
+    .footer-phone-num { font-size: 14px; font-weight: 600; color: var(--cream); }
+    .footer-col-heading {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      font-weight: 500;
+      letter-spacing: 2px;
+      color: var(--slate);
+      text-transform: uppercase;
+      margin-bottom: 28px;
+      padding-bottom: 16px;
+      border-bottom: 1px solid var(--divider-dark);
+    }
+    .footer-links {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+    .footer-links a {
+      font-size: 14px;
+      color: var(--cream-soft);
+      transition: color 0.3s;
+    }
+    .footer-links a:hover { color: var(--cream); }
+    .footer-bottom {
+      max-width: 1320px;
+      margin: 0 auto;
+      padding-top: 36px;
+      border-top: 1px solid var(--divider-dark);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: relative;
+      z-index: 2;
+    }
+    .footer-copy {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      letter-spacing: 0.5px;
+      color: var(--slate);
+    }
+    .footer-legal {
+      display: flex;
+      gap: 28px;
+    }
+    .footer-legal a {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      letter-spacing: 0.5px;
+      color: var(--slate);
+      transition: color 0.3s;
+    }
+    .footer-legal a:hover { color: var(--cream); }
+
+    /* ═══ AI CHAT ═══ */
+    #chat-launcher {
+      position: fixed;
+      right: 32px;
+      bottom: 32px;
+      z-index: 7000;
+      width: 56px; height: 56px;
+      border-radius: 50%;
+      background: var(--blood);
+      border: 1px solid rgba(240, 235, 225, 0.15);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 14px 36px rgba(0, 0, 0, 0.4);
+      transition: transform 0.6s var(--ease-out), background 0.4s;
+      animation: launcher-in 1s 3.6s var(--ease-out) both;
+    }
+    @keyframes launcher-in {
+      from { opacity: 0; transform: translateY(20px) scale(0.85); }
+      to   { opacity: 1; transform: translateY(0)   scale(1); }
+    }
+    #chat-launcher:hover {
+      background: var(--blood-warm);
+      transform: translateY(-3px);
+    }
+    .launcher-icon, .launcher-close {
+      position: absolute;
+      width: 20px; height: 20px;
+      display: flex; align-items: center; justify-content: center;
+      transition: opacity 0.4s, transform 0.5s var(--ease-out);
+    }
+    .launcher-icon svg, .launcher-close svg {
+      width: 100%; height: 100%;
+      stroke: #fff; stroke-width: 1.6; fill: none;
+    }
+    .launcher-close { opacity: 0; transform: rotate(-45deg) scale(0.7); }
+    #chat-launcher.open .launcher-icon { opacity: 0; transform: rotate(45deg) scale(0.7); }
+    #chat-launcher.open .launcher-close { opacity: 1; transform: rotate(0) scale(1); }
+
+    #chat-panel {
+      position: fixed;
+      right: 32px;
+      bottom: 108px;
+      z-index: 6999;
+      width: 400px;
+      max-width: calc(100vw - 48px);
+      height: 580px;
+      max-height: calc(100vh - 160px);
+      background: var(--ink-soft);
+      border: 1px solid var(--divider-dark);
+      border-radius: var(--r-lg);
+      box-shadow: 0 32px 64px rgba(0, 0, 0, 0.5);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      opacity: 0;
+      transform: translateY(20px) scale(0.97);
+      transform-origin: bottom right;
+      pointer-events: none;
+      transition: opacity 0.6s var(--ease-out), transform 0.6s var(--ease-out);
+    }
+    #chat-panel.open {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+      pointer-events: auto;
+    }
+    .chat-header {
+      padding: 24px 28px 20px;
+      border-bottom: 1px solid var(--divider-dark);
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+    .chat-avatar {
+      width: 40px; height: 40px;
+      border-radius: 50%;
+      background: var(--ink);
+      border: 1px solid var(--divider-dark);
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+      overflow: hidden;
+    }
+    .chat-avatar img {
+      width: 28px; height: 28px;
+      object-fit: contain;
+      filter: invert(1) brightness(1.2);
+      opacity: 0.8;
+    }
+    .chat-title-group { flex: 1; }
+    .chat-eyebrow {
+      font-family: var(--font-mono);
+      font-size: 9px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--slate);
+      margin-bottom: 4px;
+    }
+    .chat-title {
+      font-family: var(--font-display);
+      font-size: 18px;
+      font-weight: 500;
+      color: var(--cream);
+      letter-spacing: -0.01em;
+    }
+    .chat-title em { font-style: italic; color: var(--blood-warm); }
+    .chat-header-btn {
+      width: 30px; height: 30px;
+      background: transparent;
+      border: 1px solid var(--divider-dark);
+      border-radius: 50%;
+      cursor: pointer;
+      color: var(--slate);
+      font-size: 14px;
+      display: flex; align-items: center; justify-content: center;
+      transition: color 0.3s, border-color 0.3s;
+    }
+    .chat-header-btn:hover { color: var(--cream); border-color: rgba(122, 16, 16, 0.4); }
+    .chat-body {
+      flex: 1;
+      overflow-y: auto;
+      padding: 24px 28px 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+    .chat-body::-webkit-scrollbar { width: 4px; }
+    .chat-body::-webkit-scrollbar-thumb { background: var(--divider-dark); }
+    .chat-msg {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      max-width: 90%;
+      opacity: 0;
+      transform: translateY(8px);
+      animation: msg-in 0.6s var(--ease-out) forwards;
+    }
+    @keyframes msg-in { to { opacity: 1; transform: translateY(0); } }
+    .chat-msg.ai { align-self: flex-start; }
+    .chat-msg.user { align-self: flex-end; align-items: flex-end; }
+    .chat-msg-meta {
+      font-family: var(--font-mono);
+      font-size: 9px;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: var(--slate);
+    }
+    .chat-bubble {
+      padding: 12px 16px;
+      font-size: 14px;
+      line-height: 1.6;
+      border-radius: var(--r-md);
+    }
+    .chat-msg.ai .chat-bubble {
+      background: rgba(240, 235, 225, 0.04);
+      border: 1px solid var(--divider-dark);
+      color: var(--cream-soft);
+    }
+    .chat-msg.user .chat-bubble {
+      background: rgba(122, 16, 16, 0.15);
+      border: 1px solid rgba(122, 16, 16, 0.3);
+      color: var(--cream);
+    }
+    .chat-bubble strong { color: var(--cream); }
+    .chat-bubble a { color: var(--cream); border-bottom: 1px solid rgba(122, 16, 16, 0.6); }
+    .chat-suggestions {
+      padding: 16px 28px 20px;
+      border-top: 1px solid var(--divider-dark);
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+    .chat-suggestions-label {
+      font-family: var(--font-mono);
+      font-size: 9px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--slate);
+      margin-bottom: 10px;
+    }
+    .chat-chip {
+      background: transparent;
+      border: none;
+      color: var(--cream-soft);
+      font-family: var(--font-body);
+      font-size: 13px;
+      padding: 10px 0;
+      text-align: left;
+      cursor: pointer;
+      transition: color 0.3s, padding-left 0.4s var(--ease-out);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid var(--divider-dark);
+    }
+    .chat-chip::after {
+      content: '→';
+      font-size: 12px;
+      color: var(--slate);
+      transition: color 0.3s, transform 0.4s var(--ease-out);
+    }
+    .chat-chip:hover { color: var(--cream); padding-left: 4px; }
+    .chat-chip:hover::after { color: var(--blood-warm); transform: translateX(4px); }
+    .chat-typing {
+      display: flex; gap: 5px; align-items: center; padding: 2px 0;
+    }
+    .chat-typing span {
+      width: 5px; height: 5px;
+      border-radius: 50%;
+      background: var(--blood-warm);
+      opacity: 0.4;
+      animation: typing-bounce 1.4s ease-in-out infinite;
+    }
+    .chat-typing span:nth-child(2) { animation-delay: 0.2s; }
+    .chat-typing span:nth-child(3) { animation-delay: 0.4s; }
+    @keyframes typing-bounce {
+      0%, 80%, 100% { opacity: 0.3; }
+      40% { opacity: 1; }
+    }
+    .chat-input-wrap {
+      padding: 16px 24px 18px;
+      border-top: 1px solid var(--divider-dark);
+    }
+    .chat-input-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(240, 235, 225, 0.04);
+      border: 1px solid var(--divider-dark);
+      border-radius: var(--r-md);
+      padding: 6px 6px 6px 16px;
+      transition: border-color 0.4s;
+    }
+    .chat-input-row:focus-within { border-color: rgba(122, 16, 16, 0.5); }
+    .chat-input {
+      flex: 1;
+      background: transparent;
+      border: none;
+      outline: none;
+      color: var(--cream);
+      font-family: var(--font-body);
+      font-size: 14px;
+      padding: 8px 0;
+      caret-color: var(--blood-warm);
+    }
+    .chat-input::placeholder { color: var(--slate); }
+    .chat-send {
+      width: 34px; height: 34px;
+      background: var(--blood);
+      border: none;
+      border-radius: var(--r-sm);
+      cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      transition: background 0.3s, transform 0.3s;
+      flex-shrink: 0;
+    }
+    .chat-send:hover { background: var(--blood-warm); transform: translateX(2px); }
+    .chat-send svg { width: 14px; height: 14px; stroke: #fff; stroke-width: 1.8; fill: none; }
+    .chat-footer-meta {
+      margin-top: 12px;
+      font-family: var(--font-mono);
+      font-size: 9px;
+      letter-spacing: 1.5px;
+      color: var(--slate);
+      text-align: center;
+      text-transform: uppercase;
+    }
+    .chat-footer-meta a { color: var(--cream-soft); transition: color 0.3s; }
+    .chat-footer-meta a:hover { color: var(--blood-warm); }
+
+    /* ═══ RESPONSIVE ═══ */
+    @media (max-width: 1100px) {
+      nav { padding: 0 24px; height: 70px; }
+      .nav-links, .nav-phone-cta, .nav-right .btn { display: none; }
+      .hamburger { display: flex; }
+      .section { padding: 100px 24px; }
+      #hero { padding: 130px 24px 100px; }
+      .hero-character-bg { width: 560px; height: 560px; }
+      .hero-side-mark { display: none; }
+      .hero-bottom { left: 24px; right: 24px; }
+      .trust-grid { grid-template-columns: 1fr 1fr; gap: 40px; }
+      .trust-block { padding-left: 0; }
+      .trust-block:not(:first-child)::before { display: none; }
+      .practice-head, .about-grid, .contact-grid, .reviews-head,
+      .results-head, .faq-inner {
+        grid-template-columns: 1fr;
+        gap: 48px;
+      }
+      .faq-sidebar { position: relative; top: 0; }
+      .reviews-grid, .results-grid { grid-template-columns: 1fr 1fr; }
+      .footer-grid { grid-template-columns: 1fr 1fr; gap: 48px; }
+      .practice-row { grid-template-columns: 40px 1fr 32px; gap: 20px; padding: 32px 16px; }
+      .practice-desc { display: none; }
+    }
+
+    @media (hover: none), (pointer: coarse) {
+      #grain { display: none; }
+    }
+
+    @media (max-width: 680px) {
+      .section { padding: 80px 20px; }
+      #hero { padding: 110px 20px 90px; min-height: 100vh; }
+      .hero-h1, .hero-h1-italic { font-size: 44px; line-height: 1; }
+      .hero-h1-italic { margin-bottom: 32px; }
+      .hero-sub { font-size: 15px; margin-bottom: 36px; }
+      .hero-cta { flex-direction: column; width: 100%; gap: 12px; }
+      .hero-cta .btn { width: 100%; justify-content: center; padding: 16px; }
+      .hero-character-bg { width: 400px; height: 400px; }
+      .hero-eyebrow { font-size: 10px; padding: 6px 14px; margin-bottom: 28px; }
+      .hero-bottom { display: none; }
+      .trust-grid { grid-template-columns: 1fr 1fr; gap: 28px; padding: 0; }
+      .trust-number { font-size: 32px; }
+      .section-heading { font-size: 34px; }
+      .about-heading, .about-heading-italic { font-size: 34px; }
+      .contact-heading { font-size: 32px; }
+      .practice-list { padding: 0; }
+      .practice-row { padding: 24px 12px; gap: 16px; }
+      .practice-name { font-size: 21px; }
+      .reviews-grid, .results-grid { grid-template-columns: 1fr; }
+      .review-card, .result-card, .contact-card { padding: 28px; }
+      .about-grid, .reviews-head, .results-head { gap: 36px; }
+      .about-photo { aspect-ratio: 3/4; }
+      .credential-row { grid-template-columns: 110px 1fr; gap: 16px; }
+      .faq-q { padding: 22px 24px; gap: 16px; }
+      .faq-q-text { font-size: 16px; }
+      .faq-a-inner { padding: 0 24px 24px; font-size: 14px; }
+      .footer-grid { grid-template-columns: 1fr; gap: 36px; padding: 0; }
+      .footer-bottom { flex-direction: column; gap: 16px; text-align: center; }
+      #chat-launcher {
+        right: max(14px, env(safe-area-inset-right));
+        bottom: max(14px, env(safe-area-inset-bottom));
+        width: 50px; height: 50px;
+      }
+      #chat-panel {
+        right: 10px; left: 10px;
+        bottom: calc(72px + env(safe-area-inset-bottom, 0px));
+        top: auto;
+        width: auto; max-width: none;
+        height: calc(100vh - 92px - env(safe-area-inset-bottom, 0px));
+      }
+      #chat-launcher.open { opacity: 0; pointer-events: none; transform: scale(0.7); transition: opacity 0.3s, transform 0.4s; }
+      body.menu-open #chat-launcher { opacity: 0; pointer-events: none; transform: scale(0.7); transition: opacity 0.3s, transform 0.4s; }
+      nav {
+        padding-left: max(20px, env(safe-area-inset-left));
+        padding-right: max(20px, env(safe-area-inset-right));
+      }
+      .nav-logo img { height: 36px; }
+      .mobile-menu-inner {
+        padding-left: max(24px, env(safe-area-inset-left));
+        padding-right: max(24px, env(safe-area-inset-right));
+        padding-bottom: max(32px, env(safe-area-inset-bottom));
+      }
+      .mobile-menu-list a { font-size: 28px; padding: 18px 4px; }
+    }
+
+    @media (max-width: 380px) {
+      .hero-h1, .hero-h1-italic { font-size: 38px; }
+      .section-heading, .about-heading, .about-heading-italic, .contact-heading { font-size: 28px; }
+      .nav-logo img { height: 32px; }
+    }
+  </style>
+</head>
+<body>
+
+  <div id="grain" aria-hidden="true"></div>
+  <div id="scroll-progress"></div>
+
+  <!-- ═══ LOADING SCREEN ═══ -->
+  <div id="loader">
+    <div class="loader-emblem-wrap">
+      <img src="logo-character.svg" alt="Powerhouse Law" />
+    </div>
+    <div class="loader-wordmark">Powerhouse Law</div>
+    <div class="loader-tagline">Uncompromising Criminal Defence</div>
+    <div class="loader-bar-wrap">
+      <div class="loader-track">
+        <div class="loader-fill" id="loader-fill"></div>
+      </div>
+      <div class="loader-percent" id="loader-percent">000</div>
+    </div>
+  </div>
+
+  <!-- ═══ NAVIGATION ═══ -->
+  <nav id="nav">
+    <a class="nav-logo" href="#">
+      <img src="logo.png" alt="Powerhouse Law" />
+    </a>
+    <ul class="nav-links">
+      <li><a href="#practice">Practice Areas</a></li>
+      <li><a href="#about">About</a></li>
+      <li><a href="#reviews">Reviews</a></li>
+      <li><a href="#results">Results</a></li>
+      <li><a href="#faq">FAQ</a></li>
+    </ul>
+    <div class="nav-right">
+      <a class="nav-phone-cta" href="tel:1800100529">
+        <span class="nav-phone-icon">
+          <svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+        </span>
+        <span class="nav-phone-text">
+          <span class="nav-phone-label">Available 24/7</span>
+          <span class="nav-phone-num">1800 100 529</span>
+        </span>
+      </a>
+      <a class="btn btn-primary" href="#contact">Book Consultation</a>
+    </div>
+    <button id="hamburger" class="hamburger" aria-label="Open menu">
+      <span class="hamburger-line"></span>
+      <span class="hamburger-line"></span>
+      <span class="hamburger-line"></span>
+    </button>
+  </nav>
+
+  <!-- ═══ MOBILE DRAWER ═══ -->
+  <div id="mobile-menu" class="mobile-menu">
+    <div class="mobile-menu-bg"></div>
+    <div class="mobile-menu-watermark" aria-hidden="true">
+      <img src="logo-character.svg" alt="" />
+    </div>
+    <div class="mobile-menu-inner">
+      <div class="mobile-menu-eyebrow">Powerhouse · Menu</div>
+      <ul class="mobile-menu-list">
+        <li><a href="#practice"><span class="mm-num">01</span><span class="mm-label">Practice Areas</span><span class="mm-arrow">→</span></a></li>
+        <li><a href="#about"><span class="mm-num">02</span><span class="mm-label">About</span><span class="mm-arrow">→</span></a></li>
+        <li><a href="#reviews"><span class="mm-num">03</span><span class="mm-label">Reviews</span><span class="mm-arrow">→</span></a></li>
+        <li><a href="#results"><span class="mm-num">04</span><span class="mm-label">Results</span><span class="mm-arrow">→</span></a></li>
+        <li><a href="#faq"><span class="mm-num">05</span><span class="mm-label">FAQ</span><span class="mm-arrow">→</span></a></li>
+        <li><a href="#contact"><span class="mm-num">06</span><span class="mm-label">Contact</span><span class="mm-arrow">→</span></a></li>
+      </ul>
+      <div class="mobile-menu-footer">
+        <a class="mobile-menu-phone" href="tel:1800100529">
+          <span class="mobile-menu-phone-icon">
+            <svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+          </span>
+          <span class="mobile-menu-phone-info">
+            <span class="mobile-menu-phone-label">Available 24/7</span>
+            <span class="mobile-menu-phone-num">1800 100 529</span>
+          </span>
+        </a>
+        <a class="mobile-menu-cta" href="#contact">Book Consultation →</a>
+        <div class="mobile-menu-meta">
+          <a href="#">Privacy</a> · <a href="#">Terms</a> · <span>© 2025</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ HERO — LIGHT + CENTERED ═══ -->
+  <section id="hero">
+    <!-- Centered logo character behind content -->
+    <div class="hero-character-bg" aria-hidden="true">
+      <img src="logo-character.svg" alt="" />
+    </div>
+
+    <!-- Side decorative marks -->
+    <div class="hero-side-mark left" aria-hidden="true">
+      <img src="logo-character.svg" alt="" />
+    </div>
+    <div class="hero-side-mark right" aria-hidden="true">
+      <img src="logo-character.svg" alt="" />
+    </div>
+
+    <div class="hero-content">
+      <span class="hero-eyebrow">
+        <span class="hero-eyebrow-dot"></span>
+        Sydney · NSW Criminal Defence
+      </span>
+      <h1 class="hero-h1">Uncompromising</h1>
+      <span class="hero-h1-italic">Criminal Defence.</span>
+      <p class="hero-sub">
+        Sydney's specialist criminal and traffic defence firm. Strategic representation,
+        a multilingual team, and senior counsel available every hour of every day.
+      </p>
+      <div class="hero-cta">
+        <a class="btn btn-primary" href="#contact">Book a Consultation</a>
+        <a class="btn btn-ghost-light" href="tel:1800100529">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+          Call 1800 100 529
+        </a>
+      </div>
+    </div>
+
+    <div class="hero-bottom">
+      <div class="hero-scroll">
+        <div class="scroll-bar"></div>
+        Scroll to explore
+      </div>
+      <div class="hero-loc">Sydney · NSW · Est. 2009</div>
+    </div>
+  </section>
+
+  <!-- ═══ TRUST STRIP ═══ -->
+  <section id="trust">
+    <div class="trust-watermark" aria-hidden="true"><img src="logo-character.svg" alt="" /></div>
+    <div class="trust-grid">
+      <div class="trust-block" data-reveal="up">
+        <div class="trust-number gold">★ 5.0</div>
+        <div class="trust-label">Google Rating</div>
+        <div class="trust-sub">200+ verified reviews</div>
+      </div>
+      <div class="trust-block" data-reveal="up" data-delay="1">
+        <div class="trust-number">98%</div>
+        <div class="trust-label">Success Rate</div>
+        <div class="trust-sub">Positive outcomes</div>
+      </div>
+      <div class="trust-block" data-reveal="up" data-delay="2">
+        <div class="trust-number">2,400+</div>
+        <div class="trust-label">Cases Defended</div>
+        <div class="trust-sub">Across NSW courts</div>
+      </div>
+      <div class="trust-block" data-reveal="up" data-delay="3">
+        <div class="trust-number">Sect. 10</div>
+        <div class="trust-label">Frequent Outcome</div>
+        <div class="trust-sub">No conviction recorded</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ PRACTICE AREAS (dark) ═══ -->
+  <section id="practice" class="section section--dark">
+    <div class="practice-ornament" aria-hidden="true"><img src="logo-character.svg" alt="" /></div>
+    <div class="practice-ornament-2" aria-hidden="true"><img src="logo-character.svg" alt="" /></div>
+
+    <div class="practice-head">
+      <div data-reveal="up">
+        <span class="eyebrow eyebrow--dark">Practice Areas</span>
+      </div>
+      <div data-reveal="up" data-delay="1">
+        <h2 class="section-heading"><em>Expert</em> defence across every<br>practice area.</h2>
+        <p class="lead">
+          We focus exclusively on criminal and traffic law. Every case receives the strategy,
+          attention and senior representation it deserves.
+        </p>
+      </div>
+    </div>
+
+    <div class="practice-list">
+      <a href="#" class="practice-row" data-reveal="up">
+        <span class="practice-num">01</span>
+        <span class="practice-name">Criminal Defence</span>
+        <span class="practice-desc">Serious charges, assaults, fraud, theft and all NSW criminal matters.</span>
+        <span class="practice-arrow"><svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+      </a>
+      <a href="#" class="practice-row" data-reveal="up" data-delay="1">
+        <span class="practice-num">02</span>
+        <span class="practice-name">Traffic Law</span>
+        <span class="practice-desc">Drink driving, licence disqualifications, speeding and DUI charges.</span>
+        <span class="practice-arrow"><svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+      </a>
+      <a href="#" class="practice-row" data-reveal="up" data-delay="2">
+        <span class="practice-num">03</span>
+        <span class="practice-name">Bail Applications</span>
+        <span class="practice-desc">Urgent bail hearings, bail variations and show cause applications.</span>
+        <span class="practice-arrow"><svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+      </a>
+      <a href="#" class="practice-row" data-reveal="up" data-delay="3">
+        <span class="practice-num">04</span>
+        <span class="practice-name">Drug Offences</span>
+        <span class="practice-desc">Possession, supply, manufacture and importation matters across NSW.</span>
+        <span class="practice-arrow"><svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+      </a>
+      <a href="#" class="practice-row" data-reveal="up" data-delay="4">
+        <span class="practice-num">05</span>
+        <span class="practice-name">AVO &amp; Domestic Violence</span>
+        <span class="practice-desc">Interim and final AVOs, ADVO matters and domestic offence defence.</span>
+        <span class="practice-arrow"><svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+      </a>
+      <a href="#" class="practice-row" data-reveal="up" data-delay="5">
+        <span class="practice-num">06</span>
+        <span class="practice-name">Appeals &amp; Reviews</span>
+        <span class="practice-desc">District Court appeals, sentence appeals and conviction reviews.</span>
+        <span class="practice-arrow"><svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+      </a>
+    </div>
+  </section>
+
+  <!-- ═══ ABOUT (light) ═══ -->
+  <section id="about" class="section section--light">
+    <div class="about-ornament" aria-hidden="true"><img src="logo-character.svg" alt="" /></div>
+    <div class="about-ornament-2" aria-hidden="true"><img src="logo-character.svg" alt="" /></div>
+
+    <div class="about-grid">
+      <div class="about-photo" data-reveal="left">
+        <div class="about-photo-placeholder">
+          <img src="logo-character.svg" alt="" />
+        </div>
+        <div class="about-photo-caption">
+          <div>
+            <div class="about-photo-caption-label">Principal Lawyer</div>
+            <div class="about-photo-caption-name">[Founder Name]</div>
+          </div>
+          <a href="#" class="about-photo-caption-link">View Profile →</a>
+        </div>
+      </div>
+
+      <div class="about-text" data-reveal="right">
+        <span class="eyebrow eyebrow--light">Meet the Principal</span>
+        <h2 class="about-heading">Boutique expertise.</h2>
+        <span class="about-heading-italic">Unmatched access.</span>
+        <div class="about-body">
+          <p>
+            Powerhouse Law is a specialist criminal and traffic defence firm — not a generalist
+            practice. Founded on the belief that every client deserves senior representation,
+            strategic preparation, and personal attention from day one.
+          </p>
+          <p>
+            Our multilingual team speaks English, Arabic, Lebanese and Hindi, and is available
+            every hour of every day. From urgent bail to complex trials, we are the firm
+            that answers.
+          </p>
+        </div>
+        <div class="about-credentials">
+          <div class="credential-row">
+            <span class="credential-label">Admitted</span>
+            <span class="credential-value">Supreme Court of New South Wales</span>
+          </div>
+          <div class="credential-row">
+            <span class="credential-label">Courts</span>
+            <span class="credential-value">Local · District · Supreme · Court of Criminal Appeal</span>
+          </div>
+          <div class="credential-row">
+            <span class="credential-label">Languages</span>
+            <span class="credential-value">English · Arabic · Lebanese · Hindi</span>
+          </div>
+        </div>
+        <a class="btn btn-ghost-light" href="#">Read Full Profile →</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ REVIEWS (paper light) ═══ -->
+  <section id="reviews" class="section">
+    <div class="reviews-watermark" aria-hidden="true"><img src="logo-character.svg" alt="" /></div>
+
+    <div class="reviews-head">
+      <div data-reveal="up">
+        <span class="eyebrow eyebrow--light">Testimonials</span>
+        <h2 class="section-heading"><em>Trusted</em> by clients<br>across Sydney.</h2>
+      </div>
+      <a href="#" class="reviews-link" data-reveal="right">Read all reviews →</a>
+    </div>
+
+    <div class="reviews-grid">
+      <div class="review-card" data-reveal="up">
+        <div class="review-stars">★ ★ ★ ★ ★</div>
+        <p class="review-quote">Powerhouse Law saved my licence and my career. They knew exactly what to argue. The result was beyond what I expected.</p>
+        <div class="review-sep"></div>
+        <div>
+          <div class="review-author">Ahmed K.</div>
+          <div class="review-detail">Traffic Offence · Parramatta Local Court</div>
+        </div>
+      </div>
+      <div class="review-card" data-reveal="up" data-delay="1">
+        <div class="review-stars">★ ★ ★ ★ ★</div>
+        <p class="review-quote">Available every time I called, day or night. They achieved a Section 10 — no conviction. Life-changing representation.</p>
+        <div class="review-sep"></div>
+        <div>
+          <div class="review-author">Sarah M.</div>
+          <div class="review-detail">Drug Possession · Downing Centre</div>
+        </div>
+      </div>
+      <div class="review-card" data-reveal="up" data-delay="2">
+        <div class="review-stars">★ ★ ★ ★ ★</div>
+        <p class="review-quote">They listened, prepared a thorough defence, and had the charge withdrawn on the day. I cannot recommend them highly enough.</p>
+        <div class="review-sep"></div>
+        <div>
+          <div class="review-author">Daniel T.</div>
+          <div class="review-detail">Assault Charges · Burwood Local Court</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ CONTACT (dark) ═══ -->
+  <section id="contact" class="section section--dark">
+    <div class="contact-bg-mark" aria-hidden="true"><img src="logo-character.svg" alt="" /></div>
+
+    <div class="contact-grid">
+      <div data-reveal="up">
+        <span class="eyebrow eyebrow--dark">Get in Touch</span>
+        <h2 class="contact-heading">Charged with an offence?<br><em>Don't face it alone.</em></h2>
+        <p class="contact-sub">
+          Speak to a senior criminal defence lawyer today. Confidential, no obligation,
+          and available 24/7 across Sydney and all of New South Wales.
+        </p>
+        <div class="contact-actions">
+          <a class="btn btn-primary" href="tel:1800100529">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+            Call 1800 100 529
+          </a>
+          <a class="btn btn-ghost-dark" href="#">Send an Enquiry</a>
+        </div>
+      </div>
+
+      <div class="contact-card" data-reveal="up" data-delay="1">
+        <div class="contact-card-watermark" aria-hidden="true"><img src="logo-character.svg" alt="" /></div>
+        <div class="contact-card-label">Direct Line</div>
+        <div class="contact-detail">
+          <div class="contact-detail-label">Phone — 24 / 7</div>
+          <div class="contact-detail-value large">1800 100 529</div>
+          <div class="contact-detail-sub">Senior counsel available now</div>
+        </div>
+        <div class="contact-detail">
+          <div class="contact-detail-label">Email</div>
+          <div class="contact-detail-value">info@powerhouselaw.com.au</div>
+        </div>
+        <div class="contact-detail">
+          <div class="contact-detail-label">Office</div>
+          <div class="contact-detail-value">Level 5, 50 Market Street</div>
+          <div class="contact-detail-sub">Sydney NSW 2000</div>
+        </div>
+        <div class="contact-detail">
+          <div class="contact-detail-label">Courts Covered</div>
+          <div class="contact-detail-sub" style="margin-top:8px;line-height:1.7">
+            Parramatta · Downing Centre · Penrith · Burwood · Liverpool · Campbelltown · Blacktown · Wollongong
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ RESULTS (paper light) ═══ -->
+  <section id="results" class="section section--paper">
+    <div class="results-watermark" aria-hidden="true"><img src="logo-character.svg" alt="" /></div>
+
+    <div class="results-head">
+      <div data-reveal="up">
+        <span class="eyebrow eyebrow--light">Recent Outcomes</span>
+        <h2 class="section-heading"><em>Results</em> that<br>speak for themselves.</h2>
+      </div>
+      <div data-reveal="up" data-delay="1">
+        <p class="lead">
+          A selection of recent cases — anonymised to protect client confidentiality —
+          showing the outcomes we routinely achieve in NSW courts.
+        </p>
+      </div>
+    </div>
+
+    <div class="results-grid">
+      <div class="result-card" data-reveal="up">
+        <div class="result-card-mark"><img src="logo-character.svg" alt="" /></div>
+        <div class="result-card-header">
+          <span class="result-tag">Traffic Law</span>
+          <span class="result-outcome">No Conviction</span>
+        </div>
+        <h3 class="result-charge">Drink driving — <em>Section 10 secured.</em></h3>
+        <p class="result-body">
+          Client charged with a mid-range drink driving offence faced automatic licence
+          disqualification and a criminal record. Through strong submissions on character and
+          rehabilitation, we secured a Section 10 with no conviction recorded.
+        </p>
+        <div class="result-meta">
+          <div class="result-meta-item">
+            <span class="result-meta-label">Court</span>
+            <span class="result-meta-value">Parramatta</span>
+          </div>
+          <div class="result-meta-item">
+            <span class="result-meta-label">Outcome</span>
+            <span class="result-meta-value">Section 10 CRO</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="result-card" data-reveal="up" data-delay="1">
+        <div class="result-card-mark"><img src="logo-character.svg" alt="" /></div>
+        <div class="result-card-header">
+          <span class="result-tag">Drug Offences</span>
+          <span class="result-outcome">Charge Withdrawn</span>
+        </div>
+        <h3 class="result-charge">Possession — <em>charge dropped pre-hearing.</em></h3>
+        <p class="result-body">
+          Negotiated with prosecution following identification of procedural defects in the
+          arrest and seizure. Charge withdrawn before reaching a hearing, preserving the
+          client's clean criminal record.
+        </p>
+        <div class="result-meta">
+          <div class="result-meta-item">
+            <span class="result-meta-label">Court</span>
+            <span class="result-meta-value">Downing Centre</span>
+          </div>
+          <div class="result-meta-item">
+            <span class="result-meta-label">Outcome</span>
+            <span class="result-meta-value">Withdrawn</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="result-card" data-reveal="up" data-delay="2">
+        <div class="result-card-mark"><img src="logo-character.svg" alt="" /></div>
+        <div class="result-card-header">
+          <span class="result-tag">Assault</span>
+          <span class="result-outcome">Acquittal</span>
+        </div>
+        <h3 class="result-charge">Common assault — <em>not guilty verdict.</em></h3>
+        <p class="result-body">
+          Defended common assault charge at hearing. Through forensic cross-examination of
+          prosecution witnesses and strong defence evidence, the client was found not guilty
+          and the matter dismissed.
+        </p>
+        <div class="result-meta">
+          <div class="result-meta-item">
+            <span class="result-meta-label">Court</span>
+            <span class="result-meta-value">Burwood</span>
+          </div>
+          <div class="result-meta-item">
+            <span class="result-meta-label">Outcome</span>
+            <span class="result-meta-value">Not Guilty</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="result-card" data-reveal="up" data-delay="3">
+        <div class="result-card-mark"><img src="logo-character.svg" alt="" /></div>
+        <div class="result-card-header">
+          <span class="result-tag">Bail</span>
+          <span class="result-outcome">Bail Granted</span>
+        </div>
+        <h3 class="result-charge">Urgent bail — <em>granted same day.</em></h3>
+        <p class="result-body">
+          Client refused bail by Police on a Friday evening. Filed an urgent Supreme Court
+          bail application on the Saturday morning and secured release the same day,
+          allowing the client to return home to family.
+        </p>
+        <div class="result-meta">
+          <div class="result-meta-item">
+            <span class="result-meta-label">Court</span>
+            <span class="result-meta-value">Supreme Court NSW</span>
+          </div>
+          <div class="result-meta-item">
+            <span class="result-meta-label">Outcome</span>
+            <span class="result-meta-value">Bail Granted</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ FAQ (dark) ═══ -->
+  <section id="faq" class="section section--dark">
+    <div class="faq-watermark" aria-hidden="true"><img src="logo-character.svg" alt="" /></div>
+
+    <div class="faq-inner">
+      <div class="faq-sidebar">
+        <span class="eyebrow eyebrow--dark" style="color:var(--blood-warm)">Frequently Asked</span>
+        <h2 class="section-heading">Your<br>questions<br><em>answered.</em></h2>
+        <p class="lead">
+          Common questions about our process, fees, and how we can help in your case.
+        </p>
+      </div>
+
+      <div class="faq-list">
+        <div class="faq-item open" data-reveal="up">
+          <div class="faq-q" onclick="toggleFaq(this)">
+            <p class="faq-q-text">Should I do a Police interview or remain silent?</p>
+            <button class="faq-toggle" aria-label="Toggle">
+              <svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>
+            </button>
+          </div>
+          <div class="faq-a">
+            <div class="faq-a-inner">
+              <p>You have a fundamental right to remain silent. You can freely refuse to answer Police questions and do not have to make a statement. Always seek legal advice before deciding.</p>
+              <p>Police cannot say you are guilty because you refused to answer questions. Remaining silent is your right and often the best strategic choice.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="faq-item" data-reveal="up" data-delay="1">
+          <div class="faq-q" onclick="toggleFaq(this)">
+            <p class="faq-q-text">Can you get my charge dropped before going to court?</p>
+            <button class="faq-toggle" aria-label="Toggle">
+              <svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>
+            </button>
+          </div>
+          <div class="faq-a">
+            <div class="faq-a-inner">
+              <p>In many cases, yes. We can write to Police requesting charges be withdrawn where evidence is weak or procedural issues exist. Early intervention is often the most effective strategy.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="faq-item" data-reveal="up" data-delay="2">
+          <div class="faq-q" onclick="toggleFaq(this)">
+            <p class="faq-q-text">What is a Section 10 and how do I get one?</p>
+            <button class="faq-toggle" aria-label="Toggle">
+              <svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>
+            </button>
+          </div>
+          <div class="faq-a">
+            <div class="faq-a-inner">
+              <p>A Section 10 means you are found guilty but no conviction is recorded — your criminal record stays clear. We regularly achieve Section 10 outcomes for first offences, traffic, drug possession and assault matters.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="faq-item" data-reveal="up" data-delay="3">
+          <div class="faq-q" onclick="toggleFaq(this)">
+            <p class="faq-q-text">Do you accept Legal Aid and offer payment plans?</p>
+            <button class="faq-toggle" aria-label="Toggle">
+              <svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>
+            </button>
+          </div>
+          <div class="faq-a">
+            <div class="faq-a-inner">
+              <p>Yes. We accept Legal Aid assignments and can assist with applications. We also offer transparent fixed fees and flexible payment plans for privately funded matters.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="faq-item" data-reveal="up" data-delay="4">
+          <div class="faq-q" onclick="toggleFaq(this)">
+            <p class="faq-q-text">How quickly can you help if I've just been arrested?</p>
+            <button class="faq-toggle" aria-label="Toggle">
+              <svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>
+            </button>
+          </div>
+          <div class="faq-a">
+            <div class="faq-a-inner">
+              <p>Immediately. Our team is available 24 hours a day, 7 days a week, 365 days a year. Call 1800 100 529 and a senior lawyer will assist you. For urgent bail we appear the same day, including weekends and public holidays.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ FOOTER ═══ -->
+  <footer>
+    <div class="footer-mark" aria-hidden="true"><img src="logo-character.svg" alt="" /></div>
+    <div class="footer-mark-2" aria-hidden="true"><img src="logo-character.svg" alt="" /></div>
+
+    <div class="footer-grid">
+      <div data-reveal="up">
+        <div class="footer-brand-logo">
+          <img src="logo.png" alt="Powerhouse Law" />
+        </div>
+        <p class="footer-tagline">Australia's Trusted<br><em>Criminal Lawyers.</em></p>
+        <p class="footer-desc">
+          Specialist criminal and traffic defence. Sydney &amp; NSW.
+          Senior representation, 24/7.
+        </p>
+        <a class="footer-phone" href="tel:1800100529">
+          <span class="footer-phone-icon">
+            <svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+          </span>
+          <span class="footer-phone-num">1800 100 529</span>
+        </a>
+      </div>
+
+      <div data-reveal="up" data-delay="1">
+        <div class="footer-col-heading">Practice Areas</div>
+        <ul class="footer-links">
+          <li><a href="#">Criminal Defence</a></li>
+          <li><a href="#">Traffic Law</a></li>
+          <li><a href="#">Bail Applications</a></li>
+          <li><a href="#">Drug Offences</a></li>
+          <li><a href="#">AVO &amp; Domestic Violence</a></li>
+          <li><a href="#">Appeals &amp; Reviews</a></li>
+        </ul>
+      </div>
+
+      <div data-reveal="up" data-delay="2">
+        <div class="footer-col-heading">Navigation</div>
+        <ul class="footer-links">
+          <li><a href="#about">About</a></li>
+          <li><a href="#reviews">Reviews</a></li>
+          <li><a href="#results">Results</a></li>
+          <li><a href="#faq">FAQ</a></li>
+          <li><a href="#contact">Contact</a></li>
+          <li><a href="#contact">Book Consultation</a></li>
+        </ul>
+      </div>
+
+      <div data-reveal="up" data-delay="3">
+        <div class="footer-col-heading">Contact</div>
+        <ul class="footer-links">
+          <li><a href="tel:1800100529">1800 100 529</a></li>
+          <li><a href="mailto:info@powerhouselaw.com.au">info@powerhouselaw.com.au</a></li>
+          <li style="color:var(--slate);font-size:13px;line-height:1.7;pointer-events:none">
+            Level 5, 50 Market Street<br>Sydney NSW 2000
+          </li>
+          <li style="margin-top:8px"><span style="font-family:var(--font-mono);font-size:9px;letter-spacing:1.5px;color:var(--blood-warm);text-transform:uppercase">● Available Now · 24/7</span></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <span class="footer-copy">© 2025 Powerhouse Law Pty Ltd. All rights reserved.</span>
+      <div class="footer-legal">
+        <a href="#">Privacy</a>
+        <a href="#">Terms</a>
+        <a href="#">Disclaimer</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ═══ AI CHAT ═══ -->
+  <button id="chat-launcher" aria-label="Open chat assistant">
+    <span class="launcher-icon">
+      <svg viewBox="0 0 24 24"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
+    </span>
+    <span class="launcher-close">
+      <svg viewBox="0 0 24 24"><path d="M18 6 6 18M6 6l12 12"/></svg>
+    </span>
+  </button>
+
+  <div id="chat-panel">
+    <div class="chat-header">
+      <div class="chat-avatar">
+        <img src="logo-character.svg" alt="" />
+      </div>
+      <div class="chat-title-group">
+        <div class="chat-eyebrow">Powerhouse · Assistant</div>
+        <div class="chat-title">How can we <em>help?</em></div>
+      </div>
+      <button class="chat-header-btn" id="chat-min" aria-label="Close">×</button>
+    </div>
+
+    <div class="chat-body" id="chat-body">
+      <div class="chat-msg ai">
+        <div class="chat-msg-meta">Just now</div>
+        <div class="chat-bubble">
+          Hello — I'm here to help. I can explain a charge, estimate fees, or arrange an urgent consultation with a senior defence lawyer.
+        </div>
+      </div>
+    </div>
+
+    <div class="chat-suggestions" id="chat-suggestions">
+      <div class="chat-suggestions-label">Suggested</div>
+      <button class="chat-chip" data-prompt="I've been charged with drink driving. What are my options?">Drink driving charge</button>
+      <button class="chat-chip" data-prompt="What does a typical consultation cost?">Consultation fees</button>
+      <button class="chat-chip" data-prompt="I need an urgent bail application this weekend.">Urgent bail application</button>
+      <button class="chat-chip" data-prompt="What is a Section 10 and can I get one?">Section 10 outcomes</button>
+    </div>
+
+    <div class="chat-input-wrap">
+      <div class="chat-input-row">
+        <input id="chat-input" class="chat-input" type="text" placeholder="Describe your situation…" autocomplete="off" />
+        <button class="chat-send" id="chat-send" aria-label="Send">
+          <svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+        </button>
+      </div>
+      <div class="chat-footer-meta">Confidential · <a href="tel:1800100529">1800 100 529</a></div>
+    </div>
+  </div>
+
+  <script>
+  (() => {
+    'use strict';
+
+    const fillEl = document.getElementById('loader-fill');
+    const pctEl  = document.getElementById('loader-percent');
+    const loaderEl = document.getElementById('loader');
+    const DURATION = 2800;
+    const startTime = performance.now();
+
+    function easeOut(t) { return 1 - Math.pow(1 - t, 3); }
+    function animProgress(now) {
+      const t = Math.min((now - startTime) / DURATION, 1);
+      const eased = easeOut(t);
+      const pct = Math.floor(eased * 100);
+      fillEl.style.width = eased * 100 + '%';
+      pctEl.textContent = String(pct).padStart(3, '0');
+      if (t < 1) requestAnimationFrame(animProgress);
+      else setTimeout(() => loaderEl.classList.add('exit'), 400);
+    }
+    requestAnimationFrame(animProgress);
+    loaderEl.addEventListener('animationend', e => {
+      if (e.animationName === 'loader-exit') loaderEl.style.display = 'none';
+    });
+
+    const scrollEl = document.getElementById('scroll-progress');
+    window.addEventListener('scroll', () => {
+      const max = document.documentElement.scrollHeight - window.innerHeight;
+      scrollEl.style.width = (window.scrollY / max * 100) + '%';
+    }, { passive: true });
+
+    const navEl = document.getElementById('nav');
+    window.addEventListener('scroll', () => {
+      navEl.classList.toggle('scrolled', window.scrollY > 40);
+    }, { passive: true });
+
+    const revealEls = document.querySelectorAll('[data-reveal]');
+    const obs = new IntersectionObserver(entries => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          e.target.classList.add('in-view');
+          obs.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.1, rootMargin: '0px 0px -60px 0px' });
+    revealEls.forEach(el => obs.observe(el));
+
+    const counters = document.querySelectorAll('.trust-number');
+    const countObs = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (!entry.isIntersecting) return;
+        countObs.unobserve(entry.target);
+        const el = entry.target;
+        const txt = el.textContent.trim();
+        if (txt.includes('98%')) animateCount(el, 0, 98, '%', 1500);
+        else if (txt.includes('2,400+')) animateCount(el, 0, 2400, '+', 1800, true);
+      });
+    }, { threshold: 0.5 });
+    counters.forEach(c => countObs.observe(c));
+
+    function animateCount(el, from, to, suffix, dur, fmt = false) {
+      const start = performance.now();
+      function tick(now) {
+        const t = Math.min((now - start) / dur, 1);
+        const eased = 1 - Math.pow(1 - t, 3);
+        const val = Math.round(from + (to - from) * eased);
+        el.textContent = (fmt ? val.toLocaleString() : val) + suffix;
+        if (t < 1) requestAnimationFrame(tick);
+      }
+      requestAnimationFrame(tick);
+    }
+
+    window.toggleFaq = function(el) {
+      const item = el.closest('.faq-item');
+      const isOpen = item.classList.contains('open');
+      document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
+      if (!isOpen) item.classList.add('open');
+    };
+
+    const hamburger = document.getElementById('hamburger');
+    const mobileMenu = document.getElementById('mobile-menu');
+    let menuOpen = false;
+
+    function openMenu() {
+      menuOpen = true;
+      hamburger.classList.add('open');
+      mobileMenu.classList.add('open');
+      document.body.classList.add('menu-open');
+    }
+    function closeMenu() {
+      menuOpen = false;
+      hamburger.classList.remove('open');
+      mobileMenu.classList.remove('open');
+      document.body.classList.remove('menu-open');
+    }
+
+    hamburger.addEventListener('click', e => {
+      e.stopPropagation();
+      menuOpen ? closeMenu() : openMenu();
+    });
+    mobileMenu.querySelectorAll('a').forEach(a => a.addEventListener('click', closeMenu));
+    document.addEventListener('keydown', e => {
+      if (e.key === 'Escape' && menuOpen) closeMenu();
+    });
+    window.addEventListener('resize', () => {
+      if (window.innerWidth > 1100 && menuOpen) closeMenu();
+    });
+
+    const launcher = document.getElementById('chat-launcher');
+    const panel = document.getElementById('chat-panel');
+    const chatBody = document.getElementById('chat-body');
+    const chatInput = document.getElementById('chat-input');
+    const chatSend = document.getElementById('chat-send');
+    const chatMin = document.getElementById('chat-min');
+    const suggestions = document.getElementById('chat-suggestions');
+    let chatOpen = false;
+
+    function openChat() {
+      chatOpen = true;
+      launcher.classList.add('open');
+      panel.classList.add('open');
+      setTimeout(() => chatInput.focus(), 400);
+    }
+    function closeChat() {
+      chatOpen = false;
+      launcher.classList.remove('open');
+      panel.classList.remove('open');
+    }
+    launcher.addEventListener('click', e => { e.stopPropagation(); chatOpen ? closeChat() : openChat(); });
+    chatMin.addEventListener('click', e => { e.stopPropagation(); closeChat(); });
+    document.addEventListener('keydown', e => { if (e.key === 'Escape' && chatOpen) closeChat(); });
+
+    function aiResponse(text) {
+      const t = text.toLowerCase();
+      if (/drink|dui|driv|licen[cs]e|speed|traffic/.test(t))
+        return "Drink-driving matters are one of our core practice areas. We routinely secure <strong>Section 10</strong> outcomes and reduced penalties. Could you share the reading and which court you're listed at?";
+      if (/bail|arrest|custod|police station/.test(t))
+        return "We act on bail applications <strong>same-day, weekends, and public holidays</strong>. A senior lawyer is on call now. The fastest path is a quick call — <a href='tel:1800100529'>1800 100 529</a>.";
+      if (/fee|cost|price|how much|payment|legal aid/.test(t))
+        return "Fees depend on the charge and court. We work on transparent <strong>fixed quotes</strong>, accept <strong>Legal Aid</strong>, and offer payment plans. An initial consultation is complimentary.";
+      if (/section 10|conviction|record/.test(t))
+        return "A <strong>Section 10</strong> (Conditional Release Order without conviction) means you're found guilty but no conviction is recorded. We routinely achieve them for first offences and minor matters.";
+      if (/drug|cannabis|cocaine|possession|supply/.test(t))
+        return "Drug matters range from simple possession to commercial supply — strategy varies significantly. What charge is listed on the Court Attendance Notice?";
+      if (/avo|domestic|family violence/.test(t))
+        return "AVO and DV matters move quickly and have lasting consequences. Were you served by Police, or is this a private application?";
+      if (/assault|fight|fraud|theft/.test(t))
+        return "Serious criminal charges require early, strategic intervention. We brief specialist counsel where needed. Can you share the charge, court date, and whether you've been interviewed?";
+      if (/appeal|sentence|review/.test(t))
+        return "Appeals are time-sensitive — typically <strong>28 days</strong> to file. What was the original outcome you're seeking to appeal?";
+      if (/hello|hi |hey|good /.test(t))
+        return "Hello — happy to help. Could you tell me a little about your situation? Even a few words about the charge will help me give you accurate guidance.";
+      if (/thank/.test(t))
+        return "You're very welcome. To speak with a lawyer immediately, call <a href='tel:1800100529'>1800 100 529</a> — we're available 24/7.";
+      return "Thank you for sharing that. To give you accurate guidance, could you tell me the <strong>specific charge</strong>, your <strong>next court date</strong>, and which <strong>court</strong> you're listed at? If urgent, please call <a href='tel:1800100529'>1800 100 529</a>.";
+    }
+
+    function timeStamp() {
+      const d = new Date();
+      return `${String(d.getHours()).padStart(2,'0')}:${String(d.getMinutes()).padStart(2,'0')}`;
+    }
+
+    function appendMsg(who, html, meta) {
+      const wrap = document.createElement('div');
+      wrap.className = `chat-msg ${who}`;
+      wrap.innerHTML = `<div class="chat-msg-meta">${meta}</div><div class="chat-bubble">${html}</div>`;
+      chatBody.appendChild(wrap);
+      chatBody.scrollTop = chatBody.scrollHeight;
+      return wrap;
+    }
+    function appendTyping() {
+      const wrap = document.createElement('div');
+      wrap.className = 'chat-msg ai';
+      wrap.innerHTML = `<div class="chat-msg-meta">Powerhouse · Typing</div><div class="chat-bubble"><div class="chat-typing"><span></span><span></span><span></span></div></div>`;
+      chatBody.appendChild(wrap);
+      chatBody.scrollTop = chatBody.scrollHeight;
+      return wrap;
+    }
+    function hideSuggestionsOnce() {
+      if (!suggestions.dataset.hidden) {
+        suggestions.style.maxHeight = suggestions.scrollHeight + 'px';
+        requestAnimationFrame(() => {
+          suggestions.style.overflow = 'hidden';
+          suggestions.style.transition = 'max-height 0.5s var(--ease-out), opacity 0.4s, padding 0.4s';
+          suggestions.style.maxHeight = '0px';
+          suggestions.style.opacity = '0';
+          suggestions.style.paddingTop = '0';
+          suggestions.style.paddingBottom = '0';
+        });
+        suggestions.dataset.hidden = '1';
+      }
+    }
+    function escapeHTML(s) {
+      return s.replace(/[&<>"']/g, c => ({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' }[c]));
+    }
+    function sendMessage(text) {
+      const trimmed = text.trim();
+      if (!trimmed) return;
+      hideSuggestionsOnce();
+      appendMsg('user', escapeHTML(trimmed), `You · ${timeStamp()}`);
+      chatInput.value = '';
+      setTimeout(() => {
+        const typing = appendTyping();
+        setTimeout(() => {
+          typing.remove();
+          appendMsg('ai', aiResponse(trimmed), `Powerhouse · ${timeStamp()}`);
+        }, 1200 + Math.random() * 600);
+      }, 300);
+    }
+    chatSend.addEventListener('click', () => sendMessage(chatInput.value));
+    chatInput.addEventListener('keydown', e => { if (e.key === 'Enter') { e.preventDefault(); sendMessage(chatInput.value); } });
+    suggestions.querySelectorAll('.chat-chip').forEach(c => c.addEventListener('click', () => sendMessage(c.dataset.prompt)));
+
+  })();
+  </script>
+</body>
+</html>
