@@ -1492,22 +1492,29 @@
     .about-photo-placeholder {
       position: absolute;
       inset: 0;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      gap: 16px;
-      background:
-        radial-gradient(ellipse 60% 80% at 50% 30%, rgba(122, 16, 16, 0.04) 0%, transparent 60%),
-        var(--linen);
+      background: var(--linen);
     }
     .about-photo-placeholder img {
-      width: 220px;
-      height: 220px;
-      object-fit: contain;
-      opacity: 0.3;
-      filter: none;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center top;
+      opacity: 1;
+      filter: contrast(1.02) brightness(1.02);
     }
+    /* Soft dark gradient at bottom so the caption stays legible */
+    .about-photo::after {
+      content: '';
+      position: absolute;
+      left: 0; right: 0;
+      bottom: 0;
+      height: 200px;
+      background: linear-gradient(to bottom, transparent 0%, rgba(20, 17, 15, 0.55) 100%);
+      pointer-events: none;
+      z-index: 1;
+    }
+    .about-photo-tag,
+    .about-photo-caption { z-index: 2; }
     .about-photo-caption {
       position: absolute;
       bottom: 20px;
@@ -2907,7 +2914,7 @@
       <div class="about-photo" data-reveal="left">
         <div class="about-photo-tag">Portrait · 001</div>
         <div class="about-photo-placeholder">
-          <img src="logo-character.svg" alt="" />
+          <img src="Founder-photo.jpeg" alt="Chadi Irani — Powerhouse Law" />
         </div>
         <div class="about-photo-caption">
           <div>
