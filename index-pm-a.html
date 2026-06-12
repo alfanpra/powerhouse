@@ -542,11 +542,14 @@
       z-index: 0;
       width: 760px;
       height: 760px;
-      opacity: 0.04;
+      opacity: 0.07;
     }
     .section-watermark img {
       width: 100%; height: 100%;
       object-fit: contain;
+    }
+    .section-watermark.foot {
+      opacity: 0.15;
     }
     .section--dark .section-watermark img {
       filter: invert(1) brightness(1.3);
@@ -560,7 +563,7 @@
       top: 50%; left: 50%;
       transform: translate(-50%, -50%);
       width: 900px; height: 900px;
-      opacity: 0.03;
+      opacity: 0.07;
     }
 
     .eyebrow {
@@ -1226,6 +1229,61 @@
       font-size: 14px;
       color: var(--charcoal);
       line-height: 1.65;
+    }
+
+    /* ═══════════════════════════════════════════════════════
+       OUTCOMES — stats with title + paragraph on left (DARK)
+    ═══════════════════════════════════════════════════════ */
+    #outcomes {
+      background: var(--ink);
+      color: var(--light);
+      border-top: 1px solid var(--line-dark);
+    }
+    .outcomes-inner {
+      max-width: 1340px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr 1.15fr;
+      gap: 96px;
+      align-items: center;
+      position: relative;
+      z-index: 2;
+    }
+    #outcomes .section-heading { color: var(--light); }
+    #outcomes .lead { color: var(--slate-light); }
+    .outcomes-stats {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 48px 56px;
+    }
+    .outcomes-stat {
+      position: relative;
+      padding-top: 24px;
+      border-top: 1px solid var(--line-dark);
+    }
+    .outcomes-num {
+      font-family: var(--font-display);
+      font-size: clamp(40px, 4vw, 56px);
+      font-weight: 800;
+      line-height: 1;
+      letter-spacing: -0.03em;
+      color: var(--light);
+      margin-bottom: 14px;
+    }
+    .outcomes-num.gold { color: var(--gold); }
+    .outcomes-label {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--light);
+      margin-bottom: 6px;
+      letter-spacing: -0.01em;
+    }
+    .outcomes-sub {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      letter-spacing: 1.5px;
+      color: var(--slate-light);
+      text-transform: uppercase;
     }
 
     /* ═══════════════════════════════════════════════════════
@@ -1940,7 +1998,7 @@
       .trust-block:not(:first-child)::before { display: none; }
 
       .practice-head, .about-grid, .contact-grid, .reviews-head,
-      .results-head, .faq-inner {
+      .results-head, .faq-inner, .outcomes-inner {
         grid-template-columns: 1fr;
         gap: 48px;
       }
@@ -1995,6 +2053,8 @@
       .practice-grid { grid-template-columns: 1fr; }
       .practice-card { min-height: auto; padding: 28px 24px; }
       .reviews-grid, .results-grid { grid-template-columns: 1fr; }
+      .outcomes-stats { grid-template-columns: 1fr 1fr; gap: 32px 24px; }
+      .outcomes-num { font-size: 36px; }
       .review-card, .result-card, .contact-card { padding: 28px; }
       .about-photo { aspect-ratio: 3/4; }
       .credential-row { grid-template-columns: 110px 1fr; gap: 16px; }
@@ -2334,6 +2394,45 @@
     </div>
   </section>
 
+  <!-- ═══ OUTCOMES — stats with title + paragraph on left (DARK) ═══ -->
+  <section id="outcomes" class="section section--dark">
+    <div class="section-watermark tr" aria-hidden="true"><img src="logo-character.svg" alt="" /></div>
+
+    <div class="outcomes-inner">
+      <div data-reveal="up">
+        <span class="eyebrow eyebrow--dark"><span class="eyebrow-dot"></span>Why Powerhouse</span>
+        <h2 class="section-heading">Outcomes that matter.<br><em class="script">Backed by experience.</em></h2>
+        <p class="lead">
+          Every case is unique. But our commitment is the same — to achieve the best
+          possible result for every client.
+        </p>
+      </div>
+
+      <div class="outcomes-stats">
+        <div class="outcomes-stat" data-reveal="up" data-delay="1">
+          <div class="outcomes-num gold">★ 5.0</div>
+          <div class="outcomes-label">Google Rating</div>
+          <div class="outcomes-sub">200+ verified reviews</div>
+        </div>
+        <div class="outcomes-stat" data-reveal="up" data-delay="2">
+          <div class="outcomes-num">98%</div>
+          <div class="outcomes-label">Success Rate</div>
+          <div class="outcomes-sub">Positive outcomes</div>
+        </div>
+        <div class="outcomes-stat" data-reveal="up" data-delay="3">
+          <div class="outcomes-num">2,400+</div>
+          <div class="outcomes-label">Cases Defended</div>
+          <div class="outcomes-sub">Across NSW courts</div>
+        </div>
+        <div class="outcomes-stat" data-reveal="up" data-delay="4">
+          <div class="outcomes-num">15+</div>
+          <div class="outcomes-label">Years of Experience</div>
+          <div class="outcomes-sub">Established 2009</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <!-- ═══ REVIEWS ═══ -->
   <section id="reviews" class="section">
     <div class="section-watermark center" aria-hidden="true"><img src="logo-character.svg" alt="" /></div>
@@ -2571,7 +2670,7 @@
 
   <!-- ═══ FOOTER ═══ -->
   <footer>
-    <div class="section-watermark br" aria-hidden="true"><img src="logo-character.svg" alt="" /></div>
+    <div class="section-watermark br foot" aria-hidden="true"><img src="logo-character.svg" alt="" /></div>
     <div class="footer-grid">
       <div data-reveal="up">
         <div class="footer-brand-logo"><img src="logo.png" alt="Powerhouse Law" /></div>
