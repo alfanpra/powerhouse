@@ -20,7 +20,12 @@
       "PowerShell(Start-Process \"E:\\\\A - WORKS\\\\A - ICTechnology\\\\Works\\\\Power House Law\\\\Power House Law_Claude\\\\index.html\")",
       "PowerShell(Get-ChildItem \"$env:USERPROFILE\\\\Downloads\" | Sort-Object LastWriteTime -Descending | Select-Object Name, LastWriteTime -First 10)",
       "mcp__ea3b4668-9f65-4ab4-b3bd-afa32073037a__get_metadata",
-      "mcp__Claude_in_Chrome__navigate"
+      "mcp__Claude_in_Chrome__navigate",
+      "Bash(cp \"C:\\\\Users\\\\Alfan\\\\Downloads\\\\logo ph.svg\" \"E:\\\\A - WORKS\\\\A - ICTechnology\\\\Works\\\\Power House Law\\\\Power House Law_Claude\\\\logo-character.svg\" && ls -la \"E:\\\\A - WORKS\\\\A - ICTechnology\\\\Works\\\\Power House Law\\\\Power House Law_Claude\\\\logo-character.svg\")",
+      "Bash(start \"\" \"E:\\\\A - WORKS\\\\A - ICTechnology\\\\Works\\\\Power House Law\\\\Power House Law_Claude\\\\index.html\")",
+      "Bash(start \"\" \"E:\\\\A - WORKS\\\\A - ICTechnology\\\\Works\\\\Power House Law\\\\Power House Law_Claude\\\\index-classic.html\")",
+      "Bash(ls \"E:\\\\A - WORKS\\\\A - ICTechnology\\\\Works\\\\Power House Law\\\\Power House Law_Claude\\\\\" | grep -i \"logo\")",
+      "Bash(start \"\" \"E:\\\\A - WORKS\\\\A - ICTechnology\\\\Works\\\\Power House Law\\\\Power House Law_Claude\\\\index-pm-b.html\")"
     ]
   }
 }

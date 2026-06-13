@@ -10,7 +10,7 @@
   <link rel="preconnect" href="https://api.fontshare.com" crossorigin />
 
   <link
-    href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Fraunces:ital,opsz,wght,SOFT@0,9..144,300..900,0..100;1,9..144,300..900,0..100&display=swap"
+    href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700&display=swap"
     rel="stylesheet"
   />
   <link
@@ -19,22 +19,16 @@
   />
 
   <style>
-    /* ═══════════════════════════════════════════════════════
-       DESIGN TOKENS — refined, sophisticated, premium
-    ═══════════════════════════════════════════════════════ */
     :root {
-      /* Dark surfaces (charcoal, not pure black) */
       --ink:           #14110f;
       --ink-deep:      #0e0c0a;
       --ink-soft:      #1e1a17;
       --ink-elev:      #25201c;
 
-      /* Light surfaces (warm off-white, not pure white) */
       --bone:          #f5f1ea;
       --paper:         #ede7dc;
       --linen:         #e5dfd2;
 
-      /* Text colors */
       --cream:         #f0ebe1;
       --cream-soft:    #d8d2c4;
       --slate:         #8a847a;
@@ -42,34 +36,24 @@
       --charcoal:      #2a2622;
       --charcoal-soft: #4a443c;
 
-      /* Brand accent — blood/oxblood red, refined */
       --blood:         #7a1010;
       --blood-deep:    #5a0a0a;
       --blood-warm:    #8a1818;
       --blood-soft:    #4a0808;
       --gold-muted:    #c9a449;
 
-      /* Borders & dividers */
       --divider-dark:  rgba(240, 235, 225, 0.08);
       --divider-light: rgba(42, 38, 34, 0.1);
 
-      /* Radii */
       --r-sm: 4px;
       --r-md: 8px;
       --r-lg: 12px;
       --r-xl: 16px;
 
-      /* Typography */
-      --font-display: 'Fraunces', 'Cormorant Garamond', Georgia, serif;
+      --font-display: 'Cormorant Garamond', Georgia, serif;
       --font-body:    'Switzer', 'Inter', system-ui, sans-serif;
       --font-mono:    'JetBrains Mono', monospace;
 
-      /* Grid / tech overlays */
-      --grid-line-dark:  rgba(240, 235, 225, 0.04);
-      --grid-line-light: rgba(42, 38, 34, 0.06);
-      --grid-blood:      rgba(122, 16, 16, 0.18);
-
-      /* Motion */
       --ease-out:    cubic-bezier(0.16, 1, 0.3, 1);
       --ease-inout:  cubic-bezier(0.76, 0, 0.24, 1);
     }
@@ -88,145 +72,11 @@
       overflow-x: hidden;
     }
 
-    /* Fraunces — high-contrast modern serif with variable axes */
-    .heading, h1, h2, h3,
-    .section-heading, .hero-h1, .hero-h1-italic,
-    .about-heading, .about-heading-italic,
-    .contact-heading, .review-quote, .result-charge,
-    .faq-q-text, .footer-tagline, .chat-title,
-    .trust-number {
-      font-family: var(--font-display);
-      font-feature-settings: "ss01", "ss02";
-    }
-    /* Large display sizes — high-contrast, opsz max */
-    .hero-h1, .hero-h1-italic,
-    .section-heading,
-    .about-heading, .about-heading-italic,
-    .contact-heading {
-      font-variation-settings: "opsz" 144, "SOFT" 30, "wght" 600;
-    }
-    /* Medium display — softer for warmth */
-    .review-quote, .result-charge, .faq-q-text, .footer-tagline {
-      font-variation-settings: "opsz" 72, "SOFT" 50, "wght" 500;
-    }
-    /* Italic Fraunces — slightly softer for editorial elegance */
-    .hero-h1-italic, .about-heading-italic,
-    .heading em, .section-heading em, em.italic-blood {
-      font-variation-settings: "opsz" 144, "SOFT" 70, "wght" 500;
-    }
-
     img, svg { display: block; max-width: 100%; }
     a { text-decoration: none; color: inherit; }
     button { font-family: inherit; }
 
-    /* ═══════════════════════════════════════════════════════
-       TECH / BLUEPRINT UTILITIES
-    ═══════════════════════════════════════════════════════ */
-    /* Grid pattern backgrounds */
-    .tech-grid {
-      position: absolute;
-      inset: 0;
-      pointer-events: none;
-      background-image:
-        linear-gradient(var(--grid-line-dark) 1px, transparent 1px),
-        linear-gradient(90deg, var(--grid-line-dark) 1px, transparent 1px);
-      background-size: 80px 80px;
-      mask-image: radial-gradient(ellipse 70% 70% at 50% 50%, rgba(0,0,0,0.7) 0%, transparent 100%);
-      -webkit-mask-image: radial-gradient(ellipse 70% 70% at 50% 50%, rgba(0,0,0,0.7) 0%, transparent 100%);
-    }
-    .tech-grid--light {
-      background-image:
-        linear-gradient(var(--grid-line-light) 1px, transparent 1px),
-        linear-gradient(90deg, var(--grid-line-light) 1px, transparent 1px);
-    }
-    .tech-grid--dots {
-      background-image: radial-gradient(circle at center, var(--grid-line-dark) 1px, transparent 1.5px);
-      background-size: 40px 40px;
-    }
-    .tech-grid--dots-light {
-      background-image: radial-gradient(circle at center, var(--grid-line-light) 1px, transparent 1.5px);
-      background-size: 40px 40px;
-    }
-
-    /* Corner brackets — architectural/blueprint accents */
-    .corner-mark {
-      position: absolute;
-      width: 24px; height: 24px;
-      pointer-events: none;
-      opacity: 0.4;
-    }
-    .corner-mark::before,
-    .corner-mark::after {
-      content: '';
-      position: absolute;
-      background: currentColor;
-    }
-    .corner-mark::before { width: 100%; height: 1px; top: 0; left: 0; }
-    .corner-mark::after  { width: 1px; height: 100%; top: 0; left: 0; }
-    .corner-mark--tr { transform: scaleX(-1); }
-    .corner-mark--bl { transform: scaleY(-1); }
-    .corner-mark--br { transform: scale(-1, -1); }
-
-    /* Mono technical label with bracket markers */
-    .tech-label {
-      font-family: var(--font-mono);
-      font-size: 10px;
-      font-weight: 500;
-      letter-spacing: 2.5px;
-      text-transform: uppercase;
-      display: inline-flex;
-      align-items: center;
-      gap: 10px;
-    }
-    .tech-label::before {
-      content: '[ ';
-      color: var(--blood);
-      font-weight: 600;
-    }
-    .tech-label::after {
-      content: ' ]';
-      color: var(--blood);
-      font-weight: 600;
-    }
-
-    /* Crosshair / register mark */
-    .reg-mark {
-      position: relative;
-      width: 16px; height: 16px;
-      display: inline-block;
-      flex-shrink: 0;
-    }
-    .reg-mark::before,
-    .reg-mark::after {
-      content: '';
-      position: absolute;
-      background: currentColor;
-    }
-    .reg-mark::before { width: 100%; height: 1px; top: 50%; left: 0; }
-    .reg-mark::after  { width: 1px; height: 100%; top: 0; left: 50%; }
-
-    /* Animated tech ticker line */
-    .tech-line {
-      position: relative;
-      height: 1px;
-      background: var(--divider-dark);
-      overflow: hidden;
-    }
-    .tech-line::after {
-      content: '';
-      position: absolute;
-      top: 0; left: -30%;
-      width: 30%; height: 100%;
-      background: linear-gradient(90deg, transparent, var(--blood), transparent);
-      animation: tech-scan 4s linear infinite;
-    }
-    @keyframes tech-scan {
-      to { left: 130%; }
-    }
-
-    /* ═══════════════════════════════════════════════════════
-       GRAIN OVERLAY (subtle)
-    ═══════════════════════════════════════════════════════ */
+    /* ═══ GRAIN ═══ */
     #grain {
       position: fixed; inset: -50%;
       width: 200%; height: 200%;
@@ -243,9 +93,7 @@
       100% { transform: translate(2%,-2%); }
     }
 
-    /* ═══════════════════════════════════════════════════════
-       SCROLL PROGRESS
-    ═══════════════════════════════════════════════════════ */
+    /* ═══ SCROLL PROGRESS ═══ */
     #scroll-progress {
       position: fixed;
       top: 0; left: 0;
@@ -256,9 +104,7 @@
       transition: width 0.1s linear;
     }
 
-    /* ═══════════════════════════════════════════════════════
-       LOADING SCREEN
-    ═══════════════════════════════════════════════════════ */
+    /* ═══ LOADING SCREEN ═══ */
     #loader {
       position: fixed;
       inset: 0;
@@ -300,8 +146,7 @@
     }
     @keyframes loader-spin { to { transform: rotate(360deg); } }
     .loader-emblem-wrap img {
-      width: 100%;
-      height: 100%;
+      width: 100%; height: 100%;
       object-fit: contain;
       opacity: 0.92;
       filter: brightness(1.05);
@@ -312,7 +157,7 @@
     }
     .loader-wordmark {
       font-family: var(--font-display);
-      font-size: 14px;
+      font-size: 18px;
       font-weight: 500;
       letter-spacing: 4px;
       text-transform: uppercase;
@@ -356,16 +201,10 @@
       text-align: center;
       margin-top: 14px;
     }
-    #loader.exit {
-      animation: loader-exit 1.2s var(--ease-inout) forwards;
-    }
-    @keyframes loader-exit {
-      to { transform: translateY(-100%); }
-    }
+    #loader.exit { animation: loader-exit 1.2s var(--ease-inout) forwards; }
+    @keyframes loader-exit { to { transform: translateY(-100%); } }
 
-    /* ═══════════════════════════════════════════════════════
-       NAVIGATION
-    ═══════════════════════════════════════════════════════ */
+    /* ═══ NAVIGATION ═══ */
     nav {
       position: fixed;
       top: 0; left: 0; right: 0;
@@ -375,26 +214,25 @@
       align-items: center;
       justify-content: space-between;
       padding: 0 56px;
-      background: rgba(20, 17, 15, 0.4);
+      background: rgba(20, 17, 15, 0.85);
       backdrop-filter: blur(16px) saturate(1.3);
       -webkit-backdrop-filter: blur(16px) saturate(1.3);
-      border-bottom: 1px solid transparent;
+      border-bottom: 1px solid var(--divider-dark);
       transition: background 0.4s, border-color 0.4s;
     }
     nav.scrolled {
-      background: rgba(20, 17, 15, 0.92);
-      border-bottom-color: var(--divider-dark);
+      background: rgba(20, 17, 15, 0.96);
     }
     .nav-logo {
       display: flex;
       align-items: center;
-      gap: 12px;
       flex-shrink: 0;
     }
     .nav-logo img {
-      height: 38px;
+      height: 42px;
       width: auto;
-      filter: brightness(1.1);
+      object-fit: contain;
+      filter: brightness(1.05);
     }
     .nav-links {
       display: flex;
@@ -426,8 +264,6 @@
       align-items: center;
       gap: 16px;
     }
-
-    /* Phone CTA — prominent, easy to tap */
     .nav-phone-cta {
       display: flex;
       align-items: center;
@@ -436,7 +272,7 @@
       background: rgba(122, 16, 16, 0.12);
       border: 1px solid rgba(122, 16, 16, 0.4);
       border-radius: var(--r-md);
-      transition: background 0.3s, border-color 0.3s, transform 0.3s;
+      transition: background 0.3s, border-color 0.3s;
     }
     .nav-phone-cta:hover {
       background: rgba(122, 16, 16, 0.2);
@@ -447,9 +283,7 @@
       height: 28px;
       border-radius: 50%;
       background: var(--blood);
-      display: flex;
-      align-items: center;
-      justify-content: center;
+      display: flex; align-items: center; justify-content: center;
       flex-shrink: 0;
       position: relative;
     }
@@ -462,21 +296,12 @@
       animation: phone-pulse 2.5s ease-out infinite;
     }
     @keyframes phone-pulse {
-      0%   { transform: scale(1);    opacity: 0.7; }
-      80%  { transform: scale(1.45); opacity: 0; }
+      0% { transform: scale(1); opacity: 0.7; }
+      80% { transform: scale(1.45); opacity: 0; }
       100% { transform: scale(1.45); opacity: 0; }
     }
-    .nav-phone-icon svg {
-      width: 13px; height: 13px;
-      stroke: #fff;
-      fill: none;
-      stroke-width: 1.8;
-    }
-    .nav-phone-text {
-      display: flex;
-      flex-direction: column;
-      line-height: 1.1;
-    }
+    .nav-phone-icon svg { width: 13px; height: 13px; stroke: #fff; fill: none; stroke-width: 1.8; }
+    .nav-phone-text { display: flex; flex-direction: column; line-height: 1.1; }
     .nav-phone-label {
       font-family: var(--font-mono);
       font-size: 9px;
@@ -492,9 +317,7 @@
       color: var(--cream);
     }
 
-    /* ═══════════════════════════════════════════════════════
-       BUTTONS — soft, rounded
-    ═══════════════════════════════════════════════════════ */
+    /* ═══ BUTTONS ═══ */
     .btn {
       display: inline-flex;
       align-items: center;
@@ -508,45 +331,29 @@
       border-radius: var(--r-md);
       border: 1px solid transparent;
       cursor: pointer;
-      transition: background 0.4s, color 0.4s, border-color 0.4s,
-                  transform 0.4s var(--ease-out);
+      transition: background 0.4s, color 0.4s, border-color 0.4s, transform 0.4s var(--ease-out);
       white-space: nowrap;
     }
-    .btn-primary {
-      background: var(--blood);
-      color: #fff;
-    }
-    .btn-primary:hover {
-      background: var(--blood-warm);
-      transform: translateY(-2px);
-    }
+    .btn-primary { background: var(--blood); color: #fff; }
+    .btn-primary:hover { background: var(--blood-warm); transform: translateY(-2px); }
     .btn-ghost-dark {
       background: transparent;
       color: var(--cream);
       border-color: rgba(240, 235, 225, 0.2);
     }
-    .btn-ghost-dark:hover {
-      border-color: var(--cream);
-      background: rgba(240, 235, 225, 0.04);
-    }
+    .btn-ghost-dark:hover { border-color: var(--cream); background: rgba(240, 235, 225, 0.04); }
     .btn-ghost-light {
       background: transparent;
       color: var(--charcoal);
       border-color: rgba(42, 38, 34, 0.2);
     }
-    .btn-ghost-light:hover {
-      border-color: var(--charcoal);
-      background: rgba(42, 38, 34, 0.04);
-    }
+    .btn-ghost-light:hover { border-color: var(--charcoal); background: rgba(42, 38, 34, 0.04); }
 
-    /* ═══════════════════════════════════════════════════════
-       HAMBURGER & MOBILE MENU
-    ═══════════════════════════════════════════════════════ */
+    /* ═══ HAMBURGER & MOBILE MENU ═══ */
     .hamburger {
       display: none;
       position: relative;
-      width: 44px;
-      height: 44px;
+      width: 44px; height: 44px;
       background: transparent;
       border: 1px solid var(--divider-dark);
       border-radius: var(--r-md);
@@ -565,8 +372,7 @@
     }
     .hamburger-line {
       display: block;
-      width: 18px;
-      height: 1.5px;
+      width: 18px; height: 1.5px;
       background: var(--cream);
       transition: transform 0.6s var(--ease-out), opacity 0.3s, width 0.4s;
     }
@@ -605,6 +411,20 @@
     .mobile-menu.open .mobile-menu-bg {
       clip-path: circle(150% at calc(100% - 50px) 50px);
     }
+    .mobile-menu-watermark {
+      position: absolute;
+      bottom: -100px;
+      left: -80px;
+      width: 360px;
+      height: 360px;
+      opacity: 0.06;
+      pointer-events: none;
+    }
+    .mobile-menu-watermark img {
+      width: 100%; height: 100%;
+      object-fit: contain;
+      filter: invert(1) brightness(1.2);
+    }
     .mobile-menu-inner {
       position: relative;
       height: 100%;
@@ -629,8 +449,7 @@
     }
     .mobile-menu-eyebrow::after {
       content: '';
-      flex: 1;
-      height: 1px;
+      flex: 1; height: 1px;
       background: var(--divider-dark);
     }
     .mobile-menu-list { list-style: none; }
@@ -671,9 +490,8 @@
       min-width: 28px;
     }
     .mm-label { flex: 1; }
-    .mm-italic { font-style: italic; color: var(--blood); margin-left: 8px; }
     .mm-arrow { color: var(--slate); font-size: 18px; transition: transform 0.4s var(--ease-out); }
-    .mobile-menu-list a:hover { padding-left: 12px; color: var(--cream); }
+    .mobile-menu-list a:hover { padding-left: 12px; }
     .mobile-menu-list a:hover .mm-arrow { transform: translateX(6px); color: var(--blood); }
 
     .mobile-menu-footer {
@@ -703,10 +521,7 @@
       display: flex; align-items: center; justify-content: center;
       flex-shrink: 0;
     }
-    .mobile-menu-phone-icon svg {
-      width: 16px; height: 16px;
-      stroke: #fff; fill: none; stroke-width: 1.8;
-    }
+    .mobile-menu-phone-icon svg { width: 16px; height: 16px; stroke: #fff; fill: none; stroke-width: 1.8; }
     .mobile-menu-phone-info { flex: 1; }
     .mobile-menu-phone-label {
       font-family: var(--font-mono);
@@ -751,127 +566,85 @@
 
     body.menu-open { overflow: hidden; }
 
-    /* ═══════════════════════════════════════════════════════
-       REVEAL ANIMATIONS
-    ═══════════════════════════════════════════════════════ */
+    /* ═══ REVEAL ANIMATIONS ═══ */
     [data-reveal] { opacity: 0; }
     [data-reveal="up"]    { transform: translateY(40px); }
     [data-reveal="left"]  { transform: translateX(-40px); }
     [data-reveal="right"] { transform: translateX(40px); }
-    [data-reveal].in-view {
-      animation: reveal-up 1.2s var(--ease-out) forwards;
-    }
-    @keyframes reveal-up {
-      to { opacity: 1; transform: none; }
-    }
+    [data-reveal].in-view { animation: reveal-up 1.2s var(--ease-out) forwards; }
+    @keyframes reveal-up { to { opacity: 1; transform: none; } }
     [data-delay="1"] { animation-delay: 0.1s !important; }
     [data-delay="2"] { animation-delay: 0.2s !important; }
     [data-delay="3"] { animation-delay: 0.3s !important; }
     [data-delay="4"] { animation-delay: 0.45s !important; }
     [data-delay="5"] { animation-delay: 0.6s !important; }
 
-    /* ═══════════════════════════════════════════════════════
-       SECTION COMMONS
-    ═══════════════════════════════════════════════════════ */
+    /* ═══ SECTION COMMONS ═══ */
     .section {
       padding: 140px 56px;
       position: relative;
     }
-    .section--dark {
-      background: var(--ink);
-      color: var(--cream);
-    }
-    .section--light {
-      background: var(--bone);
-      color: var(--charcoal);
-    }
-    .section--paper {
-      background: var(--paper);
-      color: var(--charcoal);
-    }
-    .container {
-      max-width: 1320px;
-      margin: 0 auto;
-    }
+    .section--dark { background: var(--ink); color: var(--cream); }
+    .section--light { background: var(--bone); color: var(--charcoal); }
+    .section--paper { background: var(--paper); color: var(--charcoal); }
+    .container { max-width: 1320px; margin: 0 auto; }
 
-    /* Eyebrow label — tech bracketed */
     .eyebrow {
       display: inline-flex;
       align-items: center;
-      gap: 10px;
+      gap: 12px;
       font-family: var(--font-mono);
       font-size: 10px;
-      font-weight: 600;
+      font-weight: 500;
       letter-spacing: 2.5px;
       text-transform: uppercase;
       margin-bottom: 28px;
-      padding: 6px 14px;
-      border: 1px solid currentColor;
-      border-radius: 100px;
     }
-    .eyebrow--dark {
-      color: var(--slate);
-      border-color: var(--divider-dark);
-    }
-    .eyebrow--light {
-      color: var(--charcoal-soft);
-      border-color: var(--divider-light);
-    }
-    .eyebrow-dot {
-      width: 5px; height: 5px;
-      border-radius: 50%;
-      background: var(--blood);
-    }
-    .eyebrow--dark .eyebrow-dot { background: var(--blood-warm); box-shadow: 0 0 6px var(--blood-warm); }
-
-    /* Section number — tech accent */
-    .section-no {
-      font-family: var(--font-mono);
-      font-size: 11px;
-      font-weight: 500;
-      letter-spacing: 2px;
-      color: var(--blood);
-      margin-bottom: 16px;
-      display: flex;
-      align-items: center;
-      gap: 12px;
-    }
-    .section-no::before {
+    .eyebrow--dark { color: var(--slate); }
+    .eyebrow--light { color: var(--charcoal-soft); }
+    .eyebrow::before {
       content: '';
-      width: 24px; height: 1px;
-      background: var(--blood);
+      display: block;
+      width: 28px; height: 1px;
+      background: currentColor;
+      opacity: 0.6;
     }
-    .section--dark .section-no { color: var(--blood-warm); }
-    .section--dark .section-no::before { background: var(--blood-warm); }
 
-    /* Heading style */
     h1, h2, h3, .heading {
       font-family: var(--font-display);
-      font-weight: 600;
-      letter-spacing: -0.02em;
-      line-height: 1.02;
+      font-weight: 500;
+      letter-spacing: -0.015em;
+      line-height: 1.05;
     }
     .heading em {
       font-style: italic;
       color: var(--blood);
       font-weight: 500;
     }
-    .section--light .heading em { color: var(--blood); }
 
     .section-heading {
       font-family: var(--font-display);
-      font-size: clamp(42px, 4.8vw, 76px);
-      font-weight: 600;
-      line-height: 1.0;
-      letter-spacing: -0.025em;
+      font-size: clamp(38px, 4.2vw, 60px);
+      font-weight: 500;
+      line-height: 1.06;
+      letter-spacing: -0.015em;
       margin-bottom: 24px;
     }
-    .section-heading em {
-      font-style: italic;
-      font-weight: 500;
+    .section-heading em { font-style: italic; color: var(--blood); }
+
+    /* Section heading on LIGHT surfaces — must use dark text */
+    #reviews .section-heading,
+    #results .section-heading,
+    .section--light .section-heading,
+    .section--paper .section-heading {
+      color: var(--charcoal);
+    }
+    #reviews .section-heading em,
+    #results .section-heading em,
+    .section--light .section-heading em,
+    .section--paper .section-heading em {
       color: var(--blood);
     }
-    .section--dark .section-heading em { color: var(--blood-warm); }
 
     .lead {
       font-size: 17px;
@@ -880,10 +653,9 @@
       max-width: 540px;
     }
     .section--light .lead { color: var(--charcoal-soft); }
+    #results .lead { color: var(--charcoal-soft); }
 
-    /* ═══════════════════════════════════════════════════════
-       HERO — centered, modern, tech-inflected
-    ═══════════════════════════════════════════════════════ */
+    /* ═══ HERO — LIGHT + CENTERED ═══ */
     #hero {
       position: relative;
       min-height: 100vh;
@@ -893,26 +665,14 @@
       justify-content: center;
       overflow: hidden;
       background:
-        radial-gradient(ellipse 60% 50% at 50% 50%, rgba(122, 16, 16, 0.14) 0%, transparent 65%),
-        linear-gradient(180deg, var(--ink-deep) 0%, var(--ink) 100%);
-      padding: 140px 56px 120px;
-      color: var(--cream);
+        radial-gradient(ellipse 60% 55% at 50% 45%, rgba(122, 16, 16, 0.06) 0%, transparent 70%),
+        linear-gradient(180deg, var(--bone) 0%, var(--paper) 100%);
+      padding: 140px 56px 110px;
+      color: var(--charcoal);
+      text-align: center;
     }
 
-    /* Background grid — blueprint floor */
-    .hero-bg-grid {
-      position: absolute;
-      inset: 0;
-      pointer-events: none;
-      background-image:
-        linear-gradient(rgba(240, 235, 225, 0.05) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(240, 235, 225, 0.05) 1px, transparent 1px);
-      background-size: 90px 90px;
-      mask-image: radial-gradient(ellipse 75% 65% at 50% 50%, rgba(0,0,0,0.7) 0%, transparent 100%);
-      -webkit-mask-image: radial-gradient(ellipse 75% 65% at 50% 50%, rgba(0,0,0,0.7) 0%, transparent 100%);
-    }
-
-    /* Logo character — large, centered behind content */
+    /* Large centered logo character behind content */
     .hero-character-bg {
       position: absolute;
       top: 50%;
@@ -921,17 +681,17 @@
       width: 780px;
       height: 780px;
       pointer-events: none;
-      opacity: 0.08;
+      opacity: 0.1;
       animation: character-breathe 9s ease-in-out infinite;
     }
     .hero-character-bg img {
       width: 100%; height: 100%;
       object-fit: contain;
-      filter: invert(1) brightness(1.3);
+      filter: none;
     }
     @keyframes character-breathe {
-      0%, 100% { transform: translate(-50%, -50%) scale(1); opacity: 0.08; }
-      50%       { transform: translate(-50%, -50%) scale(1.03); opacity: 0.11; }
+      0%, 100% { transform: translate(-50%, -50%) scale(1); opacity: 0.1; }
+      50%       { transform: translate(-50%, -50%) scale(1.03); opacity: 0.14; }
     }
 
     /* Side decorative marks */
@@ -942,78 +702,22 @@
       width: 280px;
       height: 280px;
       pointer-events: none;
-      opacity: 0.5;
+      opacity: 0.06;
     }
-    .hero-side-mark.left  { left: -100px; }
-    .hero-side-mark.right { right: -100px; transform: translateY(-50%) scaleX(-1); }
+    .hero-side-mark.left  { left: -110px; }
+    .hero-side-mark.right { right: -110px; transform: translateY(-50%) scaleX(-1); }
     .hero-side-mark img {
       width: 100%; height: 100%;
       object-fit: contain;
-      filter: invert(1);
+      filter: none;
     }
 
-    /* Architectural corner brackets — large, in hero */
-    .hero-corner {
-      position: absolute;
-      width: 32px; height: 32px;
-      pointer-events: none;
-      color: rgba(240, 235, 225, 0.25);
-    }
-    .hero-corner::before,
-    .hero-corner::after {
-      content: ''; position: absolute; background: currentColor;
-    }
-    .hero-corner::before { width: 100%; height: 1px; top: 0; left: 0; }
-    .hero-corner::after  { width: 1px; height: 100%; top: 0; left: 0; }
-    .hero-corner.tl { top: 110px; left: 56px; }
-    .hero-corner.tr { top: 110px; right: 56px; transform: scaleX(-1); }
-    .hero-corner.bl { bottom: 80px; left: 56px; transform: scaleY(-1); }
-    .hero-corner.br { bottom: 80px; right: 56px; transform: scale(-1, -1); }
-
-    /* Tech meta — top-left coords */
-    .hero-meta-tl {
-      position: absolute;
-      top: 110px;
-      left: 100px;
-      font-family: var(--font-mono);
-      font-size: 9px;
-      font-weight: 500;
-      letter-spacing: 2px;
-      color: rgba(240, 235, 225, 0.3);
-      text-transform: uppercase;
-      line-height: 1.8;
-      pointer-events: none;
-    }
-    .hero-meta-tl::before {
-      content: '◉';
-      color: var(--blood-warm);
-      margin-right: 8px;
-      font-size: 8px;
-    }
-
-    .hero-meta-tr {
-      position: absolute;
-      top: 110px;
-      right: 100px;
-      font-family: var(--font-mono);
-      font-size: 9px;
-      font-weight: 500;
-      letter-spacing: 2px;
-      color: rgba(240, 235, 225, 0.3);
-      text-transform: uppercase;
-      text-align: right;
-      line-height: 1.8;
-      pointer-events: none;
-    }
-
-    /* Hero content — centered */
     .hero-content {
       position: relative;
       z-index: 2;
       max-width: 1000px;
       margin: 0 auto;
       width: 100%;
-      text-align: center;
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -1022,27 +726,27 @@
     .hero-eyebrow {
       display: inline-flex;
       align-items: center;
-      gap: 14px;
+      gap: 12px;
       font-family: var(--font-mono);
       font-size: 11px;
-      font-weight: 600;
-      letter-spacing: 3px;
+      font-weight: 500;
+      letter-spacing: 2.5px;
       text-transform: uppercase;
-      color: var(--cream-soft);
-      margin-bottom: 44px;
+      color: var(--charcoal-soft);
+      margin-bottom: 40px;
+      padding: 8px 18px;
+      border: 1px solid var(--divider-light);
+      border-radius: 100px;
+      background: rgba(255, 255, 255, 0.4);
+      backdrop-filter: blur(8px);
       opacity: 0;
       animation: hero-in 1s 0.3s var(--ease-out) forwards;
-      padding: 8px 18px;
-      border: 1px solid var(--divider-dark);
-      border-radius: 100px;
-      background: rgba(240, 235, 225, 0.02);
-      backdrop-filter: blur(8px);
     }
     .hero-eyebrow-dot {
       width: 6px; height: 6px;
       border-radius: 50%;
-      background: var(--blood-warm);
-      box-shadow: 0 0 8px var(--blood-warm);
+      background: var(--blood);
+      box-shadow: 0 0 8px rgba(122, 16, 16, 0.5);
       animation: pulse-dot 2.4s ease-in-out infinite;
     }
     @keyframes pulse-dot {
@@ -1052,12 +756,12 @@
 
     .hero-h1 {
       font-family: var(--font-display);
-      font-size: clamp(58px, 7.6vw, 124px);
-      font-weight: 600;
-      line-height: 0.95;
-      letter-spacing: -0.03em;
-      color: var(--cream);
-      margin-bottom: 8px;
+      font-size: clamp(54px, 6.4vw, 92px);
+      font-weight: 400;
+      line-height: 1.02;
+      letter-spacing: -0.022em;
+      color: var(--charcoal);
+      margin-bottom: 4px;
       opacity: 0;
       animation: hero-in 1.2s 0.5s var(--ease-out) forwards;
     }
@@ -1065,20 +769,19 @@
       font-family: var(--font-display);
       font-style: italic;
       font-weight: 500;
-      font-size: clamp(58px, 7.6vw, 124px);
-      line-height: 0.95;
-      letter-spacing: -0.025em;
-      color: var(--blood-warm);
-      margin-bottom: 44px;
+      font-size: clamp(54px, 6.4vw, 92px);
+      line-height: 1.02;
+      letter-spacing: -0.022em;
+      color: var(--blood);
+      margin-bottom: 40px;
       display: block;
       opacity: 0;
       animation: hero-in 1.2s 0.7s var(--ease-out) forwards;
-      text-shadow: 0 0 80px rgba(122, 16, 16, 0.3);
     }
     .hero-sub {
       font-size: 17px;
       line-height: 1.75;
-      color: var(--cream-soft);
+      color: var(--charcoal-soft);
       max-width: 580px;
       margin: 0 auto 48px;
       opacity: 0;
@@ -1097,33 +800,10 @@
       to   { opacity: 1; transform: translateY(0); }
     }
 
-    /* Hero data strip — tech accent above headline */
-    .hero-data-strip {
-      display: flex;
-      align-items: center;
-      gap: 14px;
-      margin-bottom: 36px;
-      opacity: 0;
-      animation: hero-in 1s 0.15s var(--ease-out) forwards;
-    }
-    .hero-data-line {
-      width: 60px; height: 1px;
-      background: rgba(122, 16, 16, 0.5);
-    }
-    .hero-data-tag {
-      font-family: var(--font-mono);
-      font-size: 9px;
-      letter-spacing: 2.5px;
-      text-transform: uppercase;
-      color: var(--slate);
-    }
-
-    /* Hero bottom strip — refined tech bar */
     .hero-bottom {
       position: absolute;
-      bottom: 32px;
-      left: 56px;
-      right: 56px;
+      bottom: 40px;
+      left: 56px; right: 56px;
       display: flex;
       align-items: center;
       justify-content: space-between;
@@ -1134,15 +814,14 @@
       align-items: center;
       gap: 14px;
       font-family: var(--font-mono);
-      font-size: 9px;
-      font-weight: 500;
-      letter-spacing: 2.5px;
+      font-size: 10px;
+      letter-spacing: 2px;
       text-transform: uppercase;
-      color: var(--slate);
+      color: var(--charcoal-soft);
     }
     .scroll-bar {
       width: 36px; height: 1px;
-      background: var(--divider-dark);
+      background: var(--divider-light);
       position: relative;
       overflow: hidden;
     }
@@ -1155,99 +834,68 @@
       animation: scroll-dash 3s ease-in-out infinite;
     }
     @keyframes scroll-dash {
-      0%   { left: -100%; } 50% { left: 0; } 100% { left: 100%; }
-    }
-    .hero-trust-mini {
-      display: flex;
-      align-items: center;
-      gap: 18px;
-      font-family: var(--font-mono);
-      font-size: 9px;
-      font-weight: 500;
-      letter-spacing: 2px;
-      text-transform: uppercase;
-      color: var(--slate);
-    }
-    .hero-trust-mini .star { color: var(--gold-muted); }
-    .hero-trust-mini .sep {
-      width: 1px; height: 10px;
-      background: var(--divider-dark);
+      0% { left: -100%; } 50% { left: 0; } 100% { left: 100%; }
     }
     .hero-loc {
       font-family: var(--font-mono);
-      font-size: 9px;
-      font-weight: 500;
-      letter-spacing: 2.5px;
+      font-size: 10px;
+      letter-spacing: 2px;
       text-transform: uppercase;
-      color: var(--slate);
+      color: var(--charcoal-soft);
     }
 
-    /* ═══════════════════════════════════════════════════════
-       TRUST STRIP (under hero, dark) — tech accents
-    ═══════════════════════════════════════════════════════ */
+    /* ═══ TRUST STRIP ═══ */
     #trust {
       background: var(--ink);
-      padding: 90px 56px 100px;
+      padding: 80px 56px 100px;
       border-top: 1px solid var(--divider-dark);
       border-bottom: 1px solid var(--divider-dark);
       position: relative;
       overflow: hidden;
     }
-    /* Animated top scan line */
-    #trust::before {
-      content: '';
+    .trust-watermark {
       position: absolute;
-      top: 0; left: -30%;
-      width: 30%; height: 1px;
-      background: linear-gradient(90deg, transparent, var(--blood-warm), transparent);
-      animation: tech-scan 6s linear infinite;
+      bottom: -180px;
+      right: -100px;
+      width: 360px;
+      height: 360px;
+      opacity: 0.04;
+      pointer-events: none;
+    }
+    .trust-watermark img {
+      width: 100%; height: 100%;
+      object-fit: contain;
+      filter: invert(1);
+      transform: rotate(12deg);
     }
     .trust-grid {
       max-width: 1320px;
       margin: 0 auto;
       display: grid;
       grid-template-columns: repeat(4, 1fr);
-      gap: 0;
+      gap: 56px;
       position: relative;
+      z-index: 2;
     }
     .trust-block {
       position: relative;
-      padding: 0 36px;
+      padding-left: 32px;
     }
-    .trust-block:first-child { padding-left: 0; }
     .trust-block:not(:first-child)::before {
       content: '';
       position: absolute;
-      left: 0;
-      top: 0;
-      bottom: 0;
+      left: 0; top: 8px; bottom: 8px;
       width: 1px;
       background: var(--divider-dark);
     }
-    .trust-marker {
-      font-family: var(--font-mono);
-      font-size: 9px;
-      font-weight: 600;
-      letter-spacing: 2px;
-      color: var(--blood-warm);
-      margin-bottom: 18px;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-    }
-    .trust-marker-dot {
-      width: 4px; height: 4px;
-      background: var(--blood-warm);
-      border-radius: 50%;
-    }
     .trust-number {
       font-family: var(--font-display);
-      font-size: clamp(42px, 4.4vw, 62px);
-      font-weight: 600;
+      font-size: clamp(38px, 3.8vw, 52px);
+      font-weight: 500;
       line-height: 1;
-      letter-spacing: -0.025em;
+      letter-spacing: -0.02em;
       color: var(--cream);
-      margin-bottom: 14px;
+      margin-bottom: 12px;
     }
     .trust-number.gold { color: var(--gold-muted); }
     .trust-label {
@@ -1264,25 +912,11 @@
       text-transform: uppercase;
     }
 
-    /* ═══════════════════════════════════════════════════════
-       PRACTICE AREAS (dark) — tech accents
-    ═══════════════════════════════════════════════════════ */
+    /* ═══ PRACTICE AREAS (dark) ═══ */
     #practice {
       position: relative;
       overflow: hidden;
     }
-    /* Subtle grid pattern on background */
-    #practice::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background-image: radial-gradient(circle, rgba(240, 235, 225, 0.04) 1px, transparent 1.5px);
-      background-size: 48px 48px;
-      mask-image: radial-gradient(ellipse 90% 70% at 50% 50%, rgba(0,0,0,0.7) 0%, transparent 100%);
-      -webkit-mask-image: radial-gradient(ellipse 90% 70% at 50% 50%, rgba(0,0,0,0.7) 0%, transparent 100%);
-      pointer-events: none;
-    }
-    /* Logo character as side ornament */
     .practice-ornament {
       position: absolute;
       top: -100px;
@@ -1297,6 +931,21 @@
       object-fit: contain;
       filter: invert(1);
       transform: rotate(8deg);
+    }
+    .practice-ornament-2 {
+      position: absolute;
+      bottom: -120px;
+      left: -100px;
+      width: 280px;
+      height: 280px;
+      opacity: 0.03;
+      pointer-events: none;
+    }
+    .practice-ornament-2 img {
+      width: 100%; height: 100%;
+      object-fit: contain;
+      filter: invert(1);
+      transform: rotate(-20deg);
     }
 
     .practice-head {
@@ -1317,60 +966,34 @@
     }
     .practice-row {
       display: grid;
-      grid-template-columns: 80px 1fr auto auto;
+      grid-template-columns: 60px 1fr auto auto;
       align-items: center;
       gap: 40px;
-      padding: 42px 24px;
+      padding: 40px 24px;
       border-top: 1px solid var(--divider-dark);
       transition: background 0.5s, padding-left 0.5s var(--ease-out);
+      border-radius: var(--r-md);
       cursor: pointer;
-      position: relative;
     }
     .practice-row:last-child { border-bottom: 1px solid var(--divider-dark); }
-    /* Left tech-accent bar */
-    .practice-row::before {
-      content: '';
-      position: absolute;
-      left: 0;
-      top: 50%;
-      transform: translateY(-50%) scaleY(0);
-      width: 2px;
-      height: 60%;
-      background: var(--blood);
-      transition: transform 0.4s var(--ease-out);
-      transform-origin: center;
-    }
     .practice-row:hover {
-      background: rgba(240, 235, 225, 0.025);
+      background: rgba(240, 235, 225, 0.02);
       padding-left: 36px;
     }
-    .practice-row:hover::before { transform: translateY(-50%) scaleY(1); }
     .practice-num {
       font-family: var(--font-mono);
       font-size: 11px;
-      font-weight: 600;
-      color: var(--blood-warm);
-      letter-spacing: 1.5px;
-      position: relative;
-    }
-    .practice-num::before {
-      content: '[ ';
-      color: var(--blood-warm);
-    }
-    .practice-num::after {
-      content: ' ]';
-      color: var(--blood-warm);
+      color: var(--slate);
+      letter-spacing: 1px;
     }
     .practice-name {
       font-family: var(--font-display);
-      font-size: clamp(28px, 2.8vw, 40px);
-      font-weight: 600;
+      font-size: clamp(24px, 2.4vw, 34px);
+      font-weight: 500;
       color: var(--cream);
-      letter-spacing: -0.025em;
+      letter-spacing: -0.015em;
       transition: color 0.4s;
-      line-height: 1.05;
     }
-    .practice-name em { font-style: italic; color: var(--blood-warm); font-weight: 500; }
     .practice-row:hover .practice-name em { color: var(--blood-warm); }
     .practice-desc {
       font-size: 14px;
@@ -1380,7 +1003,7 @@
       text-align: right;
     }
     .practice-arrow {
-      width: 40px; height: 40px;
+      width: 36px; height: 36px;
       border: 1px solid var(--divider-dark);
       border-radius: 50%;
       display: flex; align-items: center; justify-content: center;
@@ -1403,23 +1026,10 @@
       transform: translateX(2px);
     }
 
-    /* ═══════════════════════════════════════════════════════
-       ABOUT — light surface with founder photo
-    ═══════════════════════════════════════════════════════ */
+    /* ═══ ABOUT (light) ═══ */
     #about {
       position: relative;
       overflow: hidden;
-    }
-    /* Dot grid pattern */
-    #about::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background-image: radial-gradient(circle, rgba(42, 38, 34, 0.07) 1px, transparent 1.5px);
-      background-size: 40px 40px;
-      mask-image: radial-gradient(ellipse 80% 60% at 50% 50%, rgba(0,0,0,0.6) 0%, transparent 100%);
-      -webkit-mask-image: radial-gradient(ellipse 80% 60% at 50% 50%, rgba(0,0,0,0.6) 0%, transparent 100%);
-      pointer-events: none;
     }
     .about-ornament {
       position: absolute;
@@ -1436,6 +1046,21 @@
       filter: none;
       transform: rotate(-10deg);
     }
+    .about-ornament-2 {
+      position: absolute;
+      top: 60px;
+      right: -60px;
+      width: 220px;
+      height: 220px;
+      opacity: 0.04;
+      pointer-events: none;
+    }
+    .about-ornament-2 img {
+      width: 100%; height: 100%;
+      object-fit: contain;
+      filter: none;
+      transform: rotate(15deg);
+    }
     .about-grid {
       max-width: 1320px;
       margin: 0 auto;
@@ -1446,14 +1071,6 @@
       position: relative;
       z-index: 2;
     }
-    .reviews-head, .reviews-grid,
-    .results-head, .results-grid,
-    .contact-grid, .faq-inner {
-      position: relative;
-      z-index: 2;
-    }
-
-    /* Photo box — with corner brackets */
     .about-photo {
       position: relative;
       aspect-ratio: 4 / 5;
@@ -1463,31 +1080,6 @@
       background: var(--linen);
       box-shadow: 0 30px 60px rgba(42, 38, 34, 0.12),
                   0 0 0 1px var(--divider-light);
-    }
-    .about-photo-tag {
-      position: absolute;
-      top: 20px;
-      left: 20px;
-      z-index: 3;
-      font-family: var(--font-mono);
-      font-size: 9px;
-      font-weight: 600;
-      letter-spacing: 2px;
-      text-transform: uppercase;
-      color: var(--charcoal);
-      background: var(--bone);
-      padding: 5px 10px;
-      border-radius: 100px;
-      border: 1px solid var(--divider-light);
-      display: flex;
-      align-items: center;
-      gap: 6px;
-    }
-    .about-photo-tag::before {
-      content: '';
-      width: 5px; height: 5px;
-      border-radius: 50%;
-      background: var(--blood);
     }
     .about-photo-placeholder {
       position: absolute;
@@ -1502,7 +1094,7 @@
       opacity: 1;
       filter: contrast(1.02) brightness(1.02);
     }
-    /* Soft dark gradient at bottom so the caption stays legible */
+    /* Subtle gradient overlay at bottom so the caption stays legible */
     .about-photo::after {
       content: '';
       position: absolute;
@@ -1513,13 +1105,10 @@
       pointer-events: none;
       z-index: 1;
     }
-    .about-photo-tag,
     .about-photo-caption { z-index: 2; }
     .about-photo-caption {
       position: absolute;
-      bottom: 20px;
-      left: 24px;
-      right: 24px;
+      bottom: 20px; left: 24px; right: 24px;
       padding: 16px 20px;
       background: rgba(20, 17, 15, 0.85);
       backdrop-filter: blur(8px);
@@ -1554,13 +1143,12 @@
       gap: 6px;
     }
 
-    .about-text {}
     .about-heading {
       font-family: var(--font-display);
-      font-size: clamp(44px, 4.8vw, 72px);
-      font-weight: 600;
-      line-height: 1.0;
-      letter-spacing: -0.028em;
+      font-size: clamp(40px, 4.2vw, 58px);
+      font-weight: 500;
+      line-height: 1.04;
+      letter-spacing: -0.02em;
       color: var(--charcoal);
       margin-bottom: 4px;
     }
@@ -1568,11 +1156,11 @@
       font-family: var(--font-display);
       font-style: italic;
       font-weight: 500;
-      font-size: clamp(44px, 4.8vw, 72px);
-      line-height: 1.0;
-      letter-spacing: -0.025em;
+      font-size: clamp(40px, 4.2vw, 58px);
+      line-height: 1.04;
+      letter-spacing: -0.02em;
       color: var(--blood);
-      margin-bottom: 40px;
+      margin-bottom: 36px;
       display: block;
     }
     .about-body {
@@ -1610,13 +1198,26 @@
       line-height: 1.65;
     }
 
-    /* ═══════════════════════════════════════════════════════
-       TESTIMONIALS / REVIEWS (light)
-    ═══════════════════════════════════════════════════════ */
+    /* ═══ REVIEWS (paper light) ═══ */
     #reviews {
       background: var(--paper);
       position: relative;
       overflow: hidden;
+    }
+    .reviews-watermark {
+      position: absolute;
+      top: 50%;
+      right: -150px;
+      transform: translateY(-50%);
+      width: 360px;
+      height: 360px;
+      opacity: 0.04;
+      pointer-events: none;
+    }
+    .reviews-watermark img {
+      width: 100%; height: 100%;
+      object-fit: contain;
+      filter: none;
     }
     .reviews-head {
       max-width: 1320px;
@@ -1625,6 +1226,8 @@
       grid-template-columns: 1fr auto;
       gap: 48px;
       align-items: end;
+      position: relative;
+      z-index: 2;
     }
     .reviews-grid {
       max-width: 1320px;
@@ -1632,6 +1235,8 @@
       display: grid;
       grid-template-columns: repeat(3, 1fr);
       gap: 28px;
+      position: relative;
+      z-index: 2;
     }
     .review-card {
       background: var(--bone);
@@ -1641,35 +1246,12 @@
       display: flex;
       flex-direction: column;
       gap: 20px;
-      transition: transform 0.5s var(--ease-out), box-shadow 0.5s, border-color 0.4s;
+      transition: transform 0.5s var(--ease-out), box-shadow 0.5s;
       position: relative;
-      overflow: hidden;
-    }
-    /* Corner accent line */
-    .review-card::before {
-      content: '';
-      position: absolute;
-      top: 0; left: 32px;
-      width: 24px;
-      height: 2px;
-      background: var(--blood);
-      transition: width 0.5s var(--ease-out);
     }
     .review-card:hover {
       transform: translateY(-4px);
       box-shadow: 0 20px 40px rgba(42, 38, 34, 0.08);
-      border-color: rgba(122, 16, 16, 0.2);
-    }
-    .review-card:hover::before { width: 48px; }
-    .review-card-no {
-      font-family: var(--font-mono);
-      font-size: 9px;
-      font-weight: 600;
-      letter-spacing: 2px;
-      text-transform: uppercase;
-      color: var(--charcoal-soft);
-      opacity: 0.6;
-      margin-bottom: -8px;
     }
     .review-stars {
       display: flex; gap: 4px;
@@ -1713,7 +1295,6 @@
       color: var(--charcoal-soft);
       text-transform: uppercase;
     }
-
     .reviews-link {
       display: inline-flex;
       align-items: center;
@@ -1727,26 +1308,11 @@
     }
     .reviews-link:hover { color: var(--blood); }
 
-    /* ═══════════════════════════════════════════════════════
-       CONTACT / CTA (dark, refined)
-    ═══════════════════════════════════════════════════════ */
+    /* ═══ CONTACT (dark) ═══ */
     #contact {
       position: relative;
       overflow: hidden;
       background: var(--ink-deep);
-    }
-    /* Linear grid pattern */
-    #contact::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background-image:
-        linear-gradient(rgba(240, 235, 225, 0.025) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(240, 235, 225, 0.025) 1px, transparent 1px);
-      background-size: 100px 100px;
-      mask-image: radial-gradient(ellipse 100% 80% at 50% 50%, rgba(0,0,0,0.5) 0%, transparent 100%);
-      -webkit-mask-image: radial-gradient(ellipse 100% 80% at 50% 50%, rgba(0,0,0,0.5) 0%, transparent 100%);
-      pointer-events: none;
     }
     .contact-bg-mark {
       position: absolute;
@@ -1755,8 +1321,9 @@
       transform: translateY(-50%);
       width: 700px;
       height: 700px;
-      opacity: 0.05;
+      opacity: 0.06;
       pointer-events: none;
+      animation: watermark-breathe 10s ease-in-out infinite;
     }
     .contact-bg-mark img {
       width: 100%; height: 100%;
@@ -1775,17 +1342,14 @@
     }
     .contact-heading {
       font-family: var(--font-display);
-      font-size: clamp(44px, 5vw, 78px);
-      font-weight: 600;
-      line-height: 1.0;
-      letter-spacing: -0.028em;
+      font-size: clamp(40px, 4.4vw, 64px);
+      font-weight: 500;
+      line-height: 1.04;
+      letter-spacing: -0.02em;
       color: var(--cream);
       margin-bottom: 28px;
     }
-    .contact-heading em {
-      font-style: italic;
-      color: var(--blood-warm);
-    }
+    .contact-heading em { font-style: italic; color: var(--blood-warm); }
     .contact-sub {
       font-size: 17px;
       line-height: 1.75;
@@ -1806,45 +1370,33 @@
       position: relative;
       overflow: hidden;
     }
-    /* Corner brackets */
-    .contact-card::before,
-    .contact-card::after {
-      content: '';
+    .contact-card-watermark {
       position: absolute;
-      width: 12px; height: 12px;
-      border: 1px solid var(--blood-warm);
-      opacity: 0.6;
+      top: -40px;
+      right: -40px;
+      width: 160px;
+      height: 160px;
+      opacity: 0.06;
+      pointer-events: none;
     }
-    .contact-card::before {
-      top: 14px; left: 14px;
-      border-right: none; border-bottom: none;
-    }
-    .contact-card::after {
-      bottom: 14px; right: 14px;
-      border-left: none; border-top: none;
+    .contact-card-watermark img {
+      width: 100%; height: 100%;
+      object-fit: contain;
+      filter: invert(1);
     }
     .contact-card-label {
       font-family: var(--font-mono);
       font-size: 10px;
-      font-weight: 600;
       letter-spacing: 2px;
       color: var(--blood-warm);
       text-transform: uppercase;
-      margin-bottom: 24px;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-    .contact-card-label::before {
-      content: '';
-      width: 5px; height: 5px;
-      border-radius: 50%;
-      background: var(--blood-warm);
-      box-shadow: 0 0 6px var(--blood-warm);
+      margin-bottom: 20px;
+      position: relative;
     }
     .contact-detail {
       padding: 18px 0;
       border-bottom: 1px solid var(--divider-dark);
+      position: relative;
     }
     .contact-detail:last-child { border-bottom: none; }
     .contact-detail-label {
@@ -1872,11 +1424,24 @@
       margin-top: 6px;
     }
 
-    /* ═══════════════════════════════════════════════════════
-       RESULTS / OUTCOMES (NEW, light)
-    ═══════════════════════════════════════════════════════ */
+    /* ═══ RESULTS (paper light) ═══ */
     #results {
       position: relative;
+      overflow: hidden;
+    }
+    .results-watermark {
+      position: absolute;
+      top: -100px;
+      left: -120px;
+      width: 360px;
+      height: 360px;
+      opacity: 0.04;
+      pointer-events: none;
+    }
+    .results-watermark img {
+      width: 100%; height: 100%;
+      object-fit: contain;
+      transform: rotate(20deg);
     }
     .results-head {
       max-width: 1320px;
@@ -1885,6 +1450,8 @@
       grid-template-columns: 1fr 1fr;
       gap: 80px;
       align-items: end;
+      position: relative;
+      z-index: 2;
     }
     .results-grid {
       max-width: 1320px;
@@ -1892,53 +1459,45 @@
       display: grid;
       grid-template-columns: repeat(2, 1fr);
       gap: 32px;
+      position: relative;
+      z-index: 2;
     }
     .result-card {
       background: var(--bone);
       border: 1px solid var(--divider-light);
       border-radius: var(--r-lg);
       padding: 40px;
-      transition: transform 0.5s var(--ease-out), box-shadow 0.5s, border-color 0.4s;
+      transition: transform 0.5s var(--ease-out), box-shadow 0.5s;
       position: relative;
       display: flex;
       flex-direction: column;
       overflow: hidden;
     }
-    /* Top corner brackets */
-    .result-card::before,
-    .result-card::after {
-      content: '';
+    .result-card-mark {
       position: absolute;
-      width: 14px; height: 14px;
-      border: 1px solid var(--charcoal-soft);
-      opacity: 0.35;
-      transition: opacity 0.4s, border-color 0.4s;
+      top: 20px;
+      right: 20px;
+      width: 36px;
+      height: 36px;
+      opacity: 0.15;
+      pointer-events: none;
+      transition: opacity 0.4s;
     }
-    .result-card::before {
-      top: 12px; left: 12px;
-      border-right: none;
-      border-bottom: none;
-    }
-    .result-card::after {
-      top: 12px; right: 12px;
-      border-left: none;
-      border-bottom: none;
+    .result-card:hover .result-card-mark { opacity: 0.3; }
+    .result-card-mark img {
+      width: 100%; height: 100%;
+      object-fit: contain;
     }
     .result-card:hover {
       transform: translateY(-4px);
       box-shadow: 0 20px 40px rgba(42, 38, 34, 0.08);
-      border-color: rgba(122, 16, 16, 0.2);
-    }
-    .result-card:hover::before,
-    .result-card:hover::after {
-      opacity: 1;
-      border-color: var(--blood);
     }
     .result-card-header {
       display: flex;
       align-items: center;
       justify-content: space-between;
       margin-bottom: 24px;
+      padding-right: 48px;
     }
     .result-tag {
       font-family: var(--font-mono);
@@ -1967,10 +1526,7 @@
       margin-bottom: 16px;
       letter-spacing: -0.01em;
     }
-    .result-charge em {
-      font-style: italic;
-      color: var(--blood);
-    }
+    .result-charge em { font-style: italic; color: var(--blood); }
     .result-body {
       font-size: 15px;
       line-height: 1.7;
@@ -1997,22 +1553,22 @@
     .result-meta-label { opacity: 0.7; }
     .result-meta-value { color: var(--charcoal); font-weight: 600; }
 
-    /* ═══════════════════════════════════════════════════════
-       FAQ (dark, refined)
-    ═══════════════════════════════════════════════════════ */
-    #faq {
-      position: relative;
-    }
-    /* Subtle grid pattern */
-    #faq::before {
-      content: '';
+    /* ═══ FAQ (dark) ═══ */
+    #faq { position: relative; overflow: hidden; }
+    .faq-watermark {
       position: absolute;
-      inset: 0;
-      background-image: radial-gradient(circle, rgba(240, 235, 225, 0.04) 1px, transparent 1.5px);
-      background-size: 48px 48px;
-      mask-image: linear-gradient(180deg, rgba(0,0,0,0.6) 0%, transparent 80%);
-      -webkit-mask-image: linear-gradient(180deg, rgba(0,0,0,0.6) 0%, transparent 80%);
+      bottom: -100px;
+      right: -100px;
+      width: 320px;
+      height: 320px;
+      opacity: 0.04;
       pointer-events: none;
+    }
+    .faq-watermark img {
+      width: 100%; height: 100%;
+      object-fit: contain;
+      filter: invert(1);
+      transform: rotate(-12deg);
     }
     .faq-inner {
       max-width: 1320px;
@@ -2020,6 +1576,8 @@
       display: grid;
       grid-template-columns: 380px 1fr;
       gap: 80px;
+      position: relative;
+      z-index: 2;
     }
     .faq-sidebar {
       position: sticky;
@@ -2036,32 +1594,10 @@
       border-radius: var(--r-md);
       transition: background 0.4s, border-color 0.4s;
       overflow: hidden;
-      position: relative;
-    }
-    /* Tech accent left bar */
-    .faq-item::before {
-      content: '';
-      position: absolute;
-      left: 0; top: 50%;
-      transform: translateY(-50%) scaleY(0);
-      width: 2px;
-      height: 36px;
-      background: var(--blood);
-      transition: transform 0.4s var(--ease-out);
-      transform-origin: center;
     }
     .faq-item.open {
       background: rgba(122, 16, 16, 0.04);
       border-color: rgba(122, 16, 16, 0.25);
-    }
-    .faq-item.open::before { transform: translateY(-50%) scaleY(1); }
-    .faq-q-num {
-      font-family: var(--font-mono);
-      font-size: 10px;
-      font-weight: 600;
-      letter-spacing: 1.5px;
-      color: var(--blood-warm);
-      margin-right: 16px;
     }
     .faq-q {
       display: flex;
@@ -2118,9 +1654,7 @@
     }
     .faq-a-inner p + p { margin-top: 14px; }
 
-    /* ═══════════════════════════════════════════════════════
-       FOOTER (dark)
-    ═══════════════════════════════════════════════════════ */
+    /* ═══ FOOTER ═══ */
     footer {
       background: var(--ink-deep);
       border-top: 1px solid var(--divider-dark);
@@ -2134,13 +1668,28 @@
       right: -120px;
       width: 500px;
       height: 500px;
-      opacity: 0.04;
+      opacity: 0.05;
       pointer-events: none;
     }
     .footer-mark img {
       width: 100%; height: 100%;
       object-fit: contain;
       filter: invert(1) brightness(1.2);
+    }
+    .footer-mark-2 {
+      position: absolute;
+      top: 80px;
+      left: -60px;
+      width: 200px;
+      height: 200px;
+      opacity: 0.03;
+      pointer-events: none;
+    }
+    .footer-mark-2 img {
+      width: 100%; height: 100%;
+      object-fit: contain;
+      filter: invert(1);
+      transform: rotate(18deg);
     }
     .footer-grid {
       max-width: 1320px;
@@ -2151,9 +1700,15 @@
       position: relative;
       z-index: 2;
     }
-    .footer-brand img {
-      height: 44px;
-      margin-bottom: 24px;
+    .footer-brand-logo {
+      display: flex;
+      align-items: center;
+      margin-bottom: 28px;
+    }
+    .footer-brand-logo img {
+      height: 52px;
+      width: auto;
+      object-fit: contain;
       filter: brightness(1.05);
     }
     .footer-tagline {
@@ -2191,11 +1746,7 @@
       display: flex; align-items: center; justify-content: center;
     }
     .footer-phone-icon svg { width: 13px; height: 13px; stroke: #fff; fill: none; stroke-width: 1.8; }
-    .footer-phone-num {
-      font-size: 14px;
-      font-weight: 600;
-      color: var(--cream);
-    }
+    .footer-phone-num { font-size: 14px; font-weight: 600; color: var(--cream); }
     .footer-col-heading {
       font-family: var(--font-mono);
       font-size: 10px;
@@ -2249,9 +1800,7 @@
     }
     .footer-legal a:hover { color: var(--cream); }
 
-    /* ═══════════════════════════════════════════════════════
-       AI CHAT ASSISTANT (refined palette)
-    ═══════════════════════════════════════════════════════ */
+    /* ═══ AI CHAT ═══ */
     #chat-launcher {
       position: fixed;
       right: 32px;
@@ -2280,9 +1829,7 @@
     .launcher-icon, .launcher-close {
       position: absolute;
       width: 20px; height: 20px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
+      display: flex; align-items: center; justify-content: center;
       transition: opacity 0.4s, transform 0.5s var(--ease-out);
     }
     .launcher-icon svg, .launcher-close svg {
@@ -2337,8 +1884,7 @@
       overflow: hidden;
     }
     .chat-avatar img {
-      width: 28px;
-      height: 28px;
+      width: 28px; height: 28px;
       object-fit: contain;
       filter: invert(1) brightness(1.2);
       opacity: 0.8;
@@ -2524,38 +2070,19 @@
     .chat-footer-meta a { color: var(--cream-soft); transition: color 0.3s; }
     .chat-footer-meta a:hover { color: var(--blood-warm); }
 
-    /* ═══════════════════════════════════════════════════════
-       RESPONSIVE
-    ═══════════════════════════════════════════════════════ */
+    /* ═══ RESPONSIVE ═══ */
     @media (max-width: 1100px) {
       nav { padding: 0 24px; height: 70px; }
       .nav-links, .nav-phone-cta, .nav-right .btn { display: none; }
       .hamburger { display: flex; }
       .section { padding: 100px 24px; }
-      #hero { padding: 120px 24px 90px; }
-      .hero-character-bg { width: 520px; height: 520px; }
+      #hero { padding: 130px 24px 100px; }
+      .hero-character-bg { width: 560px; height: 560px; }
       .hero-side-mark { display: none; }
-      .hero-meta-tl, .hero-meta-tr { display: none; }
-      .hero-corner { width: 20px; height: 20px; }
-      .hero-corner.tl, .hero-corner.tr { top: 95px; }
-      .hero-corner.bl, .hero-corner.br { bottom: 60px; }
-      .hero-corner.tl { left: 24px; }
-      .hero-corner.tr { right: 24px; }
-      .hero-corner.bl { left: 24px; }
-      .hero-corner.br { right: 24px; }
       .hero-bottom { left: 24px; right: 24px; }
-      .hero-trust-mini { display: none; }
-      .trust-grid {
-        grid-template-columns: 1fr 1fr;
-        gap: 40px 0;
-      }
-      .trust-block { padding: 0 0 0 32px; }
-      .trust-block:first-child { padding-left: 0; }
-      .trust-block:nth-child(3) { padding-left: 0; padding-top: 20px; border-top: 1px solid var(--divider-dark); }
-      .trust-block:nth-child(4) { padding-top: 20px; border-top: 1px solid var(--divider-dark); }
-      .trust-block:nth-child(2)::before,
-      .trust-block:nth-child(4)::before { content: ''; }
-      .trust-block:nth-child(3)::before { display: none; }
+      .trust-grid { grid-template-columns: 1fr 1fr; gap: 40px; }
+      .trust-block { padding-left: 0; }
+      .trust-block:not(:first-child)::before { display: none; }
       .practice-head, .about-grid, .contact-grid, .reviews-head,
       .results-head, .faq-inner {
         grid-template-columns: 1fr;
@@ -2564,59 +2091,43 @@
       .faq-sidebar { position: relative; top: 0; }
       .reviews-grid, .results-grid { grid-template-columns: 1fr 1fr; }
       .footer-grid { grid-template-columns: 1fr 1fr; gap: 48px; }
-      .practice-row { grid-template-columns: 60px 1fr 36px; gap: 20px; padding: 32px 16px; }
+      .practice-row { grid-template-columns: 40px 1fr 32px; gap: 20px; padding: 32px 16px; }
       .practice-desc { display: none; }
     }
 
-    /* Touch devices */
     @media (hover: none), (pointer: coarse) {
       #grain { display: none; }
     }
 
     @media (max-width: 680px) {
       .section { padding: 80px 20px; }
-      #hero { padding: 100px 20px 90px; min-height: 100vh; }
-      .hero-h1, .hero-h1-italic { font-size: 52px; line-height: 0.95; letter-spacing: -0.035em; }
+      #hero { padding: 110px 20px 90px; min-height: 100vh; }
+      .hero-h1, .hero-h1-italic { font-size: 44px; line-height: 1; }
       .hero-h1-italic { margin-bottom: 32px; }
       .hero-sub { font-size: 15px; margin-bottom: 36px; }
       .hero-cta { flex-direction: column; width: 100%; gap: 12px; }
       .hero-cta .btn { width: 100%; justify-content: center; padding: 16px; }
-      .hero-character-bg { width: 380px; height: 380px; }
-      .hero-data-strip { margin-bottom: 24px; }
-      .hero-data-line { width: 32px; }
-      .hero-eyebrow { font-size: 9px; padding: 6px 14px; margin-bottom: 28px; }
-      .hero-corner { display: none; }
-      .hero-bottom { bottom: 24px; }
-      .hero-scroll { font-size: 8px; }
-      .hero-loc { font-size: 8px; }
-
+      .hero-character-bg { width: 400px; height: 400px; }
+      .hero-eyebrow { font-size: 10px; padding: 6px 14px; margin-bottom: 28px; }
+      .hero-bottom { display: none; }
       .trust-grid { grid-template-columns: 1fr 1fr; gap: 28px; padding: 0; }
       .trust-number { font-size: 32px; }
-
-      .section-heading { font-size: 38px; letter-spacing: -0.03em; }
-      .about-heading, .about-heading-italic { font-size: 38px; letter-spacing: -0.03em; }
-      .contact-heading { font-size: 38px; letter-spacing: -0.03em; }
-      .trust-number { font-size: 38px; letter-spacing: -0.03em; }
-
+      .section-heading { font-size: 34px; }
+      .about-heading, .about-heading-italic { font-size: 34px; }
+      .contact-heading { font-size: 32px; }
       .practice-list { padding: 0; }
       .practice-row { padding: 24px 12px; gap: 16px; }
       .practice-name { font-size: 21px; }
-
       .reviews-grid, .results-grid { grid-template-columns: 1fr; }
       .review-card, .result-card, .contact-card { padding: 28px; }
-
       .about-grid, .reviews-head, .results-head { gap: 36px; }
       .about-photo { aspect-ratio: 3/4; }
       .credential-row { grid-template-columns: 110px 1fr; gap: 16px; }
-
       .faq-q { padding: 22px 24px; gap: 16px; }
       .faq-q-text { font-size: 16px; }
       .faq-a-inner { padding: 0 24px 24px; font-size: 14px; }
-
       .footer-grid { grid-template-columns: 1fr; gap: 36px; padding: 0; }
       .footer-bottom { flex-direction: column; gap: 16px; text-align: center; }
-
-      /* Chat — respect safe areas */
       #chat-launcher {
         right: max(14px, env(safe-area-inset-right));
         bottom: max(14px, env(safe-area-inset-bottom));
@@ -2631,11 +2142,11 @@
       }
       #chat-launcher.open { opacity: 0; pointer-events: none; transform: scale(0.7); transition: opacity 0.3s, transform 0.4s; }
       body.menu-open #chat-launcher { opacity: 0; pointer-events: none; transform: scale(0.7); transition: opacity 0.3s, transform 0.4s; }
-
       nav {
         padding-left: max(20px, env(safe-area-inset-left));
         padding-right: max(20px, env(safe-area-inset-right));
       }
+      .nav-logo img { height: 36px; }
       .mobile-menu-inner {
         padding-left: max(24px, env(safe-area-inset-left));
         padding-right: max(24px, env(safe-area-inset-right));
@@ -2645,18 +2156,15 @@
     }
 
     @media (max-width: 380px) {
-      .hero-h1, .hero-h1-italic { font-size: 44px; }
-      .section-heading, .about-heading, .about-heading-italic, .contact-heading { font-size: 32px; }
-      .trust-number { font-size: 32px; }
+      .hero-h1, .hero-h1-italic { font-size: 38px; }
+      .section-heading, .about-heading, .about-heading-italic, .contact-heading { font-size: 28px; }
+      .nav-logo img { height: 32px; }
     }
   </style>
 </head>
 <body>
 
-  <!-- ═══ GRAIN ═══ -->
   <div id="grain" aria-hidden="true"></div>
-
-  <!-- ═══ SCROLL PROGRESS ═══ -->
   <div id="scroll-progress"></div>
 
   <!-- ═══ LOADING SCREEN ═══ -->
@@ -2708,6 +2216,9 @@
   <!-- ═══ MOBILE DRAWER ═══ -->
   <div id="mobile-menu" class="mobile-menu">
     <div class="mobile-menu-bg"></div>
+    <div class="mobile-menu-watermark" aria-hidden="true">
+      <img src="logo-character.svg" alt="" />
+    </div>
     <div class="mobile-menu-inner">
       <div class="mobile-menu-eyebrow">Powerhouse · Menu</div>
       <ul class="mobile-menu-list">
@@ -2736,15 +2247,12 @@
     </div>
   </div>
 
-  <!-- ═══ HERO ═══ -->
+  <!-- ═══ HERO — LIGHT + CENTERED ═══ -->
   <section id="hero">
-    <!-- Tech grid background -->
-    <div class="hero-bg-grid" aria-hidden="true"></div>
-
     <!-- Centered logo character behind content -->
-    <!-- <div class="hero-character-bg" aria-hidden="true">
+    <div class="hero-character-bg" aria-hidden="true">
       <img src="logo-character.svg" alt="" />
-    </div> -->
+    </div>
 
     <!-- Side decorative marks -->
     <div class="hero-side-mark left" aria-hidden="true">
@@ -2754,48 +2262,20 @@
       <img src="logo-character.svg" alt="" />
     </div>
 
-    <!-- Architectural corner brackets -->
-    <!-- <div class="hero-corner tl" aria-hidden="true"></div>
-    <div class="hero-corner tr" aria-hidden="true"></div>
-    <div class="hero-corner bl" aria-hidden="true"></div>
-    <div class="hero-corner br" aria-hidden="true"></div> -->
-
-    <!-- Tech meta corners -->
-    <!-- <div class="hero-meta-tl" aria-hidden="true">
-      SYD · 33.8688°S<br>
-      151.2093°E<br>
-      EST · 2009
-    </div>
-    <div class="hero-meta-tr" aria-hidden="true">
-      FILE · 001<br>
-      STATUS · LIVE<br>
-      24 / 7 / 365
-    </div> -->
-
-    <!-- Centered content -->
     <div class="hero-content">
-      <div class="hero-data-strip">
-        <span class="hero-data-line"></span>
-        <span class="hero-data-tag">N° 001 / Powerhouse</span>
-        <span class="hero-data-line"></span>
-      </div>
-
       <span class="hero-eyebrow">
         <span class="hero-eyebrow-dot"></span>
         Sydney · NSW Criminal Defence
       </span>
-
       <h1 class="hero-h1">Uncompromising</h1>
       <span class="hero-h1-italic">Criminal Defence.</span>
-
       <p class="hero-sub">
         Sydney's specialist criminal and traffic defence firm. Strategic representation,
         a multilingual team, and senior counsel available every hour of every day.
       </p>
-
       <div class="hero-cta">
         <a class="btn btn-primary" href="#contact">Book a Consultation</a>
-        <a class="btn btn-ghost-dark" href="tel:1800100529">
+        <a class="btn btn-ghost-light" href="tel:1800100529">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
           Call 1800 100 529
         </a>
@@ -2805,42 +2285,32 @@
     <div class="hero-bottom">
       <div class="hero-scroll">
         <div class="scroll-bar"></div>
-        Scroll
+        Scroll to explore
       </div>
-      <div class="hero-trust-mini">
-        <span><span class="star">★</span> 5.0 Google</span>
-        <span class="sep"></span>
-        <span>2,400+ Cases</span>
-        <span class="sep"></span>
-        <span>15+ Years</span>
-      </div>
-      <div class="hero-loc">Est · 2009</div>
+      <div class="hero-loc">Sydney · NSW · Est. 2009</div>
     </div>
   </section>
 
-  <!-- ═══ TRUST STRIP (dark, under hero) ═══ -->
+  <!-- ═══ TRUST STRIP ═══ -->
   <section id="trust">
+    <div class="trust-watermark" aria-hidden="true"><img src="logo-character.svg" alt="" /></div>
     <div class="trust-grid">
       <div class="trust-block" data-reveal="up">
-        <div class="trust-marker"><span class="trust-marker-dot"></span>METRIC · 01</div>
         <div class="trust-number gold">★ 5.0</div>
         <div class="trust-label">Google Rating</div>
         <div class="trust-sub">200+ verified reviews</div>
       </div>
       <div class="trust-block" data-reveal="up" data-delay="1">
-        <div class="trust-marker"><span class="trust-marker-dot"></span>METRIC · 02</div>
         <div class="trust-number">98%</div>
         <div class="trust-label">Success Rate</div>
         <div class="trust-sub">Positive outcomes</div>
       </div>
       <div class="trust-block" data-reveal="up" data-delay="2">
-        <div class="trust-marker"><span class="trust-marker-dot"></span>METRIC · 03</div>
         <div class="trust-number">2,400+</div>
         <div class="trust-label">Cases Defended</div>
         <div class="trust-sub">Across NSW courts</div>
       </div>
       <div class="trust-block" data-reveal="up" data-delay="3">
-        <div class="trust-marker"><span class="trust-marker-dot"></span>METRIC · 04</div>
         <div class="trust-number">Sect. 10</div>
         <div class="trust-label">Frequent Outcome</div>
         <div class="trust-sub">No conviction recorded</div>
@@ -2851,11 +2321,11 @@
   <!-- ═══ PRACTICE AREAS (dark) ═══ -->
   <section id="practice" class="section section--dark">
     <div class="practice-ornament" aria-hidden="true"><img src="logo-character.svg" alt="" /></div>
+    <div class="practice-ornament-2" aria-hidden="true"><img src="logo-character.svg" alt="" /></div>
 
     <div class="practice-head">
       <div data-reveal="up">
-        <div class="section-no">N° 02 / Services</div>
-        <span class="eyebrow eyebrow--dark"><span class="eyebrow-dot"></span>Practice Areas</span>
+        <span class="eyebrow eyebrow--dark">Practice Areas</span>
       </div>
       <div data-reveal="up" data-delay="1">
         <h2 class="section-heading"><em>Expert</em> defence across every<br>practice area.</h2>
@@ -2906,15 +2376,15 @@
     </div>
   </section>
 
-  <!-- ═══ ABOUT (light) — founder photo box + bio ═══ -->
+  <!-- ═══ ABOUT (light) ═══ -->
   <section id="about" class="section section--light">
     <div class="about-ornament" aria-hidden="true"><img src="logo-character.svg" alt="" /></div>
+    <div class="about-ornament-2" aria-hidden="true"><img src="logo-character.svg" alt="" /></div>
 
     <div class="about-grid">
       <div class="about-photo" data-reveal="left">
-        <div class="about-photo-tag">Portrait · 001</div>
         <div class="about-photo-placeholder">
-          <img src="Founder-photo.jpeg" alt="Chadi Irani — Powerhouse Law" />
+          <img src="Founder-photo.jpeg" alt="Founder — Powerhouse Law" />
         </div>
         <div class="about-photo-caption">
           <div>
@@ -2926,8 +2396,7 @@
       </div>
 
       <div class="about-text" data-reveal="right">
-        <div class="section-no">N° 03 / About</div>
-        <span class="eyebrow eyebrow--light"><span class="eyebrow-dot"></span>Meet the Principal</span>
+        <span class="eyebrow eyebrow--light">Meet the Principal</span>
         <h2 class="about-heading">Boutique expertise.</h2>
         <span class="about-heading-italic">Unmatched access.</span>
         <div class="about-body">
@@ -2961,13 +2430,14 @@
     </div>
   </section>
 
-  <!-- ═══ REVIEWS / TESTIMONIALS (light) ═══ -->
+  <!-- ═══ REVIEWS (paper light) ═══ -->
   <section id="reviews" class="section">
+    <div class="reviews-watermark" aria-hidden="true"><img src="logo-character.svg" alt="" /></div>
+
     <div class="reviews-head">
       <div data-reveal="up">
-        <div class="section-no">N° 04 / Testimonials</div>
-        <span class="eyebrow eyebrow--light"><span class="eyebrow-dot"></span>Client Reviews</span>
-        <h2 class="section-heading" style="color: #2A2622;"><em>Trusted</em> by clients<br>across Sydney.</h2>
+        <span class="eyebrow eyebrow--light">Testimonials</span>
+        <h2 class="section-heading"><em>Trusted</em> by clients<br>across Sydney.</h2>
       </div>
       <a href="#" class="reviews-link" data-reveal="right">Read all reviews →</a>
     </div>
@@ -3003,14 +2473,13 @@
     </div>
   </section>
 
-  <!-- ═══ CONTACT / CTA (dark) ═══ -->
+  <!-- ═══ CONTACT (dark) ═══ -->
   <section id="contact" class="section section--dark">
     <div class="contact-bg-mark" aria-hidden="true"><img src="logo-character.svg" alt="" /></div>
 
     <div class="contact-grid">
       <div data-reveal="up">
-        <div class="section-no">N° 05 / Contact</div>
-        <span class="eyebrow eyebrow--dark"><span class="eyebrow-dot"></span>Get in Touch</span>
+        <span class="eyebrow eyebrow--dark">Get in Touch</span>
         <h2 class="contact-heading">Charged with an offence?<br><em>Don't face it alone.</em></h2>
         <p class="contact-sub">
           Speak to a senior criminal defence lawyer today. Confidential, no obligation,
@@ -3026,6 +2495,7 @@
       </div>
 
       <div class="contact-card" data-reveal="up" data-delay="1">
+        <div class="contact-card-watermark" aria-hidden="true"><img src="logo-character.svg" alt="" /></div>
         <div class="contact-card-label">Direct Line</div>
         <div class="contact-detail">
           <div class="contact-detail-label">Phone — 24 / 7</div>
@@ -3051,12 +2521,13 @@
     </div>
   </section>
 
-  <!-- ═══ RESULTS / OUTCOMES (light) ═══ -->
+  <!-- ═══ RESULTS (paper light) ═══ -->
   <section id="results" class="section section--paper">
+    <div class="results-watermark" aria-hidden="true"><img src="logo-character.svg" alt="" /></div>
+
     <div class="results-head">
       <div data-reveal="up">
-        <div class="section-no">N° 06 / Outcomes</div>
-        <span class="eyebrow eyebrow--light"><span class="eyebrow-dot"></span>Recent Cases</span>
+        <span class="eyebrow eyebrow--light">Recent Outcomes</span>
         <h2 class="section-heading"><em>Results</em> that<br>speak for themselves.</h2>
       </div>
       <div data-reveal="up" data-delay="1">
@@ -3069,6 +2540,7 @@
 
     <div class="results-grid">
       <div class="result-card" data-reveal="up">
+        <div class="result-card-mark"><img src="logo-character.svg" alt="" /></div>
         <div class="result-card-header">
           <span class="result-tag">Traffic Law</span>
           <span class="result-outcome">No Conviction</span>
@@ -3092,6 +2564,7 @@
       </div>
 
       <div class="result-card" data-reveal="up" data-delay="1">
+        <div class="result-card-mark"><img src="logo-character.svg" alt="" /></div>
         <div class="result-card-header">
           <span class="result-tag">Drug Offences</span>
           <span class="result-outcome">Charge Withdrawn</span>
@@ -3115,6 +2588,7 @@
       </div>
 
       <div class="result-card" data-reveal="up" data-delay="2">
+        <div class="result-card-mark"><img src="logo-character.svg" alt="" /></div>
         <div class="result-card-header">
           <span class="result-tag">Assault</span>
           <span class="result-outcome">Acquittal</span>
@@ -3138,6 +2612,7 @@
       </div>
 
       <div class="result-card" data-reveal="up" data-delay="3">
+        <div class="result-card-mark"><img src="logo-character.svg" alt="" /></div>
         <div class="result-card-header">
           <span class="result-tag">Bail</span>
           <span class="result-outcome">Bail Granted</span>
@@ -3164,10 +2639,11 @@
 
   <!-- ═══ FAQ (dark) ═══ -->
   <section id="faq" class="section section--dark">
+    <div class="faq-watermark" aria-hidden="true"><img src="logo-character.svg" alt="" /></div>
+
     <div class="faq-inner">
       <div class="faq-sidebar">
-        <div class="section-no">N° 07 / FAQ</div>
-        <span class="eyebrow eyebrow--dark"><span class="eyebrow-dot"></span>Frequently Asked</span>
+        <span class="eyebrow eyebrow--dark" style="color:var(--blood-warm)">Frequently Asked</span>
         <h2 class="section-heading">Your<br>questions<br><em>answered.</em></h2>
         <p class="lead">
           Common questions about our process, fees, and how we can help in your case.
@@ -3177,111 +2653,74 @@
       <div class="faq-list">
         <div class="faq-item open" data-reveal="up">
           <div class="faq-q" onclick="toggleFaq(this)">
-            <p class="faq-q-text"><span class="faq-q-num">Q · 01</span><br>Should I do a Police interview or remain silent?</p>
+            <p class="faq-q-text">Should I do a Police interview or remain silent?</p>
             <button class="faq-toggle" aria-label="Toggle">
               <svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>
             </button>
           </div>
           <div class="faq-a">
             <div class="faq-a-inner">
-              <p>If you are under investigation for a criminal offence in NSW, the Police will be interested in asking you questions in an interview. You have a right to remain silence – this means you can freely refuse to answer Police questions and do not have to make a statement or interview. It is your choice. You should seek legal advice from a Criminal Lawyer before you decide whether to do an interview or answer questions.</p>
-              <p>Sometimes doing an interview will help police strengthen their case and lead to you being charged with a crime. It will then be very difficult to defend a criminal charge in Sydney courts.</p>
-              <p>It is also very important to remember that Police cannot say you are guilty because you refused to answer questions or do an interview. It is your fundamental legal right to choose to remain silent.</p>
+              <p>You have a fundamental right to remain silent. You can freely refuse to answer Police questions and do not have to make a statement. Always seek legal advice before deciding.</p>
+              <p>Police cannot say you are guilty because you refused to answer questions. Remaining silent is your right and often the best strategic choice.</p>
             </div>
           </div>
         </div>
 
         <div class="faq-item" data-reveal="up" data-delay="1">
           <div class="faq-q" onclick="toggleFaq(this)">
-            <p class="faq-q-text"><span class="faq-q-num">Q · 02</span><br>What is the difference between a criminal law barrister and a criminal defence solicitor?</p>
+            <p class="faq-q-text">Can you get my charge dropped before going to court?</p>
             <button class="faq-toggle" aria-label="Toggle">
               <svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>
             </button>
           </div>
           <div class="faq-a">
             <div class="faq-a-inner">
-              <p>A criminal lawyer can either be a barrister or a solicitor in the Downing Centre Sydney courts or anywhere else in NSW. They are both legal professionals who defend you in criminal cases and can advocate on your behalf. The main difference between a criminal defence barrister and a criminal defence solicitor is the type of legal work they do on your case and the type of court the case is in.</p>
-              <p>In Jury trials in the District Court, a barrister is usually required because they specialise in court appearances and speaking to a jury. By contrast, a solicitor who practices in criminal law in Sydney is required to do the preparation work, consult the client and work with your barrister to make sure everything is ready for the trial. Barristers are criminal law specialist lawyers who are trained in court advocacy and cross-examining witnesses in more complex and serious crime matters.</p>
-              <p>In most cases in the Local Court of Sydney, Parramatta, Bankstown or Penrith, a criminal defence solicitor will work on your case from start to finish and a barrister may not be required, unless you choose to add one to the legal team. If you choose a barrister, your solicitor will then hire one for legal advice and to do the court appearances. Barristers usually do not work directly with clients unless a solicitor is involved in between.</p>
+              <p>In many cases, yes. We can write to Police requesting charges be withdrawn where evidence is weak or procedural issues exist. Early intervention is often the most effective strategy.</p>
             </div>
           </div>
         </div>
 
         <div class="faq-item" data-reveal="up" data-delay="2">
           <div class="faq-q" onclick="toggleFaq(this)">
-            <p class="faq-q-text"><span class="faq-q-num">Q · 03</span><br>Why does a Jury decide sexual assault or sexual harassment charges in the Court is NSW?</p>
+            <p class="faq-q-text">What is a Section 10 and how do I get one?</p>
             <button class="faq-toggle" aria-label="Toggle">
               <svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>
             </button>
           </div>
           <div class="faq-a">
             <div class="faq-a-inner">
-              <p>In NSW, rape charges, sexual assault charges that include intercourse without consent and serious sexual harassment charges are classed as ‘strictly indictable’ criminal offences which carry penalties between 5 – 25 years imprisonment. The NSW Legislation has enacted these laws with high penalties to bring about public deterrence of these crimes.</p>
-              <p>When an accused person pleads not guilty before the District Court of NSW, it then becomes the task of the Jury (12 members of the community) who sit on the trial of that accused person to hear and see the evidence that is being presented against him/her. The Jury is then empowered to be the judges of the facts and decide if they are satisfied beyond a reasonable doubt of the guilt of the accused. These proceedings that involve serious criminal offences are complex and lengthy. It is important to seek legal advice from one of our specialist criminal lawyers. Book your free consultation today by calling 1800 100 529.</p>
+              <p>A Section 10 means you are found guilty but no conviction is recorded — your criminal record stays clear. We regularly achieve Section 10 outcomes for first offences, traffic, drug possession and assault matters.</p>
             </div>
           </div>
         </div>
 
         <div class="faq-item" data-reveal="up" data-delay="3">
           <div class="faq-q" onclick="toggleFaq(this)">
-            <p class="faq-q-text"><span class="faq-q-num">Q · 04</span><br>What are common criminal offences being prosecuted in the Local Court of Sydney?</p>
+            <p class="faq-q-text">Do you accept Legal Aid and offer payment plans?</p>
             <button class="faq-toggle" aria-label="Toggle">
               <svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>
             </button>
           </div>
           <div class="faq-a">
             <div class="faq-a-inner">
-              <p>Every criminal offence begins in the Local Court of NSW and then progresses to finality either in the Local Court, District Court or Supreme Court. The more serious criminal cases are prosecuted in the District or Supreme Court, but 90% of crimes are finalised in the Local Court and majority of them are Domestic Violence offences.</p>
-              <p>The Local Court jurisdiction cannot deal with Strictly Indictable criminal charges to finality but everything else can be. The Local Court in Sydney, Parramatta, Bankstown, Burwood or other suburbs deal mainly in domestic violence cases including common assault, breach AVO, damage property, intimidation, theft and traffic infringements, drivers licence appeals, and other minor traffic law related charges. The Local Court is usually a lot faster than higher courts and has limits on the penalties an person can receive such as a maximum sentence of 2 years imprisonment for a single offence.</p>
+              <p>Yes. We accept Legal Aid assignments and can assist with applications. We also offer transparent fixed fees and flexible payment plans for privately funded matters.</p>
             </div>
           </div>
         </div>
 
         <div class="faq-item" data-reveal="up" data-delay="4">
           <div class="faq-q" onclick="toggleFaq(this)">
-            <p class="faq-q-text"><span class="faq-q-num">Q · 05</span><br>Why do Barristers in Criminal Law courts in NSW wear wigs and robes?</p>
+            <p class="faq-q-text">How quickly can you help if I've just been arrested?</p>
             <button class="faq-toggle" aria-label="Toggle">
               <svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>
             </button>
           </div>
           <div class="faq-a">
             <div class="faq-a-inner">
-              <p>Wigs and robes originated in England as a way to distinguish the defence lawyers from other members of society. In NSW court rooms, such as the District Court, it represents to the public, and jury that that all parties are equal and therefore they look the same. No discrimination, only judgment on the evidence presented.</p>
-              <p>Barristers in Sydney District, Supreme and High Courts are required to wear wigs, robes, jacket and jabot, while their instructing solicitors car wear dark formal attire.</p>
-              <p>In the Downing Centre Local Court, Bankstown Local Court, or Parramatta Local Court in Sydney, you wont see any wigs or robes being worn as it is not a requirement in the NSW Local Court.</p>
+              <p>Immediately. Our team is available 24 hours a day, 7 days a week, 365 days a year. Call 1800 100 529 and a senior lawyer will assist you. For urgent bail we appear the same day, including weekends and public holidays.</p>
             </div>
           </div>
         </div>
-
-        <div class="faq-item" data-reveal="up" data-delay="5">
-          <div class="faq-q" onclick="toggleFaq(this)">
-            <p class="faq-q-text"><span class="faq-q-num">Q · 06</span><br>How are convictions spent in NSW under Criminal Records Act?</p>
-            <button class="faq-toggle" aria-label="Toggle">
-              <svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>
-            </button>
-          </div>
-          <div class="faq-a">
-            <div class="faq-a-inner">
-              <p>Convictions become spent after a certain period of time even though they appear on a person’s record. In NSW, criminal convictions for non-sex offences which receive a sentence of less than six months imprisonment become spent after a crime free period of ten consecutive years.</p>
-              <p>Generally, questions about your criminal history usually refer to any convictions which are not spent. It is important to know that the police are not allowed to disclose them to anyone except at the court if the person is charged again.</p>
-            </div>
-          </div>
-        </div>
-
-        <div class="faq-item" data-reveal="up" data-delay="6">
-          <div class="faq-q" onclick="toggleFaq(this)">
-            <p class="faq-q-text"><span class="faq-q-num">Q · 07</span><br>How is evidence of Good Character used in a Criminal Law hearing?</p>
-            <button class="faq-toggle" aria-label="Toggle">
-              <svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>
-            </button>
-          </div>
-          <div class="faq-a">
-            <div class="faq-a-inner">
-              <p>A person’s good character is admissible under section 110 of the Evidence Act. The Magistrate or judge will have to have regard to accused’s good character when deciding whether or not to believe if it is likely that the accused committed an offence. Your criminal lawyer may also use it to establish your credibility in the denial of the criminal offence.</p>
-            </div>
-          </div>
-        </div>
-
       </div>
     </div>
   </section>
@@ -3289,10 +2728,13 @@
   <!-- ═══ FOOTER ═══ -->
   <footer>
     <div class="footer-mark" aria-hidden="true"><img src="logo-character.svg" alt="" /></div>
+    <div class="footer-mark-2" aria-hidden="true"><img src="logo-character.svg" alt="" /></div>
 
     <div class="footer-grid">
-      <div class="footer-brand" data-reveal="up">
-        <img src="logo.png" alt="Powerhouse Law" />
+      <div data-reveal="up">
+        <div class="footer-brand-logo">
+          <img src="logo.png" alt="Powerhouse Law" />
+        </div>
         <p class="footer-tagline">Australia's Trusted<br><em>Criminal Lawyers.</em></p>
         <p class="footer-desc">
           Specialist criminal and traffic defence. Sydney &amp; NSW.
@@ -3403,12 +2845,10 @@
     </div>
   </div>
 
-  <!-- ═══ SCRIPTS ═══ -->
   <script>
   (() => {
     'use strict';
 
-    /* ── Loader ──────────────────────────── */
     const fillEl = document.getElementById('loader-fill');
     const pctEl  = document.getElementById('loader-percent');
     const loaderEl = document.getElementById('loader');
@@ -3430,20 +2870,17 @@
       if (e.animationName === 'loader-exit') loaderEl.style.display = 'none';
     });
 
-    /* ── Scroll progress ─────────────────── */
     const scrollEl = document.getElementById('scroll-progress');
     window.addEventListener('scroll', () => {
       const max = document.documentElement.scrollHeight - window.innerHeight;
       scrollEl.style.width = (window.scrollY / max * 100) + '%';
     }, { passive: true });
 
-    /* ── Nav scroll state ────────────────── */
     const navEl = document.getElementById('nav');
     window.addEventListener('scroll', () => {
       navEl.classList.toggle('scrolled', window.scrollY > 40);
     }, { passive: true });
 
-    /* ── Reveal animations ──────────────── */
     const revealEls = document.querySelectorAll('[data-reveal]');
     const obs = new IntersectionObserver(entries => {
       entries.forEach(e => {
@@ -3455,7 +2892,6 @@
     }, { threshold: 0.1, rootMargin: '0px 0px -60px 0px' });
     revealEls.forEach(el => obs.observe(el));
 
-    /* ── Trust number counter ───────────── */
     const counters = document.querySelectorAll('.trust-number');
     const countObs = new IntersectionObserver(entries => {
       entries.forEach(entry => {
@@ -3481,7 +2917,6 @@
       requestAnimationFrame(tick);
     }
 
-    /* ── FAQ toggle ──────────────────────── */
     window.toggleFaq = function(el) {
       const item = el.closest('.faq-item');
       const isOpen = item.classList.contains('open');
@@ -3489,7 +2924,6 @@
       if (!isOpen) item.classList.add('open');
     };
 
-    /* ── Mobile menu ─────────────────────── */
     const hamburger = document.getElementById('hamburger');
     const mobileMenu = document.getElementById('mobile-menu');
     let menuOpen = false;
@@ -3519,7 +2953,6 @@
       if (window.innerWidth > 1100 && menuOpen) closeMenu();
     });
 
-    /* ── Chat assistant ──────────────────── */
     const launcher = document.getElementById('chat-launcher');
     const panel = document.getElementById('chat-panel');
     const chatBody = document.getElementById('chat-body');
