@@ -38,9 +38,9 @@
       --slate:      #6e6a64;
       --slate-light:#9a9690;
 
-      --red:        #c41e1a;
-      --red-deep:   #a01010;
-      --red-warm:   #d62820;
+      --red:        #880808;
+      --red-deep:   #790505;
+      --red-warm:   #A01010;
       --red-soft:   rgba(196, 30, 26, 0.12);
       --gold:       #c9a449;
 
@@ -559,7 +559,7 @@
       position: absolute; inset: 0;
       z-index: 5;
       pointer-events: none;
-      opacity: 0.025;
+      opacity: 0.01;
       background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
       background-size: 256px 256px;
     }
@@ -590,16 +590,6 @@
       content: '';
       position: absolute;
       inset: 0;
-      background:
-        linear-gradient(90deg,
-          rgba(10, 9, 8, 0.97) 0%,
-          rgba(10, 9, 8, 0.92) 22%,
-          rgba(10, 9, 8, 0.78) 38%,
-          rgba(10, 9, 8, 0.55) 52%,
-          rgba(10, 9, 8, 0.3) 70%,
-          rgba(10, 9, 8, 0.1) 88%,
-          transparent 100%),
-        linear-gradient(180deg, rgba(10, 9, 8, 0.35) 0%, transparent 30%, rgba(10, 9, 8, 0.55) 100%);
       pointer-events: none;
     }
 
@@ -1745,7 +1735,7 @@
     </div>
 
     <!-- Red atmospheric tint -->
-    <div class="hero-tint" aria-hidden="true"></div>
+    <!-- <div class="hero-tint" aria-hidden="true"></div> -->
 
     <!-- Subtle logo watermark -->
     <!-- <div class="hero-watermark" id="heroWatermark" aria-hidden="true">
@@ -1808,8 +1798,8 @@
           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-gavel"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M13 10l7.383 7.418c.823 .82 .823 2.148 0 2.967a2.11 2.11 0 0 1 -2.976 0l-7.407 -7.385" /><path d="M6 9l4 4" /><path d="M13 10l-4 -4" /><path d="M3 21h7" /><path d="M6.793 15.793l-3.586 -3.586a1 1 0 0 1 0 -1.414l2.293 -2.293l.5 .5l3 -3l-.5 -.5l2.293 -2.293a1 1 0 0 1 1.414 0l3.586 3.586a1 1 0 0 1 0 1.414l-2.293 2.293l-.5 -.5l-3 3l.5 .5l-2.293 2.293a1 1 0 0 1 -1.414 0" /></svg>
         </div>
         <div class="stat-text">
-          <span class="stat-num">98%</span>
-          <span class="stat-label">Positive Outcomes</span>
+          <span class="stat-num">100%</span>
+          <span class="stat-label">Dedicated to Your Defence</span>
         </div>
       </div>
 
@@ -1837,7 +1827,7 @@
 
   <!-- ═══ ABOUT ═══ -->
   <section id="about" class="section section--light">
-    <div class="section-watermark tr" aria-hidden="true"><img src="logo-character.svg" alt="" /></div>
+    <div class="section-watermark tr" aria-hidden="true"><img src="logo-fill-dark.svg" alt="" /></div>
     <div class="about-grid">
       <div data-reveal="up">
         <span class="eyebrow">About Chadi Irani</span>
@@ -1904,7 +1894,7 @@
 
   <!-- ═══ PRACTICE AREAS ═══ -->
   <section id="practice" class="section section--dark">
-    <div class="section-watermark bl" aria-hidden="true"><img src="logo-character.svg" alt="" /></div>
+    <div class="section-watermark bl" aria-hidden="true"><img src="logo-fill-dark.svg" alt="" /></div>
     <div class="practice-head" data-reveal="up">
       <span class="eyebrow">Practice Areas</span>
       <h2 class="section-heading">Comprehensive representation.<br><em>Tailored to your matter.</em></h2>
@@ -2014,7 +2004,7 @@
 
   <!-- ═══ PROVEN RESULTS ═══ -->
   <section id="results" class="section section--light">
-    <div class="section-watermark br" aria-hidden="true"><img src="logo-character.svg" alt="" /></div>
+    <div class="section-watermark br" aria-hidden="true"><img src="logo-fill-dark.svg" alt="" /></div>
 
     <div class="results-row">
       <div class="results-head" data-reveal="left">
@@ -2032,8 +2022,11 @@
           <div class="results-num-label">Cases Defended</div>
         </div>
         <div class="results-num">
-          <div class="results-num-value">98%</div>
-          <div class="results-num-label">Positive Outcomes</div>
+          <div class="results-num-value" style="display: flex; align-items: center;">
+            5
+            <span style="font-size: 70%;margin-left: 4%;">★</span>
+          </div>
+          <div class="results-num-label">Google Reviews</div>
         </div>
         <div class="results-num">
           <div class="results-num-value">15+</div>
