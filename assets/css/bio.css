@@ -1,0 +1,404 @@
+/* ════════════════════════════════════════════════════════════════════
+   POWERHOUSE LAW — BIO / PROFILE PAGE STYLESHEET
+   Profile hero with portrait, stats strip, pull-quote, credentials
+   marquee, bio-specific testimonial tiles, practice pills.
+════════════════════════════════════════════════════════════════════ */
+
+/* ═══ PROFILE HERO ═══ */
+.profile-hero {
+  position: relative;
+  padding: 180px 56px 100px;
+  background:
+    radial-gradient(ellipse 65% 80% at 75% 50%, rgba(136, 8, 8, 0.22) 0%, transparent 60%),
+    linear-gradient(180deg, var(--ink-deep) 0%, var(--ink) 100%);
+  overflow: hidden;
+  border-bottom: 1px solid var(--line-dark);
+}
+.profile-hero::before {
+  content: ''; position: absolute; inset: 0; pointer-events: none;
+  opacity: 0.015;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+.profile-hero-wm {
+  position: absolute; top: -120px; left: -180px;
+  width: 720px; height: 720px; opacity: 0.05; pointer-events: none;
+}
+.profile-hero-wm img { width: 100%; height: 100%; object-fit: contain; filter: invert(1) brightness(1.2); }
+
+.profile-hero-inner {
+  position: relative; z-index: 2;
+  max-width: 1340px; margin: 0 auto;
+  display: grid; grid-template-columns: 1.05fr 0.95fr;
+  gap: 80px; align-items: center;
+}
+.profile-hero-eyebrow {
+  display: inline-flex; align-items: center; gap: 12px;
+  font-family: var(--font-mono);
+  font-size: 11px; font-weight: 600; letter-spacing: 3px;
+  text-transform: uppercase; color: var(--red-warm);
+  margin-bottom: 24px;
+}
+.profile-hero-eyebrow::before {
+  content: ''; width: 36px; height: 1px; background: var(--red-warm); opacity: 0.85;
+}
+.profile-h1 {
+  font-family: var(--font-display);
+  font-size: clamp(40px, 4.4vw, 64px);
+  font-weight: 700; line-height: 1.05; letter-spacing: -0.028em;
+  color: var(--light); margin-bottom: 8px;
+}
+.profile-h1 em {
+  font-family: var(--font-script); font-style: italic; font-weight: 500;
+  font-variation-settings: "opsz" 144, "SOFT" 60, "wght" 500;
+  color: var(--red-warm); display: inline-block;
+  text-shadow: 0 0 40px rgba(196, 30, 26, 0.3);
+}
+.profile-h2 {
+  font-family: var(--font-display);
+  font-size: 18px; font-weight: 500; letter-spacing: -0.005em;
+  color: var(--light-soft);
+  margin-bottom: 30px;
+}
+.profile-hero-divider { display: flex; align-items: center; gap: 14px; margin-bottom: 26px; }
+.profile-hero-divider-line { width: 40px; height: 1px; background: var(--red-warm); opacity: 0.75; }
+.profile-hero-divider-text {
+  font-family: var(--font-mono); font-size: 9.5px;
+  letter-spacing: 2.5px; text-transform: uppercase; color: var(--slate-light);
+}
+.profile-hero-sub {
+  font-size: 16.5px; line-height: 1.72; color: var(--light-soft);
+  max-width: 560px; margin-bottom: 32px;
+}
+.profile-hero-cta { display: flex; gap: 12px; flex-wrap: wrap; }
+
+/* Portrait frame */
+.profile-portrait {
+  position: relative;
+  aspect-ratio: 4 / 5;
+  max-width: 480px;
+  margin-left: auto;
+  border-radius: var(--r-lg);
+  overflow: hidden;
+  box-shadow: 0 40px 80px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(255, 255, 255, 0.06);
+}
+.profile-portrait img {
+  width: 100%; height: 100%; display: block;
+  object-fit: cover;
+  object-position: center 25%;
+  filter: contrast(1.05);
+}
+.profile-portrait::before {
+  content: '';
+  position: absolute; inset: -10px;
+  border: 1px solid rgba(196, 30, 26, 0.4);
+  border-radius: calc(var(--r-lg) + 6px);
+  pointer-events: none;
+}
+.profile-portrait::after {
+  content: '';
+  position: absolute; inset: 0;
+  background: linear-gradient(180deg, transparent 55%, rgba(13, 11, 10, 0.55) 100%);
+  pointer-events: none;
+}
+.profile-badge {
+  position: absolute;
+  left: 24px; bottom: 24px; z-index: 3;
+  background: rgba(13, 11, 10, 0.85);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(196, 30, 26, 0.4);
+  border-radius: var(--r-md);
+  padding: 12px 16px;
+  display: flex; align-items: center; gap: 12px;
+}
+.profile-badge-icon {
+  width: 28px; height: 28px; border-radius: 50%;
+  background: var(--red);
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+}
+.profile-badge-icon svg { width: 14px; height: 14px; stroke: #fff; fill: none; stroke-width: 2; }
+.profile-badge-text {
+  display: flex; flex-direction: column;
+  line-height: 1.15;
+}
+.profile-badge-main {
+  font-family: var(--font-display);
+  font-size: 12.5px; font-weight: 700; color: var(--light);
+  letter-spacing: -0.005em;
+}
+.profile-badge-sub {
+  font-family: var(--font-mono);
+  font-size: 9px; letter-spacing: 1.8px;
+  text-transform: uppercase; color: var(--slate-light);
+  margin-top: 2px;
+}
+
+/* ═══ BIO STATS STRIP ═══ */
+.bio-strip {
+  background: var(--white);
+  border-top: 1px solid var(--line-soft);
+  border-bottom: 1px solid var(--line-soft);
+  padding: 56px 56px;
+}
+.bio-strip-inner {
+  max-width: 1340px; margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 48px;
+}
+.bio-strip-item {
+  text-align: center;
+  position: relative;
+}
+.bio-strip-item:not(:last-child)::after {
+  content: '';
+  position: absolute;
+  right: -24px; top: 8px; bottom: 8px;
+  width: 1px;
+  background: var(--line-soft);
+}
+.bio-strip-num {
+  display: block;
+  font-family: var(--font-display);
+  font-size: clamp(36px, 3.4vw, 52px);
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  color: var(--red);
+  line-height: 1;
+}
+.bio-strip-label {
+  display: block;
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--slate);
+  margin-top: 12px;
+}
+
+/* ═══ PULL QUOTE BLOCK ═══ */
+.quote-block {
+  max-width: 920px;
+  margin: 0 auto;
+  text-align: center;
+  position: relative;
+  z-index: 2;
+}
+.quote-block-mark {
+  font-family: var(--font-script);
+  font-style: italic;
+  font-size: 120px;
+  line-height: 0.5;
+  color: var(--red-warm);
+  opacity: 0.5;
+  display: block;
+  margin-bottom: 8px;
+}
+.quote-block-text {
+  font-family: var(--font-script);
+  font-style: italic;
+  font-weight: 500;
+  font-variation-settings: "opsz" 144, "SOFT" 60, "wght" 500;
+  font-size: clamp(28px, 3.4vw, 48px);
+  line-height: 1.22;
+  letter-spacing: -0.018em;
+  color: var(--light);
+}
+.quote-block-text em {
+  color: var(--red-warm);
+  font-style: italic;
+}
+.quote-block-attribution {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--slate-light);
+  margin-top: 32px;
+  display: inline-flex;
+  align-items: center;
+  gap: 14px;
+}
+.quote-block-attribution::before,
+.quote-block-attribution::after {
+  content: '';
+  width: 24px; height: 1px;
+  background: rgba(196, 30, 26, 0.5);
+}
+
+/* ═══ PRACTICE PILLS ═══ */
+.practice-pills {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 14px;
+  margin-top: 40px;
+}
+.practice-pill {
+  display: flex; align-items: center; gap: 14px;
+  padding: 20px 22px;
+  background: var(--white);
+  border: 1px solid var(--line-soft);
+  border-radius: var(--r-md);
+  transition: transform 0.3s, border-color 0.3s, box-shadow 0.3s;
+  text-decoration: none;
+}
+.practice-pill:hover {
+  transform: translateY(-3px);
+  border-color: rgba(136, 8, 8, 0.3);
+  box-shadow: 0 14px 32px rgba(20, 17, 15, 0.08);
+}
+.practice-pill-icon {
+  width: 38px; height: 38px;
+  border-radius: var(--r-md);
+  background: rgba(196, 30, 26, 0.1);
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+}
+.practice-pill-icon svg {
+  width: 18px; height: 18px;
+  stroke: var(--red); fill: none; stroke-width: 1.7;
+}
+.practice-pill-text {
+  font-family: var(--font-display);
+  font-size: 15px; font-weight: 600;
+  color: var(--charcoal);
+  letter-spacing: -0.005em;
+}
+
+/* ═══ CREDENTIALS MARQUEE (Education / Admissions / Memberships) ═══ */
+.creds-marquee {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 56px;
+  margin-top: 48px;
+  position: relative; z-index: 2;
+}
+.creds-col-eyebrow {
+  display: flex; align-items: center; gap: 12px;
+  font-family: var(--font-mono);
+  font-size: 10.5px; letter-spacing: 2.5px;
+  text-transform: uppercase;
+  color: var(--red);
+  margin-bottom: 20px;
+}
+.section--dark .creds-col-eyebrow { color: var(--red-warm); }
+.creds-col-eyebrow::after {
+  content: '';
+  flex: 1; height: 1px;
+  background: var(--line-soft);
+}
+.section--dark .creds-col-eyebrow::after { background: var(--line-dark); }
+.creds-col-list {
+  list-style: none;
+  display: flex; flex-direction: column;
+}
+.creds-col-list li {
+  font-size: 14px;
+  color: var(--charcoal);
+  padding: 12px 0 12px 22px;
+  border-bottom: 1px solid var(--line-soft);
+  position: relative;
+  line-height: 1.5;
+}
+.creds-col-list li:last-child { border-bottom: none; }
+.section--dark .creds-col-list li {
+  color: var(--light-soft);
+  border-bottom-color: var(--line-dark);
+}
+.creds-col-list li::before {
+  content: '';
+  position: absolute;
+  left: 0; top: 20px;
+  width: 12px; height: 1.5px;
+  background: var(--red);
+}
+.section--dark .creds-col-list li::before { background: var(--red-warm); }
+.creds-col-list li strong {
+  color: var(--charcoal);
+  font-weight: 600;
+  display: block;
+}
+.section--dark .creds-col-list li strong { color: var(--light); }
+
+/* ═══ BIO TESTIMONIAL TILES ═══ */
+.bio-testimonials {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+  margin-top: 44px;
+}
+.bio-test-tile {
+  padding: 36px 32px;
+  background: var(--white-2);
+  border: 1px solid var(--line-soft);
+  border-radius: var(--r-lg);
+  position: relative;
+  transition: transform 0.4s var(--ease-out), box-shadow 0.4s;
+}
+.bio-test-tile:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 20px 44px rgba(20, 17, 15, 0.08);
+}
+.bio-test-mark {
+  font-family: var(--font-script);
+  font-style: italic;
+  font-size: 56px;
+  color: var(--red);
+  line-height: 0.4;
+  margin-bottom: 18px;
+  display: block;
+}
+.bio-test-stars {
+  color: var(--red);
+  font-size: 13px;
+  letter-spacing: 2px;
+  margin-bottom: 16px;
+}
+.bio-test-text {
+  font-family: var(--font-script);
+  font-style: italic;
+  font-weight: 500;
+  font-size: 17px; line-height: 1.55;
+  color: var(--charcoal);
+  margin-bottom: 22px;
+}
+.bio-test-author {
+  font-family: var(--font-mono);
+  font-size: 11px; font-weight: 600;
+  color: var(--red);
+  letter-spacing: 1.8px;
+  text-transform: uppercase;
+}
+
+/* ═══ RESPONSIVE ═══ */
+@media (max-width: 1100px) {
+  .profile-hero { padding: 130px 24px 80px; }
+  .profile-hero-inner { grid-template-columns: 1fr; gap: 56px; }
+  .profile-portrait { max-width: 380px; margin: 0 auto; }
+  .profile-h1 { font-size: clamp(36px, 6vw, 48px); }
+
+  .bio-strip { padding: 44px 24px; }
+  .bio-strip-inner { grid-template-columns: repeat(2, 1fr); gap: 36px 28px; }
+  .bio-strip-item:nth-child(2)::after { display: none; }
+
+  .practice-pills { grid-template-columns: repeat(2, 1fr); }
+  .creds-marquee { grid-template-columns: 1fr; gap: 40px; }
+  .bio-testimonials { grid-template-columns: 1fr; }
+}
+@media (max-width: 680px) {
+  .profile-hero { padding: 110px 20px 60px; }
+  .profile-portrait { max-width: 100%; }
+  .profile-h1 { font-size: 36px; }
+  .profile-h2 { font-size: 15px; }
+  .profile-badge { left: 16px; bottom: 16px; padding: 10px 12px; }
+
+  .bio-strip { padding: 36px 20px; }
+  .bio-strip-inner { grid-template-columns: 1fr 1fr; gap: 24px 16px; }
+  .bio-strip-num { font-size: 28px; }
+
+  .quote-block-mark { font-size: 80px; }
+  .quote-block-text { font-size: 22px; }
+
+  .practice-pills { grid-template-columns: 1fr; }
+  .bio-test-tile { padding: 28px 24px; }
+}
