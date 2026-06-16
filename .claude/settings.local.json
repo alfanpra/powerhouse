@@ -25,7 +25,12 @@
       "Bash(start \"\" \"E:\\\\A - WORKS\\\\A - ICTechnology\\\\Works\\\\Power House Law\\\\Power House Law_Claude\\\\index.html\")",
       "Bash(start \"\" \"E:\\\\A - WORKS\\\\A - ICTechnology\\\\Works\\\\Power House Law\\\\Power House Law_Claude\\\\index-classic.html\")",
       "Bash(ls \"E:\\\\A - WORKS\\\\A - ICTechnology\\\\Works\\\\Power House Law\\\\Power House Law_Claude\\\\\" | grep -i \"logo\")",
-      "Bash(start \"\" \"E:\\\\A - WORKS\\\\A - ICTechnology\\\\Works\\\\Power House Law\\\\Power House Law_Claude\\\\index-pm-b.html\")"
+      "Bash(start \"\" \"E:\\\\A - WORKS\\\\A - ICTechnology\\\\Works\\\\Power House Law\\\\Power House Law_Claude\\\\index-pm-b.html\")",
+      "Read(//c/Users/Alfan/AppData/Roaming/Claude/local-agent-mode-sessions/skills-plugin/87ffa739-6562-41f0-85a9-b34a2b67818b/43440ef7-64e3-4f2b-8f1b-159c68ddb5d6/skills/docx/**)",
+      "Bash(python scripts/office/unpack.py \"E:\\\\A - WORKS\\\\A - ICTechnology\\\\Works\\\\Power House Law\\\\Materials\\\\Menu on Home.docx\" unpacked/)",
+      "PowerShell(Add-Type -AssemblyName System.IO.Compression; $zip = [System.IO.Compression.ZipFile]::OpenRead\\(\"E:\\\\A - WORKS\\\\A - ICTechnology\\\\Works\\\\Power House Law\\\\Materials\\\\Menu on Home.docx\"\\); $entry = $zip.Entries | Where-Object { $_.Name -eq \"document.xml\" } | Select-Object -First 1; $reader = [System.IO.StreamReader]::new\\($entry.Open\\(\\)\\); $content = $reader.ReadToEnd\\(\\); $reader.Dispose\\(\\); $zip.Dispose\\(\\); $content | Out-String)",
+      "PowerShell($docPath = \"E:\\\\A - WORKS\\\\A - ICTechnology\\\\Works\\\\Power House Law\\\\Materials\\\\Menu on Home.docx\"; $tempDir = \"$env:TEMP\\\\docx_extract_$\\(Get-Random\\)\"; mkdir $tempDir | Out-Null; $shell = New-Object -ComObject Shell.Application; $zip = $shell.NameSpace\\($docPath\\); $dest = $shell.NameSpace\\($tempDir\\); $dest.CopyHere\\($zip.Items\\(\\), 16\\); Start-Sleep -Milliseconds 500; $xmlContent = Get-Content \"$tempDir\\\\word\\\\document.xml\" -Raw; $xmlContent | Out-String)",
+      "PowerShell($tempDir = \"$env:TEMP\\\\docx_extract_$\\(Get-Random\\)\"; mkdir $tempDir | Out-Null; $docPath = \"E:\\\\A - WORKS\\\\A - ICTechnology\\\\Works\\\\Power House Law\\\\Materials\\\\Menu on Home.docx\"; cmd /c \"cd /d $tempDir && powershell -NoProfile -Command `\"Add-Type -AssemblyName System.IO.Compression.FileSystem; [System.IO.Compression.ZipFile]::ExtractToDirectory\\('$docPath', '.'\\)`\"\"; $xmlContent = Get-Content \"$tempDir\\\\word\\\\document.xml\" -Raw -ErrorAction Stop; [System.Xml.XmlDocument] $xml = New-Object System.Xml.XmlDocument; $xml.LoadXml\\($xmlContent\\); $xml.DocumentElement.InnerText)"
     ]
   }
 }
