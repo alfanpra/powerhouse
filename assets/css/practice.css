@@ -617,6 +617,59 @@
 }
 .section--dark .cred-desc { color: var(--slate-light); }
 
+/* ═══ PARTNER BELT (thin trust strip with accreditation logos) ═══ */
+.partner-belt {
+  background: var(--white);
+  padding: 36px 56px;
+  border-top: 1px solid var(--line-soft);
+  border-bottom: 1px solid var(--line-soft);
+  position: relative;
+  overflow: hidden;
+}
+.partner-belt-inner {
+  max-width: 1340px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 48px;
+  flex-wrap: wrap;
+  position: relative;
+  z-index: 2;
+}
+.partner-belt-label {
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  letter-spacing: 2.5px;
+  text-transform: uppercase;
+  color: var(--slate);
+  display: flex; align-items: center; gap: 14px;
+  white-space: nowrap;
+}
+.partner-belt-label::after {
+  content: '';
+  width: 48px; height: 1px;
+  background: var(--red);
+  opacity: 0.8;
+}
+.partner-belt-logos {
+  display: flex; align-items: center; gap: 64px;
+  flex-wrap: wrap;
+}
+.partner-belt-logos a {
+  display: inline-flex; align-items: center;
+}
+.partner-belt-logos img {
+  height: 56px; width: auto; max-width: 200px;
+  object-fit: contain;
+  opacity: 0.88;
+  transition: opacity 0.35s var(--ease-out), transform 0.35s var(--ease-out);
+}
+.partner-belt-logos a:hover img {
+  opacity: 1;
+  transform: translateY(-2px);
+}
+
 /* ═══ TWO-COL TEXT BLOCK (lead + body) ═══ */
 .lead-grid {
   max-width: 1340px;
@@ -644,6 +697,9 @@
   .areas-grid { grid-template-columns: repeat(2, 1fr); }
   .creds-grid { grid-template-columns: 1fr; }
   .warning-callout { padding: 40px 32px; }
+  .partner-belt { padding: 32px 24px; }
+  .partner-belt-inner { gap: 28px; }
+  .partner-belt-logos { gap: 40px; }
 }
 @media (max-width: 680px) {
   .page-hero { padding: 110px 20px 60px; }
@@ -653,4 +709,9 @@
   .fact-list { grid-template-columns: 1fr; }
   .warning-callout { padding: 36px 24px; }
   .warning-callout-title { font-size: 22px; }
+  .partner-belt { padding: 28px 20px; }
+  .partner-belt-inner { flex-direction: column; align-items: center; gap: 22px; }
+  .partner-belt-label::after { display: none; }
+  .partner-belt-logos { gap: 32px; justify-content: center; }
+  .partner-belt-logos img { height: 36px; }
 }
