@@ -29,15 +29,6 @@
     });
   }
 
-  // ── Testimonials dots (visual state only) ──
-  const dots = document.querySelectorAll('.testimonials-dot');
-  dots.forEach(d => {
-    d.addEventListener('click', () => {
-      dots.forEach(x => x.classList.remove('active'));
-      d.classList.add('active');
-    });
-  });
-
   // ── Hero parallax ──
   const watermark = document.getElementById('heroWatermark');
   const bgPortrait = document.getElementById('heroBgPortrait');

@@ -91,6 +91,15 @@
   initAccordion('.mob-l2-btn');
   initAccordion('.mob-l3-btn');
 
+  // ── Testimonials dots (shared component — visual state only) ──
+  const dots = document.querySelectorAll('.testimonials-dot');
+  dots.forEach(d => {
+    d.addEventListener('click', () => {
+      dots.forEach(x => x.classList.remove('active'));
+      d.classList.add('active');
+    });
+  });
+
   // Expose for page scripts that need to close the drawer programmatically
   window.PHL = window.PHL || {};
   window.PHL.closeMobileMenu = closeMenu;

@@ -320,54 +320,312 @@
 }
 .section--dark .creds-col-list li strong { color: var(--light); }
 
-/* ═══ BIO TESTIMONIAL TILES ═══ */
-.bio-testimonials {
+/* (Testimonials use the shared `.testimonial-card` component in main.css — no bio-specific variant.) */
+
+/* ═══ COURT TIER CARDS (feature card with photo placeholder) ═══
+   Used on the Courts We Attend page. Wide landscape image at top,
+   then tier eyebrow + court name + jurisdiction summary + matter chips.
+*/
+.court-tier-grid {
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 24px;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 26px;
   margin-top: 44px;
 }
-.bio-test-tile {
-  padding: 36px 32px;
-  background: var(--white-2);
+.court-card {
+  background: var(--white);
   border: 1px solid var(--line-soft);
   border-radius: var(--r-lg);
-  position: relative;
-  transition: transform 0.4s var(--ease-out), box-shadow 0.4s;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.4s var(--ease-out), box-shadow 0.4s, border-color 0.3s;
 }
-.bio-test-tile:hover {
+.section--dark .court-card {
+  background: rgba(255, 255, 255, 0.03);
+  border-color: var(--line-dark);
+}
+.court-card:hover {
   transform: translateY(-3px);
-  box-shadow: 0 20px 44px rgba(20, 17, 15, 0.08);
+  box-shadow: 0 22px 48px rgba(20, 17, 15, 0.1);
+  border-color: rgba(136, 8, 8, 0.25);
 }
-.bio-test-mark {
-  font-family: var(--font-script);
-  font-style: italic;
-  font-size: 56px;
-  color: var(--red);
-  line-height: 0.4;
-  margin-bottom: 18px;
+
+.court-card-image {
+  aspect-ratio: 16 / 10;
+  background: linear-gradient(135deg, #e8e6e1 0%, #c5c2bd 100%);
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+.section--dark .court-card-image {
+  background: linear-gradient(135deg, #2a2724 0%, #1c1a18 100%);
+}
+.court-card-image img {
+  width: 100%; height: 100%;
+  object-fit: cover;
+}
+.court-card-image-placeholder {
+  font-family: var(--font-display);
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: 0.5px;
+  color: rgba(20, 17, 15, 0.25);
+  text-align: center;
+  padding: 0 24px;
+  line-height: 1.4;
+}
+.section--dark .court-card-image-placeholder {
+  color: rgba(255, 255, 255, 0.18);
+}
+.court-card-image-placeholder span {
   display: block;
-}
-.bio-test-stars {
-  color: var(--red);
-  font-size: 13px;
+  font-family: var(--font-mono);
+  font-size: 10px;
   letter-spacing: 2px;
-  margin-bottom: 16px;
+  text-transform: uppercase;
+  margin-bottom: 8px;
+  color: rgba(20, 17, 15, 0.35);
 }
-.bio-test-text {
+.section--dark .court-card-image-placeholder span { color: rgba(255, 255, 255, 0.25); }
+
+.court-card-body {
+  padding: 30px 30px 32px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+.court-card-tier {
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  letter-spacing: 2.5px;
+  text-transform: uppercase;
+  color: var(--red);
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.section--dark .court-card-tier { color: var(--red-warm); }
+.court-card-tier::before {
+  content: '';
+  width: 24px; height: 1px;
+  background: currentColor;
+  opacity: 0.6;
+}
+.court-card-title {
+  font-family: var(--font-display);
+  font-size: clamp(22px, 2.1vw, 28px);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: var(--charcoal);
+  margin-bottom: 14px;
+  line-height: 1.18;
+}
+.section--dark .court-card-title { color: var(--light); }
+.court-card-title em {
   font-family: var(--font-script);
   font-style: italic;
   font-weight: 500;
-  font-size: 17px; line-height: 1.55;
-  color: var(--charcoal);
+  color: var(--red);
+}
+.section--dark .court-card-title em { color: var(--red-warm); }
+.court-card-jurisdiction {
+  font-size: 14.5px;
+  line-height: 1.65;
+  color: var(--charcoal-soft);
   margin-bottom: 22px;
 }
-.bio-test-author {
-  font-family: var(--font-mono);
-  font-size: 11px; font-weight: 600;
+.section--dark .court-card-jurisdiction { color: var(--slate-light); }
+.court-card-jurisdiction strong { color: var(--charcoal); font-weight: 600; }
+.section--dark .court-card-jurisdiction strong { color: var(--light); }
+.court-card-matters {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: auto;
+}
+.court-card-matters li {
+  font-size: 11.5px;
+  padding: 6px 11px;
+  background: rgba(20, 17, 15, 0.05);
+  border: 1px solid var(--line-soft);
+  border-radius: var(--r-sm);
+  color: var(--charcoal-soft);
+  white-space: nowrap;
+}
+.section--dark .court-card-matters li {
+  background: rgba(255, 255, 255, 0.04);
+  border-color: var(--line-dark);
+  color: var(--light-soft);
+}
+
+@media (max-width: 1100px) {
+  .court-tier-grid { grid-template-columns: 1fr; gap: 22px; }
+  .court-card-body { padding: 26px 24px 28px; }
+}
+@media (max-width: 680px) {
+  .court-card-title { font-size: 22px; }
+}
+
+/* ═══ BARRISTER / PEOPLE-DIRECTORY CARDS ═══
+   Photo-led directory card: portrait fills the tile, with a white overlay
+   panel at the bottom showing the person's name, a chambers link, and a
+   small icon-link button to the chambers website.
+*/
+.barrister-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 18px;
+  margin-top: 44px;
+}
+.barrister-card {
+  position: relative;
+  aspect-ratio: 4 / 5;
+  border-radius: var(--r-lg);
+  overflow: hidden;
+  background: linear-gradient(135deg, #e8e6e1 0%, #d4d2cd 100%);
+  transition: transform 0.4s var(--ease-out), box-shadow 0.4s;
+}
+.section--dark .barrister-card {
+  background: linear-gradient(135deg, #2a2724 0%, #1c1a18 100%);
+}
+.barrister-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 24px 48px rgba(20, 17, 15, 0.18);
+}
+.barrister-card-photo {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+.barrister-card-photo img {
+  width: 100%; height: 100%;
+  object-fit: cover;
+  object-position: center 22%;
+}
+.barrister-card-photo-placeholder {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 88px;
+  letter-spacing: -0.03em;
+  color: rgba(20, 17, 15, 0.12);
+  line-height: 1;
+}
+.section--dark .barrister-card-photo-placeholder {
+  color: rgba(255, 255, 255, 0.07);
+}
+
+.barrister-card-overlay {
+  position: absolute;
+  left: 14px; right: 14px; bottom: 14px;
+  z-index: 2;
+  background: rgba(255, 255, 255, 0.96);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-radius: var(--r-md);
+  padding: 14px 14px 14px 16px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  box-shadow: 0 10px 20px rgba(20, 17, 15, 0.08);
+}
+.barrister-card-text {
+  flex: 1;
+  min-width: 0;
+}
+.barrister-card-name {
+  font-family: var(--font-display);
+  font-size: 14.5px;
+  font-weight: 700;
+  color: var(--charcoal);
+  letter-spacing: -0.01em;
+  line-height: 1.25;
+  display: flex; align-items: center; gap: 6px;
+  flex-wrap: wrap;
+}
+.barrister-card-chambers {
+  display: inline-block;
+  margin-top: 4px;
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--charcoal-soft);
+  text-decoration: none;
+  transition: color 0.2s;
+  border-bottom: 1px solid transparent;
+  line-height: 1.35;
+}
+.barrister-card-chambers:hover {
   color: var(--red);
-  letter-spacing: 1.8px;
+  border-bottom-color: rgba(136, 8, 8, 0.4);
+}
+.barrister-card-link {
+  width: 34px; height: 34px;
+  flex-shrink: 0;
+  border-radius: var(--r-sm);
+  background: var(--charcoal);
+  color: #fff;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.3s, transform 0.3s;
+  text-decoration: none;
+}
+.barrister-card-link:hover {
+  background: var(--red);
+  transform: translateY(-1px);
+}
+.barrister-card-link svg {
+  width: 14px; height: 14px;
+  stroke: currentColor; fill: none; stroke-width: 2;
+}
+
+@media (max-width: 1280px) {
+  .barrister-grid { grid-template-columns: repeat(3, 1fr); }
+}
+@media (max-width: 900px) {
+  .barrister-grid { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 560px) {
+  .barrister-grid { grid-template-columns: 1fr; gap: 16px; }
+  .barrister-card { aspect-ratio: 5 / 4; }
+}
+
+/* Small extension on the shared .barr-badge so it sits well inside a card name */
+.barr-badge {
+  display: inline-block;
+  margin-left: 6px;
+  padding: 2px 8px;
+  font-family: var(--font-mono);
+  font-size: 9.5px; font-weight: 600;
+  letter-spacing: 1.2px;
   text-transform: uppercase;
+  color: var(--slate);
+  background: rgba(20, 17, 15, 0.06);
+  border: 1px solid var(--line-soft);
+  border-radius: var(--r-sm);
+  vertical-align: middle;
+}
+.section--dark .barr-badge {
+  color: var(--slate-light);
+  background: rgba(255, 255, 255, 0.05);
+  border-color: var(--line-dark);
+}
+.barr-badge--silk {
+  color: var(--red);
+  background: rgba(196, 30, 26, 0.08);
+  border-color: rgba(196, 30, 26, 0.3);
+}
+.section--dark .barr-badge--silk {
+  color: var(--red-warm);
+  background: rgba(196, 30, 26, 0.12);
+  border-color: rgba(196, 30, 26, 0.4);
 }
 
 /* ═══ RESPONSIVE ═══ */
@@ -383,7 +641,6 @@
 
   .practice-pills { grid-template-columns: repeat(2, 1fr); }
   .creds-marquee { grid-template-columns: 1fr; gap: 40px; }
-  .bio-testimonials { grid-template-columns: 1fr; }
 }
 @media (max-width: 680px) {
   .profile-hero { padding: 110px 20px 60px; }
@@ -400,5 +657,4 @@
   .quote-block-text { font-size: 22px; }
 
   .practice-pills { grid-template-columns: 1fr; }
-  .bio-test-tile { padding: 28px 24px; }
 }
