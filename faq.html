@@ -1,0 +1,1050 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>Frequently Asked Questions — Powerhouse Law Australia</title>
+  <meta name="description" content="Answers to the questions we hear most often — about criminal charges, court process, bail, costs, consultations and what to expect when you work with Powerhouse Law Australia." />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Fraunces:ital,opsz,wght,SOFT@1,9..144,400..700,0..100&display=swap"
+    rel="stylesheet"
+  />
+  <link
+    href="https://api.fontshare.com/v2/css?f[]=switzer@300,400,500,600,700,800,401,501,601&display=swap"
+    rel="stylesheet"
+  />
+  <link rel="icon" type="image/x-icon" href="assets/img/logo-fill.svg">
+
+  <link rel="stylesheet" href="assets/css/main.css" />
+  <link rel="stylesheet" href="assets/css/practice.css" />
+
+  <style>
+    /* FAQ page: centered hero */
+    .faq-hero .page-hero-inner {
+      grid-template-columns: 1fr;
+      text-align: center;
+      max-width: 880px;
+    }
+    .faq-hero .breadcrumb { justify-content: center; }
+    .faq-hero .page-hero-sub { margin-left: auto; margin-right: auto; }
+    .faq-hero .page-hero-cta { justify-content: center; }
+
+    /* FAQ page: 2-col layout with sticky sidebar */
+    .faq-layout {
+      padding-top: 80px;
+      padding-bottom: 80px;
+      /* `overflow: clip` keeps the watermark contained without breaking position:sticky on descendants (overflow:hidden would trap it). */
+      overflow: clip;
+    }
+    /* Belt-and-braces: also override the base .section { overflow:hidden } that applies here. */
+    section.faq-layout { overflow: clip; }
+    .faq-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 280px;
+      gap: 64px;
+      align-items: start;
+    }
+    .faq-main > .faq-cat-block + .faq-cat-block {
+      margin-top: 72px;
+      padding-top: 64px;
+      border-top: 1px solid var(--line-soft);
+    }
+    .faq-cat-block-head { max-width: 720px; margin-bottom: 32px; }
+
+    .faq-side {
+      position: sticky;
+      top: 110px;
+      align-self: start;
+    }
+    .faq-cat-nav {
+      background: var(--light);
+      border: 1px solid var(--line-soft);
+      border-radius: var(--r-lg);
+      padding: 28px 24px;
+    }
+    .faq-cat-nav-eyebrow {
+      font-family: var(--font-mono);
+      font-size: 10.5px;
+      letter-spacing: 2.5px;
+      text-transform: uppercase;
+      color: var(--slate-light);
+      margin-bottom: 16px;
+      padding-bottom: 14px;
+      border-bottom: 1px solid var(--line-soft);
+    }
+    .faq-cat-nav ul { list-style: none; margin: 0; padding: 0; }
+    .faq-cat-nav li + li { margin-top: 2px; }
+    .faq-cat-nav a {
+      display: flex;
+      align-items: baseline;
+      gap: 10px;
+      padding: 10px 12px;
+      border-radius: var(--r-sm);
+      font-size: 13.5px;
+      line-height: 1.4;
+      color: var(--ink);
+      text-decoration: none;
+      transition: background 0.2s, color 0.2s;
+      border-left: 2px solid transparent;
+    }
+    .faq-cat-nav a:hover { background: var(--bg-soft, #f5f3f0); color: var(--red); }
+    .faq-cat-nav a.is-active {
+      background: var(--bg-soft, #f5f3f0);
+      color: var(--red);
+      border-left-color: var(--red);
+      font-weight: 600;
+    }
+    .faq-cat-nav-num {
+      font-family: var(--font-mono);
+      font-size: 10.5px;
+      color: var(--slate-light);
+      letter-spacing: 1.5px;
+      flex-shrink: 0;
+    }
+    .faq-cat-nav a.is-active .faq-cat-nav-num { color: var(--red); }
+    .faq-cat-nav-cta {
+      margin-top: 18px;
+      padding-top: 18px;
+      border-top: 1px solid var(--line-soft);
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    .faq-cat-nav-cta-label {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--slate-light);
+    }
+    .faq-cat-nav-cta-phone {
+      font-family: var(--font-display);
+      font-size: 18px;
+      font-weight: 600;
+      color: var(--red);
+      text-decoration: none;
+    }
+
+    @media (max-width: 960px) {
+      .faq-grid { grid-template-columns: 1fr; gap: 40px; }
+      .faq-side { position: static; order: -1; }
+      .faq-main > .faq-cat-block + .faq-cat-block { margin-top: 56px; padding-top: 48px; }
+    }
+  </style>
+</head>
+<body>
+
+  <div id="scroll-progress"></div>
+
+  <!-- ═══ NAV ═══ -->
+  <nav class="nav" id="nav">
+    <a class="nav-logo" href="index.html">
+      <img src="assets/img/logo.png" alt="Powerhouse Law Australia" />
+    </a>
+    <ul class="nav-links">
+      <!-- Practice Areas -->
+      <li class="has-dropdown">
+        <a href="#practice" class="nav-dropdown-trigger" aria-haspopup="true" aria-expanded="false">
+          Practice Areas
+          <svg class="nav-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg>
+        </a>
+        <div class="nav-dd" role="menu">
+          <ul>
+            <li>
+              <a class="nav-dd-link" href="recent-cases.html" role="menuitem">
+                <svg class="dd-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M13 10l7.383 7.418c.823 .82 .823 2.148 0 2.967a2.11 2.11 0 0 1 -2.976 0l-7.407 -7.385" /><path d="M6 9l4 4" /><path d="M13 10l-4 -4" /><path d="M3 21h7" /><path d="M6.793 15.793l-3.586 -3.586a1 1 0 0 1 0 -1.414l2.293 -2.293l.5 .5l3 -3l-.5 -.5l2.293 -2.293a1 1 0 0 1 1.414 0l3.586 3.586a1 1 0 0 1 0 1.414l-2.293 2.293l-.5 -.5l-3 3l.5 .5l-2.293 2.293a1 1 0 0 1 -1.414 0" /></svg>
+                <span class="dd-text">Criminal Law</span>
+                <svg class="nav-dd-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 18l6-6-6-6"/></svg>
+              </a>
+              <ul class="nav-l2">
+                <li><a class="nav-l2-link" href="assault-offences.html">Assault Offences<svg class="nav-dd-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 18l6-6-6-6"/></svg></a></li>
+                <li><a class="nav-l2-link" href="domestic-violence-avo.html">Domestic Violence &amp; AVOs<svg class="nav-dd-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 18l6-6-6-6"/></svg></a></li>
+                <li><a class="nav-l2-link" href="drug-offences.html">Drug Offences<svg class="nav-dd-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 18l6-6-6-6"/></svg></a></li>
+                <li><a class="nav-l2-link" href="sexual-assault.html">Sexual Offences<svg class="nav-dd-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 18l6-6-6-6"/></svg></a></li>
+                <li><a class="nav-l2-link" href="bail-applications.html">Bail Applications<svg class="nav-dd-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 18l6-6-6-6"/></svg></a></li>
+              </ul>
+            </li>
+            <li>
+              <a class="nav-dd-link" href="#" role="menuitem">
+                <svg class="dd-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M4 20l16 0" /><path d="M9.4 10l5.2 0" /><path d="M7.8 15l8.4 0" /><path d="M6 20l5 -15h2l5 15" /></svg>
+                <span class="dd-text">Traffic Law</span>
+                <svg class="nav-dd-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 18l6-6-6-6"/></svg>
+              </a>
+              <ul class="nav-l2">
+                <li><a class="nav-l2-link" href="licence-appeals.html">Licence Appeals<svg class="nav-dd-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 18l6-6-6-6"/></svg></a></li>
+                <li><a class="nav-l2-link" href="drink-driving.html">Drink Driving<svg class="nav-dd-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 18l6-6-6-6"/></svg></a></li>
+              </ul>
+            </li>
+          </ul>
+        </div>
+      </li>
+      <li class="has-dropdown">
+        <a href="#" class="nav-dropdown-trigger" aria-haspopup="true" aria-expanded="false">
+          Results
+          <svg class="nav-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg>
+        </a>
+        <div class="nav-dd" role="menu">
+          <ul>
+            <li><a class="nav-dd-link" href="recent-cases.html" role="menuitem"><span class="dd-text">Recent Results</span></a></li>
+            <li><a class="nav-dd-link" href="#" role="menuitem"><span class="dd-text">Google Reviews</span></a></li>
+          </ul>
+        </div>
+      </li>
+      <li class="has-dropdown">
+        <a href="#" class="nav-dropdown-trigger" aria-haspopup="true" aria-expanded="false">
+          ABOUT US
+          <svg class="nav-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg>
+        </a>
+        <div class="nav-dd" role="menu">
+          <ul>
+            <li><a class="nav-dd-link" href="chadi-irani.html" role="menuitem"><span class="dd-text">Meet Chadi Irani</span></a></li>
+            <li><a class="nav-dd-link" href="barristers-we-instruct.html" role="menuitem"><span class="dd-text">Barristers We Instruct</span></a></li>
+            <li><a class="nav-dd-link" href="courts-we-attend.html" role="menuitem"><span class="dd-text">Courts We Attend</span></a></li>
+            <li><a class="nav-dd-link" href="#" role="menuitem"><span class="dd-text">Fees &amp; Costs</span></a></li>
+          </ul>
+        </div>
+      </li>
+      <li class="has-dropdown">
+        <a href="#" class="nav-dropdown-trigger" aria-haspopup="true" aria-expanded="false">
+          Resources
+          <svg class="nav-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg>
+        </a>
+        <div class="nav-dd" role="menu">
+          <ul>
+            <li><a class="nav-dd-link" href="faq.html" role="menuitem"><span class="dd-text">Frequently Asked Questions</span></a></li>
+            <li><a class="nav-dd-link" href="#" role="menuitem"><span class="dd-text">Smart Agent</span></a></li>
+            <li><a class="nav-dd-link" href="legal-aid.html" role="menuitem"><span class="dd-text">Legal Aid NSW</span></a></li>
+          </ul>
+        </div>
+      </li>
+      <li><a href="contact-us.html">Contact</a></li>
+    </ul>
+    <a class="nav-phone" href="tel:1800100529">
+      <span class="nav-phone-icon">
+        <svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+      </span>
+      <span class="nav-phone-info">
+        <span class="nav-phone-num">1800 100 LAW (529)</span>
+        <span class="nav-phone-label">24/7 Legal Support</span>
+      </span>
+    </a>
+    <button id="hamburger" class="hamburger" aria-label="Menu">
+      <span class="hamburger-line"></span>
+      <span class="hamburger-line"></span>
+      <span class="hamburger-line"></span>
+    </button>
+  </nav>
+
+  <!-- ═══ MOBILE DRAWER (condensed) ═══ -->
+  <div id="mobile-menu" class="mobile-menu">
+    <div class="mobile-menu-bg"></div>
+    <div class="mobile-menu-inner">
+      <ul class="mobile-menu-list">
+        <li class="mob-acc-wrap">
+          <button class="mob-acc-btn" aria-expanded="false" aria-controls="mob-acc-practice">
+            Practice Areas
+            <svg class="mob-acc-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+          </button>
+          <div class="mob-acc-panel" id="mob-acc-practice">
+            <ul class="mob-l2-list">
+              <li class="mob-l2-item"><a class="mob-l2-link-direct" href="assault-offences.html">Assault Offences</a></li>
+              <li class="mob-l2-item"><a class="mob-l2-link-direct" href="domestic-violence-avo.html">Domestic Violence &amp; AVOs</a></li>
+              <li class="mob-l2-item"><a class="mob-l2-link-direct" href="drug-offences.html">Drug Offences</a></li>
+              <li class="mob-l2-item"><a class="mob-l2-link-direct" href="sexual-assault.html">Sexual Offences</a></li>
+              <li class="mob-l2-item"><a class="mob-l2-link-direct" href="bail-applications.html">Bail Applications</a></li>
+              <li class="mob-l2-item"><a class="mob-l2-link-direct" href="licence-appeals.html">Licence Appeals</a></li>
+              <li class="mob-l2-item"><a class="mob-l2-link-direct" href="drink-driving.html">Drink Driving</a></li>
+            </ul>
+          </div>
+        </li>
+        <li class="mob-acc-wrap">
+          <button class="mob-acc-btn" aria-expanded="false" aria-controls="mob-acc-results">
+            Results
+            <svg class="mob-acc-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+          </button>
+          <div class="mob-acc-panel" id="mob-acc-results">
+            <ul class="mob-l2-list">
+              <li class="mob-l2-item"><a class="mob-l2-link-direct" href="recent-cases.html">Recent Results</a></li>
+              <li class="mob-l2-item"><a class="mob-l2-link-direct" href="#">Google Reviews</a></li>
+            </ul>
+          </div>
+        </li>
+        <li class="mob-acc-wrap">
+          <button class="mob-acc-btn" aria-expanded="false" aria-controls="mob-acc-about">
+            About Us
+            <svg class="mob-acc-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+          </button>
+          <div class="mob-acc-panel" id="mob-acc-about">
+            <ul class="mob-l2-list">
+              <li class="mob-l2-item"><a class="mob-l2-link-direct" href="chadi-irani.html">Meet Chadi Irani</a></li>
+              <li class="mob-l2-item"><a class="mob-l2-link-direct" href="barristers-we-instruct.html">Barristers We Instruct</a></li>
+              <li class="mob-l2-item"><a class="mob-l2-link-direct" href="courts-we-attend.html">Courts We Attend</a></li>
+              <li class="mob-l2-item"><a class="mob-l2-link-direct" href="#">Fees &amp; Costs</a></li>
+            </ul>
+          </div>
+        </li>
+        <li class="mob-acc-wrap">
+          <button class="mob-acc-btn" aria-expanded="false" aria-controls="mob-acc-resources">
+            Resources
+            <svg class="mob-acc-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+          </button>
+          <div class="mob-acc-panel" id="mob-acc-resources">
+            <ul class="mob-l2-list">
+              <li class="mob-l2-item"><a class="mob-l2-link-direct" href="faq.html">Frequently Asked Questions</a></li>
+              <li class="mob-l2-item"><a class="mob-l2-link-direct" href="#">Smart Agent</a></li>
+              <li class="mob-l2-item"><a class="mob-l2-link-direct" href="legal-aid.html">Legal Aid NSW</a></li>
+            </ul>
+          </div>
+        </li>
+        <li><a href="contact-us.html">Contact</a></li>
+      </ul>
+      <div class="mobile-menu-footer">
+        <a class="mobile-menu-cta" href="tel:1800100529">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+          Call 1800 100 LAW
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ PAGE HERO (centered) ═══ -->
+  <section class="page-hero faq-hero">
+    <div class="page-hero-wm" aria-hidden="true"><img src="assets/img/logo-fill-dark.svg" alt="" /></div>
+    <div class="page-hero-inner">
+      <div data-reveal="up">
+        <nav class="breadcrumb" aria-label="Breadcrumb">
+          <a href="index.html">Home</a>
+          <span class="sep">/</span>
+          <a href="#">Resources</a>
+          <span class="sep">/</span>
+          <span class="current">Frequently Asked Questions</span>
+        </nav>
+        <h1 class="page-h1">Your questions, <em>answered.</em></h1>
+        <p class="page-hero-sub">
+          A criminal charge or traffic matter raises a hundred questions before it raises any
+          answers. This page gathers the questions we hear most often in a first consultation —
+          about the process, the costs, court, bail, outcomes, and what to expect from us.
+          If your question isn't here, <strong>call us</strong> — the first conversation is free.
+        </p>
+        <div class="page-hero-cta">
+          <a class="btn btn-primary" href="tel:1800100529">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+            Free 1st Consult
+          </a>
+          <a class="btn btn-outline-dark" href="#cat-firm">
+            Browse Questions
+            <svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ FAQ LAYOUT — sticky category sidebar + content ═══ -->
+  <section class="section section--light faq-layout">
+    <div class="section-watermark tr" aria-hidden="true"><img src="assets/img/logo-fill-dark.svg" alt="" /></div>
+    <div class="container">
+      <div class="faq-grid">
+        <div class="faq-main">
+
+          <!-- CATEGORY 1 · ABOUT THE FIRM -->
+          <div class="faq-cat-block" id="cat-firm" data-faq-cat="cat-firm">
+            <div class="faq-cat-block-head" data-reveal="up">
+              <span class="eyebrow">01 · About the Firm</span>
+              <h2 class="section-heading">First contact &amp; <em>what to expect.</em></h2>
+              <p class="section-sub">
+                The questions we hear most often at the very first call — before we even talk about the charge.
+              </p>
+            </div>
+
+            <div class="faq-list" data-reveal="up" data-delay="1">
+        <div class="faq-item">
+          <button class="faq-q" aria-expanded="false">
+            Who is Powerhouse Law and what do you do?
+            <span class="faq-q-icon"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg></span>
+          </button>
+          <div class="faq-a"><div class="faq-a-inner">
+            We are a Sydney-based criminal defence and traffic law firm established in 2009.
+            Our Principal Solicitor, <strong>Chadi Irani</strong>, is an Accredited Specialist in
+            Criminal Law and sits on both the Legal Aid NSW Serious Crime and General Crime panels.
+            We have defended <strong>2,400+ matters</strong> across every NSW court — from local
+            mention lists to Supreme Court trials.
+          </div></div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-q" aria-expanded="false">
+            Is the first consultation really free?
+            <span class="faq-q-icon"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg></span>
+          </button>
+          <div class="faq-a"><div class="faq-a-inner">
+            <strong>Yes — and there is no obligation to retain us.</strong> The first conversation
+            is a chance for you to explain what has happened, for us to give you indicative advice
+            on where you stand, and for both sides to decide whether we are the right fit. You will
+            leave the call with a clear next step — not a bill.
+          </div></div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-q" aria-expanded="false">
+            Is everything I tell you confidential?
+            <span class="faq-q-icon"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg></span>
+          </button>
+          <div class="faq-a"><div class="faq-a-inner">
+            <strong>Yes.</strong> Legal professional privilege attaches to your communications with
+            us from the moment you contact our firm — including the free first consultation, and
+            including matters where you ultimately decide not to retain us. We do not share
+            information with anyone without your instructions.
+          </div></div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-q" aria-expanded="false">
+            Can you help me if I'm outside Sydney?
+            <span class="faq-q-icon"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg></span>
+          </button>
+          <div class="faq-a"><div class="faq-a-inner">
+            Yes. We appear in courts across NSW — Local, District and Supreme — and regularly
+            travel to regional and suburban Local Courts. Initial consultations can be conducted
+            by phone or video link, and we will tell you up front whether travel costs apply.
+          </div></div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-q" aria-expanded="false">
+            What should I bring to the first meeting?
+            <span class="faq-q-icon"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg></span>
+          </button>
+          <div class="faq-a"><div class="faq-a-inner">
+            Bring any paperwork the police have given you — the <strong>Court Attendance Notice
+            (CAN)</strong>, fact sheet, bail papers, infringement notice or licence suspension
+            notice. If you do not have anything in writing yet, bring a clear timeline of what
+            happened, the date of any court appearance, and the contact details of any witnesses.
+          </div></div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-q" aria-expanded="false">
+            Why should I choose Powerhouse Law over a larger firm?
+            <span class="faq-q-icon"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg></span>
+          </button>
+          <div class="faq-a"><div class="faq-a-inner">
+            At a larger firm your matter is often passed between solicitors and paralegals. With
+            us, you deal with a <strong>senior criminal lawyer from the first call to the final
+            verdict</strong> — usually the same lawyer who will appear in court for you. We brief
+            experienced barristers when the matter calls for it, but the strategy stays with us.
+            We are selective about who we act for so we can stay focused on your outcome.
+          </div></div>
+        </div>
+            </div>
+          </div>
+
+          <!-- CATEGORY 2 · THE LEGAL PROCESS -->
+          <div class="faq-cat-block" id="cat-process" data-faq-cat="cat-process">
+            <div class="faq-cat-block-head" data-reveal="up">
+              <span class="eyebrow">02 · The Legal Process</span>
+              <h2 class="section-heading">From charge to <em>court date.</em></h2>
+              <p class="section-sub">
+                What actually happens after you are charged — and how the case moves through the system.
+              </p>
+            </div>
+
+            <div class="faq-list" data-reveal="up" data-delay="1">
+        <div class="faq-item">
+          <button class="faq-q" aria-expanded="false">
+            I've just been charged. What happens next?
+            <span class="faq-q-icon"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg></span>
+          </button>
+          <div class="faq-a"><div class="faq-a-inner">
+            You will be issued a <strong>Court Attendance Notice (CAN)</strong> with a date for
+            your first appearance — usually in the Local Court. Between now and that date, your
+            lawyer obtains the police brief, advises you on the strength of the prosecution case,
+            and decides with you whether to plead guilty, not guilty, or negotiate the charges.
+            <strong>Get legal advice before you enter any plea.</strong>
+          </div></div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-q" aria-expanded="false">
+            What is a "mention" and do I have to attend?
+            <span class="faq-q-icon"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg></span>
+          </button>
+          <div class="faq-a"><div class="faq-a-inner">
+            A mention is a brief listing where the court checks on the progress of your matter —
+            for example, whether the brief has been served, or whether you are ready to enter a
+            plea. For most Local Court mentions, <strong>your lawyer can appear for you</strong>
+            and you do not need to attend. We will always tell you in advance when your
+            attendance is required.
+          </div></div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-q" aria-expanded="false">
+            How long will my matter take to resolve?
+            <span class="faq-q-icon"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg></span>
+          </button>
+          <div class="faq-a"><div class="faq-a-inner">
+            It depends on the charge and the court. A simple Local Court matter resolved on a
+            plea may finish in <strong>2–4 months</strong>. A defended Local Court hearing
+            usually takes <strong>6–9 months</strong>. District Court trials commonly run
+            <strong>12–18 months</strong> from committal. At our first meeting we give you a
+            realistic timetable for your specific matter.
+          </div></div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-q" aria-expanded="false">
+            Should I plead guilty to "just get it over with"?
+            <span class="faq-q-icon"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg></span>
+          </button>
+          <div class="faq-a"><div class="faq-a-inner">
+            <strong>Never enter a plea without legal advice.</strong> A guilty plea is an
+            admission to every element of the offence and to the police facts as they stand.
+            We frequently negotiate <strong>amended facts</strong> or <strong>downgraded
+            charges</strong> with the prosecutor — changes that can mean the difference between
+            a conviction and a non-conviction outcome, or between a fine and a custodial
+            sentence.
+          </div></div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-q" aria-expanded="false">
+            Will I have to give evidence in court?
+            <span class="faq-q-icon"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg></span>
+          </button>
+          <div class="faq-a"><div class="faq-a-inner">
+            On a guilty plea, no — sentence submissions are made by your lawyer. On a defended
+            hearing or trial, you have the right to give evidence but you are <strong>never
+            obliged to</strong>. That is one of the key strategic decisions we make with you
+            after reviewing the brief, and we prepare you carefully if the call is to go into
+            the box.
+          </div></div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-q" aria-expanded="false">
+            What if the police got something wrong on the fact sheet?
+            <span class="faq-q-icon"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg></span>
+          </button>
+          <div class="faq-a"><div class="faq-a-inner">
+            The fact sheet is the prosecution's version, and the court sentences on the facts
+            you accept. If the fact sheet overstates what happened, we negotiate amendments with
+            the prosecutor before the plea — and if no agreement is reached, we can ask the
+            court to hold a <strong>disputed facts hearing</strong>. Getting the facts right is
+            often the single most important step on a plea.
+          </div></div>
+        </div>
+            </div>
+          </div>
+
+          <!-- CATEGORY 3 · BAIL, POLICE & ARREST -->
+          <div class="faq-cat-block" id="cat-bail" data-faq-cat="cat-bail">
+            <div class="faq-cat-block-head" data-reveal="up">
+              <span class="eyebrow">03 · Bail, Police &amp; Arrest</span>
+              <h2 class="section-heading">Your rights when <em>police get involved.</em></h2>
+              <p class="section-sub">
+                What to do if police want to interview you, how bail works, and the consequences of breaching it.
+              </p>
+            </div>
+
+            <div class="faq-list" data-reveal="up" data-delay="1">
+        <div class="faq-item">
+          <button class="faq-q" aria-expanded="false">
+            Police want to interview me. Do I have to go?
+            <span class="faq-q-icon"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg></span>
+          </button>
+          <div class="faq-a"><div class="faq-a-inner">
+            With very limited exceptions, <strong>no</strong>. You generally have the right to
+            silence — you are only required to provide your name and address. A "voluntary"
+            interview is rarely in your interest. Politely decline, then call us
+            <strong>before</strong> you say anything else. Anything you say in interview can be
+            played to a jury.
+          </div></div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-q" aria-expanded="false">
+            What is bail and how does it work?
+            <span class="faq-q-icon"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg></span>
+          </button>
+          <div class="faq-a"><div class="faq-a-inner">
+            Bail is your <strong>release from custody</strong> while your case is being decided,
+            on the condition that you appear at court and comply with any conditions imposed.
+            Bail can be granted by police at the station or by the court. The decision is
+            governed by the <em>Bail Act 2013 (NSW)</em> and turns on whether you pose any
+            <strong>unacceptable risk</strong> if released.
+          </div></div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-q" aria-expanded="false">
+            Bail was refused. Can we apply again?
+            <span class="faq-q-icon"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg></span>
+          </button>
+          <div class="faq-a"><div class="faq-a-inner">
+            <strong>Yes, but with restrictions.</strong> Under section 74 of the Bail Act, a
+            further application in the same court generally requires <strong>new evidence,
+            new circumstances, or a material change</strong>. We can also apply in a higher
+            court — for example, a Supreme Court "release application" after a Local Court
+            refusal. Speed matters; the longer you are in custody, the harder bail becomes.
+          </div></div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-q" aria-expanded="false">
+            What happens if I breach a bail condition?
+            <span class="faq-q-icon"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg></span>
+          </button>
+          <div class="faq-a"><div class="faq-a-inner">
+            A breach is treated seriously. Police can arrest you without warrant, the court will
+            be informed, and bail can be <strong>revoked entirely</strong> — meaning custody
+            until your matter is finalised. Even a small administrative breach (missing a
+            reporting day, being late for curfew) can undo months of careful work. Call us
+            immediately if you think you may have breached.
+          </div></div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-q" aria-expanded="false">
+            Do I need a surety, and how much money is required?
+            <span class="faq-q-icon"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg></span>
+          </button>
+          <div class="faq-a"><div class="faq-a-inner">
+            Not in every matter. Where the court is concerned about <strong>flight risk</strong>
+            or seriousness of the charge, it may require a surety — a person who guarantees
+            in writing that you will appear, backed by money or property. The amount is set by
+            the court on the day and varies widely. We help you identify a suitable surety in
+            advance so the application is not delayed.
+          </div></div>
+        </div>
+            </div>
+          </div>
+
+          <!-- CATEGORY 4 · OUTCOMES & PENALTIES -->
+          <div class="faq-cat-block" id="cat-outcomes" data-faq-cat="cat-outcomes">
+            <div class="faq-cat-block-head" data-reveal="up">
+              <span class="eyebrow">04 · Outcomes &amp; Penalties</span>
+              <h2 class="section-heading">Possible <em>outcomes.</em></h2>
+              <p class="section-sub">
+                The sentencing options available to a NSW court — and what they mean for your record and your future.
+              </p>
+            </div>
+
+            <div class="faq-list" data-reveal="up" data-delay="1">
+        <div class="faq-item">
+          <button class="faq-q" aria-expanded="false">
+            What is a "Section 10" and can I get one?
+            <span class="faq-q-icon"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg></span>
+          </button>
+          <div class="faq-a"><div class="faq-a-inner">
+            A Section 10 (now technically a <strong>section 10(1)(a) dismissal</strong> or
+            <strong>conditional release order without conviction</strong>) means the court finds
+            the offence proved but <strong>does not record a conviction</strong>. There is no
+            criminal record, no fine, no licence disqualification. Whether you are a realistic
+            candidate depends on your character, the seriousness of the offence and the strength
+            of your subjective material — which is exactly what we build in the lead-up to
+            sentencing.
+          </div></div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-q" aria-expanded="false">
+            Will I get a criminal record?
+            <span class="faq-q-icon"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg></span>
+          </button>
+          <div class="faq-a"><div class="faq-a-inner">
+            Only if a <strong>conviction is recorded</strong>. A finding of guilt without a
+            conviction (a Section 10 outcome) does not create a criminal record for most
+            purposes. We will tell you, before you enter a plea, what outcome is realistic
+            and what its impact will be on employment, travel, working-with-children checks
+            and professional licences.
+          </div></div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-q" aria-expanded="false">
+            Will I go to jail?
+            <span class="faq-q-icon"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg></span>
+          </button>
+          <div class="faq-a"><div class="faq-a-inner">
+            Full-time imprisonment is <strong>a sentence of last resort</strong> under NSW law.
+            For most offences the court must consider every alternative first — fines,
+            Conditional Release Orders (CROs), Community Correction Orders (CCOs) and
+            Intensive Correction Orders (ICOs, served in the community under strict supervision)
+            — before imposing a custodial sentence. The realistic exposure depends on your
+            charge, your antecedents and the quality of your plea in mitigation.
+          </div></div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-q" aria-expanded="false">
+            What is the difference between a CRO, CCO and ICO?
+            <span class="faq-q-icon"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg></span>
+          </button>
+          <div class="faq-a"><div class="faq-a-inner">
+            A <strong>Conditional Release Order (CRO)</strong> is the lightest — a good-behaviour
+            bond up to 2 years, with or without conviction. A <strong>Community Correction Order
+            (CCO)</strong> is mid-range, up to 3 years, and can include community service or
+            supervision. An <strong>Intensive Correction Order (ICO)</strong> is a sentence of
+            imprisonment up to 2 years served in the community under intensive supervision —
+            it is, legally, a jail sentence, just not one served behind bars.
+          </div></div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-q" aria-expanded="false">
+            Can I appeal if I'm convicted or the sentence is too harsh?
+            <span class="faq-q-icon"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg></span>
+          </button>
+          <div class="faq-a"><div class="faq-a-inner">
+            Yes. You have <strong>28 days</strong> from the date of sentence to appeal a Local
+            Court decision to the District Court — either against conviction, against severity
+            of sentence, or both. The appeal is a fresh hearing. The window is strict, so if
+            you are unhappy with the outcome, <strong>call us within days, not weeks</strong>.
+          </div></div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-q" aria-expanded="false">
+            Can a conviction affect my employment or travel?
+            <span class="faq-q-icon"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg></span>
+          </button>
+          <div class="faq-a"><div class="faq-a-inner">
+            It can. A recorded conviction may appear on a National Police Check, can be a
+            disqualifying factor for certain professional registrations (legal, medical,
+            financial, teaching, security), and can affect visas for the US, Canada and other
+            countries. We weigh these collateral consequences when we make submissions to the
+            court — they are not "extra"; they are a core part of the case for a Section 10.
+          </div></div>
+        </div>
+            </div>
+          </div>
+
+          <!-- CATEGORY 5 · TRAFFIC & LICENCE -->
+          <div class="faq-cat-block" id="cat-traffic" data-faq-cat="cat-traffic">
+            <div class="faq-cat-block-head" data-reveal="up">
+              <span class="eyebrow">05 · Traffic &amp; Licence Matters</span>
+              <h2 class="section-heading">Driving offences &amp; <em>your licence.</em></h2>
+              <p class="section-sub">
+                Drink driving, licence suspensions, demerit appeals and serious driving charges.
+              </p>
+            </div>
+
+            <div class="faq-list" data-reveal="up" data-delay="1">
+        <div class="faq-item">
+          <button class="faq-q" aria-expanded="false">
+            I've been suspended by Transport for NSW. Can I appeal?
+            <span class="faq-q-icon"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg></span>
+          </button>
+          <div class="faq-a"><div class="faq-a-inner">
+            For most suspensions — including <strong>P1 and P2 demerit suspensions</strong>
+            and <strong>"speed over 30 km/h" police suspensions</strong> — you have
+            <strong>28 days</strong> from the notice to lodge a Local Court appeal. The court
+            can set aside the suspension entirely, or impose a shorter period. Acting quickly
+            is critical: a missed deadline ends the appeal.
+          </div></div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-q" aria-expanded="false">
+            I'm charged with drink driving. Will I lose my licence?
+            <span class="faq-q-icon"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg></span>
+          </button>
+          <div class="faq-a"><div class="faq-a-inner">
+            Most drink driving offences carry an <strong>automatic disqualification</strong>
+            that the court can reduce to a minimum — and in some matters a Section 10 (no
+            conviction, no disqualification) is achievable. The right outcome depends on your
+            reading, prior record, the reasons for driving and what you have done since the
+            charge (interlock pre-installation, traffic offender program, character references).
+          </div></div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-q" aria-expanded="false">
+            What is the Mandatory Interlock Program?
+            <span class="faq-q-icon"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg></span>
+          </button>
+          <div class="faq-a"><div class="faq-a-inner">
+            For most mid-range, high-range and repeat drink driving offences, NSW law requires
+            an <strong>interlock device</strong> to be fitted to any vehicle you drive for a
+            minimum period (commonly 12–48 months) after a reduced disqualification. We can
+            explain whether the program applies to your charge, the costs, and whether an
+            <strong>interlock exemption order</strong> is realistic in your case.
+          </div></div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-q" aria-expanded="false">
+            I need my licence for work. Will the court take that into account?
+            <span class="faq-q-icon"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg></span>
+          </button>
+          <div class="faq-a"><div class="faq-a-inner">
+            Yes — but you have to put the evidence in front of the court. A letter from your
+            employer, a description of your duties, public transport options, family
+            responsibilities and any exceptional hardship are all weighed on sentence. We
+            help you assemble that material so the court has a complete picture before
+            deciding on disqualification.
+          </div></div>
+        </div>
+            </div>
+          </div>
+
+          <!-- CATEGORY 6 · FEES, COSTS & LEGAL AID -->
+          <div class="faq-cat-block" id="cat-fees" data-faq-cat="cat-fees">
+            <div class="faq-cat-block-head" data-reveal="up">
+              <span class="eyebrow">06 · Fees, Costs &amp; Legal Aid</span>
+              <h2 class="section-heading">Transparent <em>fees.</em></h2>
+              <p class="section-sub">
+                We are upfront about cost. Here is how we quote, what payment options exist, and how Legal Aid fits in.
+              </p>
+            </div>
+
+            <div class="faq-list" data-reveal="up" data-delay="1">
+        <div class="faq-item">
+          <button class="faq-q" aria-expanded="false">
+            How much will my matter cost?
+            <span class="faq-q-icon"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg></span>
+          </button>
+          <div class="faq-a"><div class="faq-a-inner">
+            We provide a <strong>transparent fixed quote</strong> in writing after the first
+            consultation, so you know the cost before you commit. Quotes depend on the charge,
+            the court, the volume of brief material and whether the matter proceeds on a plea
+            or a defended hearing. There are no hidden hourly surprises.
+          </div></div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-q" aria-expanded="false">
+            Do you offer payment plans?
+            <span class="faq-q-icon"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg></span>
+          </button>
+          <div class="faq-a"><div class="faq-a-inner">
+            <strong>Yes.</strong> We accept structured instalment plans tailored to your
+            circumstances so legal fees do not stand between you and proper representation.
+            Talk to us about it on the first call — we can usually agree a workable plan on
+            the spot.
+          </div></div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-q" aria-expanded="false">
+            Am I eligible for Legal Aid?
+            <span class="faq-q-icon"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg></span>
+          </button>
+          <div class="faq-a"><div class="faq-a-inner">
+            Legal Aid NSW funding is decided on a <strong>means test, a merits test and the
+            type of charge</strong>. Our firm is on both the Legal Aid NSW Serious Crime and
+            General Crime panels, so if you qualify, we can act under a grant of aid at no
+            out-of-pocket cost to you. See our <a href="legal-aid.html">Legal Aid NSW</a>
+            page or call us to check eligibility — the check itself is free.
+          </div></div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-q" aria-expanded="false">
+            If I'm not eligible for Legal Aid, what then?
+            <span class="faq-q-icon"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg></span>
+          </button>
+          <div class="faq-a"><div class="faq-a-inner">
+            We still want to help. Every privately retained matter comes with a fixed quote
+            up front, and a payment plan if you need one. We would rather work with you on a
+            sensible arrangement than have you face a serious charge unrepresented.
+          </div></div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-q" aria-expanded="false">
+            Do I pay anything for the first consultation or eligibility check?
+            <span class="faq-q-icon"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg></span>
+          </button>
+          <div class="faq-a"><div class="faq-a-inner">
+            No. The <strong>first consultation is free</strong>, and so is the eligibility
+            check for Legal Aid. You only pay once you have a written quote in front of you
+            and you have decided to retain us.
+          </div></div>
+        </div>
+            </div>
+          </div>
+
+        </div><!-- /.faq-main -->
+
+        <aside class="faq-side">
+          <nav class="faq-cat-nav" aria-label="FAQ categories">
+            <div class="faq-cat-nav-eyebrow">Browse by Category</div>
+            <ul>
+              <li><a href="#cat-firm" data-faq-link="cat-firm"><span class="faq-cat-nav-num">01</span><span>About the Firm</span></a></li>
+              <li><a href="#cat-process" data-faq-link="cat-process"><span class="faq-cat-nav-num">02</span><span>The Legal Process</span></a></li>
+              <li><a href="#cat-bail" data-faq-link="cat-bail"><span class="faq-cat-nav-num">03</span><span>Bail, Police &amp; Arrest</span></a></li>
+              <li><a href="#cat-outcomes" data-faq-link="cat-outcomes"><span class="faq-cat-nav-num">04</span><span>Outcomes &amp; Penalties</span></a></li>
+              <li><a href="#cat-traffic" data-faq-link="cat-traffic"><span class="faq-cat-nav-num">05</span><span>Traffic &amp; Licence</span></a></li>
+              <li><a href="#cat-fees" data-faq-link="cat-fees"><span class="faq-cat-nav-num">06</span><span>Fees &amp; Legal Aid</span></a></li>
+            </ul>
+            <div class="faq-cat-nav-cta">
+              <span class="faq-cat-nav-cta-label">Question not here?</span>
+              <a class="faq-cat-nav-cta-phone" href="tel:1800100529">1800 100 LAW</a>
+            </div>
+          </nav>
+        </aside>
+
+      </div><!-- /.faq-grid -->
+    </div><!-- /.container -->
+  </section>
+
+  <!-- ═══ FINAL CTA (still got questions?) ═══ -->
+  <section class="section section--white" id="still-questions">
+    <div class="section-watermark tr" aria-hidden="true"><img src="assets/img/logo-fill-dark.svg" alt="" /></div>
+    <div class="container">
+      <div class="lead-grid" data-reveal="up">
+        <div class="lead-head">
+          <span class="eyebrow">Still Got Questions?</span>
+          <h2 class="section-heading">Every case is <em>different.</em></h2>
+          <p class="section-sub">
+            This page covers the questions we hear most often, but no FAQ can answer the one
+            question that really matters: <strong>what should you do about your matter?</strong>
+            That answer needs the facts of your case — and a real conversation with a senior
+            criminal lawyer.
+          </p>
+        </div>
+        <div class="prose">
+          <p>
+            Call <a href="tel:1800100529"><strong>1800 100 LAW (529)</strong></a> for a free,
+            confidential first consultation. We are available 24 hours a day, 7 days a week —
+            including weekends and public holidays — because criminal matters do not keep
+            office hours.
+          </p>
+          <ul class="fact-list">
+            <li><strong>Free first consultation</strong> — no obligation, no fee.</li>
+            <li><strong>Confidential</strong> — legal professional privilege from the first call.</li>
+            <li><strong>Senior lawyer</strong>, not a junior — every matter, every time.</li>
+            <li><strong>Across NSW</strong> — Local, District and Supreme Court appearances.</li>
+          </ul>
+          <p>
+            Prefer to write? Use our <a href="contact-us.html">contact form</a> and we will be
+            back to you the same day.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ CTA ═══ -->
+  <section id="cta">
+    <div class="cta-inner">
+      <div class="cta-content" data-reveal="left">
+        <div class="cta-phone-icon">
+          <svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+        </div>
+        <div class="cta-text-block">
+          <div class="cta-title">Free 1st consultation — discreet &amp; confidential.</div>
+          <div class="cta-sub">We're available 24/7 to discuss your matter.</div>
+        </div>
+      </div>
+      <a class="btn btn-primary" href="tel:1800100529" data-reveal="right">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+        Call 1800 100 LAW (529)
+      </a>
+    </div>
+  </section>
+
+  <!-- ═══ FOOTER ═══ -->
+  <footer>
+    <div class="footer-watermark" aria-hidden="true"><img src="assets/img/logo-gradient.svg" alt="" /></div>
+    <div class="footer-grid">
+      <div data-reveal="up">
+        <div class="footer-brand-logo"><img src="assets/img/logo.png" alt="Powerhouse Law Australia" /></div>
+        <p class="footer-brand-desc">
+          Strategic criminal defence and traffic lawyers. Real results. Protecting your freedom.
+        </p>
+        <div class="footer-social">
+          <a href="#" aria-label="Facebook"><svg viewBox="0 0 24 24"><path d="M22 12a10 10 0 1 0-11.563 9.876v-6.988h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.888H13.5v6.988A10 10 0 0 0 22 12z"/></svg></a>
+          <a href="#" aria-label="Instagram"><svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 0 0 0-12.324zM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.406-11.845a1.44 1.44 0 1 0 0 2.881 1.44 1.44 0 0 0 0-2.881z"/></svg></a>
+          <a href="#" aria-label="LinkedIn"><svg viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.063 2.063 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg></a>
+        </div>
+      </div>
+      <div data-reveal="up" data-delay="1">
+        <div class="footer-col-heading">Quick Links</div>
+        <ul class="footer-links">
+          <li><a href="index.html#practice">Practice Areas</a></li>
+          <li><a href="chadi-irani.html">About</a></li>
+          <li><a href="recent-cases.html">Results</a></li>
+          <li><a href="faq.html">FAQ</a></li>
+          <li><a href="legal-aid.html">Legal Aid</a></li>
+          <li><a href="contact-us.html">Contact</a></li>
+        </ul>
+      </div>
+      <div data-reveal="up" data-delay="2">
+        <div class="footer-col-heading">Practice Areas</div>
+        <ul class="footer-links">
+          <li><a href="assault-offences.html">Assault Offences</a></li>
+          <li><a href="domestic-violence-avo.html">Domestic Violence &amp; AVOs</a></li>
+          <li><a href="drug-offences.html">Drug Offences</a></li>
+          <li><a href="sexual-assault.html">Sexual Offences</a></li>
+          <li><a href="bail-applications.html">Bail Applications</a></li>
+          <li><a href="drink-driving.html">Drink Driving</a></li>
+        </ul>
+      </div>
+      <div data-reveal="up" data-delay="3">
+        <div class="footer-col-heading">Contact</div>
+        <div class="footer-contact-item">
+          <div class="footer-contact-icon"><svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg></div>
+          <div class="footer-contact-info">
+            <span class="footer-contact-main">1800 100 LAW (529)</span>
+            <span class="footer-contact-sub">24/7 Legal Support</span>
+          </div>
+        </div>
+        <div class="footer-contact-item">
+          <div class="footer-contact-icon"><svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><path d="M22 6 12 13 2 6"/></svg></div>
+          <div class="footer-contact-info">
+            <span class="footer-contact-main">info@powerhouselaw.com.au</span>
+          </div>
+        </div>
+        <div class="footer-contact-item">
+          <div class="footer-contact-icon"><svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg></div>
+          <div class="footer-contact-info">
+            <span class="footer-contact-main">Suite 8, Level 4</span>
+            <span class="footer-contact-sub">20 Macquarie St, Parramatta NSW 2150</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span class="footer-copy">© 2024 Powerhouse Law Australia Pty Ltd. All Rights Reserved.</span>
+      <span class="footer-legal">
+        Liability limited by a scheme approved under Professional Standards Legislation.
+        Information on this page is general only and not legal advice — speak with a lawyer about your matter.
+      </span>
+    </div>
+  </footer>
+
+  <!-- ═══ SCRIPTS ═══ -->
+  <script src="assets/js/main.js" defer></script>
+  <script src="assets/js/practice.js" defer></script>
+  <script defer>
+    // FAQ sidebar scrollspy
+    (() => {
+      const links = document.querySelectorAll('.faq-cat-nav a[data-faq-link]');
+      if (!links.length) return;
+      const map = new Map();
+      links.forEach(a => map.set(a.dataset.faqLink, a));
+      const sections = [...document.querySelectorAll('[data-faq-cat]')];
+      const setActive = id => {
+        links.forEach(a => a.classList.toggle('is-active', a.dataset.faqLink === id));
+      };
+      const onScroll = () => {
+        const threshold = 160;
+        let current = sections[0]?.id;
+        for (const s of sections) {
+          if (s.getBoundingClientRect().top <= threshold) current = s.id;
+        }
+        if (current) setActive(current);
+      };
+      window.addEventListener('scroll', onScroll, { passive: true });
+      onScroll();
+    })();
+  </script>
+
+</body>
+</html>
