@@ -339,9 +339,19 @@
 
 /* ═══ PENALTY CARDS ═══ */
 .penalty-grid {
-  display: grid; grid-template-columns: repeat(2, 1fr); gap: 18px;
+  display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 18px;
   margin: 24px 0 8px;
 }
+/* Count-aware columns — fewer cards expand to fill the row rather than leave dead space. */
+.penalty-grid:has(> .penalty-card:nth-child(1):last-child) { grid-template-columns: minmax(0, 1fr); }
+.penalty-grid:has(> .penalty-card:nth-child(2):last-child) { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.penalty-grid:has(> .penalty-card:nth-child(3):last-child) { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+/* 4+ cards keeps the default repeat(4, …) above */
+
+/* Constrained-width context — when a .penalty-grid lives inside the .main-content column (the one sharing space with a .side sidebar), cap at 2 cols so individual cards stay readable. */
+.main-content .penalty-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.main-content .penalty-grid:has(> .penalty-card:nth-child(1):last-child) { grid-template-columns: minmax(0, 1fr); }
+.main-content .penalty-grid:has(> .penalty-card:nth-child(3):last-child) { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 .penalty-card {
   background: var(--white);
   border: 1px solid var(--line-soft);
@@ -1474,6 +1484,9 @@
 @media (max-width: 1100px) {
   .page-hero { padding: 130px 24px 70px; }
   .info-row { grid-template-columns: 1fr; }
+  .penalty-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  /* Re-apply count-aware overrides so 1-card grids still stay full-width at tablet sizes. */
+  .penalty-grid:has(> .penalty-card:nth-child(1):last-child) { grid-template-columns: minmax(0, 1fr); }
   .areas-grid { grid-template-columns: repeat(2, 1fr); }
   .creds-grid { grid-template-columns: 1fr; }
   .warning-callout { padding: 40px 32px; }

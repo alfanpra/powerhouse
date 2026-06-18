@@ -37,7 +37,9 @@
       "PowerShell(Get-Command node -ErrorAction SilentlyContinue)",
       "PowerShell(Get-Command npx -ErrorAction SilentlyContinue)",
       "PowerShell($bytes = [System.IO.File]::ReadAllBytes\\(\"E:\\\\A - WORKS\\\\A - ICTechnology\\\\Works\\\\Power House Law\\\\Power House Law_Claude\\\\index.html\"\\); Write-Output \"First 5 bytes \\(BOM check\\):\"; $bytes[0..4] | ForEach-Object { \"{0:X2}\" -f $_ }; \"\"; Write-Output \"Decoded as UTF-8:\"; [System.Text.Encoding]::UTF8.GetString\\($bytes[0..200]\\))",
-      "Bash(grep -iE '\\\\.\\(png|jpg|jpeg|webp|svg|gif|ico\\)$')"
+      "Bash(grep -iE '\\\\.\\(png|jpg|jpeg|webp|svg|gif|ico\\)$')",
+      "Bash(cat)",
+      "Bash(powershell -NoProfile -File /tmp/debug.ps1)"
     ]
   }
 }
