@@ -43,6 +43,7 @@
 .breadcrumb a:hover { color: var(--red-warm); }
 .breadcrumb .sep { color: var(--line-dark-2); }
 .breadcrumb .current { color: var(--light); }
+.breadcrumb.centered { justify-content: center; }
 
 .page-h1 {
   font-family: var(--font-display);
