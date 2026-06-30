@@ -857,3 +857,130 @@
   .hero-h1, .hero-h1-italic { font-size: 26px; }
   .section-heading, .about-heading { font-size: 24px; }
 }
+
+/* ═══════════════════════════════════════════════════════════════════
+   HERO — ACCREDITED SPECIALIST TRUST CARD
+   Primary credential, sits above the divider, links to bio.
+══════════════════════════════════════════════════════════════════ */
+.hero-accred {
+  display: inline-flex;
+  align-items: center;
+  gap: 22px;
+  position: relative;
+  padding: 18px 28px 18px 20px;
+  margin: 8px 0 40px;
+  border-radius: 16px;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.06) 0%, rgba(255, 255, 255, 0.02) 100%);
+  border: 1px solid rgba(196, 30, 26, 0.42);
+  box-shadow:
+    0 14px 40px rgba(0, 0, 0, 0.45),
+    0 0 0 1px rgba(255, 255, 255, 0.03) inset,
+    0 0 32px rgba(196, 30, 26, 0.18);
+  text-decoration: none;
+  color: var(--light);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  opacity: 0;
+  animation: hero-fade-in 1s 0.85s var(--ease-out) forwards;
+  transition: transform .4s var(--ease-out), border-color .4s var(--ease-out), box-shadow .4s var(--ease-out);
+  max-width: 580px;
+}
+.hero-accred::before {
+  content: '';
+  position: absolute; inset: 0;
+  border-radius: inherit;
+  background: linear-gradient(120deg, transparent 35%, rgba(196, 30, 26, 0.16) 50%, transparent 65%);
+  background-size: 220% 100%;
+  background-position: 100% 0;
+  pointer-events: none;
+  animation: accred-shimmer 7s 2s ease-in-out infinite;
+  opacity: 0.9;
+  mix-blend-mode: screen;
+}
+.hero-accred:hover {
+  transform: translateY(-2px);
+  border-color: rgba(196, 30, 26, 0.7);
+  box-shadow:
+    0 18px 50px rgba(0, 0, 0, 0.55),
+    0 0 0 1px rgba(255, 255, 255, 0.04) inset,
+    0 0 44px rgba(196, 30, 26, 0.32);
+}
+.hero-accred-seal {
+  position: relative;
+  flex-shrink: 0;
+  width: 64px; height: 64px;
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  background: #fff;
+  box-shadow:
+    0 0 0 1px rgba(196, 30, 26, 0.35),
+    0 6px 18px rgba(0, 0, 0, 0.45),
+    0 0 24px rgba(255, 255, 255, 0.12);
+}
+.hero-accred-seal-ring {
+  position: absolute; inset: -8px;
+  border-radius: 50%;
+  border: 1px dashed rgba(196, 30, 26, 0.55);
+  animation: accred-rotate 22s linear infinite;
+}
+.hero-accred-seal img {
+  width: 52px; height: 52px;
+  object-fit: contain;
+}
+.hero-accred-body {
+  display: flex; flex-direction: column;
+  line-height: 1.2;
+  min-width: 0;
+}
+.hero-accred-eyebrow {
+  font-family: var(--font-mono);
+  font-size: 9.5px; font-weight: 600;
+  letter-spacing: 2.4px; text-transform: uppercase;
+  color: var(--red-warm);
+  margin-bottom: 4px;
+}
+.hero-accred-title {
+  font-family: var(--font-display);
+  font-size: 17px; font-weight: 700;
+  letter-spacing: -0.012em;
+  color: var(--light);
+}
+.hero-accred-title em {
+  font-family: var(--font-script);
+  font-style: italic; font-weight: 500;
+  font-variation-settings: "opsz" 144, "SOFT" 60, "wght" 500;
+  color: var(--red-warm);
+}
+.hero-accred-sub {
+  margin-top: 4px;
+  font-size: 11.5px; font-weight: 400;
+  letter-spacing: 0.2px;
+  color: var(--slate-light);
+}
+.hero-accred-arrow {
+  width: 16px; height: 16px;
+  color: var(--red-warm);
+  flex-shrink: 0;
+  transition: transform .35s var(--ease-out);
+}
+.hero-accred:hover .hero-accred-arrow { transform: translateX(4px); }
+
+@keyframes accred-shimmer {
+  0%, 100% { background-position: 100% 0; }
+  50%      { background-position: -20% 0; }
+}
+@keyframes accred-rotate {
+  to { transform: rotate(360deg); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .hero-accred::before,
+  .hero-accred-seal-ring { animation: none; }
+}
+@media (max-width: 640px) {
+  .hero-accred { gap: 16px; padding: 14px 18px 14px 14px; max-width: 100%; margin: 4px 0 32px; }
+  .hero-accred-seal { width: 52px; height: 52px; }
+  .hero-accred-seal img { width: 42px; height: 42px; }
+  .hero-accred-title { font-size: 15px; }
+  .hero-accred-eyebrow { font-size: 9px; letter-spacing: 2px; }
+  .hero-accred-sub { font-size: 10.5px; }
+}

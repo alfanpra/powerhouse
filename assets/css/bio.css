@@ -658,3 +658,135 @@
 
   .practice-pills { grid-template-columns: 1fr; }
 }
+
+/* ═══════════════════════════════════════════════════════════════════
+   PROFILE — ACCREDITED SPECIALIST CARD + FLOATING SEAL WATERMARK
+   The credential as a primary trust signal directly beneath the name.
+══════════════════════════════════════════════════════════════════ */
+.profile-hero-accred-wm {
+  position: absolute;
+  right: -120px; top: 38%;
+  width: 540px; height: 540px;
+  pointer-events: none;
+  opacity: 0.045;
+  z-index: 1;
+  animation: profile-accred-float 14s ease-in-out infinite;
+}
+.profile-hero-accred-wm img {
+  width: 100%; height: 100%; object-fit: contain;
+  filter: brightness(1.3) saturate(0.85);
+  animation: profile-accred-spin 60s linear infinite;
+}
+@keyframes profile-accred-float {
+  0%, 100% { transform: translateY(0) translateX(0); }
+  50%      { transform: translateY(-22px) translateX(-10px); }
+}
+@keyframes profile-accred-spin {
+  to { transform: rotate(360deg); }
+}
+
+.profile-accred {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 24px;
+  padding: 22px 30px 22px 22px;
+  margin: 16px 0 38px;
+  border-radius: 18px;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.06) 0%, rgba(255, 255, 255, 0.02) 100%);
+  border: 1px solid rgba(196, 30, 26, 0.48);
+  box-shadow:
+    0 18px 50px rgba(0, 0, 0, 0.5),
+    0 0 0 1px rgba(255, 255, 255, 0.03) inset,
+    0 0 40px rgba(196, 30, 26, 0.22);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  max-width: 620px;
+}
+.profile-accred::before {
+  content: '';
+  position: absolute; inset: 0;
+  border-radius: inherit;
+  background: linear-gradient(120deg, transparent 35%, rgba(196, 30, 26, 0.18) 50%, transparent 65%);
+  background-size: 220% 100%;
+  background-position: 100% 0;
+  pointer-events: none;
+  animation: profile-accred-shimmer 8s 2s ease-in-out infinite;
+  mix-blend-mode: screen;
+}
+.profile-accred-seal {
+  position: relative;
+  flex-shrink: 0;
+  width: 84px; height: 84px;
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  background: #fff;
+  box-shadow:
+    0 0 0 1px rgba(196, 30, 26, 0.35),
+    0 8px 22px rgba(0, 0, 0, 0.5),
+    0 0 28px rgba(255, 255, 255, 0.14);
+}
+.profile-accred-seal-ring {
+  position: absolute; inset: -10px;
+  border-radius: 50%;
+  border: 1px dashed rgba(196, 30, 26, 0.65);
+  animation: profile-accred-spin 26s linear infinite;
+}
+.profile-accred-seal img {
+  width: 70px; height: 70px;
+  object-fit: contain;
+  position: relative; z-index: 2;
+}
+.profile-accred-body {
+  display: flex; flex-direction: column;
+  line-height: 1.22;
+  min-width: 0;
+}
+.profile-accred-eyebrow {
+  font-family: var(--font-mono);
+  font-size: 10px; font-weight: 600;
+  letter-spacing: 2.6px; text-transform: uppercase;
+  color: var(--red-warm);
+  margin-bottom: 6px;
+}
+.profile-accred-title {
+  font-family: var(--font-display);
+  font-size: 22px; font-weight: 700;
+  letter-spacing: -0.014em;
+  color: var(--light);
+}
+.profile-accred-title em {
+  font-family: var(--font-script);
+  font-style: italic; font-weight: 500;
+  font-variation-settings: "opsz" 144, "SOFT" 60, "wght" 500;
+  color: var(--red-warm);
+  text-shadow: 0 0 30px rgba(196, 30, 26, 0.4);
+}
+.profile-accred-sub {
+  margin-top: 6px;
+  font-size: 12px; font-weight: 400;
+  letter-spacing: 0.2px;
+  color: var(--slate-light);
+}
+@keyframes profile-accred-shimmer {
+  0%, 100% { background-position: 100% 0; }
+  50%      { background-position: -20% 0; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .profile-hero-accred-wm,
+  .profile-hero-accred-wm img,
+  .profile-accred::before,
+  .profile-accred-seal-ring { animation: none; }
+}
+@media (max-width: 900px) {
+  .profile-hero-accred-wm { right: -160px; top: auto; bottom: -160px; width: 420px; height: 420px; }
+}
+@media (max-width: 640px) {
+  .profile-accred { gap: 18px; padding: 18px 20px 18px 16px; margin: 10px 0 32px; }
+  .profile-accred-seal { width: 64px; height: 64px; }
+  .profile-accred-seal img { width: 54px; height: 54px; }
+  .profile-accred-title { font-size: 18px; }
+  .profile-accred-eyebrow { font-size: 9.5px; letter-spacing: 2.2px; }
+  .profile-accred-sub { font-size: 11px; }
+  .profile-hero-accred-wm { width: 320px; height: 320px; right: -100px; bottom: -100px; opacity: 0.04; }
+}

@@ -39,7 +39,25 @@
       "PowerShell($bytes = [System.IO.File]::ReadAllBytes\\(\"E:\\\\A - WORKS\\\\A - ICTechnology\\\\Works\\\\Power House Law\\\\Power House Law_Claude\\\\index.html\"\\); Write-Output \"First 5 bytes \\(BOM check\\):\"; $bytes[0..4] | ForEach-Object { \"{0:X2}\" -f $_ }; \"\"; Write-Output \"Decoded as UTF-8:\"; [System.Text.Encoding]::UTF8.GetString\\($bytes[0..200]\\))",
       "Bash(grep -iE '\\\\.\\(png|jpg|jpeg|webp|svg|gif|ico\\)$')",
       "Bash(cat)",
-      "Bash(powershell -NoProfile -File /tmp/debug.ps1)"
+      "Bash(powershell -NoProfile -File /tmp/debug.ps1)",
+      "Bash(where py *)",
+      "Bash(where python3 *)",
+      "Bash(command -v node)",
+      "Bash(command -v py)",
+      "Bash(ls /c/Python*)",
+      "Read(//c/Program Files/**)",
+      "Bash(command -v perl)",
+      "Bash(perl --version)",
+      "Bash(perl C:/Users/Alfan/AppData/Local/Temp/claude/E--A---WORKS-A---ICTechnology-Works-Power-House-Law-Power-House-Law-Claude/603bb9e2-6875-4256-a997-2e84b926aad5/scratchpad/apply_nav.pl 'E:/A - WORKS/A - ICTechnology/Works/Power House Law/Power House Law_Claude' C:/Users/Alfan/AppData/Local/Temp/claude/E--A---WORKS-A---ICTechnology-Works-Power-House-Law-Power-House-Law-Claude/603bb9e2-6875-4256-a997-2e84b926aad5/scratchpad)",
+      "Bash(awk '/Criminal Law/,/<\\\\/li>[[:space:]]*<!-- Traffic Law -->/' 'E:/A - WORKS/A - ICTechnology/Works/Power House Law/Power House Law_Claude/assault-offences.html')",
+      "Bash(awk ' *)",
+      "Bash(perl -i -0pe 's/\\\\s*<!-- Results -->.*$//s' C:/Users/Alfan/AppData/Local/Temp/claude/E--A---WORKS-A---ICTechnology-Works-Power-House-Law-Power-House-Law-Claude/603bb9e2-6875-4256-a997-2e84b926aad5/scratchpad/desktop_old_b.raw.txt)",
+      "Bash(perl -i -pe 's/\\\\s+$/\\\\n/ if eof' C:/Users/Alfan/AppData/Local/Temp/claude/E--A---WORKS-A---ICTechnology-Works-Power-House-Law-Power-House-Law-Claude/603bb9e2-6875-4256-a997-2e84b926aad5/scratchpad/desktop_old_b.raw.txt)",
+      "Bash(perl -i -0777 -pe 's/\\\\n+\\\\z//' C:/Users/Alfan/AppData/Local/Temp/claude/E--A---WORKS-A---ICTechnology-Works-Power-House-Law-Power-House-Law-Claude/603bb9e2-6875-4256-a997-2e84b926aad5/scratchpad/desktop_old_b.txt)",
+      "Bash(awk '/<!-- Criminal Law -->/{p=1} p{print} /<!-- Results -->/{exit}' 'E:/A - WORKS/A - ICTechnology/Works/Power House Law/Power House Law_Claude/drug-offences.html')",
+      "Bash(awk 'NR>=42 && NR<=180' 'E:/A - WORKS/A - ICTechnology/Works/Power House Law/Power House Law_Claude/drug-offences.html')",
+      "Bash(grep -n 'page-hero \\\\|page-hero-inner\\\\|container\\\\b\\\\|--r-md\\\\|--r-sm\\\\|--red-warm\\\\|--ink-deep\\\\|--line-dark' 'E:/A - WORKS/A - ICTechnology/Works/Power House Law/Power House Law_Claude/assets/css/practice.css')",
+      "Bash(perl C:/Users/Alfan/AppData/Local/Temp/claude/E--A---WORKS-A---ICTechnology-Works-Power-House-Law-Power-House-Law-Claude/603bb9e2-6875-4256-a997-2e84b926aad5/scratchpad/apply_sticky.pl 'E:/A - WORKS/A - ICTechnology/Works/Power House Law/Power House Law_Claude' domestic-violence-avo.html drug-offences.html sexual-assault.html court-outcomes.html bail-applications.html licence-appeals.html drink-driving.html drug-driving.html serious-traffic-matters.html)"
     ]
   }
 }
