@@ -612,7 +612,7 @@ body.menu-open { overflow: hidden; }
 
 /* ═══ SECTION COMMONS ═══ */
 .section {
-  padding: 120px 56px;
+  padding: 144px 56px;
   position: relative;
   /* `overflow: clip` keeps the section-watermark contained without breaking position:sticky on descendants (e.g. .lead-head, .side). `overflow: hidden` establishes a containing block that traps sticky inside the section's visible area. */
   overflow: clip;
@@ -630,7 +630,7 @@ body.menu-open { overflow: hidden; }
   letter-spacing: 3px;
   text-transform: uppercase;
   color: var(--red);
-  margin-bottom: 24px;
+  margin-bottom: 30px;
 }
 .section--dark .eyebrow { color: var(--red-warm); }
 .section-heading {
@@ -639,7 +639,7 @@ body.menu-open { overflow: hidden; }
   font-weight: 700;
   line-height: 1.18;
   letter-spacing: -0.02em;
-  margin-bottom: 20px;
+  margin-bottom: 26px;
 }
 .section--dark .section-heading { color: var(--light); }
 .section--light .section-heading,
@@ -658,7 +658,7 @@ body.menu-open { overflow: hidden; }
 .section--dark .section-heading em { color: var(--red-warm); }
 .section-sub {
   font-size: 16px;
-  line-height: 1.7;
+  line-height: 1.75;
   max-width: 620px;
   color: var(--slate-light);
 }
@@ -692,7 +692,7 @@ body.menu-open { overflow: hidden; }
   margin: 0 auto;
   display: grid;
   grid-template-columns: 0.7fr 1.7fr;
-  gap: 64px;
+  gap: 80px;
   align-items: center;
   position: relative;
   z-index: 2;
@@ -703,7 +703,7 @@ body.menu-open { overflow: hidden; }
 .testimonials-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 20px;
+  gap: 24px;
 }
 .testimonial-card {
   background: var(--white-2);
@@ -769,7 +769,7 @@ body.menu-open { overflow: hidden; }
 /* ═══ CTA STRIP ═══ */
 #cta {
   background: var(--ink-deep);
-  padding: 64px 56px;
+  padding: 88px 56px;
   position: relative;
   overflow: hidden;
   border-top: 1px solid var(--line-dark);
@@ -834,7 +834,7 @@ body.menu-open { overflow: hidden; }
 /* ═══ FOOTER ═══ */
 footer {
   background: var(--ink-deep);
-  padding: 80px 56px 32px;
+  padding: 104px 56px 40px;
   position: relative;
   overflow: hidden;
 }
@@ -852,11 +852,11 @@ footer {
 }
 .footer-grid {
   max-width: 1340px;
-  margin: 0 auto 56px;
+  margin: 0 auto 72px;
   display: grid;
   /* 5 columns mirror the navbar groups: brand · Practice Areas · About · Resources & Results · Contact */
   grid-template-columns: 1.5fr 1.1fr 1fr 1fr 1.2fr;
-  gap: 48px;
+  gap: 56px;
   position: relative;
   z-index: 2;
 }
@@ -959,7 +959,7 @@ footer {
 .footer-bottom {
   max-width: 1340px;
   margin: 0 auto;
-  padding-top: 28px;
+  padding-top: 36px;
   border-top: 1px solid var(--line-dark);
   display: flex;
   justify-content: space-between;
@@ -986,26 +986,26 @@ footer {
   .nav-links, .nav-phone { display: none; }
   .hamburger { display: flex; }
 
-  .section { padding: 90px 24px; }
-  #cta { padding: 56px 24px; }
+  .section { padding: 112px 24px; }
+  #cta { padding: 72px 24px; }
   #cta::after { left: 24px; right: 24px; }
-  #cta .cta-inner { flex-direction: column; align-items: flex-start; }
-  footer { padding: 64px 24px 28px; }
-  .footer-grid { grid-template-columns: 1fr 1fr; gap: 40px; }
+  #cta .cta-inner { flex-direction: column; align-items: flex-start; gap: 28px; }
+  footer { padding: 88px 24px 36px; }
+  .footer-grid { grid-template-columns: 1fr 1fr; gap: 48px; margin-bottom: 56px; }
 
-  .testimonials-row { grid-template-columns: 1fr; gap: 48px; }
-  .testimonials-grid { grid-template-columns: 1fr; }
+  .testimonials-row { grid-template-columns: 1fr; gap: 56px; }
+  .testimonials-grid { grid-template-columns: 1fr; gap: 20px; }
 }
 
 @media (max-width: 680px) {
   .nav { padding: 0 16px; height: 72px; }
   .nav-logo img { height: 40px; }
 
-  .section { padding: 72px 20px; }
+  .section { padding: 88px 20px; }
 
-  .footer-grid { grid-template-columns: 1fr; gap: 32px; }
-  .footer-bottom { flex-direction: column; align-items: flex-start; gap: 12px; }
-  .cta-content { flex-direction: column; align-items: flex-start; gap: 18px; }
+  .footer-grid { grid-template-columns: 1fr; gap: 40px; margin-bottom: 48px; }
+  .footer-bottom { flex-direction: column; align-items: flex-start; gap: 14px; padding-top: 32px; }
+  .cta-content { flex-direction: column; align-items: flex-start; gap: 20px; }
 
-  .testimonials-grid { grid-template-columns: 1fr; }
+  .testimonials-grid { grid-template-columns: 1fr; gap: 18px; }
 }

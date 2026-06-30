@@ -339,20 +339,13 @@
 .section--dark .section-block-eyebrow { color: var(--red-warm); }
 
 /* ═══ PENALTY CARDS ═══ */
+/* Standardised: max 2 columns on desktop, 1 column on mobile (handled by media queries below). */
 .penalty-grid {
-  display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 18px;
+  display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px;
   margin: 24px 0 8px;
 }
-/* Count-aware columns — fewer cards expand to fill the row rather than leave dead space. */
+/* Single card spans full width rather than sitting half-empty on the left. */
 .penalty-grid:has(> .penalty-card:nth-child(1):last-child) { grid-template-columns: minmax(0, 1fr); }
-.penalty-grid:has(> .penalty-card:nth-child(2):last-child) { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-.penalty-grid:has(> .penalty-card:nth-child(3):last-child) { grid-template-columns: repeat(3, minmax(0, 1fr)); }
-/* 4+ cards keeps the default repeat(4, …) above */
-
-/* Constrained-width context — when a .penalty-grid lives inside the .main-content column (the one sharing space with a .side sidebar), cap at 2 cols so individual cards stay readable. */
-.main-content .penalty-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-.main-content .penalty-grid:has(> .penalty-card:nth-child(1):last-child) { grid-template-columns: minmax(0, 1fr); }
-.main-content .penalty-grid:has(> .penalty-card:nth-child(3):last-child) { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 .penalty-card {
   background: var(--white);
   border: 1px solid var(--line-soft);
@@ -440,8 +433,8 @@
 */
 .process-grid {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 18px;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
   margin-top: 44px;
 }
 .process-step {
@@ -1813,3 +1806,174 @@
 
 /* Smooth in-page jumps */
 html { scroll-behavior: smooth; scroll-padding-top: 96px; }
+
+/* ═══════════════════════════════════════════════════════════════════
+   CONTACT HERO — form-first layout: details left, enquiry form right.
+══════════════════════════════════════════════════════════════════ */
+.contact-hero { padding: 140px 56px 80px; }
+.contact-hero .contact-hero-inner {
+  display: grid;
+  grid-template-columns: 0.9fr 1.1fr;
+  gap: 64px;
+  align-items: start;
+}
+.contact-hero-info .page-h1 { margin-bottom: 18px; }
+.contact-hero-info .page-hero-sub { max-width: 520px; margin-bottom: 36px; }
+
+.contact-hero-list {
+  list-style: none; margin: 0; padding: 0;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 22px 28px;
+  max-width: 540px;
+}
+.contact-hero-list > li {
+  display: flex; align-items: flex-start; gap: 14px;
+  padding: 14px 16px;
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: var(--r-md);
+  background: rgba(255,255,255,0.03);
+  transition: border-color .25s var(--ease-out), background .25s var(--ease-out);
+}
+.contact-hero-list > li:hover {
+  border-color: rgba(196,30,26,0.45);
+  background: rgba(196,30,26,0.04);
+}
+.contact-hero-icon {
+  flex-shrink: 0;
+  width: 36px; height: 36px;
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  background: rgba(196,30,26,0.18);
+  color: var(--red-warm);
+}
+.contact-hero-icon svg { width: 16px; height: 16px; }
+.contact-hero-text { display: flex; flex-direction: column; min-width: 0; }
+.contact-hero-label {
+  font-family: var(--font-mono);
+  font-size: 9.5px; font-weight: 600;
+  letter-spacing: 1.8px; text-transform: uppercase;
+  color: var(--slate-light);
+  margin-bottom: 4px;
+}
+.contact-hero-value {
+  font-family: var(--font-display);
+  font-size: 14.5px; font-weight: 600;
+  letter-spacing: -0.005em;
+  color: var(--light);
+  text-decoration: none;
+  line-height: 1.35;
+}
+a.contact-hero-value { transition: color .2s var(--ease-out); }
+a.contact-hero-value:hover { color: var(--red-warm); }
+
+/* Form card sitting inside the dark hero */
+.contact-hero-form {
+  /* inherits .contact-form (dark variant kicks in via .section--dark) */
+  padding: 32px 32px 24px;
+  position: relative;
+}
+.contact-hero-form::before {
+  content: '';
+  position: absolute; left: 0; right: 0; top: 0;
+  height: 2px;
+  border-radius: var(--r-lg) var(--r-lg) 0 0;
+  background: linear-gradient(90deg, transparent, var(--red-warm), transparent);
+  opacity: 0.7;
+}
+.contact-hero-form-head {
+  margin-bottom: 22px;
+  padding-bottom: 18px;
+  border-bottom: 1px solid rgba(255,255,255,0.07);
+}
+.contact-hero-form-eyebrow {
+  display: inline-flex; align-items: center; gap: 10px;
+  font-family: var(--font-mono);
+  font-size: 10px; font-weight: 600;
+  letter-spacing: 2.4px; text-transform: uppercase;
+  color: var(--red-warm);
+  margin-bottom: 10px;
+}
+.contact-hero-form-eyebrow::before {
+  content: ''; width: 22px; height: 1.5px; background: var(--red-warm);
+}
+.contact-hero-form-title {
+  font-family: var(--font-display);
+  font-size: 22px; font-weight: 700;
+  letter-spacing: -0.015em;
+  color: var(--light);
+  margin-bottom: 6px;
+}
+.contact-hero-form-sub {
+  font-size: 13px;
+  color: var(--slate-light);
+}
+.contact-hero-textarea { min-height: 110px; }
+
+/* Disable .container side-padding behaviour bleeding through */
+.contact-hero .form-disclaimer { font-size: 11.5px; color: var(--slate-light); }
+.contact-hero .form-disclaimer a { color: var(--red-warm); }
+
+@media (max-width: 1024px) {
+  .contact-hero { padding: 120px 32px 60px; }
+  .contact-hero .contact-hero-inner { grid-template-columns: 1fr; gap: 44px; }
+  .contact-hero-info .page-hero-sub { max-width: 100%; }
+  .contact-hero-list { max-width: 100%; }
+}
+@media (max-width: 640px) {
+  .contact-hero { padding: 100px 20px 48px; }
+  .contact-hero .contact-hero-inner { gap: 32px; }
+  .contact-hero-list { grid-template-columns: 1fr; gap: 12px; }
+  .contact-hero-form { padding: 24px 20px 20px; }
+  .contact-hero-form-title { font-size: 19px; }
+  .contact-hero-form .form-row { grid-template-columns: 1fr; gap: 14px; margin-bottom: 14px; }
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   ROOMY MOBILE SPACING — opt-in per page via <body data-roomy>.
+   Tablet and mobile only. Adds breathing room to the hero and the
+   first run of content blocks so the layout feels less compressed.
+══════════════════════════════════════════════════════════════════ */
+@media (max-width: 1100px) {
+  body[data-roomy] .page-hero          { padding: 148px 28px 96px; }
+  body[data-roomy] .page-hero-inner    { gap: 56px; }
+  body[data-roomy] .page-h1            { margin-bottom: 22px; }
+  body[data-roomy] .page-hero-sub      { margin-bottom: 40px; line-height: 1.78; }
+  body[data-roomy] .page-hero-cta      { gap: 16px; }
+  body[data-roomy] .urgent-card        { padding: 36px 28px; }
+  body[data-roomy] .urgent-card-list   { margin-bottom: 28px; }
+  body[data-roomy] .urgent-card-list li { padding: 7px 0; }
+
+  body[data-roomy] .info-row           { gap: 18px; margin-top: 8px; }
+  body[data-roomy] .info-cell          { padding: 20px 22px; }
+  body[data-roomy] .content-grid       { gap: 72px; }
+  body[data-roomy] .section-block + .section-block { margin-top: 72px; }
+  body[data-roomy] .prose h2           { margin-bottom: 24px; }
+  body[data-roomy] .prose h3           { margin: 44px 0 14px; }
+  body[data-roomy] .prose p            { margin-bottom: 22px; }
+  body[data-roomy] .penalty-grid       { gap: 20px; }
+}
+
+@media (max-width: 680px) {
+  body[data-roomy] .page-hero          { padding: 128px 22px 80px; }
+  body[data-roomy] .page-hero-inner    { gap: 44px; }
+  body[data-roomy] .page-h1            { margin-bottom: 18px; line-height: 1.12; }
+  body[data-roomy] .page-hero-sub      { margin-bottom: 36px; font-size: 16px; }
+  body[data-roomy] .page-hero-cta      { gap: 14px; flex-direction: column; align-items: stretch; }
+  body[data-roomy] .page-hero-cta .btn { width: 100%; justify-content: center; }
+  body[data-roomy] .urgent-card        { padding: 32px 24px; margin-top: 12px; }
+  body[data-roomy] .urgent-card-title  { margin-bottom: 14px; }
+  body[data-roomy] .urgent-card-desc   { margin-bottom: 20px; line-height: 1.7; }
+  body[data-roomy] .urgent-card-list   { margin-bottom: 24px; }
+
+  body[data-roomy] .info-row           { gap: 14px; }
+  body[data-roomy] .info-cell          { padding: 18px 20px; }
+  body[data-roomy] .info-cell-text     { gap: 6px; }
+  body[data-roomy] .content-grid       { gap: 56px; }
+  body[data-roomy] .section-block + .section-block { margin-top: 56px; }
+  body[data-roomy] .prose h2           { font-size: 24px; margin-bottom: 20px; }
+  body[data-roomy] .prose h3           { margin: 36px 0 12px; }
+  body[data-roomy] .prose p            { margin-bottom: 20px; line-height: 1.78; }
+  body[data-roomy] .fact-list li       { padding: 9px 0 9px 22px; }
+  body[data-roomy] .penalty-card       { padding: 28px 22px; }
+}
