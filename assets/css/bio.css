@@ -790,3 +790,99 @@
   .profile-accred-sub { font-size: 11px; }
   .profile-hero-accred-wm { width: 320px; height: 320px; right: -100px; bottom: -100px; opacity: 0.04; }
 }
+
+/* ═══════════════════════════════════════════════════════════════════
+   ACCREDITED SPECIALIST — LAYERED SEAL V2 (chadi-irani-2.html only)
+   Two-image treatment: outside ring rotates slowly, inside emblem stays
+   still. Applied to (a) the seal in the accreditation card and
+   (b) the large background watermark behind the profile hero.
+══════════════════════════════════════════════════════════════════ */
+
+/* --- (a) Prominent layered seal in the accreditation card --- */
+body[data-seal-v2] .profile-accred-seal {
+  width: 96px; height: 96px;
+  background: #fff;
+  border-radius: 50%;
+  box-shadow:
+    0 0 0 1px rgba(196, 30, 26, 0.35),
+    0 10px 26px rgba(0, 0, 0, 0.55),
+    0 0 30px rgba(255, 255, 255, 0.14);
+}
+/* hide legacy dashed CSS ring — the new outside PNG carries the wordmark */
+body[data-seal-v2] .profile-accred-seal-ring { display: none; }
+body[data-seal-v2] .profile-accred-seal img {
+  position: absolute;
+  object-fit: contain;
+  filter: none;
+}
+body[data-seal-v2] .profile-accred-seal .profile-accred-seal-outside {
+  inset: 5px;
+  width: calc(100% - 10px); height: calc(100% - 10px);
+  animation: seal-outer-spin 42s linear infinite;
+  z-index: 2;
+}
+body[data-seal-v2] .profile-accred-seal .profile-accred-seal-inside {
+  top: 50%; left: 50%;
+  width: 44%; height: auto;
+  transform: translate(-50%, -50%);
+  z-index: 3;
+  filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.18));
+}
+
+/* --- (b) Large background watermark behind the profile hero --- */
+body[data-seal-v2] .profile-hero-accred-wm {
+  position: absolute;
+  right: -180px; top: 20%;
+  width: 720px; height: 720px;
+  pointer-events: none;
+  z-index: 1;
+  opacity: 1;
+  animation: none;               /* container itself doesn't move — the layers do */
+}
+body[data-seal-v2] .profile-hero-accred-wm > img {
+  position: absolute;
+  inset: 0;
+  width: 100%; height: 100%;
+  object-fit: contain;
+  animation: none;               /* wipe any inherited animation */
+}
+body[data-seal-v2] .profile-hero-accred-wm .profile-hero-accred-wm-ring {
+  opacity: 0.1;
+  /* invert the black lettering to light so it reads against the dark hero */
+  /* filter: invert(1) brightness(1.05) contrast(0.9); */
+  animation: seal-outer-spin 90s linear infinite;
+}
+body[data-seal-v2] .profile-hero-accred-wm .profile-hero-accred-wm-emblem {
+  opacity: 0.12;
+  /* filter: invert(1) brightness(1.1) hue-rotate(15deg) saturate(0.7); */
+  animation: seal-emblem-drift 16s ease-in-out infinite;
+  scale: 0.8;
+}
+
+@keyframes seal-outer-spin {
+  to { transform: rotate(360deg); }
+}
+@keyframes seal-emblem-drift {
+  0%, 100% { transform: translate(0, 0) rotate(0deg); }
+  50%      { transform: translate(-10px, -14px) rotate(1.5deg); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  body[data-seal-v2] .profile-accred-seal-outside,
+  body[data-seal-v2] .profile-hero-accred-wm-ring,
+  body[data-seal-v2] .profile-hero-accred-wm-emblem { animation: none; }
+}
+
+@media (max-width: 900px) {
+  body[data-seal-v2] .profile-hero-accred-wm {
+    right: -180px; top: auto; bottom: -180px;
+    width: 520px; height: 520px;
+  }
+}
+@media (max-width: 640px) {
+  body[data-seal-v2] .profile-accred-seal { width: 80px; height: 80px; }
+  body[data-seal-v2] .profile-accred-seal .profile-accred-seal-inside { width: 46%; }
+  body[data-seal-v2] .profile-hero-accred-wm {
+    width: 380px; height: 380px; right: -120px; bottom: -120px;
+  }
+}
