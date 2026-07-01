@@ -1716,11 +1716,11 @@
 /* ───── Tablet & Mobile (≤1024px) — small bottom-left floating pill ───── */
 @media (max-width: 1024px) {
   .sticky-toc {
-    left: 16px; bottom: 28px;     /* bottom-left, away from chat launcher */
+    left: 16px; bottom: 20px;     /* bottom-left, away from chat launcher */
   }
   .sticky-toc-toggle {
     display: inline-flex; align-items: center; gap: 8px;
-    padding: 10px 14px 10px 12px;
+    padding: 16px 14px 16px 14px;
     background: rgba(13, 11, 10, 0.92);
     backdrop-filter: blur(14px);
     -webkit-backdrop-filter: blur(14px);

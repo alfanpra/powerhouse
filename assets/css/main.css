@@ -1009,3 +1009,92 @@ footer {
 
   .testimonials-grid { grid-template-columns: 1fr; gap: 18px; }
 }
+
+/* ═══════════════════════════════════════════════════════════════════
+   FLOATING CALL-NOW BUTTON — site-wide (replaces old chat launcher).
+   Pill-shaped, red primary, phone icon + label, sticks to bottom-right.
+══════════════════════════════════════════════════════════════════ */
+.floating-call {
+  position: fixed;
+  right: 28px; bottom: 28px;
+  z-index: 90;
+  display: inline-flex;
+  align-items: center;
+  gap: 14px;
+  padding: 8px 22px 8px 8px;
+  background: linear-gradient(180deg, var(--red) 0%, #a30d0d 100%);
+  color: var(--light);
+  text-decoration: none;
+  border-radius: 999px;
+  box-shadow:
+    0 12px 28px rgba(196, 30, 26, 0.45),
+    0 0 0 1px rgba(255, 255, 255, 0.05) inset,
+    0 18px 44px rgba(0, 0, 0, 0.35);
+  transition: transform .28s var(--ease-out), box-shadow .28s var(--ease-out), background .3s var(--ease-out);
+  animation: floating-call-in .5s .2s var(--ease-out) both;
+}
+.floating-call::before {
+  content: '';
+  position: absolute; inset: -6px;
+  border-radius: inherit;
+  border: 2px solid rgba(196, 30, 26, 0.55);
+  animation: floating-call-pulse 2.4s ease-out infinite;
+  pointer-events: none;
+}
+.floating-call:hover {
+  transform: translateY(-2px);
+  background: linear-gradient(180deg, #d92722 0%, var(--red) 100%);
+  box-shadow:
+    0 18px 36px rgba(196, 30, 26, 0.55),
+    0 0 0 1px rgba(255, 255, 255, 0.08) inset,
+    0 22px 50px rgba(0, 0, 0, 0.4);
+}
+.floating-call:active { transform: translateY(0); }
+.floating-call-icon {
+  flex-shrink: 0;
+  width: 44px; height: 44px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.14);
+  display: flex; align-items: center; justify-content: center;
+  color: #fff;
+}
+.floating-call-icon svg { width: 20px; height: 20px; }
+.floating-call-text {
+  display: flex; flex-direction: column;
+  line-height: 1.15;
+  color: #fff;
+}
+.floating-call-label {
+  font-family: var(--font-display);
+  font-size: 15.5px; font-weight: 700;
+  letter-spacing: -0.005em;
+}
+.floating-call-num {
+  font-family: var(--font-mono);
+  font-size: 10.5px; font-weight: 500;
+  letter-spacing: 1.4px;
+  color: rgba(255, 255, 255, 0.82);
+  margin-top: 2px;
+}
+
+@keyframes floating-call-in {
+  from { transform: translateY(20px); opacity: 0; }
+  to   { transform: translateY(0);    opacity: 1; }
+}
+@keyframes floating-call-pulse {
+  0%   { transform: scale(1);     opacity: 0.6; }
+  70%  { transform: scale(1.12);  opacity: 0;   }
+  100% { transform: scale(1.12);  opacity: 0;   }
+}
+@media (prefers-reduced-motion: reduce) {
+  .floating-call,
+  .floating-call::before { animation: none; }
+}
+@media (max-width: 640px) {
+  .floating-call { right: 16px; bottom: 16px; padding: 12px 12px 12px 12px; gap: 12px; }
+  .floating-call-icon { width: 38px; height: 38px; }
+  .floating-call-icon svg { width: 18px; height: 18px; }
+  .floating-call-label { font-size: 14px; }
+  .floating-call-num { font-size: 10px; letter-spacing: 1.2px; }
+  .floating-call-text { display: none;}
+}

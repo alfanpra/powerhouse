@@ -61,7 +61,8 @@
       "Bash(wc -l 'E:/A - WORKS/A - ICTechnology/Works/Power House Law/Power House Law_Claude/contact-us.html')",
       "Bash(grep -nE '^\\\\s*<section|<form|hero|Call Now|tel:1800' 'E:/A - WORKS/A - ICTechnology/Works/Power House Law/Power House Law_Claude/contact-us.html')",
       "Bash(grep -nE '^\\\\.penalty-grid|^\\\\.areas-grid|^\\\\.defence-grid|^\\\\.creds-grid|^\\\\.fact-list|grid-template-columns:.*repeat\\\\\\(.*[34]' 'E:/A - WORKS/A - ICTechnology/Works/Power House Law/Power House Law_Claude/assets/css/practice.css')",
-      "Bash(ls 'E:/A - WORKS/A - ICTechnology/Works/Power House Law/Power House Law_Claude/chadi-irani*.html')"
+      "Bash(ls 'E:/A - WORKS/A - ICTechnology/Works/Power House Law/Power House Law_Claude/chadi-irani*.html')",
+      "Bash(perl C:/Users/Alfan/AppData/Local/Temp/claude/E--A---WORKS-A---ICTechnology-Works-Power-House-Law-Power-House-Law-Claude/603bb9e2-6875-4256-a997-2e84b926aad5/scratchpad/add_floating_call.pl 'E:/A - WORKS/A - ICTechnology/Works/Power House Law/Power House Law_Claude')"
     ]
   }
 }

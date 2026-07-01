@@ -984,3 +984,5 @@
   .hero-accred-eyebrow { font-size: 9px; letter-spacing: 2px; }
   .hero-accred-sub { font-size: 10.5px; }
 }
+
+/* .floating-call now lives in main.css so every page can use it. */
