@@ -9,7 +9,7 @@
   position: relative;
   padding: 180px 56px 100px;
   background:
-    radial-gradient(ellipse 65% 80% at 75% 50%, rgba(136, 8, 8, 0.22) 0%, transparent 60%),
+    radial-gradient(ellipse 65% 80% at 75% 50%, rgba(136, 8, 8, 0.10) 0%, transparent 60%),
     linear-gradient(180deg, var(--ink-deep) 0%, var(--ink) 100%);
   overflow: hidden;
   border-bottom: 1px solid var(--line-dark);
@@ -35,11 +35,11 @@
   display: inline-flex; align-items: center; gap: 12px;
   font-family: var(--font-mono);
   font-size: 11px; font-weight: 600; letter-spacing: 3px;
-  text-transform: uppercase; color: var(--red-warm);
+  text-transform: uppercase; color: var(--paper);
   margin-bottom: 24px;
 }
 .profile-hero-eyebrow::before {
-  content: ''; width: 36px; height: 1px; background: var(--red-warm); opacity: 0.85;
+  content: ''; width: 36px; height: 1px; background: var(--paper); opacity: 0.85;
 }
 .profile-h1 {
   font-family: var(--font-display);
@@ -51,7 +51,7 @@
   font-family: var(--font-script); font-style: italic; font-weight: 500;
   font-variation-settings: "opsz" 144, "SOFT" 60, "wght" 500;
   color: var(--red-warm); display: inline-block;
-  text-shadow: 0 0 40px rgba(196, 30, 26, 0.3);
+  text-shadow: none;
 }
 .profile-h2 {
   font-family: var(--font-display);
@@ -319,6 +319,8 @@
   display: block;
 }
 .section--dark .creds-col-list li strong { color: var(--light); }
+
+.section--dark .eyebrow { color: var(--paper); }
 
 /* (Testimonials use the shared `.testimonial-card` component in main.css — no bio-specific variant.) */
 
@@ -694,11 +696,10 @@
   margin: 16px 0 38px;
   border-radius: 18px;
   background: linear-gradient(180deg, rgba(255, 255, 255, 0.06) 0%, rgba(255, 255, 255, 0.02) 100%);
-  border: 1px solid rgba(196, 30, 26, 0.48);
+  border: 1px solid rgba(255, 255, 255, 0.18);
   box-shadow:
     0 18px 50px rgba(0, 0, 0, 0.5),
     0 0 0 1px rgba(255, 255, 255, 0.03) inset,
-    0 0 40px rgba(196, 30, 26, 0.22);
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
   max-width: 620px;
@@ -707,7 +708,7 @@
   content: '';
   position: absolute; inset: 0;
   border-radius: inherit;
-  background: linear-gradient(120deg, transparent 35%, rgba(196, 30, 26, 0.18) 50%, transparent 65%);
+  background: linear-gradient(120deg, transparent 35%, rgba(255, 255, 255, 0.09) 50%, transparent 65%);
   background-size: 220% 100%;
   background-position: 100% 0;
   pointer-events: none;
@@ -746,7 +747,7 @@
   font-family: var(--font-mono);
   font-size: 10px; font-weight: 600;
   letter-spacing: 2.6px; text-transform: uppercase;
-  color: var(--red-warm);
+  color: var(--paper);
   margin-bottom: 6px;
 }
 .profile-accred-title {
@@ -759,8 +760,8 @@
   font-family: var(--font-script);
   font-style: italic; font-weight: 500;
   font-variation-settings: "opsz" 144, "SOFT" 60, "wght" 500;
-  color: var(--red-warm);
-  text-shadow: 0 0 30px rgba(196, 30, 26, 0.4);
+  color: var(--white);
+  text-shadow: none;
 }
 .profile-accred-sub {
   margin-top: 6px;
@@ -823,7 +824,7 @@ body[data-seal-v2] .profile-accred-seal .profile-accred-seal-outside {
 }
 body[data-seal-v2] .profile-accred-seal .profile-accred-seal-inside {
   top: 50%; left: 50%;
-  width: 44%; height: auto;
+  width: 65%; height: auto;
   transform: translate(-50%, -50%);
   z-index: 3;
   filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.18));

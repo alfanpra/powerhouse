@@ -14,7 +14,7 @@
   justify-content: center;
   overflow: hidden;
   background:
-    radial-gradient(ellipse 80% 70% at 50% 50%, rgba(196, 30, 26, 0.2) 0%, transparent 60%),
+    radial-gradient(ellipse 80% 70% at 50% 50%, rgba(196, 30, 26, 0.10) 0%, transparent 60%),
     linear-gradient(180deg, var(--ink) 0%, var(--ink-deep) 100%);
 }
 .loader-emblem {
@@ -149,7 +149,7 @@
   z-index: 2;
   pointer-events: none;
   background:
-    radial-gradient(ellipse 55% 60% at 75% 50%, rgba(196, 30, 26, 0.18) 0%, transparent 65%);
+    radial-gradient(ellipse 55% 60% at 75% 50%, rgba(196, 30, 26, 0.09) 0%, transparent 65%);
   mix-blend-mode: overlay;
 }
 .hero-watermark {
@@ -198,7 +198,7 @@
   font-weight: 600;
   letter-spacing: 3.5px;
   text-transform: uppercase;
-  color: var(--red-warm);
+  color: var(--paper);
   margin-bottom: 32px;
   opacity: 0;
   animation: hero-fade-in 1s 0.3s var(--ease-out) forwards;
@@ -206,7 +206,7 @@
 .hero-eyebrow::before {
   content: '';
   width: 36px; height: 1px;
-  background: var(--red-warm);
+  background: var(--paper);
   opacity: 0.85;
 }
 .hero-h1 {
@@ -231,7 +231,7 @@
   color: var(--red-warm);
   margin-bottom: 28px;
   display: block;
-  text-shadow: 0 0 40px rgba(196, 30, 26, 0.4);
+  text-shadow: none;
   opacity: 0;
   animation: hero-fade-in 1.2s 0.7s var(--ease-out) forwards;
 }
@@ -427,7 +427,7 @@
   position: relative;
   z-index: 2;
 }
-.practice-head .eyebrow { color: var(--red-warm); }
+.practice-head .eyebrow { color: var(--paper); }
 .practice-head .section-heading { color: var(--light); }
 .practice-grid {
   max-width: 1340px;
@@ -871,11 +871,10 @@
   margin: 8px 0 40px;
   border-radius: 16px;
   background: linear-gradient(180deg, rgba(255, 255, 255, 0.06) 0%, rgba(255, 255, 255, 0.02) 100%);
-  border: 1px solid rgba(196, 30, 26, 0.42);
+  border: 1px solid rgba(255, 255, 255, 0.18);
   box-shadow:
     0 14px 40px rgba(0, 0, 0, 0.45),
     0 0 0 1px rgba(255, 255, 255, 0.03) inset,
-    0 0 32px rgba(196, 30, 26, 0.18);
   text-decoration: none;
   color: var(--light);
   backdrop-filter: blur(10px);
@@ -889,7 +888,7 @@
   content: '';
   position: absolute; inset: 0;
   border-radius: inherit;
-  background: linear-gradient(120deg, transparent 35%, rgba(196, 30, 26, 0.16) 50%, transparent 65%);
+  background: linear-gradient(120deg, transparent 35%, rgba(255, 255, 255, 0.09) 50%, transparent 65%);
   background-size: 220% 100%;
   background-position: 100% 0;
   pointer-events: none;
@@ -903,7 +902,7 @@
   box-shadow:
     0 18px 50px rgba(0, 0, 0, 0.55),
     0 0 0 1px rgba(255, 255, 255, 0.04) inset,
-    0 0 44px rgba(196, 30, 26, 0.32);
+    0 0 24px rgba(196, 30, 26, 0.12);
 }
 .hero-accred-seal {
   position: relative;
@@ -936,7 +935,7 @@
   font-family: var(--font-mono);
   font-size: 9.5px; font-weight: 600;
   letter-spacing: 2.4px; text-transform: uppercase;
-  color: var(--red-warm);
+  color: var(--paper);
   margin-bottom: 4px;
 }
 .hero-accred-title {
@@ -949,7 +948,7 @@
   font-family: var(--font-script);
   font-style: italic; font-weight: 500;
   font-variation-settings: "opsz" 144, "SOFT" 60, "wght" 500;
-  color: var(--red-warm);
+  color: var(--white);
 }
 .hero-accred-sub {
   margin-top: 4px;
