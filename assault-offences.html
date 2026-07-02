@@ -21,7 +21,7 @@
   <link rel="stylesheet" href="assets/css/main.css" />
   <link rel="stylesheet" href="assets/css/practice.css" />
 </head>
-<body data-sticky-toc data-roomy>
+<body data-toc-subnav data-roomy>
 
   <div id="scroll-progress"></div>
 
@@ -274,31 +274,21 @@
     </div>
   </section>
 
-  <!-- ═══ STICKY "WHAT'S ON THIS PAGE" — desktop right rail / mobile top bar ═══ -->
-  <aside id="stickyToc" class="sticky-toc" aria-label="What's on this page">
-    <button class="sticky-toc-toggle" type="button" aria-expanded="false" aria-controls="stickyTocBody">
-      <span class="sticky-toc-toggle-label">
-        <span class="sticky-toc-toggle-eyebrow">What's on this page</span>
-        <span class="sticky-toc-toggle-current" data-current>Common Assault</span>
-      </span>
-      <svg class="sticky-toc-toggle-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
-    </button>
-    <div class="sticky-toc-body" id="stickyTocBody">
-      <div class="sticky-toc-head">
-        <span class="sticky-toc-eyebrow">What's On This Page</span>
-        <span class="sticky-toc-hint">7 sections</span>
-      </div>
-      <ol class="sticky-toc-list">
-        <li><a href="#common-assault" data-toc><span class="sticky-toc-num">01</span><span class="sticky-toc-label">Common Assault</span></a></li>
-        <li><a href="#abh" data-toc><span class="sticky-toc-num">02</span><span class="sticky-toc-label">Assault Occasioning ABH</span></a></li>
-        <li><a href="#affray" data-toc><span class="sticky-toc-num">03</span><span class="sticky-toc-label">Affray</span></a></li>
-        <li><a href="#reckless-wounding" data-toc><span class="sticky-toc-num">04</span><span class="sticky-toc-label">Reckless Wounding</span></a></li>
-        <li><a href="#related" data-toc><span class="sticky-toc-num">05</span><span class="sticky-toc-label">Other Offences</span></a></li>
-        <li><a href="#defence" data-toc><span class="sticky-toc-num">06</span><span class="sticky-toc-label">Defence Approach</span></a></li>
-        <li><a href="#faq" data-toc><span class="sticky-toc-num">07</span><span class="sticky-toc-label">FAQ</span></a></li>
+  <!-- ═══ PAGE SUB-NAV — sits under the hero, docks below main nav when scrolled ═══ -->
+  <nav class="page-subnav" id="pageSubnav" aria-label="On this page">
+    <div class="page-subnav-inner">
+      <span class="page-subnav-label" aria-hidden="true">On this page</span>
+      <ol class="page-subnav-list">
+        <li><a href="#common-assault"    data-subnav><span class="page-subnav-num">01</span><span class="page-subnav-text">Common Assault</span></a></li>
+        <li><a href="#abh"                data-subnav><span class="page-subnav-num">02</span><span class="page-subnav-text">Assault Occasioning ABH</span></a></li>
+        <li><a href="#affray"             data-subnav><span class="page-subnav-num">03</span><span class="page-subnav-text">Affray</span></a></li>
+        <li><a href="#reckless-wounding"  data-subnav><span class="page-subnav-num">04</span><span class="page-subnav-text">Reckless Wounding</span></a></li>
+        <li><a href="#related"            data-subnav><span class="page-subnav-num">05</span><span class="page-subnav-text">Other Offences</span></a></li>
+        <li><a href="#defence"            data-subnav><span class="page-subnav-num">06</span><span class="page-subnav-text">Defence Approach</span></a></li>
+        <li><a href="#faq"                data-subnav><span class="page-subnav-num">07</span><span class="page-subnav-text">FAQ</span></a></li>
       </ol>
     </div>
-  </aside>
+  </nav>
 
   <!-- ═══ 1. COMMON ASSAULT (white) ═══ -->
   <section class="section section--white" id="common-assault">
@@ -456,9 +446,6 @@
           </div>
           <div class="penalty-card-meta">Table 1. Local Court unless elected.</div>
         </div>
-      </div>
-
-      <div class="penalty-grid" style="margin-top: 20px;" data-reveal="up" data-delay="1">
         <div class="penalty-card">
           <div class="penalty-card-section">Crimes Act · s.59(2)</div>
           <div class="penalty-card-title">ABH in Company</div>
@@ -591,9 +578,6 @@
           </div>
           <div class="penalty-card-meta">Multiple offenders — aggravated form.</div>
         </div>
-      </div>
-
-      <div class="penalty-grid" style="margin-top: 20px;" data-reveal="up" data-delay="1">
         <div class="penalty-card">
           <div class="penalty-card-section">Crimes Act · s.35(2)</div>
           <div class="penalty-card-title">Reckless GBH</div>
@@ -684,9 +668,6 @@
           </div>
           <div class="penalty-card-meta">Standard non-parole period applies.</div>
         </div>
-      </div>
-
-      <div class="penalty-grid" style="margin-top: 20px;" data-reveal="up" data-delay="1">
         <div class="penalty-card">
           <div class="penalty-card-section">Crimes Act · s.60(3)</div>
           <div class="penalty-card-title">Wounding/GBH on Officer</div>
@@ -707,7 +688,7 @@
         </div>
       </div>
 
-      <div style="max-width: 900px; margin: 40px auto 0;" data-reveal="up">
+      <div style="max-width: 100%; margin: 60px auto 0;" data-reveal="up">
         <div class="prose">
           <h3>Aggravating factors across all assault offences</h3>
           <p>
@@ -999,28 +980,32 @@
   <script src="assets/js/main.js" defer></script>
   <script src="assets/js/practice.js" defer></script>
 
-  <!-- Sticky TOC: scroll-spy + show/hide between hero and final CTA -->
+  <!-- Page sub-nav: scroll-spy, docked-under-nav state, auto-scroll active pill into view -->
   <script>
   (function () {
-    const toc       = document.getElementById('stickyToc');
-    if (!toc) return;
-    const tocBody   = document.getElementById('stickyTocBody');
-    const toggle    = toc.querySelector('.sticky-toc-toggle');
-    const current   = toc.querySelector('[data-current]');
-    const tocLinks  = Array.from(toc.querySelectorAll('a[data-toc]'));
-    const sections  = tocLinks.map(a => document.querySelector(a.getAttribute('href'))).filter(Boolean);
-    const stopAt    = document.getElementById('cta');     // sticky stops before this
-    const hero      = document.querySelector('.page-hero');
+    const subnav = document.getElementById('pageSubnav');
+    if (!subnav) return;
+    const list    = subnav.querySelector('.page-subnav-list');
+    const links   = Array.from(subnav.querySelectorAll('a[data-subnav]'));
+    const sections = links.map(a => document.querySelector(a.getAttribute('href'))).filter(Boolean);
+    const stopAt  = document.getElementById('cta');
+    const hero    = document.querySelector('.page-hero, .case-hero');
 
     const setActive = (id) => {
-      tocLinks.forEach(a => {
+      let active = null;
+      links.forEach(a => {
         const on = a.getAttribute('href') === '#' + id;
         a.classList.toggle('is-active', on);
-        if (on && current) current.textContent = a.querySelector('.sticky-toc-label').textContent;
+        if (on) active = a;
       });
+      // Keep the active pill visible in the horizontally-scrolling list on mobile
+      if (active && list && list.scrollWidth > list.clientWidth) {
+        const l = active.offsetLeft, r = l + active.offsetWidth;
+        if (l < list.scrollLeft + 40)                   list.scrollTo({ left: l - 40, behavior: 'smooth' });
+        else if (r > list.scrollLeft + list.clientWidth - 40) list.scrollTo({ left: r - list.clientWidth + 40, behavior: 'smooth' });
+      }
     };
 
-    // Scroll-spy: nearest section top above the upper third of the viewport
     const onScrollSpy = () => {
       const probe = window.innerHeight * 0.35;
       let activeId = sections[0]?.id;
@@ -1031,31 +1016,24 @@
       if (activeId) setActive(activeId);
     };
 
-    // Show after the hero, hide once the CTA enters
-    const onVisibility = () => {
-      const heroBottom = hero ? hero.getBoundingClientRect().bottom : 0;
-      const ctaTop     = stopAt ? stopAt.getBoundingClientRect().top : Infinity;
-      const visible    = heroBottom < 120 && ctaTop > window.innerHeight * 0.4;
-      toc.classList.toggle('is-visible', visible);
+    // Toggle 'is-docked' when the subnav has stuck under the main nav — enables a compacted look
+    const onDocked = () => {
+      const r = subnav.getBoundingClientRect();
+      // dock threshold ≈ main nav height (84 desktop / 76 tablet / 72 mobile)
+      const navH = window.innerWidth <= 680 ? 72 : (window.innerWidth <= 1100 ? 76 : 84);
+      subnav.classList.toggle('is-docked', Math.abs(r.top - navH) < 2);
     };
 
-    const onScroll = () => { onScrollSpy(); onVisibility(); };
+    // Hide the subnav entirely once the reader reaches the Final CTA / footer
+    const onEndCap = () => {
+      const ctaTop = stopAt ? stopAt.getBoundingClientRect().top : Infinity;
+      subnav.classList.toggle('is-hidden', ctaTop < window.innerHeight * 0.35);
+    };
+
+    const onScroll = () => { onScrollSpy(); onDocked(); onEndCap(); };
     window.addEventListener('scroll', onScroll, { passive: true });
     window.addEventListener('resize', onScroll);
     onScroll();
-
-    // Mobile collapse toggle
-    if (toggle) {
-      toggle.addEventListener('click', () => {
-        const open = toc.classList.toggle('is-open');
-        toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
-      });
-    }
-    // Close after click on mobile, smooth scroll preserved via CSS
-    tocLinks.forEach(a => a.addEventListener('click', () => {
-      toc.classList.remove('is-open');
-      if (toggle) toggle.setAttribute('aria-expanded', 'false');
-    }));
   })();
   </script>
 

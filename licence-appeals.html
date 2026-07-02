@@ -21,7 +21,7 @@
   <link rel="stylesheet" href="assets/css/main.css" />
   <link rel="stylesheet" href="assets/css/practice.css" />
 </head>
-<body data-sticky-toc data-roomy>
+<body data-toc-subnav data-roomy>
 
   <div id="scroll-progress"></div>
 
@@ -273,29 +273,19 @@
     </div>
   </section>
 
-  <!-- ═══ STICKY "WHAT'S ON THIS PAGE" — desktop right rail / mobile bottom pill ═══ -->
-  <aside id="stickyToc" class="sticky-toc" aria-label="What's on this page">
-    <button class="sticky-toc-toggle" type="button" aria-expanded="false" aria-controls="stickyTocBody">
-      <span class="sticky-toc-toggle-label">
-        <span class="sticky-toc-toggle-eyebrow">What's on this page</span>
-        <span class="sticky-toc-toggle-current" data-current>P1 & P2 Suspension</span>
-      </span>
-      <svg class="sticky-toc-toggle-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
-    </button>
-    <div class="sticky-toc-body" id="stickyTocBody">
-      <div class="sticky-toc-head">
-        <span class="sticky-toc-eyebrow">What's On This Page</span>
-        <span class="sticky-toc-hint">5 sections</span>
-      </div>
-      <ol class="sticky-toc-list">
-        <li><a href="#p1-p2-suspension" data-toc><span class="sticky-toc-num">01</span><span class="sticky-toc-label">P1 & P2 Suspension</span></a></li>
-        <li><a href="#speed-over-30" data-toc><span class="sticky-toc-num">02</span><span class="sticky-toc-label">Speed Over 30 km/h</span></a></li>
-        <li><a href="#process" data-toc><span class="sticky-toc-num">03</span><span class="sticky-toc-label">The Appeal Process</span></a></li>
-        <li><a href="#defence" data-toc><span class="sticky-toc-num">04</span><span class="sticky-toc-label">Defence Approach</span></a></li>
-        <li><a href="#faq" data-toc><span class="sticky-toc-num">05</span><span class="sticky-toc-label">FAQ</span></a></li>
+  <!-- ═══ PAGE SUB-NAV — sits under the hero, docks below main nav when scrolled ═══ -->
+  <nav class="page-subnav" id="pageSubnav" aria-label="On this page">
+    <div class="page-subnav-inner">
+      <span class="page-subnav-label" aria-hidden="true">On this page</span>
+      <ol class="page-subnav-list">
+        <li><a href="#p1-p2-suspension"        data-subnav><span class="page-subnav-num">01</span><span class="page-subnav-text">P1 & P2 Suspension</span></a></li>
+        <li><a href="#speed-over-30"           data-subnav><span class="page-subnav-num">02</span><span class="page-subnav-text">Speed Over 30 km/h</span></a></li>
+        <li><a href="#process"                 data-subnav><span class="page-subnav-num">03</span><span class="page-subnav-text">The Appeal Process</span></a></li>
+        <li><a href="#defence"                 data-subnav><span class="page-subnav-num">04</span><span class="page-subnav-text">Defence Approach</span></a></li>
+        <li><a href="#faq"                     data-subnav><span class="page-subnav-num">05</span><span class="page-subnav-text">FAQ</span></a></li>
       </ol>
     </div>
-  </aside>
+  </nav>
 
   <!-- ═══ 1. P1 & P2 SUSPENSION (white) ═══ -->
   <section class="section section--white" id="p1-p2-suspension">
@@ -832,26 +822,31 @@
   <script src="assets/js/practice.js" defer></script>
 
 
-  <!-- Sticky TOC: scroll-spy + show/hide between hero and final CTA -->
+  <!-- Page sub-nav: scroll-spy, docked-under-nav state, auto-scroll active pill into view -->
   <script>
   (function () {
-    const toc       = document.getElementById('stickyToc');
-    if (!toc) return;
-    const tocBody   = document.getElementById('stickyTocBody');
-    const toggle    = toc.querySelector('.sticky-toc-toggle');
-    const current   = toc.querySelector('[data-current]');
-    const tocLinks  = Array.from(toc.querySelectorAll('a[data-toc]'));
-    const sections  = tocLinks.map(a => document.querySelector(a.getAttribute('href'))).filter(Boolean);
-    const stopAt    = document.getElementById('cta');
-    const hero      = document.querySelector('.page-hero');
+    const subnav = document.getElementById('pageSubnav');
+    if (!subnav) return;
+    const list    = subnav.querySelector('.page-subnav-list');
+    const links   = Array.from(subnav.querySelectorAll('a[data-subnav]'));
+    const sections = links.map(a => document.querySelector(a.getAttribute('href'))).filter(Boolean);
+    const stopAt  = document.getElementById('cta');
+    const hero    = document.querySelector('.page-hero, .case-hero');
 
     const setActive = (id) => {
-      tocLinks.forEach(a => {
+      let active = null;
+      links.forEach(a => {
         const on = a.getAttribute('href') === '#' + id;
         a.classList.toggle('is-active', on);
-        if (on && current) current.textContent = a.querySelector('.sticky-toc-label').textContent;
+        if (on) active = a;
       });
+      if (active && list && list.scrollWidth > list.clientWidth) {
+        const l = active.offsetLeft, r = l + active.offsetWidth;
+        if (l < list.scrollLeft + 40)                   list.scrollTo({ left: l - 40, behavior: 'smooth' });
+        else if (r > list.scrollLeft + list.clientWidth - 40) list.scrollTo({ left: r - list.clientWidth + 40, behavior: 'smooth' });
+      }
     };
+
     const onScrollSpy = () => {
       const probe = window.innerHeight * 0.35;
       let activeId = sections[0]?.id;
@@ -861,27 +856,20 @@
       }
       if (activeId) setActive(activeId);
     };
-    const onVisibility = () => {
-      const heroBottom = hero ? hero.getBoundingClientRect().bottom : 0;
-      const ctaTop     = stopAt ? stopAt.getBoundingClientRect().top : Infinity;
-      const visible    = heroBottom < 120 && ctaTop > window.innerHeight * 0.4;
-      toc.classList.toggle('is-visible', visible);
+    const onDocked = () => {
+      const r = subnav.getBoundingClientRect();
+      const navH = window.innerWidth <= 680 ? 72 : (window.innerWidth <= 1100 ? 76 : 84);
+      subnav.classList.toggle('is-docked', Math.abs(r.top - navH) < 2);
     };
-    const onScroll = () => { onScrollSpy(); onVisibility(); };
+    const onEndCap = () => {
+      const ctaTop = stopAt ? stopAt.getBoundingClientRect().top : Infinity;
+      subnav.classList.toggle('is-hidden', ctaTop < window.innerHeight * 0.35);
+    };
+
+    const onScroll = () => { onScrollSpy(); onDocked(); onEndCap(); };
     window.addEventListener('scroll', onScroll, { passive: true });
     window.addEventListener('resize', onScroll);
     onScroll();
-
-    if (toggle) {
-      toggle.addEventListener('click', () => {
-        const open = toc.classList.toggle('is-open');
-        toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
-      });
-    }
-    tocLinks.forEach(a => a.addEventListener('click', () => {
-      toc.classList.remove('is-open');
-      if (toggle) toggle.setAttribute('aria-expanded', 'false');
-    }));
   })();
   </script>
 
