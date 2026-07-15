@@ -1,0 +1,2020 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Powerhouse CMS — Content Manager</title>
+  <meta name="robots" content="noindex, nofollow" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Fraunces:ital,opsz,wght,SOFT@0,9..144,600..700,0..100;1,9..144,500..600,0..100&display=swap" rel="stylesheet" />
+  <link href="https://api.fontshare.com/v2/css?f[]=switzer@400,500,600,700&display=swap" rel="stylesheet" />
+  <link rel="icon" type="image/x-icon" href="assets/img/logo-fill.svg" />
+
+  <style>
+    :root {
+      /* Cool neutral gray palette */
+      --bg:         #f6f7f9;
+      --surface:    #ffffff;
+      --surface-2:  #f2f4f7;
+      --surface-3:  #f9fafb;
+      --text:       #111827;
+      --text-soft:  #374151;
+      --text-mute:  #6b7280;
+      --line:       #e5e7eb;
+      --line-2:     #d1d5db;
+      --line-3:     #9ca3af;
+      --red:        #b91c1c;
+      --red-warm:   #dc2626;
+      --red-soft:   #fef2f2;
+      --green:      #16a34a;
+      --green-soft: #f0fdf4;
+      --amber:      #d97706;
+      --amber-soft: #fffbeb;
+      --blue:       #2563eb;
+      --blue-soft:  #eff6ff;
+
+      --font-body: 'Switzer', ui-sans-serif, system-ui, sans-serif;
+      --font-display: 'Fraunces', ui-serif, Georgia, serif;
+      --font-mono: 'JetBrains Mono', ui-monospace, monospace;
+
+      --r-sm: 6px;
+      --r-md: 10px;
+      --r-lg: 14px;
+      --ease: cubic-bezier(0.22, 0.61, 0.36, 1);
+      --sidebar-w: 288px;
+      --shadow-sm: 0 1px 2px rgba(17, 24, 39, 0.04), 0 1px 1px rgba(17, 24, 39, 0.02);
+      --shadow-md: 0 4px 12px rgba(17, 24, 39, 0.06), 0 1px 2px rgba(17, 24, 39, 0.04);
+      --shadow-lg: 0 12px 32px rgba(17, 24, 39, 0.10), 0 2px 6px rgba(17, 24, 39, 0.04);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body { height: 100%; }
+    body {
+      font-family: var(--font-body);
+      background: var(--bg);
+      color: var(--text);
+      -webkit-font-smoothing: antialiased;
+      font-size: 14px;
+      line-height: 1.55;
+      overflow: hidden;
+    }
+    button, input, select, textarea { font: inherit; color: inherit; }
+    a { color: inherit; text-decoration: none; }
+    ::selection { background: rgba(220, 38, 38, 0.18); }
+
+    .cms {
+      display: grid;
+      grid-template-columns: var(--sidebar-w) minmax(0, 1fr);
+      grid-template-rows: 60px minmax(0, 1fr);
+      grid-template-areas: "sidebar topbar" "sidebar main";
+      height: 100vh;
+    }
+
+    /* ═══ TOP BAR ═══ */
+    .cms-topbar {
+      grid-area: topbar;
+      background: var(--surface);
+      border-bottom: 1px solid var(--line);
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 24px 0 32px;
+      z-index: 10;
+    }
+    .cms-topbar-left { display: flex; align-items: center; gap: 12px; min-width: 0; }
+    .cms-topbar-eyebrow {
+      font-family: var(--font-mono);
+      font-size: 10.5px; font-weight: 500;
+      letter-spacing: 1.5px; text-transform: uppercase;
+      color: var(--text-mute);
+      white-space: nowrap;
+    }
+    .cms-topbar-title {
+      font-family: var(--font-display);
+      font-size: 17px; font-weight: 600;
+      color: var(--text);
+      letter-spacing: -0.008em;
+      white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+    }
+    .cms-topbar-right { display: flex; align-items: center; gap: 8px; }
+
+    .cms-saved {
+      font-family: var(--font-mono);
+      font-size: 11px; letter-spacing: 0.3px;
+      color: var(--text-mute);
+      display: inline-flex; align-items: center; gap: 8px;
+      margin-right: 6px;
+    }
+    .cms-saved::before {
+      content: ''; width: 6px; height: 6px; border-radius: 50%;
+      background: var(--green);
+      box-shadow: 0 0 0 3px rgba(22, 163, 74, 0.15);
+    }
+    .cms-saved.is-dirty { color: var(--amber); }
+    .cms-saved.is-dirty::before { background: var(--amber); box-shadow: 0 0 0 3px rgba(217, 119, 6, 0.15); animation: pulse 1.6s infinite; }
+    @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } }
+
+    .cms-icon-btn {
+      width: 34px; height: 34px;
+      border-radius: 8px;
+      border: 1px solid var(--line);
+      background: var(--surface);
+      color: var(--text-soft);
+      display: inline-flex; align-items: center; justify-content: center;
+      cursor: pointer;
+      transition: background .15s, border-color .15s, color .15s;
+      position: relative;
+    }
+    .cms-icon-btn:hover { background: var(--surface-2); color: var(--text); border-color: var(--line-2); }
+    .cms-icon-btn svg { width: 15px; height: 15px; }
+    .cms-icon-btn kbd {
+      position: absolute; top: -6px; right: -6px;
+      font-family: var(--font-mono); font-size: 8.5px;
+      background: var(--text); color: #fff;
+      border-radius: 3px; padding: 1px 4px;
+      opacity: 0;
+      transition: opacity .15s;
+    }
+    .cms-icon-btn:hover kbd { opacity: 1; }
+
+    .cms-btn {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 8px 14px;
+      border-radius: 8px;
+      border: 1px solid var(--line);
+      background: var(--surface);
+      color: var(--text);
+      font-size: 13px; font-weight: 500;
+      cursor: pointer;
+      transition: background .15s, border-color .15s;
+    }
+    .cms-btn:hover { background: var(--surface-2); border-color: var(--line-2); }
+    .cms-btn svg { width: 14px; height: 14px; }
+    .cms-btn--primary {
+      background: linear-gradient(180deg, var(--red-warm) 0%, var(--red) 100%);
+      border-color: var(--red);
+      color: #fff;
+      box-shadow: var(--shadow-sm);
+    }
+    .cms-btn--primary:hover { background: var(--red-warm); }
+    .cms-btn kbd {
+      font-family: var(--font-mono); font-size: 10px;
+      background: rgba(255,255,255,0.25);
+      border-radius: 3px; padding: 1px 4px;
+      margin-left: 4px;
+    }
+    .cms-topbar-divider { width: 1px; height: 20px; background: var(--line); margin: 0 6px; }
+
+    /* ═══ SIDEBAR ═══ */
+    .cms-sidebar {
+      grid-area: sidebar;
+      background: var(--surface-3);
+      border-right: 1px solid var(--line);
+      display: flex; flex-direction: column;
+      overflow: hidden;
+    }
+    .cms-brand {
+      display: flex; align-items: center; gap: 12px;
+      padding: 14px 20px;
+      border-bottom: 1px solid var(--line);
+      background: var(--surface);
+    }
+    .cms-brand img { width: 32px; height: 32px; }
+    .cms-brand-text { line-height: 1.2; }
+    .cms-brand-text .n {
+      font-family: var(--font-display);
+      font-size: 15px; font-weight: 600;
+      color: var(--text);
+      display: block;
+    }
+    .cms-brand-text .s {
+      font-family: var(--font-mono);
+      font-size: 9.5px; letter-spacing: 2px; text-transform: uppercase;
+      color: var(--text-mute);
+    }
+
+    .cms-search {
+      padding: 12px 14px 10px;
+      position: relative;
+    }
+    .cms-search input {
+      width: 100%;
+      padding: 8px 12px 8px 34px;
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      color: var(--text);
+      font-size: 12.5px;
+      outline: none;
+      transition: border-color .2s, box-shadow .2s;
+    }
+    .cms-search input:focus { border-color: var(--red-warm); box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.10); }
+    .cms-search input::placeholder { color: var(--text-mute); }
+    .cms-search > svg {
+      position: absolute; left: 26px; top: 50%; transform: translateY(-50%);
+      width: 14px; height: 14px; color: var(--text-mute);
+    }
+    .cms-search kbd {
+      position: absolute; right: 22px; top: 50%; transform: translateY(-50%);
+      font-family: var(--font-mono); font-size: 10px;
+      color: var(--text-mute); background: var(--surface-2);
+      border: 1px solid var(--line);
+      border-radius: 4px;
+      padding: 1px 5px;
+    }
+
+    .cms-nav {
+      flex: 1;
+      overflow-y: auto;
+      padding: 6px 10px 20px;
+    }
+    .cms-nav::-webkit-scrollbar { width: 6px; }
+    .cms-nav::-webkit-scrollbar-thumb { background: var(--line-2); border-radius: 3px; }
+
+    .cms-link {
+      display: flex; align-items: center; gap: 10px;
+      padding: 8px 12px;
+      border-radius: 8px;
+      color: var(--text-soft);
+      font-size: 13.5px; font-weight: 500;
+      cursor: pointer;
+      transition: background .15s, color .15s;
+      position: relative;
+      margin-top: 2px;
+    }
+    .cms-link:hover { background: var(--surface-2); color: var(--text); }
+    .cms-link.is-active {
+      background: var(--red-soft);
+      color: var(--red);
+      font-weight: 600;
+    }
+    .cms-link.is-active::before {
+      content: ''; position: absolute; left: 0; top: 8px; bottom: 8px;
+      width: 3px; background: var(--red-warm); border-radius: 2px;
+    }
+    .cms-link svg { width: 14px; height: 14px; color: var(--text-mute); flex-shrink: 0; }
+    .cms-link.is-active svg { color: var(--red); }
+    .cms-link-label { flex: 1; }
+
+    .cms-group { margin-top: 4px; }
+    .cms-group-head {
+      display: flex; align-items: center; gap: 8px;
+      width: 100%;
+      padding: 8px 12px;
+      border-radius: 8px;
+      background: none; border: 0;
+      color: var(--text);
+      font-family: var(--font-mono);
+      font-size: 10.5px; font-weight: 600;
+      letter-spacing: 1.8px; text-transform: uppercase;
+      cursor: pointer;
+      text-align: left;
+      transition: background .15s;
+    }
+    .cms-group-head:hover { background: var(--surface-2); }
+    .cms-group-chevron {
+      width: 12px; height: 12px;
+      color: var(--text-mute);
+      transition: transform .2s var(--ease);
+      flex-shrink: 0;
+    }
+    .cms-group[aria-expanded="true"] .cms-group-chevron { transform: rotate(90deg); }
+    .cms-group-icon { width: 14px; height: 14px; color: var(--text-mute); flex-shrink: 0; }
+    .cms-group-title { flex: 1; }
+    .cms-group-count {
+      font-family: var(--font-mono);
+      font-size: 9.5px;
+      color: var(--text-mute);
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: 4px;
+      padding: 1px 6px;
+    }
+    .cms-group-items {
+      display: none;
+      list-style: none;
+      padding: 2px 0 6px 20px;
+      margin-left: 6px;
+      border-left: 1px solid var(--line);
+    }
+    .cms-group[aria-expanded="true"] .cms-group-items { display: block; }
+
+    .cms-subgroup {
+      padding: 10px 12px 4px;
+      font-family: var(--font-mono);
+      font-size: 9.5px; font-weight: 600;
+      letter-spacing: 1.6px; text-transform: uppercase;
+      color: var(--text-mute);
+    }
+    .cms-subgroup:first-child { padding-top: 4px; }
+
+    .cms-page-link {
+      position: relative;
+      display: flex; align-items: center; gap: 8px;
+      padding: 7px 12px;
+      border-radius: 6px;
+      color: var(--text-soft);
+      font-size: 12.5px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: background .15s, color .15s;
+    }
+    .cms-page-link:hover { background: var(--surface-2); color: var(--text); }
+    .cms-page-link.is-active {
+      background: var(--red-soft);
+      color: var(--red);
+      font-weight: 600;
+    }
+    .cms-page-link.is-active::before {
+      content: ''; position: absolute;
+      left: -21px; top: 8px; bottom: 8px;
+      width: 2px; background: var(--red-warm); border-radius: 2px;
+    }
+    .cms-page-link-label { flex: 1; min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .cms-page-status {
+      width: 6px; height: 6px; border-radius: 50%;
+      flex-shrink: 0;
+    }
+    .cms-page-status.is-published { background: var(--green); }
+    .cms-page-status.is-draft { background: var(--amber); }
+
+    .cms-divider {
+      height: 1px; background: var(--line);
+      margin: 12px 14px;
+    }
+
+    .cms-user {
+      padding: 12px 16px;
+      border-top: 1px solid var(--line);
+      display: flex; align-items: center; gap: 10px;
+      background: var(--surface);
+    }
+    .cms-user-avatar {
+      width: 32px; height: 32px; border-radius: 50%;
+      background: linear-gradient(135deg, var(--red-warm), var(--red));
+      color: #fff;
+      display: flex; align-items: center; justify-content: center;
+      font-family: var(--font-display); font-size: 12px; font-weight: 600;
+      flex-shrink: 0;
+    }
+    .cms-user-text { flex: 1; min-width: 0; line-height: 1.2; }
+    .cms-user-text .n { font-size: 12.5px; font-weight: 600; color: var(--text); }
+    .cms-user-text .r { font-family: var(--font-mono); font-size: 9.5px; letter-spacing: 1.4px; text-transform: uppercase; color: var(--text-mute); }
+    .cms-user-arrow { width: 12px; height: 12px; color: var(--text-mute); }
+
+    /* ═══ MAIN ═══ */
+    .cms-main {
+      grid-area: main;
+      background: var(--bg);
+      overflow-y: auto;
+    }
+    .cms-main::-webkit-scrollbar { width: 8px; }
+    .cms-main::-webkit-scrollbar-thumb { background: var(--line-2); border-radius: 4px; }
+
+    .cms-jumpbar {
+      position: sticky; top: 0;
+      z-index: 5;
+      background: var(--bg);
+      border-bottom: 1px solid var(--line);
+      padding: 12px 40px;
+      display: flex; align-items: center; gap: 14px;
+      overflow-x: auto;
+      scrollbar-width: none;
+    }
+    .cms-jumpbar::-webkit-scrollbar { display: none; }
+    .cms-jumpbar-label {
+      font-family: var(--font-mono);
+      font-size: 10px; font-weight: 600;
+      letter-spacing: 1.6px; text-transform: uppercase;
+      color: var(--text-mute);
+      flex-shrink: 0;
+    }
+    .cms-jumpbar-list {
+      display: flex; gap: 4px;
+      list-style: none;
+    }
+    .cms-jumpbar-list a {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 6px 12px;
+      border-radius: 999px;
+      color: var(--text-soft);
+      font-size: 12.5px; font-weight: 500;
+      white-space: nowrap;
+      cursor: pointer;
+      transition: background .15s, color .15s;
+    }
+    .cms-jumpbar-list a:hover { background: var(--surface); color: var(--text); }
+    .cms-jumpbar-list a.is-active {
+      background: var(--red-soft);
+      color: var(--red);
+    }
+    .cms-jumpbar-num {
+      font-family: var(--font-mono);
+      font-size: 10px; letter-spacing: 0.4px;
+      color: var(--text-mute);
+    }
+    .cms-jumpbar-list a.is-active .cms-jumpbar-num { color: var(--red); }
+
+    .editor-wrap {
+      max-width: 880px;
+      margin: 0 auto;
+      padding: 32px 40px 96px;
+    }
+
+    /* Page banner */
+    .page-banner {
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: var(--r-lg);
+      padding: 22px 26px;
+      display: flex; align-items: flex-start; gap: 20px;
+      margin-bottom: 32px;
+      box-shadow: var(--shadow-sm);
+    }
+    .page-banner-body { flex: 1; min-width: 0; }
+    .page-banner-eyebrow {
+      font-family: var(--font-mono);
+      font-size: 10.5px; font-weight: 600;
+      letter-spacing: 2.2px; text-transform: uppercase;
+      color: var(--red);
+      display: inline-flex; align-items: center; gap: 10px;
+      margin-bottom: 10px;
+    }
+    .page-banner-eyebrow::before {
+      content: ''; width: 18px; height: 1.5px; background: var(--red);
+    }
+    .page-banner h1 {
+      font-family: var(--font-display);
+      font-size: 28px; font-weight: 700;
+      letter-spacing: -0.02em;
+      color: var(--text);
+      margin-bottom: 6px;
+    }
+    .page-banner-meta {
+      display: flex; align-items: center; gap: 12px; flex-wrap: wrap;
+      font-size: 12.5px;
+      color: var(--text-mute);
+      margin-top: 8px;
+    }
+    .page-banner-meta .dot { width: 3px; height: 3px; border-radius: 50%; background: var(--line-3); }
+    .page-banner-meta a { color: var(--text-soft); border-bottom: 1px solid var(--line-2); }
+    .page-banner-meta a:hover { color: var(--red); border-color: var(--red); }
+    .page-banner-meta strong { color: var(--text); font-weight: 600; }
+    .page-banner-status {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 5px 12px 5px 10px;
+      border-radius: 999px;
+      background: var(--green-soft);
+      border: 1px solid rgba(22, 163, 74, 0.25);
+      color: var(--green);
+      font-family: var(--font-mono);
+      font-size: 10.5px; font-weight: 600;
+      letter-spacing: 1.2px; text-transform: uppercase;
+      flex-shrink: 0;
+    }
+    .page-banner-status::before {
+      content: ''; width: 6px; height: 6px; border-radius: 50%; background: var(--green);
+    }
+    .page-banner-status.is-draft {
+      background: var(--amber-soft);
+      border-color: rgba(217, 119, 6, 0.25);
+      color: var(--amber);
+    }
+    .page-banner-status.is-draft::before { background: var(--amber); }
+
+    /* Section block */
+    .section-block { margin-top: 40px; scroll-margin-top: 80px; }
+    .section-block:first-of-type { margin-top: 24px; }
+    .section-block-head {
+      display: flex; align-items: flex-start; gap: 14px;
+      padding: 0 4px 14px;
+      margin-bottom: 12px;
+      border-bottom: 1px solid var(--line);
+    }
+    .section-block-icon {
+      width: 36px; height: 36px;
+      border-radius: 9px;
+      background: var(--red-soft);
+      color: var(--red);
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+    }
+    .section-block-icon svg { width: 17px; height: 17px; }
+    .section-block-meta { flex: 1; min-width: 0; }
+    .section-block-title {
+      font-family: var(--font-display);
+      font-size: 20px; font-weight: 700;
+      letter-spacing: -0.012em;
+      color: var(--text);
+      display: flex; align-items: center; gap: 8px; flex-wrap: wrap;
+    }
+    .section-block-anchor {
+      font-family: var(--font-mono);
+      font-size: 10.5px; font-weight: 500;
+      letter-spacing: 0.4px;
+      color: var(--text-mute);
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: 4px;
+      padding: 1px 6px;
+    }
+    .section-block-note {
+      font-size: 13px;
+      color: var(--text-mute);
+      margin-top: 3px;
+    }
+    .section-block-actions { display: flex; gap: 4px; margin-top: 6px; }
+    .icon-ghost {
+      width: 30px; height: 30px;
+      border-radius: 7px;
+      border: 0; background: transparent;
+      color: var(--text-mute);
+      display: inline-flex; align-items: center; justify-content: center;
+      cursor: pointer;
+      transition: background .15s, color .15s;
+    }
+    .icon-ghost:hover { background: var(--surface-2); color: var(--text); }
+    .icon-ghost svg { width: 14px; height: 14px; }
+
+    /* Card */
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: var(--r-lg);
+      padding: 22px 24px;
+      margin-bottom: 12px;
+      box-shadow: var(--shadow-sm);
+      transition: box-shadow .2s, border-color .2s;
+    }
+    .card:focus-within { border-color: var(--line-2); box-shadow: var(--shadow-md); }
+    .card-title {
+      font-family: var(--font-mono);
+      font-size: 10.5px; font-weight: 600;
+      letter-spacing: 1.8px;
+      text-transform: uppercase;
+      color: var(--text-soft);
+      margin-bottom: 20px;
+      padding-bottom: 14px;
+      border-bottom: 1px solid var(--line);
+      display: flex; align-items: center; gap: 10px;
+    }
+    .card-title-icon {
+      width: 24px; height: 24px;
+      border-radius: 6px;
+      background: var(--red-soft);
+      color: var(--red);
+      display: inline-flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+    }
+    .card-title-icon svg { width: 12px; height: 12px; }
+    .card-title-text { flex: 1; }
+    .card-title-hint {
+      font-family: var(--font-body);
+      font-size: 11px;
+      font-weight: 400;
+      letter-spacing: 0;
+      text-transform: none;
+      color: var(--text-mute);
+    }
+
+    /* Field */
+    .field { display: flex; flex-direction: column; gap: 6px; margin-bottom: 18px; }
+    .field:last-child { margin-bottom: 0; }
+    .field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 18px; }
+    .field-row .field { margin-bottom: 0; }
+    .field-label {
+      font-size: 13px; font-weight: 600;
+      color: var(--text);
+      display: flex; align-items: center; gap: 8px;
+    }
+    .field-label .req { color: var(--red); font-weight: 700; }
+    .field-label .badge {
+      font-family: var(--font-mono);
+      font-size: 9.5px; font-weight: 500;
+      letter-spacing: 0.8px;
+      color: var(--text-mute);
+      background: var(--surface-2);
+      border: 1px solid var(--line);
+      border-radius: 4px;
+      padding: 1px 5px;
+      text-transform: uppercase;
+    }
+    .field-help {
+      font-size: 12px;
+      color: var(--text-mute);
+      margin-top: 2px;
+    }
+    .field-input, .field-textarea, .field-select {
+      width: 100%;
+      padding: 10px 14px;
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      color: var(--text);
+      font-size: 14px;
+      outline: none;
+      transition: border-color .15s, box-shadow .15s;
+      font-family: var(--font-body);
+    }
+    .field-input::placeholder, .field-textarea::placeholder { color: var(--text-mute); }
+    .field-input:hover, .field-textarea:hover, .field-select:hover { border-color: var(--line-2); }
+    .field-input:focus, .field-textarea:focus, .field-select:focus {
+      border-color: var(--red-warm);
+      box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.10);
+    }
+    .field-textarea { resize: vertical; min-height: 90px; line-height: 1.6; }
+    .field-inline { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+    .field-with-icon { position: relative; }
+    .field-with-icon .field-input { padding-left: 36px; }
+    .field-with-icon > svg {
+      position: absolute; left: 12px; top: 50%; transform: translateY(-50%);
+      width: 14px; height: 14px; color: var(--text-mute);
+    }
+    .field-counter {
+      display: flex; justify-content: space-between; align-items: center;
+      font-family: var(--font-mono);
+      font-size: 10.5px;
+      color: var(--text-mute);
+      margin-top: 2px;
+    }
+    .field-counter .ok { color: var(--green); }
+    .field-counter .warn { color: var(--amber); }
+
+    /* Media slot */
+    .media-slot {
+      display: flex; align-items: center; gap: 14px;
+      padding: 12px;
+      background: var(--surface-3);
+      border: 1px dashed var(--line-2);
+      border-radius: 10px;
+      transition: border-color .15s, background .15s;
+    }
+    .media-slot:hover { border-color: var(--line-3); background: var(--surface); }
+    .media-slot-thumb {
+      width: 64px; height: 64px;
+      border-radius: 8px;
+      background: var(--surface-2);
+      display: flex; align-items: center; justify-content: center;
+      overflow: hidden;
+      flex-shrink: 0;
+      border: 1px solid var(--line);
+      color: var(--text-mute);
+    }
+    .media-slot-thumb img { width: 100%; height: 100%; object-fit: cover; }
+    .media-slot-thumb svg { width: 22px; height: 22px; }
+    .media-slot-body { flex: 1; min-width: 0; }
+    .media-slot-body .n { font-size: 13px; font-weight: 600; color: var(--text); margin-bottom: 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .media-slot-body .m { font-family: var(--font-mono); font-size: 10.5px; color: var(--text-mute); letter-spacing: 0.4px; }
+    .media-slot-actions { display: flex; gap: 6px; flex-shrink: 0; }
+
+    /* Repeater */
+    .repeater { display: flex; flex-direction: column; gap: 8px; }
+    .repeater-item {
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      padding: 12px 14px 12px 12px;
+      display: flex; align-items: center; gap: 12px;
+      transition: border-color .15s, box-shadow .15s;
+    }
+    .repeater-item:hover { border-color: var(--line-2); box-shadow: var(--shadow-sm); }
+    .repeater-drag {
+      width: 22px; height: 22px;
+      color: var(--text-mute);
+      cursor: grab;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+      opacity: 0.4;
+      transition: opacity .15s;
+    }
+    .repeater-item:hover .repeater-drag { opacity: 1; }
+    .repeater-drag svg { width: 14px; height: 14px; }
+    .repeater-num {
+      font-family: var(--font-mono);
+      font-size: 10px; font-weight: 600;
+      color: var(--text-mute);
+      background: var(--surface-2);
+      border-radius: 5px;
+      padding: 2px 7px;
+      letter-spacing: 0.8px;
+      flex-shrink: 0;
+    }
+    .repeater-item-body { flex: 1; min-width: 0; line-height: 1.35; }
+    .repeater-item-body .t { font-size: 13.5px; font-weight: 600; color: var(--text); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .repeater-item-body .d { font-size: 12px; color: var(--text-mute); margin-top: 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .repeater-actions { display: flex; gap: 2px; flex-shrink: 0; }
+    .repeater-add {
+      padding: 10px;
+      background: transparent;
+      border: 1px dashed var(--line-2);
+      border-radius: 10px;
+      color: var(--text-mute);
+      font-size: 13px; font-weight: 500;
+      cursor: pointer;
+      display: flex; align-items: center; justify-content: center; gap: 8px;
+      transition: color .15s, border-color .15s, background .15s;
+    }
+    .repeater-add:hover {
+      color: var(--red);
+      border-color: var(--red);
+      background: var(--red-soft);
+    }
+    .repeater-add svg { width: 14px; height: 14px; }
+
+    /* Empty state placeholder text */
+    .empty-hint {
+      text-align: center;
+      padding: 32px 16px;
+      color: var(--text-mute);
+      font-size: 13px;
+      background: var(--surface-3);
+      border: 1px dashed var(--line);
+      border-radius: 10px;
+    }
+    .empty-hint svg { width: 32px; height: 32px; margin-bottom: 10px; opacity: 0.5; }
+
+    /* Toast */
+    .cms-toast {
+      position: fixed;
+      bottom: 20px; right: 20px;
+      z-index: 100;
+      background: var(--text);
+      color: #fff;
+      border-radius: 10px;
+      padding: 12px 16px 12px 14px;
+      box-shadow: var(--shadow-lg);
+      display: flex; align-items: center; gap: 12px;
+      font-size: 13px;
+      max-width: 380px;
+      transform: translateY(140%);
+      transition: transform .4s var(--ease);
+    }
+    .cms-toast.show { transform: translateY(0); }
+    .cms-toast-icon {
+      width: 22px; height: 22px; border-radius: 50%;
+      background: var(--green);
+      color: #fff;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+    }
+    .cms-toast-icon svg { width: 12px; height: 12px; }
+
+    /* Responsive */
+    @media (max-width: 1000px) {
+      :root { --sidebar-w: 248px; }
+      .editor-wrap { padding: 24px 24px 60px; }
+      .cms-jumpbar { padding: 12px 24px; }
+    }
+    @media (max-width: 680px) {
+      .cms { grid-template-columns: 1fr; grid-template-areas: "topbar" "main"; }
+      .cms-sidebar { display: none; }
+      .field-row, .field-inline { grid-template-columns: 1fr; }
+      .cms-topbar { padding: 0 16px; }
+      .cms-topbar-eyebrow { display: none; }
+    }
+  </style>
+</head>
+<body>
+  <div class="cms">
+
+    <!-- ═══ SIDEBAR ═══ -->
+    <aside class="cms-sidebar">
+      <div class="cms-brand">
+        <img src="assets/img/logo-fill.svg" alt="" />
+        <div class="cms-brand-text">
+          <span class="n">Powerhouse</span>
+          <span class="s">Content Manager</span>
+        </div>
+      </div>
+
+      <div class="cms-search">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+        <input type="text" placeholder="Search pages…" />
+        <kbd>⌘K</kbd>
+      </div>
+
+      <nav class="cms-nav" id="cmsNav"><!-- Populated by JS --></nav>
+
+      <div class="cms-user">
+        <div class="cms-user-avatar">CI</div>
+        <div class="cms-user-text">
+          <div class="n">Chadi Irani</div>
+          <div class="r">Admin</div>
+        </div>
+        <svg class="cms-user-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+      </div>
+    </aside>
+
+    <!-- ═══ TOP BAR ═══ -->
+    <header class="cms-topbar">
+      <div class="cms-topbar-left">
+        <span class="cms-topbar-eyebrow" id="topEyebrow">Editing page ›</span>
+        <span class="cms-topbar-title" id="topTitle">Home Page</span>
+      </div>
+      <div class="cms-topbar-right">
+        <button class="cms-icon-btn" title="Undo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 14l-4-4 4-4"/><path d="M5 10h9a5 5 0 0 1 5 5v0a5 5 0 0 1-5 5H8"/></svg><kbd>⌘Z</kbd></button>
+        <button class="cms-icon-btn" title="Redo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 14l4-4-4-4"/><path d="M19 10h-9a5 5 0 0 0-5 5v0a5 5 0 0 0 5 5h6"/></svg><kbd>⌘⇧Z</kbd></button>
+        <div class="cms-topbar-divider"></div>
+        <span class="cms-saved" id="topSaved">Autosaved · 12:47</span>
+        <button class="cms-btn">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+          Preview
+        </button>
+        <button class="cms-btn cms-btn--primary" onclick="showToast()">
+          Publish
+          <kbd>⌘S</kbd>
+        </button>
+      </div>
+    </header>
+
+    <!-- ═══ MAIN ═══ -->
+    <main class="cms-main">
+      <div class="cms-jumpbar" id="jumpbar"><!-- populated --></div>
+      <div class="editor-wrap" id="editor"><!-- populated --></div>
+    </main>
+  </div>
+
+  <!-- Toast -->
+  <div class="cms-toast" id="cmsToast">
+    <span class="cms-toast-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></span>
+    <span id="toastMsg">Page published — visible to visitors.</span>
+  </div>
+
+  <script>
+    /* ═══════════════════════════════════════════════════════════════
+       ICON LIBRARY (inline SVGs used by section headers + card titles)
+       ═══════════════════════════════════════════════════════════════ */
+    const ICON = {
+      text:     '<polyline points="4 7 4 4 20 4 20 7"/><line x1="9" y1="20" x2="15" y2="20"/><line x1="12" y1="4" x2="12" y2="20"/>',
+      button:   '<rect x="3" y="8" width="18" height="8" rx="2"/><line x1="7" y1="12" x2="17" y2="12"/>',
+      image:    '<rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/>',
+      badge:    '<path d="M12 2l3 6 6 1-4.5 4.5L18 20l-6-3-6 3 1.5-6.5L3 9l6-1z"/>',
+      grid:     '<rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/>',
+      list:     '<line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/>',
+      quote:    '<path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>',
+      phone:    '<path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>',
+      globe:    '<circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>',
+      hero:     '<path d="M2 12l10-10 10 10M4 10v10h6v-6h4v6h6V10"/>',
+      info:     '<circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/>',
+      briefcase:'<rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/>',
+      shield:   '<path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="M9 12l2 2 4-4"/>',
+      user:     '<path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/>',
+      help:     '<circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3M12 17h.01"/>',
+      form:     '<rect x="3" y="4" width="18" height="16" rx="2"/><line x1="7" y1="9" x2="17" y2="9"/><line x1="7" y1="13" x2="17" y2="13"/><line x1="7" y1="17" x2="13" y2="17"/>',
+      pin:      '<path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/>',
+      map:      '<polygon points="1 6 1 22 8 18 16 22 23 18 23 2 16 6 8 2 1 6"/><line x1="8" y1="2" x2="8" y2="18"/><line x1="16" y1="6" x2="16" y2="22"/>',
+      clock:    '<circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/>',
+      settings: '<circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/>',
+      home:     '<path d="M3 12l9-9 9 9"/><path d="M5 10v10h14V10"/>',
+      check:    '<path d="M20 6L9 17l-5-5"/>',
+      folder:   '<path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/>',
+      gavel:    '<path d="M14 4l6 6M4 20l6-6M4 20l3 3M14 4l3-3M11 11l6 6M6 16l6-6"/>',
+      scale:    '<path d="M16 16l3-8 3 8M2 16l3-8 3 8M7 21h10M12 3v18M3 7h18"/>'
+    };
+    const svg = (key, w=14) => `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="${w}" height="${w}">${ICON[key] || ''}</svg>`;
+
+    /* ═══════════════════════════════════════════════════════════════
+       SIDEBAR STRUCTURE (mirrors the site navbar exactly)
+       ═══════════════════════════════════════════════════════════════ */
+    const NAV = [
+      { type: 'link', id: 'home', label: 'Home Page', icon: 'home', status: 'published' },
+      { type: 'group', label: 'Practice Areas', icon: 'briefcase', open: true, children: [
+        { type: 'sub', label: 'Criminal Law' },
+        { type: 'page', id: 'assault',          label: 'Assault Offences',           status: 'published' },
+        { type: 'page', id: 'domestic',         label: 'Domestic Violence & AVOs',   status: 'published' },
+        { type: 'page', id: 'drugs',            label: 'Drug Offences',              status: 'draft' },
+        { type: 'page', id: 'sexual',           label: 'Sexual Offences',            status: 'published' },
+        { type: 'page', id: 'court-outcomes',   label: 'Court Outcomes',             status: 'published' },
+        { type: 'page', id: 'bail',             label: 'Bail Applications',          status: 'published' },
+        { type: 'sub', label: 'Traffic Law' },
+        { type: 'page', id: 'licence',          label: 'Licence Appeals',            status: 'published' },
+        { type: 'page', id: 'drink',            label: 'Drink Driving',              status: 'published' },
+        { type: 'page', id: 'drug-driving',     label: 'Drug Driving',               status: 'published' },
+        { type: 'page', id: 'serious-traffic',  label: 'Serious Traffic Matters',    status: 'published' }
+      ]},
+      { type: 'group', label: 'Results', icon: 'check', open: false, children: [
+        { type: 'page', id: 'recent-cases', label: 'Recent Cases', status: 'published' }
+      ]},
+      { type: 'group', label: 'About Us', icon: 'info', open: false, children: [
+        { type: 'page', id: 'chadi',      label: 'Meet Chadi Irani',           status: 'published' },
+        { type: 'page', id: 'barristers', label: 'Barristers We Instruct',     status: 'published' },
+        { type: 'page', id: 'courts',     label: 'Courts We Attend',           status: 'published' },
+        { type: 'page', id: 'fees',       label: 'Fees & Costs',               status: 'published' },
+        { type: 'page', id: 'faq',        label: 'Frequently Asked Questions', status: 'draft' },
+        { type: 'page', id: 'legal-aid',  label: 'Legal Aid NSW',              status: 'published' }
+      ]},
+      { type: 'link', id: 'contact', label: 'Contact', icon: 'phone', status: 'published' },
+      { type: 'divider' },
+      { type: 'link', id: 'global', label: 'Global Settings', icon: 'settings' }
+    ];
+
+    /* ═══════════════════════════════════════════════════════════════
+       REUSABLE SECTION TEMPLATES (composed per page below)
+       ═══════════════════════════════════════════════════════════════ */
+    const heroImages = [
+      { label: 'Background image', badge: '1200 × 1600', name: 'chadi-image.png', meta: '1200 × 1600 · 340 KB · uploaded 12 Feb 2026', src: 'assets/img/chadi-image.png' },
+      { label: 'Accreditation seal', badge: 'Circular', name: 'acredited-specialist-logo.png', meta: '512 × 512 · 24 KB · used on 4 pages', src: 'assets/img/acredited-specialist-logo.png', bg: '#fff' }
+    ];
+    const ctaSection = (title, sub, btnLabel = 'Call 1800-100-529', btnHref = 'tel:1800100529') => ({
+      id: 'cta', title: 'CTA Section', icon: 'phone',
+      note: 'Bottom-of-page call to action strip.',
+      cards: [{
+        title: 'Content', icon: 'text',
+        fields: [
+          { type: 'row', fields: [
+            { type: 'text', label: 'Title', required: true, value: title },
+            { type: 'text', label: 'Subtitle', value: sub }
+          ]},
+          { type: 'cta', label: 'Call button', labelValue: btnLabel, linkValue: btnHref, linkIcon: 'phone' }
+        ]
+      }]
+    });
+    const seoSection = (title, desc) => ({
+      id: 'seo', title: 'Page SEO', icon: 'globe',
+      anchor: 'meta',
+      note: 'Title and description shown in search engines and social previews.',
+      cards: [{
+        title: 'Meta content', icon: 'globe',
+        fields: [
+          { type: 'text', label: 'Meta title', required: true, value: title, counter: [title.length, 60] },
+          { type: 'textarea', label: 'Meta description', rows: 3, value: desc, counter: [desc.length, 160], help: 'Aim for 150–160 characters' },
+          { type: 'media', label: 'Open Graph image', badge: '1200 × 630', name: 'og-social.jpg', meta: '1200 × 630 · 87 KB', placeholder: true }
+        ]
+      }]
+    });
+
+    /* Practice-area page template (info row, offence sections, defence, FAQ, CTA, SEO)
+       All practice pages share this shape; each overrides content per page. */
+    const practicePageTemplate = ({ name, url, heroEyebrow, heroH1, heroSub, infoLaw, infoPenalty, infoConsult, offences, defence, faqs, seoTitle, seoDesc, status = 'published' }) => ({
+      name, url, status,
+      edited: '2 hours ago', editor: 'Chadi Irani', version: 'v3.4 · Published 14 Jul',
+      sections: [
+        {
+          id: 'hero', title: 'Hero Section', icon: 'hero',
+          note: 'Top of the page — headline, description, primary/secondary CTAs.',
+          cards: [
+            { title: 'Text content', icon: 'text', hint: '4 fields', fields: [
+              { type: 'text', label: 'Eyebrow', value: heroEyebrow },
+              { type: 'text', label: 'Main heading', required: true, value: heroH1 },
+              { type: 'textarea', label: 'Description', required: true, rows: 3, value: heroSub, counter: [heroSub.length, 300] }
+            ]},
+            { title: 'Buttons', icon: 'button', fields: [
+              { type: 'cta', label: 'Primary button', badge: 'Red', labelValue: 'Free 1st Consult', linkValue: 'tel:1800100529', linkIcon: 'phone' },
+              { type: 'cta', label: 'Secondary button', badge: 'Outline', labelValue: 'See the Charges', linkValue: '#common', linkIcon: 'text' }
+            ]},
+            { title: 'Urgent card', icon: 'shield', hint: 'Right of hero', fields: [
+              { type: 'text', label: 'Eyebrow', value: 'Urgent · 24/7' },
+              { type: 'text', label: 'Title', value: 'Just charged or being interviewed?' },
+              { type: 'textarea', label: 'Description', rows: 3, value: 'A single sentence in a police interview can collapse your defence. Do not consent to a record of interview before getting advice. We answer 24/7 — including weekends and public holidays.' },
+              { type: 'repeater', label: 'Bullet list', items: [
+                { t: 'Same-day urgent advice', d: '' },
+                { t: 'Self-defence brief from day one', d: '' },
+                { t: 'Bail applications · same day', d: '' }
+              ], addLabel: 'Add bullet' }
+            ]}
+          ]
+        },
+        {
+          id: 'info', title: 'Info Row', icon: 'info',
+          note: '3 key-fact cards displayed above the main content.',
+          cards: [{
+            title: 'Fact cards', icon: 'grid', hint: '3 items',
+            fields: [{ type: 'repeater', items: [
+              { t: infoLaw.label, d: infoLaw.value },
+              { t: infoPenalty.label, d: infoPenalty.value },
+              { t: infoConsult.label, d: infoConsult.value }
+            ], addLabel: 'Add fact card' }]
+          }]
+        },
+        {
+          id: 'content', title: 'Offence Sections', icon: 'gavel',
+          note: `Long-form sections for each offence covered on this page.`,
+          cards: [{
+            title: 'Sections', icon: 'folder', hint: `${offences.length} sections · drag to reorder`,
+            fields: [{ type: 'repeater', items: offences, addLabel: 'Add offence section' }]
+          }]
+        },
+        {
+          id: 'defence', title: 'Defence Approach', icon: 'shield',
+          note: 'Cards summarising how the firm defends this class of charge.',
+          cards: [{
+            title: 'Defence cards', icon: 'grid', hint: `${defence.length} items`,
+            fields: [{ type: 'repeater', items: defence, addLabel: 'Add defence card' }]
+          }]
+        },
+        {
+          id: 'faq', title: 'FAQ Section', icon: 'help',
+          note: 'Common questions asked by clients facing this charge.',
+          cards: [{
+            title: 'Questions', icon: 'help', hint: `${faqs.length} items`,
+            fields: [{ type: 'repeater', items: faqs, addLabel: 'Add FAQ' }]
+          }]
+        },
+        ctaSection('Facing a ' + heroEyebrow.split('·')[0].trim().toLowerCase() + ' charge? Talk to us today.', 'Free first consultation. Available 24/7.'),
+        seoSection(seoTitle, seoDesc)
+      ]
+    });
+
+    /* Simple About/Info page template */
+    const aboutPageTemplate = ({ name, url, heroEyebrow, heroH1, heroSub, bodyCards = [], status = 'published' }) => ({
+      name, url, status,
+      edited: '1 day ago', editor: 'Chadi Irani', version: 'v2.1',
+      sections: [
+        {
+          id: 'hero', title: 'Hero Section', icon: 'hero',
+          note: 'Introductory hero for this page.',
+          cards: [{
+            title: 'Text content', icon: 'text',
+            fields: [
+              { type: 'text', label: 'Eyebrow', value: heroEyebrow },
+              { type: 'text', label: 'Main heading', required: true, value: heroH1 },
+              { type: 'textarea', label: 'Description', rows: 3, value: heroSub, counter: [heroSub.length, 300] }
+            ]
+          }]
+        },
+        ...bodyCards,
+        ctaSection('Ready to speak with an Accredited Specialist?', 'Free first consultation. Available 24/7.'),
+        seoSection(name + ' · Powerhouse Law Australia', heroSub.slice(0, 158))
+      ]
+    });
+
+    /* ═══════════════════════════════════════════════════════════════
+       PAGE DATA — every page in the sidebar has real content
+       ═══════════════════════════════════════════════════════════════ */
+    const PAGES = {
+
+      /* ───── HOME ───── */
+      home: {
+        name: 'Home Page', url: 'index.html', status: 'published',
+        edited: '2 min ago', editor: 'Chadi Irani', version: 'v4.12 · Published 14 Jul',
+        sections: [
+          { id: 'hero', title: 'Hero Section', icon: 'hero',
+            note: 'First view visitors see — headline, description, buttons, portrait.',
+            cards: [
+              { title: 'Text content', icon: 'text', hint: '4 fields', fields: [
+                { type: 'text', label: 'Eyebrow', badge: 'Short text', value: 'Criminal Lawyers · Traffic Lawyers' },
+                { type: 'text', label: 'Main heading', required: true, value: 'Strategic Criminal Defence.' },
+                { type: 'text', label: 'Italic sub-heading', badge: 'Serif italic', value: 'Experienced. Approachable. Result Focused.', help: 'Displays in the red script accent underneath the main heading.' },
+                { type: 'textarea', label: 'Description', required: true, rows: 3, value: 'Providing strong, strategic and practical legal representation for individuals facing criminal charges and traffic matters across New South Wales.', counter: [156, 240] }
+              ]},
+              { title: 'Buttons', icon: 'button', hint: 'Label + URL', fields: [
+                { type: 'cta', label: 'Primary button', badge: 'Red', labelValue: 'Call Now', linkValue: 'tel:1800100529', linkIcon: 'phone' },
+                { type: 'cta', label: 'Secondary button', badge: 'Outline', labelValue: 'Book a Consultation', linkValue: '#cta', linkIcon: 'text' }
+              ]},
+              { title: 'Images', icon: 'image', hint: 'Portrait + seal',
+                fields: heroImages.map(im => ({ type: 'media', ...im }))
+              },
+              { title: 'Accreditation callout', icon: 'badge', hint: 'Trust badge on hero', fields: [
+                { type: 'row', fields: [
+                  { type: 'text', label: 'Institution', required: true, value: 'Law Society of NSW' },
+                  { type: 'text', label: 'Links to', value: 'chadi-irani.html' }
+                ]},
+                { type: 'text', label: 'Title', value: 'Accredited Specialist in Criminal Law' },
+                { type: 'text', label: 'Supporting text', value: 'Held by less than 5% of NSW solicitors' }
+              ]}
+            ]
+          },
+          { id: 'about', title: 'About Section', icon: 'info',
+            note: 'Short bio + four feature blocks.',
+            cards: [
+              { title: 'Text content', icon: 'text', fields: [
+                { type: 'row', fields: [
+                  { type: 'text', label: 'Eyebrow', value: 'About Chadi Irani' },
+                  { type: 'text', label: 'Heading', required: true, value: 'Experienced. Approachable. Dedicated to your defence.' }
+                ]},
+                { type: 'textarea', label: 'Body paragraphs', rows: 4, value: 'Principal Solicitor Chadi Irani is an Accredited Specialist in Criminal Law with over 15 years of experience in defending clients across New South Wales.\n\nHe provides clear advice, strong representation and practical solutions when the stakes are high.' },
+                { type: 'cta', label: '"Meet Chadi" button', labelValue: 'Meet Chadi', linkValue: 'chadi-irani.html', linkIcon: 'text' }
+              ]},
+              { title: 'Feature blocks', icon: 'grid', hint: '4 items · drag to reorder',
+                fields: [{ type: 'repeater', items: [
+                  { t: 'Accredited Specialist',  d: 'Accredited Specialist in Criminal Law.' },
+                  { t: 'Direct Access',          d: 'Work directly with your solicitor, not a rotation of lawyers.' },
+                  { t: 'Clear Strategy',         d: 'Honest advice and clear options from the start.' },
+                  { t: 'Strong Representation',  d: 'Prepared. Strategic. Relentless in court.' }
+                ], addLabel: 'Add feature block' }]
+              }
+            ]
+          },
+          { id: 'practice', title: 'Practice Areas Section', icon: 'briefcase',
+            note: 'Heading + five practice cards linking to each practice area page.',
+            cards: [
+              { title: 'Section heading', icon: 'text', fields: [
+                { type: 'row', fields: [
+                  { type: 'text', label: 'Eyebrow', value: 'Practice Areas' },
+                  { type: 'text', label: 'Heading', value: 'Comprehensive representation. Tailored to your matter.' }
+                ]}
+              ]},
+              { title: 'Practice cards', icon: 'grid', hint: '5 items',
+                fields: [{ type: 'repeater', items: [
+                  { t: 'Criminal Law',                d: 'Charges ranging from simple offences to serious indictable matters.' },
+                  { t: 'Traffic Law',                 d: 'Drink driving, licence suspensions, speeding and traffic offences.' },
+                  { t: 'Licence Appeals',             d: 'Appeals for licence suspensions and cancellations.' },
+                  { t: 'Apprehended Violence Orders', d: 'AVO charges, breaches and related matters.' },
+                  { t: 'Bail Applications',           d: 'Police bail, court bail and complex bail matters.' }
+                ], addLabel: 'Add practice card' }]
+              }
+            ]
+          },
+          { id: 'testimonials', title: 'Testimonials Section', icon: 'quote',
+            note: 'Client quotes with star ratings.',
+            cards: [
+              { title: 'Section heading', icon: 'text', fields: [
+                { type: 'row', fields: [
+                  { type: 'text', label: 'Eyebrow', value: 'Client Testimonials' },
+                  { type: 'text', label: 'Heading', value: 'Trusted by clients. Proven by results.' }
+                ]}
+              ]},
+              { title: 'Testimonial quotes', icon: 'quote', hint: '3 items · pulled from Google Reviews',
+                fields: [{ type: 'repeater', items: [
+                  { t: '"Chadi was outstanding from start to finish. Professional, honest and achieved an excellent result."', d: 'Google Review · ★★★★★ · Nov 2025' },
+                  { t: '"Highly recommend Powerhouse Law. Great communication and very clear advice throughout."',           d: 'Google Review · ★★★★★ · Sep 2025' },
+                  { t: '"Thanks to Chadi, my matter was resolved better than I expected. I can\'t thank him enough."',       d: 'Google Review · ★★★★★ · Aug 2025' }
+                ], addLabel: 'Add testimonial' }]
+              }
+            ]
+          },
+          ctaSection('Need immediate legal advice?', "We're available 24/7 to discuss your matter."),
+          seoSection('Powerhouse Law Australia — Strategic Criminal Defence', 'Accredited Specialist Criminal Lawyer in Parramatta, NSW. Free first consultation for criminal and traffic matters. Available 24/7.')
+        ]
+      },
+
+      /* ───── PRACTICE AREAS ───── */
+      assault: practicePageTemplate({
+        name: 'Assault Offences', url: 'assault-offences.html',
+        heroEyebrow: 'Criminal Law · Section 61 & 59',
+        heroH1: 'Assault offences & cause-harm defence in NSW.',
+        heroSub: 'From a single push outside a venue to a serious indictable wounding charge, NSW assault offences run the full criminal calendar. We act across every level — Local, District and Supreme Court — and we go for Section 10 wherever the facts will bear it.',
+        infoLaw:     { label: 'Governing Law',    value: 'Crimes Act 1900 (NSW) — ss.59, 61, 35, 93C' },
+        infoPenalty: { label: 'Maximum Penalty',  value: 'Up to 25 years (GBH with intent, s.33)' },
+        infoConsult: { label: 'Free Consultation', value: '24/7 confidential support · 1800-100-529' },
+        offences: [
+          { t: 'Common Assault',            d: 's.61 · Broadest assault charge · 2 yrs max' },
+          { t: 'Assault Occasioning ABH',   d: 's.59 · Where contact becomes injury · 5 yrs max' },
+          { t: 'Affray',                    d: 's.93C · Public-order offence · 10 yrs max' },
+          { t: 'Reckless Wounding',         d: 's.35(4) · Section 35 offences · 7 yrs max' }
+        ],
+        defence: [
+          { t: 'Self-defence brief',        d: 'Timing, proportionality, reasonable belief.' },
+          { t: 'Consent & lawful excuse',   d: 'Sport, medical, ordinary social interaction.' },
+          { t: 'Identification challenges', d: 'CCTV, ID parades, cross-examination strategy.' },
+          { t: 'Sentencing mitigation',     d: 'Character, remorse, rehabilitation for Section 10.' }
+        ],
+        faqs: [
+          { t: 'Will I get a criminal record for common assault?',       d: 'Only if convicted. Section 10 dismissals are common for first offences with proper mitigation…' },
+          { t: 'Is self-defence a complete defence?',                    d: 'Yes — if raised, the Crown must disprove it beyond reasonable doubt…' },
+          { t: "What if the alleged victim doesn't want to press charges?", d: 'The police, not the complainant, decide whether to prosecute…' },
+          { t: 'What is the difference between common assault and ABH?', d: 'The dividing line is whether the injury is more than "transient or trifling"…' },
+          { t: 'How long does an assault matter take?',                  d: 'Local Court matters typically resolve in 3–6 months; District Court trials 12–18 months…' },
+          { t: 'Do I have to give a police interview?',                  d: 'No — right to silence applies. Never consent to a record of interview without advice…' }
+        ],
+        seoTitle: 'Assault Offences — Common Assault, ABH, Affray & Reckless Wounding · Powerhouse Law Australia',
+        seoDesc: 'Strategic defence for Common Assault, ABH, Affray, Reckless Wounding and other assault charges across NSW. Accredited Specialist · Section 10 outcomes · Free first consultation · 24/7.'
+      }),
+
+      domestic: practicePageTemplate({
+        name: 'Domestic Violence & AVOs', url: 'domestic-violence-avo.html',
+        heroEyebrow: 'Criminal Law · Crimes (DV) Act',
+        heroH1: 'Domestic violence & AVO defence in NSW.',
+        heroSub: 'AVOs and domestic-violence charges move fast — often with immediate bail conditions that lock you out of your own home. We appear across every NSW Local Court and act from the first mention.',
+        infoLaw:     { label: 'Governing Law',    value: 'Crimes (Domestic and Personal Violence) Act 2007' },
+        infoPenalty: { label: 'Maximum Penalty',  value: 'Up to 2 years for contravening an AVO' },
+        infoConsult: { label: 'Free Consultation', value: '24/7 · Same-day appearance possible' },
+        offences: [
+          { t: 'Apprehended Domestic Violence Orders (ADVOs)', d: 'Interim vs Final AVOs · standard conditions' },
+          { t: 'Contravening an AVO',                          d: 's.14 · 2 yrs max · almost always custodial risk' },
+          { t: 'Domestic Violence Offences',                   d: 'Assault, stalk-intimidate, damage property in DV context' },
+          { t: 'Consent-without-admission',                    d: 'Resolving without conviction · protecting employment' }
+        ],
+        defence: [
+          { t: 'Evidence review',    d: 'Statements, CCTV, third-party witnesses.' },
+          { t: 'Bail variations',    d: 'Amend "no contact" conditions to preserve family life.' },
+          { t: 'AVO variations',     d: 'Reduce or discharge orders where appropriate.' },
+          { t: 'Character strategy', d: 'Building the sentencing bundle from week one.' }
+        ],
+        faqs: [
+          { t: 'Can an AVO be taken out without my knowledge?', d: 'Yes — ex-parte interim AVOs are common and take effect immediately…' },
+          { t: 'Will an AVO show up on my record?',              d: 'AVOs themselves are civil orders and not criminal convictions, but contraventions are…' },
+          { t: 'Can we negotiate the AVO conditions?',           d: 'Yes — most standard conditions can be varied by consent…' },
+          { t: 'What if the complainant withdraws?',             d: 'The police can and often do continue the prosecution independently…' }
+        ],
+        seoTitle: 'Domestic Violence & AVO Lawyers — Powerhouse Law Australia',
+        seoDesc: 'Fast-response defence for AVO applications, contravene AVO charges, and domestic violence matters across NSW. Same-day appearance available.'
+      }),
+
+      drugs: practicePageTemplate({
+        name: 'Drug Offences', url: 'drug-offences.html', status: 'draft',
+        heroEyebrow: 'Criminal Law · Drug Misuse & Trafficking Act',
+        heroH1: 'Drug offence defence — from possession to importation.',
+        heroSub: 'The threshold jump between "possession" and "deemed supply" can add a decade of exposure to your sentence. Our defence strategy attacks the evidence, the deeming, and — where the facts fit — pushes for diversion or Section 10.',
+        infoLaw:     { label: 'Governing Law',    value: 'Drug Misuse and Trafficking Act 1985 (NSW)' },
+        infoPenalty: { label: 'Maximum Penalty',  value: 'Up to life imprisonment (large commercial)' },
+        infoConsult: { label: 'Free Consultation', value: '24/7 · Same-day advice on bail & search' },
+        offences: [
+          { t: 'Possession of Prohibited Drug', d: 's.10 · 2 yrs max · MERIT / cannabis cautioning' },
+          { t: 'Supply / Deemed Supply',        d: 's.25 · Quantity-tiered penalties · challenging the deeming' },
+          { t: 'Drug Manufacture',              d: 's.24 · Cultivation, production, precursor charges' },
+          { t: 'Drug Importation',              d: 'Commonwealth · Border Force · joint enterprise defences' }
+        ],
+        defence: [
+          { t: 'Search & seizure challenges', d: 'Was the warrant valid? Was the stop lawful?' },
+          { t: 'Deemed-supply rebuttal',      d: 'Personal use argument · quantity context.' },
+          { t: 'MERIT program',               d: 'Diversion for eligible clients with rehab commitment.' },
+          { t: 'Sentencing strategy',         d: 'Health context, employment, family — building the mitigation.' }
+        ],
+        faqs: [
+          { t: 'What is "deemed supply"?',                d: 'If police find more than the "traffickable quantity", the Crown is entitled to a legal presumption of supply…' },
+          { t: 'Is MERIT available for my charge?',        d: 'MERIT is available for most drug possession/supply matters where the client has an underlying dependency…' },
+          { t: 'Can I get a Section 10 for drug possession?', d: 'Yes — first-time possession with proper mitigation frequently attracts a Section 10 or CCO…' },
+          { t: 'What happens if my house was searched illegally?', d: 'Any evidence obtained via an unlawful search can be challenged under s.138 of the Evidence Act…' }
+        ],
+        seoTitle: 'Drug Offence Defence — Possession, Supply, Manufacture · Powerhouse Law',
+        seoDesc: 'Strategic defence for drug offences in NSW — possession, supply, manufacture, importation. Section 10 outcomes · Free first consultation · 24/7.'
+      }),
+
+      sexual: practicePageTemplate({
+        name: 'Sexual Offences', url: 'sexual-assault.html',
+        heroEyebrow: 'Criminal Law · Crimes Act ss.61I–61KE',
+        heroH1: 'Sexual offence defence — discretion, strategy, gravitas.',
+        heroSub: "These are the most serious charges in NSW criminal law. Reputations, careers and liberty are all on the table from the first court date. Our approach is meticulous, confidential and built around the specific facts of your matter.",
+        infoLaw:     { label: 'Governing Law',    value: 'Crimes Act 1900 (NSW) ss.61I–61KE' },
+        infoPenalty: { label: 'Maximum Penalty',  value: '14 years (aggravated: life imprisonment)' },
+        infoConsult: { label: 'Confidential',      value: 'Discreet consultation · 24/7 line available' },
+        offences: [
+          { t: 'Sexual Assault',   d: 's.61I · The primary offence · Consent framework' },
+          { t: 'Sexual Touching',  d: 's.61KC · Lower threshold · Common summary matter' },
+          { t: 'Aggravated Forms', d: 'Positions of authority, cognitive impairment, deprivation of liberty' },
+          { t: 'Consent Framework', d: 'Affirmative consent (May 2022) · Reasonable belief' }
+        ],
+        defence: [
+          { t: 'Complainant credit',     d: 'Prior inconsistent statements, forensic analysis of accounts.' },
+          { t: 'Consent argument',       d: 'Reasonable belief on the evidence known at the time.' },
+          { t: 'Digital evidence',       d: 'Messages, timestamps, location data.' },
+          { t: 'Character preservation', d: 'Employment, family and reputation from day one.' }
+        ],
+        faqs: [
+          { t: 'What is the affirmative consent standard?',       d: 'Since May 2022, NSW law requires that consent be actively communicated…' },
+          { t: 'Are these matters heard in closed court?',         d: 'Yes — sexual offence proceedings are held with restrictions on publication…' },
+          { t: 'Can I be charged based on the complainant\'s word alone?', d: 'Yes — the Crown can prosecute on uncorroborated evidence…' }
+        ],
+        seoTitle: 'Sexual Offence Defence Lawyers — Powerhouse Law Australia',
+        seoDesc: 'Discreet, meticulous defence for sexual assault and sexual touching charges in NSW. Accredited Specialist Criminal Lawyer.'
+      }),
+
+      'court-outcomes': practicePageTemplate({
+        name: 'Court Outcomes', url: 'court-outcomes.html',
+        heroEyebrow: 'Sentencing Outcomes',
+        heroH1: 'From Section 10 to appeals — the outcomes we work for.',
+        heroSub: 'A charge is not a conviction, and a conviction is not the end of the road. The NSW sentencing spectrum runs from a no-conviction Section 10 through Conditional Release Orders, ICOs and appeals. We build every case toward the best available outcome.',
+        infoLaw:     { label: 'Governing Law',    value: 'Crimes (Sentencing Procedure) Act 1999' },
+        infoPenalty: { label: 'Best Outcome',      value: 'Section 10 · No conviction · No penalty' },
+        infoConsult: { label: 'Free Consultation', value: 'Explaining every option available to you' },
+        offences: [
+          { t: 'Section 10 Dismissal',             d: 's.10(1)(a) · Charge dismissed without conviction' },
+          { t: 'Conditional Release Orders (CRO)', d: 's.9 & 10(1)(b) · With or without conviction' },
+          { t: 'Intensive Correction Orders (ICO)',d: 's.7 · Custodial sentence served in the community' },
+          { t: 'Appeals',                          d: 'Severity, all-grounds, Crimes (Appeal & Review) Act' },
+          { t: 'Section 14 Mental Health',         d: 'MHCIFP Act · Diversion for eligible clients' },
+          { t: 'Sentencing Spectrum',              d: 'How the ranges interact and where your case sits' }
+        ],
+        defence: [
+          { t: 'Mitigation bundle',      d: 'Character, employment, rehabilitation, remorse.' },
+          { t: 'Psychological reports',  d: 'Instructing experts who understand what the Court needs.' },
+          { t: 'Sentencing submissions', d: 'The written and oral case for the best available outcome.' }
+        ],
+        faqs: [
+          { t: 'What exactly is a Section 10?', d: 'Section 10 of the Crimes (Sentencing Procedure) Act allows a court to find you guilty but not record a conviction…' },
+          { t: 'When can I appeal a sentence?', d: 'Local Court sentences can be appealed to the District Court within 28 days…' },
+          { t: 'What is a Section 14 diversion?', d: 'Under the Mental Health and Cognitive Impairment Forensic Provisions Act, a magistrate can divert an eligible person…' }
+        ],
+        seoTitle: 'NSW Sentencing Outcomes — Section 10, CRO, ICO, Appeals · Powerhouse Law',
+        seoDesc: 'Section 10 dismissals, Conditional Release Orders, Intensive Correction Orders, Appeals and Section 14 mental health diversions in NSW.'
+      }),
+
+      bail: practicePageTemplate({
+        name: 'Bail Applications', url: 'bail-applications.html',
+        heroEyebrow: 'Criminal Law · Bail Act 2013',
+        heroH1: 'Bail applications — Local, District & Supreme Court.',
+        heroSub: 'Bail is decided in hours. Once refused, the second application is far harder. We prepare bail applications the way senior counsel prepares them — surety, package, conditions, plan.',
+        infoLaw:     { label: 'Governing Law',    value: 'Bail Act 2013 (NSW)' },
+        infoPenalty: { label: 'Time Sensitivity',  value: 'Applications heard within 48 hours' },
+        infoConsult: { label: 'Emergency Line',    value: '24/7 · Same-day appearance guaranteed' },
+        offences: [
+          { t: 'Local Court Bail',    d: 'First appearance · often decided same day' },
+          { t: 'District Court Bail', d: 'Post-committal review · appeal from Local Court refusal' },
+          { t: 'Supreme Court Bail',  d: 'Show-cause offences · complex packages' }
+        ],
+        defence: [
+          { t: 'Bail package preparation', d: 'Surety, address, employment, treatment plan.' },
+          { t: 'Show-cause argument',      d: 'Where the offence requires it, demonstrating why detention is not justified.' },
+          { t: 'Bail condition variation', d: 'Reducing curfews, contact conditions, reporting obligations.' }
+        ],
+        faqs: [
+          { t: 'What is a "show-cause" offence?', d: 'Certain serious offences require you to show cause why detention is not justified before the Court considers unacceptable risk…' },
+          { t: 'How quickly can bail be arranged?', d: 'For clients detained at a police station, we can be at the station within 90 minutes in the Sydney metro area…' },
+          { t: 'What if bail was refused in the Local Court?', d: 'You can apply for release in the Supreme Court under s.66 of the Bail Act — the application is heard urgently…' }
+        ],
+        seoTitle: 'Bail Application Lawyers — Local, District & Supreme Court Bail · Powerhouse Law',
+        seoDesc: 'Urgent bail applications across every NSW court. Same-day appearance. Accredited Specialist Criminal Lawyer.'
+      }),
+
+      licence: practicePageTemplate({
+        name: 'Licence Appeals', url: 'licence-appeals.html',
+        heroEyebrow: 'Traffic Law · Road Transport Act',
+        heroH1: 'Licence suspension & appeal advocacy.',
+        heroSub: 'A suspended licence can cost you your job, your family logistics, and your independence. TfNSW gives you a narrow appeal window — we prepare hardship cases that succeed.',
+        infoLaw:     { label: 'Governing Law',    value: 'Road Transport Act 2013 · Roads Act' },
+        infoPenalty: { label: 'Appeal Window',    value: '28 days from suspension notice' },
+        infoConsult: { label: 'Free Consultation', value: 'Hardship strategy in the first meeting' },
+        offences: [
+          { t: 'P1 & P2 Suspensions',            d: 'Demerit-triggered · appeal to Local Court' },
+          { t: 'Speed over 30km/h Suspension',   d: 'Automatic 3-month suspension · exceptional-hardship' },
+          { t: 'Immediate Police Suspension',    d: 'Alcohol & drug offences · s.224 challenge' },
+          { t: 'Habitual Traffic Offender',      d: 'Declarations and applications to remove.' }
+        ],
+        defence: [
+          { t: 'Hardship affidavits',    d: 'Employment, family, remote residence.' },
+          { t: 'Character reference bank', d: 'Employers, family, community.' },
+          { t: 'Driving record review',    d: 'Isolating out-of-character events.' }
+        ],
+        faqs: [
+          { t: 'How long do I have to appeal?', d: 'You have 28 days from the date of the suspension notice — miss it and the suspension stands…' },
+          { t: 'Will my licence be reinstated pending the appeal?', d: 'Not automatically — but a stay order can be sought if the matter is urgent…' },
+          { t: 'What is "exceptional hardship"?', d: 'The threshold is high — inconvenience alone is not enough. Loss of employment or medical need is…' }
+        ],
+        seoTitle: 'Licence Appeal Lawyers — P1 & P2 Suspensions, Speeding · Powerhouse Law',
+        seoDesc: 'NSW licence suspension appeals — P1/P2 demerit, speeding, immediate police suspensions. Hardship strategy. 28-day window.'
+      }),
+
+      drink: practicePageTemplate({
+        name: 'Drink Driving', url: 'drink-driving.html',
+        heroEyebrow: 'Traffic Law · Section 110',
+        heroH1: 'Drink driving — PCA charges & interlock program.',
+        heroSub: "Every drink-driving charge has a defined penalty range and — for most tiers now — a mandatory interlock program. Our job is to keep you on the road, out of prison, and often without a conviction.",
+        infoLaw:     { label: 'Governing Law',    value: 'Road Transport Act 2013 · s.110 & s.112' },
+        infoPenalty: { label: 'Maximum Penalty',  value: '18 months (high range, second offence)' },
+        infoConsult: { label: 'Free Consultation', value: 'Interlock advice on first meeting' },
+        offences: [
+          { t: 'Novice Range (0.00–0.019)',     d: 'Learners & P-platers · $2,200 fine · 6-month disq' },
+          { t: 'Special Range (0.02–0.049)',    d: 'Certain professional drivers · similar penalties' },
+          { t: 'Low Range (0.05–0.079)',        d: 'First offence · s.10 available with mitigation' },
+          { t: 'Mid Range (0.08–0.149)',        d: 'Mandatory interlock · 3-month min disq' },
+          { t: 'High Range (0.15+)',            d: '2 yr disq · 12 mo prison max · interlock' },
+          { t: 'Interlock Program',             d: 'Duration, cost, medical exemptions' }
+        ],
+        defence: [
+          { t: 'Two-hour rule challenge',      d: 'Reading must be from a sample taken within 2 hours of driving.' },
+          { t: 'Chain of custody',             d: 'Instrument accuracy, calibration, operator training.' },
+          { t: 'Health & medical mitigation',  d: 'GP letters, psych reports for sentencing.' },
+          { t: 'Section 10 strategy',          d: 'Character, remorse, driver ed program.' }
+        ],
+        faqs: [
+          { t: 'Can I get a Section 10 for drink driving?', d: 'Yes — first-offence low-range and mid-range PCA charges routinely attract Section 10 outcomes…' },
+          { t: 'What is the interlock program?',             d: 'A breath-test-linked device installed in your vehicle. You blow, and the car starts only if you\'re under 0.02…' },
+          { t: 'Can I drive to work in the meantime?',       d: 'Not on an immediate police suspension — but a variation can be sought once matters are before the Court…' }
+        ],
+        seoTitle: 'Drink Driving Lawyers — Low, Mid, High Range PCA · Powerhouse Law',
+        seoDesc: 'Defending PCA charges across all ranges in NSW. Interlock program advice. Section 10 outcomes for eligible clients.'
+      }),
+
+      'drug-driving': practicePageTemplate({
+        name: 'Drug Driving', url: 'drug-driving.html',
+        heroEyebrow: 'Traffic Law · Section 111',
+        heroH1: 'Drug driving defence — the "presence" trap.',
+        heroSub: 'Unlike PCA, drug driving in NSW only requires "presence" of a proscribed drug — not impairment. That distinction opens defences that most clients (and some lawyers) miss.',
+        infoLaw:     { label: 'Governing Law',    value: 'Road Transport Act 2013 · s.111 & s.112' },
+        infoPenalty: { label: 'Maximum Penalty',  value: 'Up to $2,200 fine + 6-month disq' },
+        infoConsult: { label: 'Free Consultation', value: 'Roadside procedure review' },
+        offences: [
+          { t: 'Drive with Illicit Drug Present', d: 's.111 · No impairment required · MERIT eligible' },
+          { t: 'Driving Under the Influence',      d: 's.112 · Impairment required · higher penalties' },
+          { t: 'Refusing to submit',               d: 'Higher penalties than the drug offence itself' }
+        ],
+        defence: [
+          { t: 'Roadside procedure review', d: 'Was the oral fluid test procedure followed?' },
+          { t: 'Continuity of sample',      d: 'Was the sample sent within statutory time limits?' },
+          { t: 'Medical prescriptions',     d: 'Prescribed medication defences.' }
+        ],
+        faqs: [
+          { t: 'Can I be charged if I felt fine to drive?', d: 'Yes — NSW drug driving requires only the presence of a proscribed drug in your oral fluid, not impairment…' },
+          { t: 'Can prescription medication be a defence?', d: 'Only in very limited circumstances — MDMA-based or amphetamine-based prescriptions may support an argument…' }
+        ],
+        seoTitle: 'Drug Driving Lawyers — Presence & Under-the-Influence · Powerhouse Law',
+        seoDesc: 'Defence for drive-with-illicit-drug-present and DUI charges in NSW. Section 10 outcomes. Roadside procedure challenges.'
+      }),
+
+      'serious-traffic': practicePageTemplate({
+        name: 'Serious Traffic Matters', url: 'serious-traffic-matters.html',
+        heroEyebrow: 'Traffic Law · Serious Offences',
+        heroH1: 'Serious traffic charges — where prison is on the table.',
+        heroSub: 'Dangerous driving, drive-whilst-disqualified, and negligent-driving-causing-death carry real custodial risk. We defend and mitigate serious traffic charges the same way we defend criminal charges.',
+        infoLaw:     { label: 'Governing Law',    value: 'Crimes Act & Road Transport Act' },
+        infoPenalty: { label: 'Maximum Penalty',  value: '10 years (dangerous driving occasioning death)' },
+        infoConsult: { label: 'Free Consultation', value: 'Same-day advice for urgent matters' },
+        offences: [
+          { t: 'Negligent Driving',            d: 's.117 · Simple to occasioning death' },
+          { t: 'Dangerous Driving',            d: 's.52A · Occasioning GBH or death' },
+          { t: 'Drive Whilst Suspended',       d: 's.54(1) · First & subsequent offences' },
+          { t: 'Drive Whilst Disqualified',    d: 's.54(1AA) · Higher penalties · imprisonment risk' }
+        ],
+        defence: [
+          { t: 'Accident reconstruction', d: 'Instructing experts to challenge the Crown case.' },
+          { t: 'Necessity defence',        d: 'Medical emergencies, urgent circumstances.' },
+          { t: 'Sentencing packages',      d: 'Building custodial-avoidance strategy from day one.' }
+        ],
+        faqs: [
+          { t: 'Can I go to prison for drive-whilst-disqualified?',    d: 'Yes — subsequent offences carry mandatory disqualification and real custodial risk…' },
+          { t: 'What is the difference between negligent and dangerous driving?', d: 'Negligent driving is a lower threshold — dangerous driving requires the manner of driving to endanger…' }
+        ],
+        seoTitle: 'Serious Traffic Lawyers — Dangerous Driving, Disqualified · Powerhouse Law',
+        seoDesc: 'Defence for negligent driving, dangerous driving, drive whilst suspended/disqualified in NSW. Where prison is on the table.'
+      }),
+
+      /* ───── RESULTS ───── */
+      'recent-cases': {
+        name: 'Recent Cases', url: 'recent-cases.html', status: 'published',
+        edited: '3 days ago', editor: 'Chadi Irani', version: 'v1.8',
+        sections: [
+          { id: 'hero', title: 'Hero Section', icon: 'hero',
+            note: 'Introduction to the recent-results page.',
+            cards: [{ title: 'Text content', icon: 'text', fields: [
+              { type: 'text', label: 'Eyebrow', value: 'Recent Results' },
+              { type: 'text', label: 'Main heading', required: true, value: 'Outcomes we\'ve secured for our clients.' },
+              { type: 'textarea', label: 'Description', rows: 3, value: 'A selection of recent results from the past 12 months. Names and identifying details have been withheld or redacted at the client\'s request.' }
+            ]}]
+          },
+          { id: 'cases', title: 'Case Results', icon: 'gavel',
+            note: 'Repeating cards summarising each result.',
+            cards: [{ title: 'Cases', icon: 'folder', hint: '8 cases · newest first',
+              fields: [{ type: 'repeater', items: [
+                { t: 'Section 10 · Common Assault',           d: 'Local Court, Sydney · September 2025' },
+                { t: 'Section 14 Diversion · Stalk/Intimidate',d: 'Local Court, Parramatta · August 2025' },
+                { t: 'Bail Granted · Supply Prohibited Drug', d: 'Supreme Court · July 2025' },
+                { t: 'CRO Without Conviction · Mid Range PCA',d: 'Local Court, Penrith · July 2025' },
+                { t: 'Charge Withdrawn · ABH',                d: 'Local Court, Blacktown · June 2025' },
+                { t: 'Not Guilty · Affray',                   d: 'District Court · May 2025' },
+                { t: 'Section 10 · Drink Driving Low Range',  d: 'Local Court, Sydney · April 2025' },
+                { t: 'AVO Discharged',                        d: 'Local Court, Parramatta · March 2025' }
+              ], addLabel: 'Add case result' }]
+            }]
+          },
+          ctaSection('Facing your own charge? See what we can do.', 'Free first consultation. Confidential.'),
+          seoSection('Recent Case Results · Powerhouse Law Australia', 'A selection of recent criminal and traffic case outcomes secured by Accredited Specialist Chadi Irani across NSW.')
+        ]
+      },
+
+      /* ───── ABOUT US ───── */
+      chadi: aboutPageTemplate({
+        name: 'Meet Chadi Irani', url: 'chadi-irani.html',
+        heroEyebrow: 'Principal Solicitor · Director',
+        heroH1: 'Meet Chadi Irani.',
+        heroSub: 'Seventeen years across both sides of the bar — leading defence practice, Legal Aid frontline, and senior prosecutor at the DPP. A rare strategic edge: a lawyer who reads the Crown brief the way it was written.',
+        bodyCards: [
+          { id: 'accred', title: 'Accreditation Callout', icon: 'badge',
+            note: 'The layered animated seal in the hero.',
+            cards: [{ title: 'Accreditation', icon: 'badge', fields: [
+              { type: 'text', label: 'Institution', value: 'Law Society of NSW' },
+              { type: 'text', label: 'Title', value: 'Accredited Specialist in Criminal Law' },
+              { type: 'text', label: 'Supporting text', value: 'Held by less than 5% of NSW solicitors · Powerhouse Law Australia' },
+              { type: 'media', label: 'Outer ring image', name: 'acredited-specialist-logo-outside.png', meta: 'PNG · 800 × 800 · rotates in animation', placeholder: true },
+              { type: 'media', label: 'Inner emblem image', name: 'acredited-specialist-logo-inside.png',   meta: 'PNG · 700 × 700 · centred emblem', placeholder: true }
+            ]}]
+          },
+          { id: 'bio', title: 'Biography Section', icon: 'user',
+            note: 'The long-form "Both sides of the law" story.',
+            cards: [
+              { title: 'Text content', icon: 'text', fields: [
+                { type: 'text', label: 'Eyebrow', value: 'The Story' },
+                { type: 'text', label: 'Heading', value: 'Both sides of the law. One mission — yours.' },
+                { type: 'textarea', label: 'Biography', rows: 8, value: 'Chadi Irani began his career on the defence side of the bar in 2008, joining Legal Aid NSW as a duty solicitor at Parramatta Local Court.\n\nIn 2013 he crossed the aisle, serving as a senior prosecutor at the DPP where he ran matters ranging from summary offences through to Supreme Court trials.\n\nHe returned to defence practice in 2017 to establish Powerhouse Law Australia — combining prosecutorial insight with defence advocacy.' }
+              ]},
+              { title: 'Portrait image', icon: 'image', fields: [
+                { type: 'media', label: 'Founder photo', name: 'Founder-photo.jpg', meta: '1200 × 1500 · 420 KB', src: 'assets/img/Founder-photo.jpg' }
+              ]}
+            ]
+          },
+          { id: 'quals', title: 'Qualifications Section', icon: 'badge',
+            note: 'Credentials & memberships.',
+            cards: [{ title: 'Credentials', icon: 'list', hint: '6 items',
+              fields: [{ type: 'repeater', items: [
+                { t: 'Accredited Specialist',      d: 'Criminal Law — less than 5% of NSW solicitors' },
+                { t: 'Bachelor of Laws (Hons)',    d: 'University of Sydney · 2007' },
+                { t: 'Admitted to the Supreme Court of NSW', d: '2008' },
+                { t: 'Former Senior Prosecutor',   d: 'Office of the Director of Public Prosecutions · 2013–2017' },
+                { t: 'Member',                     d: 'Law Society of NSW · Criminal Law Committee' },
+                { t: 'Languages',                  d: 'English · Arabic · Assyrian' }
+              ], addLabel: 'Add credential' }]
+            }]
+          },
+          { id: 'practice', title: 'Practice Focus Section', icon: 'grid',
+            note: 'Six-tile "instincts behind every defence" grid.',
+            cards: [{ title: 'Practice tiles', icon: 'grid', hint: '6 items',
+              fields: [{ type: 'repeater', items: [
+                { t: 'Fast intake',           d: 'First call answered in under 90 seconds, 24/7.' },
+                { t: 'Prosecutor\'s eye',     d: 'Reading the brief the way it was written.' },
+                { t: 'Section 10 focus',      d: 'No-conviction outcomes wherever the facts permit.' },
+                { t: 'Fixed-fee transparency',d: 'A quote up front, no billing surprises.' },
+                { t: 'Custodial avoidance',   d: 'Sentencing packages built from day one.' },
+                { t: 'Court-ready advocacy',  d: 'Direct courtroom appearance across NSW.' }
+              ], addLabel: 'Add practice tile' }]
+            }]
+          }
+        ]
+      }),
+
+      barristers: aboutPageTemplate({
+        name: 'Barristers We Instruct', url: 'barristers-we-instruct.html',
+        heroEyebrow: 'Counsel · Trial Advocacy',
+        heroH1: 'The barristers we instruct.',
+        heroSub: 'For serious indictable matters we instruct senior and junior counsel who know how to win in the District and Supreme Courts. Every barrister on this list has been personally briefed by us in the last 18 months.',
+        bodyCards: [
+          { id: 'roster', title: 'Barrister Roster', icon: 'user',
+            note: 'Each entry is a public roster card.',
+            cards: [{ title: 'Barristers', icon: 'list', hint: 'Public list',
+              fields: [{ type: 'repeater', items: [
+                { t: 'Senior Counsel — Criminal',       d: 'Frederick Chambers · GBH, sexual offences, drug supply' },
+                { t: 'Junior Counsel — Trial Advocate', d: 'Selborne Chambers · Traffic, assault, general crime' },
+                { t: 'Junior Counsel — Appeals',        d: 'New Chambers · Sentence & conviction appeals' }
+              ], addLabel: 'Add barrister' }]
+            }]
+          }
+        ]
+      }),
+
+      courts: aboutPageTemplate({
+        name: 'Courts We Attend', url: 'courts-we-attend.html',
+        heroEyebrow: 'Sydney Metro · NSW Regional',
+        heroH1: 'Every NSW Local Court, District and Supreme.',
+        heroSub: 'We appear regularly across Sydney metro Local Courts, and travel for District Court trials and regional bail applications. Below is a live list of the venues we\'ve appeared in during the last 12 months.',
+        bodyCards: [
+          { id: 'courts-list', title: 'Court List', icon: 'pin',
+            note: 'Filterable list of court venues.',
+            cards: [{ title: 'Courts', icon: 'list', hint: '12 venues',
+              fields: [{ type: 'repeater', items: [
+                { t: 'Parramatta Local Court',   d: 'Home court · daily appearance' },
+                { t: 'Downing Centre Local',     d: 'Sydney CBD · assault, drug, DV lists' },
+                { t: 'Blacktown Local Court',    d: 'Weekly appearance' },
+                { t: 'Penrith Local Court',      d: 'Weekly appearance' },
+                { t: 'Burwood Local Court',      d: 'Regular appearance' },
+                { t: 'Sutherland Local Court',   d: 'Regular appearance' },
+                { t: 'District Court Sydney',    d: 'Trials & sentence appeals' },
+                { t: 'District Court Parramatta',d: 'Trials & sentence appeals' },
+                { t: 'Supreme Court NSW',        d: 'Bail applications & serious indictable' }
+              ], addLabel: 'Add court' }]
+            }]
+          }
+        ]
+      }),
+
+      fees: aboutPageTemplate({
+        name: 'Fees & Costs', url: 'fees-and-costs.html',
+        heroEyebrow: 'Fixed Fees · Legal Aid Eligibility',
+        heroH1: 'Transparent fees. No surprises.',
+        heroSub: 'We quote fixed fees for defined stages of your matter — you know what you\'re paying before we start. For eligible clients we act on Legal Aid grants and pro-bono where the merits require it.',
+        bodyCards: [
+          { id: 'pricing', title: 'Pricing Cards', icon: 'grid',
+            note: 'Fee bands displayed as feature cards.',
+            cards: [{ title: 'Fee bands', icon: 'grid', hint: '3 tiers',
+              fields: [{ type: 'repeater', items: [
+                { t: 'First consultation',   d: 'Free · 30 minutes · in person or phone' },
+                { t: 'Local Court appearance', d: 'From $1,650 including preparation and one mention' },
+                { t: 'District Court trial',  d: 'Fixed fee quoted after brief review · payment plan available' }
+              ], addLabel: 'Add fee band' }]
+            }]
+          },
+          { id: 'payment', title: 'Payment Options', icon: 'list',
+            cards: [{ title: 'Options', icon: 'list',
+              fields: [{ type: 'repeater', items: [
+                { t: 'Legal Aid NSW grants',  d: 'For eligible clients — we complete the application on your behalf' },
+                { t: 'Fixed-fee packages',    d: 'Paid at engagement · no billing surprises' },
+                { t: 'Payment plans',         d: 'Available for larger fixed fees · discussed at first consult' }
+              ], addLabel: 'Add option' }]
+            }]
+          }
+        ]
+      }),
+
+      faq: {
+        name: 'Frequently Asked Questions', url: 'faq.html', status: 'draft',
+        edited: '4 days ago', editor: 'Chadi Irani', version: 'v0.3 · Draft',
+        sections: [
+          { id: 'hero', title: 'Hero Section', icon: 'hero',
+            note: 'Intro to the FAQ page.',
+            cards: [{ title: 'Text content', icon: 'text', fields: [
+              { type: 'text', label: 'Eyebrow', value: 'FAQ' },
+              { type: 'text', label: 'Main heading', required: true, value: 'Common questions, answered.' },
+              { type: 'textarea', label: 'Description', rows: 3, value: 'A working answer to the questions we hear every week. If yours isn\'t here, call the 24/7 line — chances are we\'ve seen it before.' }
+            ]}]
+          },
+          { id: 'questions', title: 'Questions List', icon: 'help',
+            note: 'FAQ accordion — sortable, filterable by category.',
+            cards: [{ title: 'Questions', icon: 'help', hint: '12 questions',
+              fields: [{ type: 'repeater', items: [
+                { t: 'What\'s the difference between a summary and indictable offence?', d: 'Summary offences are heard in Local Court · indictable are heard in District/Supreme…' },
+                { t: 'Do I need a lawyer for my first mention?',       d: 'Yes — even a mention can affect the trajectory of the matter…' },
+                { t: 'What is a Section 10?',                          d: 'A no-conviction outcome under the Crimes (Sentencing Procedure) Act…' },
+                { t: 'How do I get bail if I\'m arrested?',            d: 'We can attend the police station within 90 minutes across Sydney metro…' },
+                { t: 'Can my conviction be removed later?',            d: 'Spent convictions scheme applies in specific circumstances…' },
+                { t: 'Is legal aid available?',                        d: 'Yes — for eligible matters. We complete the application on your behalf…' },
+                { t: 'What\'s the interlock program?',                 d: 'A breath-test-linked ignition device installed in your vehicle…' },
+                { t: 'What\'s an AVO and how is it different from a criminal charge?', d: 'An AVO is a civil protection order · criminal charges are separate proceedings…' }
+              ], addLabel: 'Add FAQ' }]
+            }]
+          },
+          ctaSection('Question not answered here? Call us.', "We're available 24/7 to talk through your matter."),
+          seoSection('Criminal Law FAQ · Powerhouse Law Australia', 'Common questions about criminal and traffic law in NSW, answered by an Accredited Specialist Criminal Lawyer.')
+        ]
+      },
+
+      'legal-aid': aboutPageTemplate({
+        name: 'Legal Aid NSW', url: 'legal-aid.html',
+        heroEyebrow: 'Grants · Eligibility · Application',
+        heroH1: 'Legal Aid NSW — how it works, and how we help.',
+        heroSub: 'Legal Aid pays for representation for eligible clients across most criminal and family matters. We are a Legal Aid panel firm — we can advise on eligibility and lodge your application at the first meeting.',
+        bodyCards: [
+          { id: 'eligibility', title: 'Eligibility Panel', icon: 'list',
+            cards: [{ title: 'Eligibility factors', icon: 'list',
+              fields: [{ type: 'repeater', items: [
+                { t: 'Means test',   d: 'Income and asset thresholds set by Legal Aid NSW' },
+                { t: 'Merits test',  d: 'Reasonable prospects of success in the matter' },
+                { t: 'Grant types',  d: 'Duty · assignment · in-house · child representative' }
+              ], addLabel: 'Add factor' }]
+            }]
+          }
+        ]
+      }),
+
+      /* ───── CONTACT ───── */
+      contact: {
+        name: 'Contact', url: 'contact-us.html', status: 'published',
+        edited: '5 hours ago', editor: 'Chadi Irani', version: 'v3.2',
+        sections: [
+          { id: 'hero', title: 'Contact Hero', icon: 'phone',
+            note: 'Landing view — contact form on the right, phone/email/hours on the left.',
+            cards: [
+              { title: 'Text content', icon: 'text', fields: [
+                { type: 'text', label: 'Eyebrow', value: 'Contact · 24/7 Legal Support' },
+                { type: 'text', label: 'Main heading', required: true, value: 'Get in touch.' },
+                { type: 'textarea', label: 'Description', rows: 3, value: 'Send an enquiry or call us 24/7 — an Accredited Specialist Criminal Lawyer will respond the same business day. Free first consultation, no obligation.' }
+              ]},
+              { title: 'Contact details', icon: 'phone', hint: '4 items', fields: [
+                { type: 'repeater', items: [
+                  { t: '24/7 Emergency Line', d: '1800-100-529' },
+                  { t: 'Office Landline',      d: '(02) 4744 2519' },
+                  { t: 'Office Hours',         d: 'Mon–Fri · 8:30am – 6:30pm' },
+                  { t: 'Parramatta Office',    d: 'Suite 8, Level 4 · 20 Macquarie St' }
+                ], addLabel: 'Add contact detail' }
+              ]}
+            ]
+          },
+          { id: 'form', title: 'Enquiry Form', icon: 'form',
+            note: 'Fields sent to the intake inbox. Every field on the live form appears here.',
+            cards: [{ title: 'Form fields', icon: 'form', hint: '5 fields · shown on right of hero',
+              fields: [{ type: 'repeater', items: [
+                { t: 'Full name',            d: 'text · required' },
+                { t: 'Phone',                d: 'tel · required' },
+                { t: 'Email',                d: 'email · required' },
+                { t: 'Matter type',          d: 'select · 10 options' },
+                { t: 'Describe your matter', d: 'textarea · required' }
+              ], addLabel: 'Add field' }]
+            }]
+          },
+          { id: 'office', title: 'Office Section', icon: 'pin',
+            note: '"Visit us" address card + map placeholder.',
+            cards: [{ title: 'Office address', icon: 'pin',
+              fields: [
+                { type: 'text', label: 'Suite / Level', value: 'Suite 8, Level 4' },
+                { type: 'text', label: 'Street', value: '20 Macquarie St' },
+                { type: 'row', fields: [
+                  { type: 'text', label: 'Suburb', value: 'Parramatta' },
+                  { type: 'text', label: 'Postcode', value: '2150' }
+                ]},
+                { type: 'text', label: 'Google Maps embed URL', value: 'https://maps.google.com/?q=Powerhouse+Law+Parramatta' }
+              ]
+            }]
+          },
+          seoSection('Contact Us — Powerhouse Law Australia · 24/7 Criminal Defence', 'Speak with an Accredited Specialist Criminal Lawyer 24/7. Call 1800-100-529, book online, or visit our Parramatta office. Free first consultation.')
+        ]
+      },
+
+      /* ───── GLOBAL SETTINGS ───── */
+      global: {
+        name: 'Global Settings', url: null, status: 'system',
+        edited: '2 weeks ago', editor: 'System', version: 'Site-wide',
+        sections: [
+          { id: 'brand', title: 'Brand & Logo', icon: 'badge',
+            note: 'The identity assets used across every page.',
+            cards: [{ title: 'Brand assets', icon: 'image', fields: [
+              { type: 'media', label: 'Primary logo',        name: 'logo.png',              meta: '512 × 200 · used in nav & footer', placeholder: true },
+              { type: 'media', label: 'Logo (dark theme)',   name: 'logo-fill-dark.svg',    meta: 'SVG · used as watermarks', placeholder: true },
+              { type: 'media', label: 'Emblem / character',  name: 'logo-character.svg',    meta: 'SVG · loader & footer', placeholder: true },
+              { type: 'media', label: 'Favicon',             name: 'logo-fill.svg',         meta: 'SVG favicon', placeholder: true }
+            ]}]
+          },
+          { id: 'contact', title: 'Contact Information', icon: 'phone',
+            note: 'Displayed in nav, footer, contact page and CTA blocks.',
+            cards: [{ title: 'Contact details', icon: 'phone', fields: [
+              { type: 'row', fields: [
+                { type: 'text', label: '24/7 phone (primary)', required: true, value: '1800-100-529' },
+                { type: 'text', label: 'Office landline', value: '(02) 4744 2519' }
+              ]},
+              { type: 'row', fields: [
+                { type: 'text', label: 'Email address', value: 'info@powerhouselaw.com.au' },
+                { type: 'text', label: 'Office hours', value: 'Mon–Fri · 8:30am – 6:30pm' }
+              ]},
+              { type: 'text', label: 'Office address', value: 'Suite 8, Level 4 · 20 Macquarie St, Parramatta NSW 2150' }
+            ]}]
+          },
+          { id: 'social', title: 'Social Media Links', icon: 'globe',
+            note: 'Icons shown in the footer.',
+            cards: [{ title: 'Social profiles', icon: 'globe', fields: [
+              { type: 'repeater', items: [
+                { t: 'Facebook',  d: 'https://facebook.com/powerhouselaw' },
+                { t: 'Instagram', d: 'https://instagram.com/powerhouselaw' },
+                { t: 'LinkedIn',  d: 'https://linkedin.com/company/powerhouselaw' },
+                { t: 'YouTube',   d: 'https://youtube.com/@powerhouselaw' }
+              ], addLabel: 'Add social profile' }
+            ]}]
+          },
+          { id: 'footer', title: 'Footer Content', icon: 'text',
+            note: 'The copy shown in the site footer.',
+            cards: [{ title: 'Footer text', icon: 'text', fields: [
+              { type: 'textarea', label: 'Brand description', rows: 2, value: 'Strategic criminal defence and traffic lawyers. Real results. Protecting your freedom.' },
+              { type: 'text', label: 'Copyright text', value: '© 2026 Powerhouse Law Australia Pty Ltd. All Rights Reserved.' },
+              { type: 'text', label: 'Legal / credit line', value: 'Designed and Developed by ICTechnology' }
+            ]}]
+          },
+          { id: 'globalcta', title: 'Global CTA', icon: 'phone',
+            note: 'The "Call Now" floating button on every page.',
+            cards: [{ title: 'Floating call button', icon: 'button', fields: [
+              { type: 'cta', label: 'Call Now button', labelValue: 'Call Now', linkValue: 'tel:1800100529', linkIcon: 'phone' },
+              { type: 'text', label: 'Sub-label', value: '1800-100-529' }
+            ]}]
+          },
+          { id: 'seodef', title: 'SEO Defaults', icon: 'globe',
+            note: 'Fallback meta for pages that don\'t override.',
+            cards: [{ title: 'Default meta', icon: 'globe', fields: [
+              { type: 'text', label: 'Default title suffix', value: '· Powerhouse Law Australia' },
+              { type: 'textarea', label: 'Default meta description', rows: 3, value: 'Accredited Specialist Criminal Lawyer in Parramatta, NSW. Free first consultation for criminal and traffic matters. Available 24/7.' },
+              { type: 'media', label: 'Default OG image', name: 'og-default.jpg', meta: '1200 × 630 · used site-wide', placeholder: true }
+            ]}]
+          },
+          { id: 'nav', title: 'Navigation Menu', icon: 'list',
+            note: 'The top-level navigation shown on every page.',
+            cards: [{ title: 'Menu structure', icon: 'list', hint: '4 top-level items',
+              fields: [{ type: 'repeater', items: [
+                { t: 'Practice Areas', d: 'Dropdown · Criminal Law · Traffic Law' },
+                { t: 'Results',        d: 'Direct link · recent-cases.html' },
+                { t: 'About Us',       d: 'Dropdown · 6 pages' },
+                { t: 'Contact',        d: 'Direct link · contact-us.html' }
+              ], addLabel: 'Add menu item' }]
+            }]
+          }
+        ]
+      }
+    };
+
+    /* ═══════════════════════════════════════════════════════════════
+       RENDER — sidebar, page banner, jumpbar, editor body
+       ═══════════════════════════════════════════════════════════════ */
+
+    let currentId = 'home';
+
+    function renderSidebar() {
+      const nav = document.getElementById('cmsNav');
+      const parts = NAV.map(item => {
+        if (item.type === 'link') {
+          return `<a class="cms-link" href="#" data-page-id="${item.id}">
+            ${svg(item.icon)}
+            <span class="cms-link-label">${item.label}</span>
+            ${item.status ? `<span class="cms-page-status is-${item.status}"></span>` : ''}
+          </a>`;
+        }
+        if (item.type === 'group') {
+          const children = item.children.map(c => {
+            if (c.type === 'sub') return `<li class="cms-subgroup">${c.label}</li>`;
+            return `<li><a class="cms-page-link" href="#" data-page-id="${c.id}">
+              <span class="cms-page-link-label">${c.label}</span>
+              <span class="cms-page-status is-${c.status}"></span>
+            </a></li>`;
+          }).join('');
+          const pageCount = item.children.filter(c => c.type === 'page').length;
+          return `<div class="cms-group" aria-expanded="${item.open}">
+            <button class="cms-group-head" data-toggle>
+              <svg class="cms-group-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg>
+              <span class="cms-group-icon">${svg(item.icon)}</span>
+              <span class="cms-group-title">${item.label}</span>
+              <span class="cms-group-count">${pageCount}</span>
+            </button>
+            <ul class="cms-group-items">${children}</ul>
+          </div>`;
+        }
+        if (item.type === 'divider') return `<div class="cms-divider"></div>`;
+        return '';
+      });
+      nav.innerHTML = parts.join('');
+
+      nav.querySelectorAll('.cms-group-head[data-toggle]').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const group = btn.closest('.cms-group');
+          const open = group.getAttribute('aria-expanded') === 'true';
+          group.setAttribute('aria-expanded', String(!open));
+        });
+      });
+      nav.querySelectorAll('[data-page-id]').forEach(link => {
+        link.addEventListener('click', (e) => {
+          e.preventDefault();
+          switchPage(link.dataset.pageId);
+        });
+      });
+    }
+
+    function renderField(f) {
+      if (f.type === 'row') return `<div class="field-row">${f.fields.map(x => `<div class="field">${renderFieldInner(x)}</div>`).join('')}</div>`;
+      return `<div class="field">${renderFieldInner(f)}</div>`;
+    }
+    function renderFieldInner(f) {
+      const label = f.label ? `<label class="field-label">${f.label} ${f.required ? '<span class="req">*</span>' : ''} ${f.badge ? `<span class="badge">${f.badge}</span>` : ''}</label>` : '';
+      const help  = f.help ? `<div class="field-help">${f.help}</div>` : '';
+      const counter = f.counter ? `<div class="field-counter"><span></span><span class="${f.counter[0] <= f.counter[1] ? 'ok' : 'warn'}">${f.counter[0]} / ${f.counter[1]}</span></div>` : '';
+      switch (f.type) {
+        case 'text':
+          return `${label}<input class="field-input" type="text" value="${escapeAttr(f.value || '')}" />${help}${counter}`;
+        case 'textarea':
+          return `${label}<textarea class="field-textarea" rows="${f.rows || 3}">${escapeHtml(f.value || '')}</textarea>${help}${counter}`;
+        case 'cta':
+          return `${label}<div class="field-inline">
+            <input class="field-input" type="text" value="${escapeAttr(f.labelValue)}" placeholder="Label" />
+            <div class="field-with-icon">${svg(f.linkIcon || 'text')}<input class="field-input" type="text" value="${escapeAttr(f.linkValue)}" placeholder="Link" /></div>
+          </div>`;
+        case 'media':
+          const thumbInner = f.placeholder
+            ? svg('image', 22)
+            : `<img src="${f.src}" alt="" onerror="this.style.display='none'" />`;
+          return `${label}<div class="media-slot">
+            <div class="media-slot-thumb" ${f.bg ? `style="background:${f.bg};padding:6px;"` : ''}>${thumbInner}</div>
+            <div class="media-slot-body">
+              <div class="n">${f.name}</div>
+              <div class="m">${f.meta}</div>
+            </div>
+            <div class="media-slot-actions">
+              <button class="cms-btn">Replace</button>
+            </div>
+          </div>`;
+        case 'repeater':
+          const rows = (f.items || []).map((it, i) => `
+            <div class="repeater-item">
+              <span class="repeater-drag"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="6" r="1"/><circle cx="9" cy="12" r="1"/><circle cx="9" cy="18" r="1"/><circle cx="15" cy="6" r="1"/><circle cx="15" cy="12" r="1"/><circle cx="15" cy="18" r="1"/></svg></span>
+              <span class="repeater-num">${String(i+1).padStart(2, '0')}</span>
+              <div class="repeater-item-body">
+                <div class="t">${escapeHtml(it.t)}</div>
+                ${it.d ? `<div class="d">${escapeHtml(it.d)}</div>` : ''}
+              </div>
+              <div class="repeater-actions">
+                <button class="icon-ghost" title="Edit"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4z"/></svg></button>
+                <button class="icon-ghost" title="Remove"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18"/><path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg></button>
+              </div>
+            </div>`).join('');
+          return `${label}<div class="repeater">${rows}
+            <button class="repeater-add"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg> ${f.addLabel || 'Add item'}</button>
+          </div>`;
+      }
+      return '';
+    }
+
+    function renderCard(c) {
+      return `<div class="card">
+        <div class="card-title">
+          <span class="card-title-icon">${svg(c.icon || 'text', 12)}</span>
+          <span class="card-title-text">${c.title}</span>
+          ${c.hint ? `<span class="card-title-hint">${c.hint}</span>` : ''}
+        </div>
+        ${c.fields.map(renderField).join('')}
+      </div>`;
+    }
+
+    function renderSection(s) {
+      return `<div class="section-block" id="s-${s.id}">
+        <div class="section-block-head">
+          <div class="section-block-icon">${svg(s.icon || 'text', 17)}</div>
+          <div class="section-block-meta">
+            <div class="section-block-title">${s.title} ${s.anchor || s.id ? `<span class="section-block-anchor">#${s.anchor || s.id}</span>` : ''}</div>
+            <div class="section-block-note">${s.note || ''}</div>
+          </div>
+          <div class="section-block-actions">
+            <button class="icon-ghost" title="Preview"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg></button>
+            <button class="icon-ghost" title="Duplicate"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg></button>
+          </div>
+        </div>
+        ${s.cards.map(renderCard).join('')}
+      </div>`;
+    }
+
+    function renderPage(id) {
+      const p = PAGES[id];
+      if (!p) return;
+      currentId = id;
+
+      // Top bar
+      document.getElementById('topTitle').textContent = p.name;
+      document.getElementById('topSaved').className = 'cms-saved';
+      document.getElementById('topSaved').textContent = 'Autosaved · 12:47';
+
+      // Jumpbar
+      const jumpbar = document.getElementById('jumpbar');
+      jumpbar.innerHTML = `
+        <span class="cms-jumpbar-label">Sections</span>
+        <ul class="cms-jumpbar-list">
+          ${p.sections.map((s, i) => `<li><a data-jump="s-${s.id}" class="${i===0?'is-active':''}"><span class="cms-jumpbar-num">${String(i+1).padStart(2,'0')}</span> ${s.title.replace(' Section','').replace(' Row','').replace(' List','')}</a></li>`).join('')}
+        </ul>`;
+      jumpbar.querySelectorAll('[data-jump]').forEach(a => {
+        a.addEventListener('click', (e) => {
+          e.preventDefault();
+          jumpbar.querySelectorAll('[data-jump]').forEach(x => x.classList.remove('is-active'));
+          a.classList.add('is-active');
+          const t = document.getElementById(a.dataset.jump);
+          if (t) t.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        });
+      });
+
+      // Editor body — page banner + sections
+      const editor = document.getElementById('editor');
+      const statusClass = p.status === 'draft' ? 'is-draft' : (p.status === 'system' ? 'is-draft' : '');
+      const statusLabel = p.status === 'draft' ? 'Draft' : (p.status === 'system' ? 'System' : 'Published');
+      const urlLine = p.url ? `<a href="${p.url}" target="_blank">powerhouselaw.com.au/${p.url}</a><span class="dot"></span>` : '';
+      editor.innerHTML = `
+        <div class="page-banner">
+          <div class="page-banner-body">
+            <span class="page-banner-eyebrow">${p.name}</span>
+            <h1>${p.name}</h1>
+            <div class="page-banner-meta">
+              ${urlLine}
+              <span>Last edited by <strong>${p.editor}</strong>, ${p.edited}</span>
+              <span class="dot"></span>
+              <span>${p.version}</span>
+            </div>
+          </div>
+          <span class="page-banner-status ${statusClass}">${statusLabel}</span>
+        </div>
+        ${p.sections.map(renderSection).join('')}
+      `;
+
+      // Scroll spy for jumpbar
+      const sections = editor.querySelectorAll('.section-block[id]');
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(e => {
+          if (e.isIntersecting) {
+            const id = e.target.id;
+            jumpbar.querySelectorAll('[data-jump]').forEach(a => {
+              a.classList.toggle('is-active', a.dataset.jump === id);
+            });
+          }
+        });
+      }, { rootMargin: '-40% 0px -55% 0px' });
+      sections.forEach(s => observer.observe(s));
+
+      // Dirty state
+      let dirty = false;
+      editor.querySelectorAll('input, textarea').forEach(el => {
+        el.addEventListener('input', () => {
+          if (dirty) return;
+          const saved = document.getElementById('topSaved');
+          saved.classList.add('is-dirty');
+          saved.textContent = 'Unsaved changes';
+          dirty = true;
+        });
+      });
+
+      // Scroll main to top on switch
+      document.querySelector('.cms-main').scrollTo({ top: 0, behavior: 'instant' });
+    }
+
+    function switchPage(id) {
+      document.querySelectorAll('.cms-link, .cms-page-link').forEach(l => l.classList.remove('is-active'));
+      document.querySelectorAll(`[data-page-id="${id}"]`).forEach(l => l.classList.add('is-active'));
+      renderPage(id);
+    }
+
+    /* Helpers */
+    function escapeHtml(str) { return String(str).replace(/[&<>"']/g, m => ({ '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;', "'":'&#39;' }[m])); }
+    function escapeAttr(str) { return escapeHtml(str); }
+
+    /* Toast */
+    function showToast(msg) {
+      const t = document.getElementById('cmsToast');
+      if (msg) document.getElementById('toastMsg').textContent = msg;
+      t.classList.add('show');
+      setTimeout(() => t.classList.remove('show'), 3200);
+    }
+    document.addEventListener('keydown', (e) => {
+      if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 's') {
+        e.preventDefault();
+        showToast(PAGES[currentId].name + ' published — visible to visitors.');
+      }
+    });
+
+    /* Boot */
+    renderSidebar();
+    switchPage('home');
+  </script>
+</body>
+</html>
