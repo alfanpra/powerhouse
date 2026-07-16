@@ -67,7 +67,10 @@
       "Bash(perl C:/Users/Alfan/AppData/Local/Temp/claude/E--A---WORKS-A---ICTechnology-Works-Power-House-Law-Power-House-Law-Claude/603bb9e2-6875-4256-a997-2e84b926aad5/scratchpad/swap_to_subnav.pl 'E:/A - WORKS/A - ICTechnology/Works/Power House Law/Power House Law_Claude')",
       "Bash(grep -nE '\\\\.penalty-grid|\\\\.process-grid' 'E:/A - WORKS/A - ICTechnology/Works/Power House Law/Power House Law_Claude/assets/css/practice.css')",
       "Bash(echo \"=== text-shadow red glows ===\")",
-      "Bash(grep -nE 'text-shadow.*rgba\\\\\\(196|text-shadow.*rgba\\\\\\(136' 'E:/A - WORKS/A - ICTechnology/Works/Power House Law/Power House Law_Claude/assets/css/*.css')"
+      "Bash(grep -nE 'text-shadow.*rgba\\\\\\(196|text-shadow.*rgba\\\\\\(136' 'E:/A - WORKS/A - ICTechnology/Works/Power House Law/Power House Law_Claude/assets/css/*.css')",
+      "Bash(grep -nE '<!-- ═══ [0-9]+\\\\.|<!-- ═══ [A-Z]|<section [^>]*class|section-block-eyebrow|prose h2|prose h3' 'E:/A - WORKS/A - ICTechnology/Works/Power House Law/Power House Law_Claude/assault-offences.html')",
+      "Bash(grep -n '^        offences:\\\\|^        defence:' 'E:/A - WORKS/A - ICTechnology/Works/Power House Law/Power House Law_Claude/cms.html')",
+      "Bash(grep -nE 'return \\\\{\\\\s*$|\\\\.faqs\\\\.length|const .* = practicePageTemplate|\\\\.filter\\\\\\(Boolean\\\\\\)' 'E:/A - WORKS/A - ICTechnology/Works/Power House Law/Power House Law_Claude/cms.html')"
     ]
   }
 }
