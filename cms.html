@@ -673,9 +673,10 @@
       margin-top: 2px;
       line-height: 1.45;
     }
+    /* Filament TextInput / Textarea — 40px tall, gray-300 border, primary focus ring */
     .field-input, .field-textarea, .field-select {
       width: 100%;
-      padding: 9px 12px;
+      padding: 8px 12px;
       background: var(--surface);
       border: 1px solid var(--line-2);
       border-radius: var(--r-md);
@@ -684,43 +685,151 @@
       outline: none;
       transition: border-color .15s, box-shadow .15s;
       font-family: var(--font-body);
-      line-height: 1.4;
+      line-height: 1.5;
+      min-height: 38px;
     }
     .field-input::placeholder, .field-textarea::placeholder { color: var(--text-faint); }
     .field-input:hover, .field-textarea:hover, .field-select:hover { border-color: var(--line-3); }
     .field-input:focus, .field-textarea:focus, .field-select:focus {
       border-color: var(--red-warm);
-      box-shadow: 0 0 0 3px var(--ring-focus);
+      box-shadow: 0 0 0 1px var(--red-warm), 0 0 0 4px var(--ring-focus);
     }
-    .field-textarea { resize: vertical; min-height: 92px; line-height: 1.55; }
+    .field-textarea { resize: vertical; min-height: 62px; line-height: 1.55; padding: 10px 12px; }
     .field-inline { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+
+    /* Filament TextInput with icon (prefix / suffix icon) */
     .field-with-icon { position: relative; }
     .field-with-icon .field-input { padding-left: 38px; }
     .field-with-icon > svg {
       position: absolute; left: 12px; top: 50%; transform: translateY(-50%);
-      width: 15px; height: 15px; color: var(--text-mute);
+      width: 16px; height: 16px; color: var(--text-mute); pointer-events: none;
     }
+    /* Prefix/suffix inline label pattern (like Filament's `->prefix()`) */
+    .field-affix {
+      display: flex; align-items: stretch;
+      border: 1px solid var(--line-2);
+      border-radius: var(--r-md);
+      background: var(--surface);
+      overflow: hidden;
+      transition: border-color .15s, box-shadow .15s;
+    }
+    .field-affix:focus-within { border-color: var(--red-warm); box-shadow: 0 0 0 1px var(--red-warm), 0 0 0 4px var(--ring-focus); }
+    .field-affix .field-input { border: 0; box-shadow: none; border-radius: 0; }
+    .field-affix .field-input:focus { box-shadow: none; }
+    .field-affix-label {
+      display: inline-flex; align-items: center;
+      padding: 0 12px;
+      background: var(--surface-2);
+      color: var(--text-mute);
+      font-size: 13px;
+      border-right: 1px solid var(--line);
+      flex-shrink: 0;
+    }
+    .field-affix-label--right { border-right: 0; border-left: 1px solid var(--line); }
+
+    /* Filament character counter — right-aligned below input */
     .field-counter {
-      display: flex; justify-content: space-between; align-items: center;
+      display: flex; justify-content: flex-end; align-items: center;
       font-size: 11.5px;
       color: var(--text-mute);
-      margin-top: 2px;
+      margin-top: 4px;
     }
-    .field-counter .ok { color: var(--green); }
+    .field-counter span:first-child { display: none; }
+    .field-counter .ok { color: var(--text-mute); }
     .field-counter .warn { color: var(--amber); }
 
-    /* Filament media slot — dashed border, rounded */
+    /* ═══ Filament RichEditor ═══
+       Container with a toolbar row above the editable area, all wrapped in a single border. */
+    .field-rich {
+      background: var(--surface);
+      border: 1px solid var(--line-2);
+      border-radius: var(--r-md);
+      overflow: hidden;
+      transition: border-color .15s, box-shadow .15s;
+    }
+    .field-rich:hover { border-color: var(--line-3); }
+    .field-rich:focus-within {
+      border-color: var(--red-warm);
+      box-shadow: 0 0 0 1px var(--red-warm), 0 0 0 4px var(--ring-focus);
+    }
+    .field-rich-toolbar {
+      display: flex; align-items: center; gap: 2px;
+      padding: 6px 8px;
+      background: var(--surface-3);
+      border-bottom: 1px solid var(--line);
+      flex-wrap: wrap;
+    }
+    .field-rich-tool {
+      width: 30px; height: 30px;
+      border-radius: var(--r-sm);
+      border: 0; background: transparent;
+      color: var(--text-soft);
+      display: inline-flex; align-items: center; justify-content: center;
+      cursor: pointer;
+      transition: background .12s, color .12s;
+    }
+    .field-rich-tool:hover { background: var(--surface); color: var(--text); }
+    .field-rich-tool.is-active { background: var(--red-soft); color: var(--red); }
+    .field-rich-tool svg { width: 15px; height: 15px; }
+    .field-rich-divider {
+      width: 1px; height: 18px;
+      background: var(--line);
+      margin: 0 4px;
+    }
+    .field-rich .field-textarea {
+      border: 0;
+      border-radius: 0;
+      background: var(--surface);
+      min-height: 140px;
+    }
+    .field-rich .field-textarea:focus { box-shadow: none; border-color: transparent; }
+
+    /* ═══ Filament FileUpload — dashed drop zone (empty) or file card (filled) ═══ */
+    .media-drop {
+      display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px;
+      padding: 32px 20px;
+      background: var(--surface);
+      border: 2px dashed var(--line-2);
+      border-radius: var(--r-md);
+      text-align: center;
+      transition: border-color .15s, background .15s;
+      cursor: pointer;
+    }
+    .media-drop:hover, .media-drop.is-dragover {
+      border-color: var(--red-warm);
+      background: var(--red-soft);
+    }
+    .media-drop-icon {
+      width: 40px; height: 40px;
+      border-radius: 999px;
+      background: var(--surface-2);
+      color: var(--text-mute);
+      display: inline-flex; align-items: center; justify-content: center;
+      margin-bottom: 8px;
+    }
+    .media-drop-icon svg { width: 20px; height: 20px; }
+    .media-drop-title {
+      font-size: 13.5px; font-weight: 500;
+      color: var(--text);
+    }
+    .media-drop-title a { color: var(--red); font-weight: 600; }
+    .media-drop-hint {
+      font-size: 12px;
+      color: var(--text-mute);
+    }
+
+    /* Filament FileUpload — filled card (existing file) */
     .media-slot {
       display: flex; align-items: center; gap: 14px;
-      padding: 14px;
+      padding: 12px 14px;
       background: var(--surface);
-      border: 1px dashed var(--line-2);
+      border: 1px solid var(--line);
       border-radius: var(--r-md);
-      transition: border-color .15s, background .15s;
+      transition: border-color .15s;
     }
-    .media-slot:hover { border-color: var(--red-warm); background: var(--red-soft); }
+    .media-slot:hover { border-color: var(--line-2); }
     .media-slot-thumb {
-      width: 64px; height: 64px;
+      width: 56px; height: 56px;
       border-radius: var(--r-sm);
       background: var(--surface-2);
       display: flex; align-items: center; justify-content: center;
@@ -731,65 +840,110 @@
     .media-slot-thumb img { width: 100%; height: 100%; object-fit: cover; }
     .media-slot-thumb svg { width: 22px; height: 22px; }
     .media-slot-body { flex: 1; min-width: 0; }
-    .media-slot-body .n { font-size: 13px; font-weight: 600; color: var(--text); margin-bottom: 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .media-slot-body .n { font-size: 13.5px; font-weight: 500; color: var(--text); margin-bottom: 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
     .media-slot-body .m { font-size: 12px; color: var(--text-mute); }
-    .media-slot-actions { display: flex; gap: 6px; flex-shrink: 0; }
+    .media-slot-actions { display: flex; gap: 4px; flex-shrink: 0; }
 
-    /* Filament repeater — each item a card with subtle hover */
-    .repeater { display: flex; flex-direction: column; gap: 8px; }
-    .repeater-item {
+    /* Compact variants for use inside repeater cards (tight layout) */
+    .media-drop--compact {
+      padding: 18px 12px;
+      gap: 2px;
+    }
+    .media-drop--compact .media-drop-icon {
+      width: 32px; height: 32px;
+      margin-bottom: 4px;
+    }
+    .media-drop--compact .media-drop-icon svg { width: 16px; height: 16px; }
+    .media-drop--compact .media-drop-title { font-size: 12.5px; }
+    .media-drop--compact .media-drop-hint { font-size: 11px; }
+
+    .media-slot--compact {
+      padding: 8px 10px;
+      gap: 10px;
+    }
+    .media-slot--compact .media-slot-thumb { width: 40px; height: 40px; }
+    .media-slot--compact .media-slot-thumb svg { width: 18px; height: 18px; }
+    .media-slot--compact .media-slot-body .n { font-size: 13px; }
+    .media-slot--compact .media-slot-body .m { font-size: 11.5px; }
+    .media-slot--compact .cms-btn { padding: 4px 10px; font-size: 12px; }
+
+    /* ═══ Filament Repeater — inline expanded cards ═══
+       Reference: https://filamentphp.com/docs/3.x/forms/fields/repeater
+       Each item is a card that renders its schema fields directly inside — no popup edit. */
+    .repeater { display: flex; flex-direction: column; gap: 10px; }
+    .repeater.is-inline .repeater-item {
       background: var(--surface);
       border: 1px solid var(--line);
       border-radius: var(--r-md);
-      padding: 12px 14px 12px 12px;
-      display: flex; align-items: center; gap: 12px;
-      transition: border-color .15s, box-shadow .15s;
+      padding: 12px 16px 16px;
+      display: block;
+      transition: border-color .15s;
     }
-    .repeater-item:hover { border-color: var(--line-2); box-shadow: var(--shadow-sm); }
-    .repeater-drag {
-      width: 22px; height: 22px;
-      color: var(--text-faint);
-      cursor: grab;
-      display: flex; align-items: center; justify-content: center;
-      flex-shrink: 0;
-      opacity: 0.5;
-      transition: opacity .15s, color .15s;
+    .repeater.is-inline .repeater-item:hover { border-color: var(--line-2); }
+    .repeater.is-inline .repeater-item.is-drop-target { border-color: var(--red-warm); background: var(--red-soft); }
+
+    /* Card header row: reorder arrows left, trash icon right */
+    .repeater-item-head {
+      display: flex; align-items: center; justify-content: space-between;
+      margin-bottom: 12px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid var(--line);
     }
-    .repeater-item:hover .repeater-drag { opacity: 1; color: var(--text-mute); }
-    .repeater-drag svg { width: 14px; height: 14px; }
-    .repeater-num {
-      font-size: 11px; font-weight: 600;
-      color: var(--text-mute);
-      background: var(--surface-2);
-      border-radius: 5px;
-      padding: 2px 7px;
-      flex-shrink: 0;
-      min-width: 26px;
-      text-align: center;
+    .repeater-item-reorder,
+    .repeater-item-remove {
+      width: 28px; height: 28px;
+      border-radius: var(--r-sm);
+      border: 0; background: transparent;
+      display: inline-flex; align-items: center; justify-content: center;
+      cursor: pointer;
+      transition: background .12s, color .12s;
     }
-    .repeater-item-body { flex: 1; min-width: 0; line-height: 1.35; }
-    .repeater-item-body .t { font-size: 13.5px; font-weight: 500; color: var(--text); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-    .repeater-item-body .d { font-size: 12.5px; color: var(--text-mute); margin-top: 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-    .repeater-actions { display: flex; gap: 2px; flex-shrink: 0; }
-    /* Filament repeater "Add" — flat, subtle, red on hover */
-    .repeater-add {
+    .repeater-item-reorder { color: var(--text-mute); cursor: grab; }
+    .repeater-item-reorder:hover { background: var(--surface-2); color: var(--text); }
+    .repeater-item-reorder:active { cursor: grabbing; }
+    .repeater-item-reorder svg { width: 16px; height: 16px; }
+
+    .repeater-item-remove { color: var(--red-warm); }
+    .repeater-item-remove:hover { background: var(--red-soft); color: var(--red); }
+    .repeater-item-remove svg { width: 16px; height: 16px; }
+
+    /* Fields inside the card — 2-column grid by default; textareas span both */
+    .repeater-item-fields {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+    .repeater-item-fields > .field { margin-bottom: 0; }
+    .repeater-item-fields > .field.is-full { grid-column: 1 / -1; }
+    @media (max-width: 700px) {
+      .repeater-item-fields { grid-template-columns: 1fr; }
+    }
+
+    /* Filament "Add" button — centered pill below the list */
+    .repeater-add-wrap {
+      display: flex; justify-content: center;
       margin-top: 4px;
-      padding: 10px 14px;
-      background: transparent;
-      border: 1px dashed var(--line-2);
+    }
+    .repeater-add-btn {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 8px 16px;
+      background: var(--surface);
+      border: 1px solid var(--line-2);
       border-radius: var(--r-md);
-      color: var(--text-mute);
+      color: var(--text);
       font-size: 13px; font-weight: 500;
       cursor: pointer;
-      display: flex; align-items: center; justify-content: center; gap: 8px;
-      transition: color .15s, border-color .15s, background .15s;
+      transition: background .15s, border-color .15s, color .15s, box-shadow .15s;
     }
-    .repeater-add:hover {
-      color: var(--red);
-      border-color: var(--red-warm);
-      background: var(--red-soft);
+    .repeater-add-btn:hover {
+      background: var(--surface-2);
+      border-color: var(--line-3);
     }
-    .repeater-add svg { width: 14px; height: 14px; }
+    .repeater-add-btn:focus-visible {
+      outline: none;
+      box-shadow: 0 0 0 2px var(--surface), 0 0 0 4px var(--ring-focus);
+    }
+    .repeater-add-btn svg { width: 14px; height: 14px; }
 
     /* Empty state placeholder */
     .empty-hint {
@@ -1074,21 +1228,6 @@
       background: var(--surface);
     }
     .cms-modal.is-section-edit .card:last-child { margin-bottom: 0; }
-
-    /* Filament "Edit section" pill button */
-    .section-edit-btn {
-      display: inline-flex; align-items: center; gap: 6px;
-      padding: 6px 12px;
-      border-radius: var(--r-md);
-      border: 1px solid var(--line);
-      background: var(--surface);
-      color: var(--text-soft);
-      font-size: 13px; font-weight: 500;
-      cursor: pointer;
-      transition: background .15s, color .15s, border-color .15s;
-    }
-    .section-edit-btn:hover { background: var(--red-soft); color: var(--red); border-color: transparent; }
-    .section-edit-btn svg { width: 13px; height: 13px; }
 
     /* Responsive */
     @media (max-width: 1000px) {
@@ -1681,7 +1820,7 @@
                   itemSchema: [
                     { label: 'Label', key: 't', type: 'text', required: true, help: 'e.g. "Governing Law"' },
                     { label: 'Value', key: 'd', type: 'textarea', rows: 2, required: true, help: 'Use \\n for a manual line break.' },
-                    { label: 'Icon name', key: 'icon', type: 'text', placeholder: 'form / clock / message' }
+                    { label: 'Icon', key: 'icon', type: 'media', placeholder: 'SVG or PNG · 24×24 recommended', help: 'Drop an icon file or browse. Displayed on the live site as the stat-cell icon.' }
                   ],
                   items: [
                     { t: 'Governing Law',    d: 'Crimes Act 1900 (NSW)\nss.59, 61, 35, 93C',    icon: 'form' },
@@ -2020,7 +2159,7 @@
                   addLabel: 'Add FAQ', itemLabel: 'FAQ',
                   itemSchema: [
                     { label: 'Question', key: 't', type: 'text', required: true },
-                    { label: 'Answer', key: 'd', type: 'textarea', rows: 6, required: true }
+                    { label: 'Answer', key: 'd', type: 'textarea', rows: 3, required: true }
                   ],
                   items: [
                     { t: 'What is the difference between common assault and ABH?',
@@ -2096,7 +2235,7 @@
                   itemSchema: [
                     { label: 'Label', key: 't', type: 'text', required: true },
                     { label: 'Value', key: 'd', type: 'textarea', rows: 2, required: true, help: 'Use \\n for a manual line break.' },
-                    { label: 'Icon name', key: 'icon', type: 'text', placeholder: 'form / clock / message' }
+                    { label: 'Icon', key: 'icon', type: 'media', placeholder: 'SVG or PNG · 24×24 recommended', help: 'Drop an icon file or browse. Displayed on the live site as the stat-cell icon.' }
                   ],
                   items: [
                     { t: 'Governing Law',     d: 'Crimes (DPV) Act 2007\n+ Crimes Act 1900 (NSW)',       icon: 'form' },
@@ -2327,7 +2466,7 @@
                   addLabel: 'Add FAQ', itemLabel: 'FAQ',
                   itemSchema: [
                     { label: 'Question', key: 't', type: 'text', required: true },
-                    { label: 'Answer', key: 'd', type: 'textarea', rows: 6, required: true }
+                    { label: 'Answer', key: 'd', type: 'textarea', rows: 3, required: true }
                   ],
                   items: [
                     { t: 'Can I stay in my home if there is an AVO against me?',
@@ -2401,7 +2540,7 @@
                   itemSchema: [
                     { label: 'Label', key: 't', type: 'text', required: true },
                     { label: 'Value', key: 'd', type: 'textarea', rows: 2, required: true },
-                    { label: 'Icon name', key: 'icon', type: 'text' }
+                    { label: 'Icon', key: 'icon', type: 'media', placeholder: 'SVG or PNG · 24×24 recommended', help: 'Drop an icon file or browse. Displayed on the live site as the stat-cell icon.' }
                   ],
                   items: [
                     { t: 'Governing Law',     d: 'Drug Misuse & Trafficking Act 1985 (NSW)', icon: 'form' },
@@ -2646,7 +2785,7 @@
                   addLabel: 'Add FAQ', itemLabel: 'FAQ',
                   itemSchema: [
                     { label: 'Question', key: 't', type: 'text', required: true },
-                    { label: 'Answer', key: 'd', type: 'textarea', rows: 6, required: true }
+                    { label: 'Answer', key: 'd', type: 'textarea', rows: 3, required: true }
                   ],
                   items: [
                     { t: 'Will I go to gaol for a simple possession charge?',       d: 'The vast majority of possession matters do not result in a custodial sentence. For first offenders, the realistic objectives are a Section 10 dismissal (no conviction recorded), a Conditional Release Order, or a fine. The 2-year maximum is reserved for serious, repeat or aggravated possession.' },
@@ -2713,7 +2852,7 @@
                   itemSchema: [
                     { label: 'Label', key: 't', type: 'text', required: true },
                     { label: 'Value', key: 'd', type: 'textarea', rows: 2, required: true },
-                    { label: 'Icon name', key: 'icon', type: 'text', placeholder: 'form / clock / message' }
+                    { label: 'Icon', key: 'icon', type: 'media', placeholder: 'SVG or PNG · 24×24 recommended', help: 'Drop an icon file or browse. Displayed on the live site as the stat-cell icon.' }
                   ],
                   items: [
                     { t: 'Governing Law',     d: 'Crimes Act 1900 (NSW)\nSections 61I, 61J, 61KC, 61KD', icon: 'form' },
@@ -2830,7 +2969,7 @@
                   addLabel: 'Add FAQ', itemLabel: 'FAQ',
                   itemSchema: [
                     { label: 'Question', key: 't', type: 'text', required: true },
-                    { label: 'Answer', key: 'd', type: 'textarea', rows: 6, required: true }
+                    { label: 'Answer', key: 'd', type: 'textarea', rows: 3, required: true }
                   ],
                   items: [
                     { t: 'What is the legal age of consent in NSW?',                d: 'A person under 16 cannot legally consent to any type of sexual contact. Special protections apply to persons aged 16 and 17 where the other party is in a position of authority — a teacher, coach, employer, or carer — in which case the age effectively rises to 18.' },
@@ -2917,7 +3056,7 @@
                   itemSchema: [
                     { label: 'Label', key: 't', type: 'text', required: true },
                     { label: 'Value', key: 'd', type: 'textarea', rows: 2, required: true },
-                    { label: 'Icon name', key: 'icon', type: 'text' }
+                    { label: 'Icon', key: 'icon', type: 'media', placeholder: 'SVG or PNG · 24×24 recommended', help: 'Drop an icon file or browse. Displayed on the live site as the stat-cell icon.' }
                   ],
                   items: [
                     { t: 'Governing Law',     d: 'Crimes (Sentencing Procedure) Act 1999 · s.10', icon: 'form' },
@@ -3378,7 +3517,7 @@
                   itemSchema: [
                     { label: 'Label', key: 't', type: 'text', required: true },
                     { label: 'Value', key: 'd', type: 'textarea', rows: 2, required: true },
-                    { label: 'Icon name', key: 'icon', type: 'text' }
+                    { label: 'Icon', key: 'icon', type: 'media', placeholder: 'SVG or PNG · 24×24 recommended', help: 'Drop an icon file or browse. Displayed on the live site as the stat-cell icon.' }
                   ],
                   items: [
                     { t: 'Governing Law',     d: 'Bail Act 2013 (NSW)',           icon: 'form' },
@@ -3578,7 +3717,7 @@
                   addLabel: 'Add FAQ', itemLabel: 'FAQ',
                   itemSchema: [
                     { label: 'Question', key: 't', type: 'text', required: true },
-                    { label: 'Answer', key: 'd', type: 'textarea', rows: 6, required: true }
+                    { label: 'Answer', key: 'd', type: 'textarea', rows: 3, required: true }
                   ],
                   items: [
                     { t: 'Can I apply for bail more than once?',                d: 'Yes — but with restrictions. Under section 74 of the Bail Act, a second application in the same court (or a higher court) requires new facts or new circumstances that were not before the earlier court. Without that change, the application will be summarily refused. That is why the first application must be done properly.' },
@@ -3647,7 +3786,7 @@
                   itemSchema: [
                     { label: 'Label', key: 't', type: 'text', required: true },
                     { label: 'Value', key: 'd', type: 'textarea', rows: 2, required: true },
-                    { label: 'Icon name', key: 'icon', type: 'text' }
+                    { label: 'Icon', key: 'icon', type: 'media', placeholder: 'SVG or PNG · 24×24 recommended', help: 'Drop an icon file or browse. Displayed on the live site as the stat-cell icon.' }
                   ],
                   items: [
                     { t: 'Governing Law',       d: 'Road Transport Act 2013 + Regulation 2017', icon: 'form' },
@@ -3850,7 +3989,7 @@
                   addLabel: 'Add FAQ', itemLabel: 'FAQ',
                   itemSchema: [
                     { label: 'Question', key: 't', type: 'text', required: true },
-                    { label: 'Answer', key: 'd', type: 'textarea', rows: 6, required: true }
+                    { label: 'Answer', key: 'd', type: 'textarea', rows: 3, required: true }
                   ],
                   items: [
                     { t: 'Can I keep driving while the appeal is pending?',   d: 'Only if the Local Court grants a stay of the suspension. The suspension takes effect on the date specified in the Notice — unless you lodge an appeal and the court orders a stay at the same time. Stays are not automatic and require their own supporting evidence. We apply for the stay at the moment of filing where livelihood is at stake.' },
@@ -3917,7 +4056,7 @@
                   itemSchema: [
                     { label: 'Label', key: 't', type: 'text', required: true },
                     { label: 'Value', key: 'd', type: 'textarea', rows: 2, required: true },
-                    { label: 'Icon name', key: 'icon', type: 'text' }
+                    { label: 'Icon', key: 'icon', type: 'media', placeholder: 'SVG or PNG · 24×24 recommended', help: 'Drop an icon file or browse. Displayed on the live site as the stat-cell icon.' }
                   ],
                   items: [
                     { t: 'Governing Law',     d: 'Road Transport Act 2013 (NSW) · s.110', icon: 'form' },
@@ -4168,7 +4307,7 @@
                   addLabel: 'Add FAQ', itemLabel: 'FAQ',
                   itemSchema: [
                     { label: 'Question', key: 't', type: 'text', required: true },
-                    { label: 'Answer', key: 'd', type: 'textarea', rows: 6, required: true }
+                    { label: 'Answer', key: 'd', type: 'textarea', rows: 3, required: true }
                   ],
                   items: [
                     { t: 'Will I automatically lose my licence?',                      d: 'Yes — unless a Section 10 dismissal is granted. Every PCA range carries a minimum statutory disqualification on a recorded conviction. The only way to avoid licence loss entirely is to secure a Section 10 — no conviction recorded, no disqualification imposed. That outcome is achievable on the right facts, but requires real preparation.' },
@@ -4235,12 +4374,12 @@
                   itemSchema: [
                     { label: 'Label', key: 't', type: 'text', required: true },
                     { label: 'Value', key: 'd', type: 'textarea', rows: 2, required: true },
-                    { label: 'Icon name', key: 'icon', type: 'text' }
+                    { label: 'Icon', key: 'icon', type: 'media', placeholder: 'SVG or PNG · 24×24 recommended', help: 'Drop an icon file or browse. Displayed on the live site as the stat-cell icon.' }
                   ],
                   items: [
-                    { t: 'Governing Law',       d: 'Road Transport Act 2013 (NSW) · ss.111, 112, 111A', icon: 'form' },
-                    { t: 'Liability Standard',  d: 'Strict liability (no impairment required)',         icon: 'badge' },
-                    { t: 'Free Consultation',   d: '24/7 Confidential Support',                          icon: 'message' }
+                    { t: 'Governing Law',       d: 'Road Transport Act 2013 (NSW) · ss.111, 112, 111A' },
+                    { t: 'Liability Standard',  d: 'Strict liability (no impairment required)'},
+                    { t: 'Free Consultation',   d: '24/7 Confidential Support'}
                   ] }]
               },
               { title: 'Principal offence — section-block heading', icon: 'text', fields: [
@@ -4463,7 +4602,7 @@
                   addLabel: 'Add FAQ', itemLabel: 'FAQ',
                   itemSchema: [
                     { label: 'Question', key: 't', type: 'text', required: true },
-                    { label: 'Answer', key: 'd', type: 'textarea', rows: 6, required: true }
+                    { label: 'Answer', key: 'd', type: 'textarea', rows: 3, required: true }
                   ],
                   items: [
                     { t: 'I used the drug days ago — can I still be charged?',      d: "Yes. Section 111 is a strict-liability presence offence — what matters is whether the drug is detectable, not whether you are impaired or how long since you used it. THC in particular can remain detectable in oral fluid for many hours after use, and sometimes longer. The Crown's case turns on the lab certificate, not on actual impairment at the time of driving." },
@@ -4530,7 +4669,7 @@
                   itemSchema: [
                     { label: 'Label', key: 't', type: 'text', required: true },
                     { label: 'Value', key: 'd', type: 'textarea', rows: 2, required: true },
-                    { label: 'Icon name', key: 'icon', type: 'text' }
+                    { label: 'Icon', key: 'icon', type: 'media', placeholder: 'SVG or PNG · 24×24 recommended', help: 'Drop an icon file or browse. Displayed on the live site as the stat-cell icon.' }
                   ],
                   items: [
                     { t: 'Governing Law',     d: 'Road Transport Act 2013 (NSW) · s.117', icon: 'form' },
@@ -4803,7 +4942,7 @@
                   addLabel: 'Add FAQ', itemLabel: 'FAQ',
                   itemSchema: [
                     { label: 'Question', key: 't', type: 'text', required: true },
-                    { label: 'Answer', key: 'd', type: 'textarea', rows: 6, required: true }
+                    { label: 'Answer', key: 'd', type: 'textarea', rows: 3, required: true }
                   ],
                   items: [
                     { t: "What's the difference between negligent and dangerous driving?",              d: 'Negligent driving (s.117 RTA) measures driving against the standard of a reasonable and prudent driver — momentary lapses, distraction, misjudgement. Dangerous driving (s.52A Crimes Act) requires the driving to have been objectively dangerous to others — a much higher threshold, but a much heavier penalty range. The same set of facts can sometimes be charged either way, and that characterisation is often the most important argument in the matter.' },
@@ -5215,7 +5354,7 @@
                     { label: 'Level / post-nominals', key: 'level', type: 'text', help: 'e.g. "KC · SC", "SC", or "Barrister"' },
                     { label: 'Chambers name', key: 'd', type: 'text', required: true },
                     { label: 'Chambers profile URL', key: 'href', type: 'text', placeholder: 'https://…' },
-                    { label: 'Portrait photo', key: 'photo', type: 'text', placeholder: 'assets/img/barristers/name.jpg' }
+                    { label: 'Portrait photo', key: 'photo', type: 'media', placeholder: 'JPG or PNG · 800×1000 recommended', help: 'Barrister headshot shown on the card. Portrait crop, ~4:5 aspect.' }
                   ],
                   items: [
                     { t: 'Winston Terracini',   level: 'KC · SC',   d: 'Sir Owen Dixon Chambers',    href: 'https://trustchambers.com.au/barrister/anthony-bellanto-qc/' },
@@ -6271,18 +6410,60 @@
       const errMsg = f.required ? `<div class="field-error"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>This field is required</div>` : '';
       switch (f.type) {
         case 'text':
-          return `${label}<input class="field-input" type="text" value="${escapeAttr(f.value || '')}"${req} />${errMsg}${help}${counter}`;
-        case 'textarea':
-          return `${label}<textarea class="field-textarea" rows="${f.rows || 3}"${req}>${escapeHtml(f.value || '')}</textarea>${errMsg}${help}${counter}`;
+          return `${label}<input class="field-input" type="text" placeholder="${escapeAttr(f.placeholder || '')}" value="${escapeAttr(f.value || '')}"${req} />${errMsg}${help}${counter}`;
+        case 'textarea': {
+          const rows = f.rows || 3;
+          const usesRich = f.rich !== false && (f.rich === true || rows >= 3);
+          const textareaHtml = `<textarea class="field-textarea" rows="${rows}" placeholder="${escapeAttr(f.placeholder || '')}"${req}>${escapeHtml(f.value || '')}</textarea>`;
+          if (!usesRich) return `${label}${textareaHtml}${errMsg}${help}${counter}`;
+          // Filament RichEditor — cosmetic toolbar above the textarea. Each tool is a static heroicon-style button.
+          const richToolIcon = {
+            bold:   '<path d="M6 4h6a4 4 0 0 1 3 6.7A4.5 4.5 0 0 1 13 20H6z" fill="currentColor"/><path d="M6 12h7" stroke="#fff" stroke-width="1.4"/>',
+            italic: '<line x1="19" y1="4" x2="10" y2="4" stroke-width="1.8"/><line x1="14" y1="20" x2="5" y2="20" stroke-width="1.8"/><line x1="15" y1="4" x2="9" y2="20" stroke-width="1.8"/>',
+            underline: '<path d="M6 4v8a6 6 0 0 0 12 0V4" stroke-width="1.8"/><line x1="4" y1="21" x2="20" y2="21" stroke-width="1.8"/>',
+            strike: '<path d="M16 4H9a3 3 0 0 0-2.83 4M14 12a4 4 0 0 1 0 8H6" stroke-width="1.8"/><line x1="4" y1="12" x2="20" y2="12" stroke-width="1.8"/>',
+            link:   '<path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" stroke-width="1.8"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" stroke-width="1.8"/>',
+            ul:     '<line x1="8" y1="6" x2="21" y2="6" stroke-width="1.8"/><line x1="8" y1="12" x2="21" y2="12" stroke-width="1.8"/><line x1="8" y1="18" x2="21" y2="18" stroke-width="1.8"/><circle cx="4" cy="6" r="1.4"/><circle cx="4" cy="12" r="1.4"/><circle cx="4" cy="18" r="1.4"/>',
+            ol:     '<line x1="10" y1="6" x2="21" y2="6" stroke-width="1.8"/><line x1="10" y1="12" x2="21" y2="12" stroke-width="1.8"/><line x1="10" y1="18" x2="21" y2="18" stroke-width="1.8"/><path d="M4 6h1v4M4 12l2 0v1l-2 1v1h2M5 15v1M4 17h2v2H4z" stroke-width="1.4" fill="none"/>',
+            quote:  '<path d="M3 21c3-3 6-5 9-6-2-1-3-3-3-6a6 6 0 0 1 12 0c0 4-3 7-8 12" stroke-width="1.8"/>',
+            code:   '<polyline points="16 18 22 12 16 6" stroke-width="1.8"/><polyline points="8 6 2 12 8 18" stroke-width="1.8"/>',
+            h2:     '<path d="M4 6v12M12 6v12M4 12h8" stroke-width="1.8"/><path d="M17 10c0-1 1-2 2.5-2s2.5 1 2.5 2c0 2-5 4-5 6h5" stroke-width="1.6"/>',
+            h3:     '<path d="M4 6v12M12 6v12M4 12h8" stroke-width="1.8"/><path d="M17 8h5l-3 4c2 0 3 1 3 3s-1.3 3-3 3h-2" stroke-width="1.6"/>',
+            undo:   '<path d="M3 7v6h6" stroke-width="1.8"/><path d="M21 17a9 9 0 0 0-15-6.7L3 13" stroke-width="1.8"/>',
+            redo:   '<path d="M21 7v6h-6" stroke-width="1.8"/><path d="M3 17a9 9 0 0 1 15-6.7L21 13" stroke-width="1.8"/>'
+          };
+          const tool = (k, title) => `<button type="button" class="field-rich-tool" title="${title}" tabindex="-1"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">${richToolIcon[k]}</svg></button>`;
+          const divider = `<span class="field-rich-divider"></span>`;
+          return `${label}<div class="field-rich">
+            <div class="field-rich-toolbar" role="toolbar" aria-label="Formatting">
+              ${tool('bold','Bold')}${tool('italic','Italic')}${tool('underline','Underline')}${tool('strike','Strikethrough')}
+              ${divider}${tool('link','Link')}
+              ${divider}${tool('ul','Bullet list')}${tool('ol','Ordered list')}${tool('quote','Blockquote')}${tool('code','Code block')}
+              ${divider}${tool('h2','Heading 2')}${tool('h3','Heading 3')}
+              ${divider}${tool('undo','Undo')}${tool('redo','Redo')}
+            </div>
+            ${textareaHtml}
+          </div>${errMsg}${help}${counter}`;
+        }
         case 'cta':
           return `${label}<div class="field-inline">
             <input class="field-input" type="text" value="${escapeAttr(f.labelValue)}" placeholder="Label" />
             <div class="field-with-icon">${svg(f.linkIcon || 'text')}<input class="field-input" type="text" value="${escapeAttr(f.linkValue)}" placeholder="Link" /></div>
           </div>`;
-        case 'media':
-          const thumbInner = f.placeholder
-            ? svg('image', 22)
-            : `<img src="${f.src}" alt="" onerror="this.style.display='none'" />`;
+        case 'media': {
+          // Filament FileUpload — empty state uses a dashed drop-zone; filled state uses a file card
+          if (f.placeholder) {
+            return `${label}<div class="media-drop" role="button" tabindex="0" onclick="onReplaceMedia(this)">
+              <div class="media-drop-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+              </div>
+              <div class="media-drop-title">Drag &amp; drop your files or <a>Browse</a></div>
+              <div class="media-drop-hint">${f.name || 'PNG, JPG, SVG up to 5 MB'}${f.meta ? ' · ' + f.meta : ''}</div>
+            </div>${errMsg}${help}`;
+          }
+          const thumbInner = f.src
+            ? `<img src="${f.src}" alt="" onerror="this.style.display='none'" />`
+            : svg('image', 22);
           return `${label}<div class="media-slot">
             <div class="media-slot-thumb" ${f.bg ? `style="background:${f.bg};padding:6px;"` : ''}>${thumbInner}</div>
             <div class="media-slot-body">
@@ -6295,38 +6476,18 @@
               <button class="icon-ghost" title="Remove" onclick="onRemoveMedia(this, '${escapeAttr(f.name)}')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18"/><path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/></svg></button>
             </div>
           </div>`;
+        }
         case 'repeater': {
           const repId = 'rep-' + (++__repIdCounter);
           const schema = f.itemSchema || DEFAULT_ITEM_SCHEMA;
-          REPEATER_REGISTRY[repId] = { items: f.items || [], schema, itemLabel: f.itemLabel || (f.addLabel ? f.addLabel.replace(/^Add\s+/i, '') : 'Item') };
-          if (!f.items || !f.items.length) {
-            return `${label}<div class="empty-state" data-rep-id="${repId}">
-              <div class="empty-state-icon">${svg('list', 20)}</div>
-              <div class="empty-state-title">No items yet</div>
-              <div class="empty-state-desc">${f.emptyHint || "Nothing here to show — add your first item to get started."}</div>
-              <button class="cms-btn cms-btn--primary" onclick="addRepeaterItem(this)">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
-                ${f.addLabel || 'Add item'}
-              </button>
-            </div>`;
-          }
-          const primaryKey = schema[0].key;
-          const secondaryKey = schema[1] ? schema[1].key : null;
-          const rows = f.items.map((it, i) => `
-            <div class="repeater-item" data-idx="${i}">
-              <span class="repeater-num">${String(i+1).padStart(2, '0')}</span>
-              <div class="repeater-item-body">
-                <div class="t">${escapeHtml(it[primaryKey] || it.t || '')}</div>
-                ${(secondaryKey && it[secondaryKey]) || it.d ? `<div class="d">${escapeHtml((secondaryKey && it[secondaryKey]) || it.d || '')}</div>` : ''}
-              </div>
-              <div class="repeater-actions">
-                <button class="icon-ghost" title="Edit" onclick="onEditItem(this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4z"/></svg></button>
-                <button class="icon-ghost" title="Remove" onclick="onDeleteItem(this, '${escapeAttr(it[primaryKey] || it.t || '')}')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18"/><path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/></svg></button>
-              </div>
-            </div>`).join('');
-          return `${label}<div class="repeater" data-rep-id="${repId}">${rows}
-            <button class="repeater-add" onclick="addRepeaterItem(this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg> ${f.addLabel || 'Add item'}</button>
-          </div>`;
+          REPEATER_REGISTRY[repId] = {
+            items: f.items || [],
+            schema,
+            itemLabel: f.itemLabel || (f.addLabel ? f.addLabel.replace(/^Add\s+/i, '') : 'Item'),
+            addLabel: f.addLabel || 'Add item',
+            emptyHint: f.emptyHint || "Nothing here to show — add your first item to get started."
+          };
+          return `${label}<div class="repeater is-inline" data-rep-id="${repId}">${renderRepeaterBody(repId)}</div>`;
         }
       }
       return '';
@@ -6414,9 +6575,6 @@
             <h1>${p.name}</h1>
             <div class="page-banner-meta">
               ${urlLine}
-              <span>Last edited by <strong>${p.editor}</strong>, ${p.edited}</span>
-              <span class="dot"></span>
-              <span>${p.version}</span>
             </div>
           </div>
         </div>
@@ -6774,74 +6932,248 @@
       document.getElementById('sectionEditModal').classList.add('show');
       document.body.style.overflow = 'hidden';
     }
-    function addRepeaterItem(btn) {
-      const rep = btn.closest('.card').querySelector('.repeater') || btn.closest('.empty-state');
-      if (rep && rep.classList.contains('empty-state')) {
-        // Was empty — replace with real repeater seed
-        const parent = rep.parentElement;
-        parent.innerHTML = `<div class="repeater">
-          <div class="repeater-item"><span class="repeater-num">01</span>
-            <div class="repeater-item-body"><div class="t">New item</div><div class="d">Click edit to fill this in.</div></div>
-            <div class="repeater-actions">
-              <button class="icon-ghost" onclick="onEditItem(this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4z"/></svg></button>
-              <button class="icon-ghost" onclick="onDeleteItem(this, 'New item')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18"/><path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/></svg></button>
-            </div>
-          </div>
-          <button class="repeater-add" onclick="addRepeaterItem(this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg> Add item</button>
+    /* ═══════════════════════════════════════════════════════════════
+       Filament-style Repeater — inline expanded cards
+       Each item's fields are rendered directly inside its card (not via modal).
+       ═══════════════════════════════════════════════════════════════ */
+    function renderRepeaterBody(repId) {
+      const reg = REPEATER_REGISTRY[repId];
+      if (!reg) return '';
+      if (!reg.items || !reg.items.length) {
+        return `<div class="empty-state">
+          <div class="empty-state-icon">${svg('list', 20)}</div>
+          <div class="empty-state-title">No items yet</div>
+          <div class="empty-state-desc">${reg.emptyHint}</div>
+          <button class="repeater-add-btn" type="button" onclick="addRepeaterItem(this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg> ${reg.addLabel}</button>
         </div>`;
-      } else if (rep) {
-        const items = rep.querySelectorAll('.repeater-item');
-        const num = String(items.length + 1).padStart(2, '0');
-        const newItem = document.createElement('div');
-        newItem.className = 'repeater-item';
-        newItem.innerHTML = `<span class="repeater-num">${num}</span>
-          <div class="repeater-item-body"><div class="t">New item</div><div class="d">Click edit to fill this in.</div></div>
-          <div class="repeater-actions">
-            <button class="icon-ghost" onclick="onEditItem(this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4z"/></svg></button>
-            <button class="icon-ghost" onclick="onDeleteItem(this, 'New item')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18"/><path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/></svg></button>
-          </div>`;
-        rep.insertBefore(newItem, btn);
       }
-      markDirty();
+      const cards = reg.items.map((it, i) => renderRepeaterCard(it, i, repId, reg.schema)).join('');
+      return `${cards}<div class="repeater-add-wrap"><button class="repeater-add-btn" type="button" onclick="addRepeaterItem(this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg> ${reg.addLabel}</button></div>`;
     }
-    function renumberRepeater(rep) {
+
+    function renderRepeaterCard(item, idx, repId, schema) {
+      const fields = schema.map(sf => renderRepeaterField(sf, item[sf.key] != null ? item[sf.key] : '', repId, idx)).join('');
+      return `<div class="repeater-item is-inline" data-idx="${idx}">
+        <div class="repeater-item-head">
+          <button type="button" class="repeater-item-reorder" title="Reorder" aria-label="Reorder">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M7 4v16M4 7l3-3 3 3"/><path d="M17 20V4M14 17l3 3 3-3"/></svg>
+          </button>
+          <button type="button" class="repeater-item-remove" title="Remove" aria-label="Remove" onclick="onDeleteRepeaterItem(this)">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18"/><path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/><line x1="10" y1="11" x2="10" y2="17"/><line x1="14" y1="11" x2="14" y2="17"/></svg>
+          </button>
+        </div>
+        <div class="repeater-item-fields">${fields}</div>
+      </div>`;
+    }
+
+    function renderRepeaterField(sf, value, repId, idx) {
+      const req = sf.required ? ' data-required="1"' : '';
+      const dataAttrs = `data-rep-id="${repId}" data-idx="${idx}" data-key="${sf.key}"`;
+      const spanFull = (sf.type === 'textarea' || sf.type === 'rich' || sf.fullWidth) ? ' is-full' : '';
+      const labelHtml = sf.label
+        ? `<label class="field-label">${sf.label}${sf.required ? '<span class="req">*</span>' : ''}${sf.badge ? ` <span class="badge">${sf.badge}</span>` : ''}</label>`
+        : '';
+      const helpHtml = sf.help ? `<div class="field-help">${sf.help}</div>` : '';
+      const errHtml = sf.required ? `<div class="field-error"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>This field is required</div>` : '';
+      const placeholder = sf.placeholder ? ` placeholder="${escapeAttr(sf.placeholder)}"` : '';
+
+      if (sf.type === 'textarea' || sf.type === 'rich') {
+        const rows = sf.rows || 3;
+        return `<div class="field${spanFull}">${labelHtml}<textarea class="field-textarea" rows="${rows}" ${dataAttrs}${placeholder}${req}>${escapeHtml(value)}</textarea>${errHtml}${helpHtml}</div>`;
+      }
+      if (sf.type === 'select' && sf.options) {
+        const opts = sf.options.map(o => `<option value="${escapeAttr(o.value != null ? o.value : o)}"${(o.value != null ? o.value : o) === value ? ' selected' : ''}>${escapeHtml(o.label || o)}</option>`).join('');
+        return `<div class="field${spanFull}">${labelHtml}<select class="field-select" ${dataAttrs}${req}><option value="">Select an option</option>${opts}</select>${errHtml}${helpHtml}</div>`;
+      }
+      if (sf.type === 'media') {
+        // A real file is anything looking like a URL (blob/data/http/absolute/asset path) OR bare filename with an extension.
+        const s = String(value || '');
+        const looksLikeUrl = /^(blob:|data:|https?:|\/|assets\/)/.test(s);
+        const looksLikeFile = looksLikeUrl || /\.[a-z0-9]{2,5}$/i.test(s);
+        if (looksLikeFile) {
+          const displayName = fileDisplayName(s);
+          const metaText = fileDisplayMeta(s, sf.help || 'Uploaded file');
+          const thumb = looksLikeUrl
+            ? `<img src="${escapeAttr(s)}" alt="" onerror="this.style.display='none'" />`
+            : `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>`;
+          return `<div class="field${spanFull}" ${dataAttrs}>${labelHtml}<div class="media-slot media-slot--compact">
+            <div class="media-slot-thumb">${thumb}</div>
+            <div class="media-slot-body">
+              <div class="n">${escapeHtml(displayName)}</div>
+              <div class="m">${escapeHtml(metaText)}</div>
+            </div>
+            <div class="media-slot-actions">
+              <button type="button" class="cms-btn" onclick="onReplaceRepeaterMedia(this)">Replace</button>
+              <button type="button" class="icon-ghost" title="Remove" onclick="onRemoveRepeaterMedia(this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18"/><path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/></svg></button>
+            </div>
+          </div>${errHtml}${helpHtml}</div>`;
+        }
+        return `<div class="field${spanFull}" data-rep-id="${dataAttrs.match(/data-rep-id="([^"]*)"/)?.[1] || ''}" data-idx="${dataAttrs.match(/data-idx="([^"]*)"/)?.[1] || ''}" data-key="${dataAttrs.match(/data-key="([^"]*)"/)?.[1] || ''}">${labelHtml}<div class="media-drop media-drop--compact" role="button" tabindex="0" onclick="onReplaceRepeaterMedia(this)" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();onReplaceRepeaterMedia(this);}">
+          <div class="media-drop-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+          </div>
+          <div class="media-drop-title">Drag &amp; drop or <a>Browse</a></div>
+          ${sf.placeholder ? `<div class="media-drop-hint">${escapeHtml(sf.placeholder)}</div>` : ''}
+        </div>${errHtml}${helpHtml}</div>`;
+      }
+      // default: text input
+      return `<div class="field${spanFull}">${labelHtml}<input class="field-input" type="text" value="${escapeAttr(value)}" ${dataAttrs}${placeholder}${req} />${errHtml}${helpHtml}</div>`;
+    }
+
+    function rerenderRepeater(repEl) {
+      const repId = repEl.dataset.repId;
+      if (!repId) return;
+      repEl.innerHTML = renderRepeaterBody(repId);
+    }
+
+    function addRepeaterItem(btn) {
+      const rep = btn.closest('.repeater');
       if (!rep) return;
-      rep.querySelectorAll('.repeater-item').forEach((it, i) => {
-        const n = it.querySelector('.repeater-num');
-        if (n) n.textContent = String(i + 1).padStart(2, '0');
+      const repId = rep.dataset.repId;
+      const reg = REPEATER_REGISTRY[repId];
+      if (!reg) return;
+      const newItem = {};
+      reg.schema.forEach(sf => { newItem[sf.key] = ''; });
+      reg.items.push(newItem);
+      rerenderRepeater(rep);
+      markDirty();
+      // Focus the first input of the new card so the user can start typing immediately
+      const cards = rep.querySelectorAll('.repeater-item');
+      const lastCard = cards[cards.length - 1];
+      if (lastCard) {
+        lastCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        const firstInput = lastCard.querySelector('input, textarea, select');
+        if (firstInput) setTimeout(() => firstInput.focus(), 250);
+      }
+    }
+
+    function onDeleteRepeaterItem(btn) {
+      const item = btn.closest('.repeater-item');
+      const rep = btn.closest('.repeater');
+      if (!item || !rep) return;
+      const idx = parseInt(item.dataset.idx, 10);
+      const repId = rep.dataset.repId;
+      const reg = REPEATER_REGISTRY[repId];
+      if (!reg || !reg.items[idx]) return;
+      const primary = reg.items[idx][reg.schema[0].key] || `${reg.itemLabel} ${idx + 1}`;
+      openModal({
+        icon: 'danger',
+        title: `Remove this ${reg.itemLabel.toLowerCase()}?`,
+        body: `<strong>${escapeHtml(primary)}</strong> will be removed. This change is discarded if you cancel — or persists to the live site when you publish.`,
+        confirmLabel: 'Remove',
+        onConfirm: () => {
+          closeModal();
+          reg.items.splice(idx, 1);
+          rerenderRepeater(rep);
+          markDirty();
+          toast({ type: 'success', title: `${reg.itemLabel} removed`,
+                  desc: `"${primary}" was removed. Save the page to persist.` });
+        }
       });
     }
 
+    /* Global input delegation — write inline repeater edits back into REPEATER_REGISTRY */
+    document.addEventListener('input', (e) => {
+      const el = e.target;
+      if (!el.matches || !el.matches('[data-rep-id][data-idx][data-key]')) return;
+      const reg = REPEATER_REGISTRY[el.dataset.repId];
+      const idx = parseInt(el.dataset.idx, 10);
+      if (!reg || !reg.items[idx]) return;
+      reg.items[idx][el.dataset.key] = el.value;
+    });
+
     /* ═══ Media upload / remove / preview ═══ */
-    function onReplaceMedia(btn) {
-      const slot = btn.closest('.media-slot');
-      const bar = slot.querySelector('.media-progress');
-      const barInner = slot.querySelector('.media-progress-bar');
-      slot.classList.add('is-uploading');
-      bar.style.display = 'block';
-      let pct = 0;
-      const iv = setInterval(() => {
-        pct += 8 + Math.random() * 12;
-        if (pct >= 100) pct = 100;
-        barInner.style.width = pct + '%';
-        if (pct >= 100) {
-          clearInterval(iv);
-          setTimeout(() => {
-            slot.classList.remove('is-uploading');
-            bar.style.display = 'none';
-            barInner.style.width = '0';
-            markDirty();
-            toast({ type: 'success', title: 'Image uploaded',
-                    desc: 'Your new image has replaced the previous one. Publish to make it live.' });
-          }, 300);
+    /* ═══════════════════════════════════════════════════════════════
+       Filament FileUpload — real browser file picker + drag & drop.
+       - pickFile() opens the OS file dialog via a reusable hidden <input>
+       - registerFile() stores {name, sizeKb} against the blob URL so
+         re-rendered cards can still display the original filename.
+       - Global dragover/drop delegation on the editor wires every
+         .media-drop and .media-slot at once.
+       ═══════════════════════════════════════════════════════════════ */
+    const BLOB_NAMES = {};
+    let __filePickerInput = null;
+    function pickFile(accept, cb) {
+      if (!__filePickerInput) {
+        __filePickerInput = document.createElement('input');
+        __filePickerInput.type = 'file';
+        __filePickerInput.style.position = 'fixed';
+        __filePickerInput.style.left = '-9999px';
+        __filePickerInput.style.opacity = '0';
+        document.body.appendChild(__filePickerInput);
+      }
+      __filePickerInput.value = '';
+      __filePickerInput.accept = accept || 'image/*';
+      __filePickerInput.onchange = () => {
+        const file = __filePickerInput.files && __filePickerInput.files[0];
+        if (file) cb(file);
+      };
+      __filePickerInput.click();
+    }
+    function registerFile(file) {
+      const url = URL.createObjectURL(file);
+      BLOB_NAMES[url] = { name: file.name, sizeKb: Math.round(file.size / 1024) };
+      return url;
+    }
+    function fileDisplayName(value) {
+      if (!value) return '';
+      if (BLOB_NAMES[value]) return BLOB_NAMES[value].name;
+      return String(value).split('/').pop() || String(value);
+    }
+    function fileDisplayMeta(value, fallback) {
+      if (BLOB_NAMES[value]) return `${BLOB_NAMES[value].sizeKb} KB`;
+      return fallback || '';
+    }
+
+    /* Route a picked File into the correct storage based on the target element */
+    function attachFileToField(container, file) {
+      const field = container.closest('.field');
+      const url = registerFile(file);
+      // Repeater-scoped field — update REPEATER_REGISTRY and re-render the repeater
+      if (field && field.dataset.repId != null) {
+        const repId = field.dataset.repId;
+        const idx = parseInt(field.dataset.idx, 10);
+        const key = field.dataset.key;
+        const reg = REPEATER_REGISTRY[repId];
+        if (reg && reg.items[idx]) {
+          reg.items[idx][key] = url;
+          rerenderRepeater(container.closest('.repeater'));
+          markDirty();
+          toast({ type: 'success', title: 'File uploaded',
+                  desc: `"${file.name}" (${Math.round(file.size / 1024)} KB) attached to this ${reg.itemLabel.toLowerCase()}. Save the page to persist.` });
+          return;
         }
-      }, 100);
+      }
+      // Top-level media field — swap the DOM in place (no repeater registry to touch)
+      const parent = container.parentElement;
+      if (!parent) return;
+      const label = parent.querySelector(':scope > .field-label')?.outerHTML || '';
+      parent.innerHTML = `${label}<div class="media-slot">
+        <div class="media-slot-thumb"><img src="${url}" alt="" onerror="this.replaceWith(document.createRange().createContextualFragment('<svg viewBox=&quot;0 0 24 24&quot; fill=&quot;none&quot; stroke=&quot;currentColor&quot; stroke-width=&quot;1.8&quot;><rect x=&quot;3&quot; y=&quot;3&quot; width=&quot;18&quot; height=&quot;18&quot; rx=&quot;2&quot;/><circle cx=&quot;8.5&quot; cy=&quot;8.5&quot; r=&quot;1.5&quot;/><path d=&quot;M21 15l-5-5L5 21&quot;/></svg>').firstChild)" /></div>
+        <div class="media-slot-body">
+          <div class="n">${escapeHtml(file.name)}</div>
+          <div class="m">${Math.round(file.size / 1024)} KB · just uploaded</div>
+        </div>
+        <div class="media-slot-actions">
+          <button type="button" class="cms-btn" onclick="onReplaceMedia(this)">Replace</button>
+          <button type="button" class="icon-ghost" title="Remove" onclick="onRemoveMedia(this, '${escapeAttr(file.name)}')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18"/><path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/></svg></button>
+        </div>
+      </div>`;
+      markDirty();
+      toast({ type: 'success', title: 'Image uploaded',
+              desc: `"${file.name}" (${Math.round(file.size / 1024)} KB) uploaded. Save the page to persist.` });
+    }
+
+    function onReplaceMedia(elOrBtn) {
+      const container = elOrBtn.closest('.media-slot, .media-drop');
+      if (!container) return;
+      pickFile('image/*,.svg', (file) => attachFileToField(container, file));
     }
     function onRemoveMedia(btn, name) {
       openModal({
         icon: 'danger',
         title: 'Remove this image?',
-        body: `<strong>${escapeHtml(name)}</strong> will be removed from this field. The image will still be available in the Media Library.`,
+        body: `<strong>${escapeHtml(name)}</strong> will be removed from this field.`,
         confirmLabel: 'Remove',
         onConfirm: () => {
           closeModal();
@@ -6849,12 +7181,70 @@
           slot.style.transition = 'opacity .2s';
           slot.style.opacity = '0.35';
           markDirty();
-          toast({ type: 'success', title: 'Image removed',
-                  desc: `"${name}" was removed from this field.` });
+          toast({ type: 'success', title: 'Image removed', desc: `"${name}" was removed from this field.` });
           setTimeout(() => { slot.style.opacity = '1'; }, 400);
         }
       });
     }
+
+    /* Repeater-scoped media handlers — proxy through pickFile → attachFileToField */
+    function onReplaceRepeaterMedia(btn) {
+      const container = btn.closest('.media-slot, .media-drop');
+      if (!container) return;
+      pickFile('image/*,.svg', (file) => attachFileToField(container, file));
+    }
+    function onRemoveRepeaterMedia(btn) {
+      const field = btn.closest('.field');
+      const repId = field?.dataset.repId;
+      const idx = parseInt(field?.dataset.idx, 10);
+      const key = field?.dataset.key;
+      const reg = REPEATER_REGISTRY[repId];
+      if (!reg || Number.isNaN(idx) || !reg.items[idx]) return;
+      const value = reg.items[idx][key];
+      const displayName = fileDisplayName(value) || 'this file';
+      openModal({
+        icon: 'danger',
+        title: 'Remove this file?',
+        body: `<strong>${escapeHtml(displayName)}</strong> will be removed from this field.`,
+        confirmLabel: 'Remove',
+        onConfirm: () => {
+          closeModal();
+          reg.items[idx][key] = '';
+          const rep = btn.closest('.repeater');
+          rerenderRepeater(rep);
+          markDirty();
+          toast({ type: 'success', title: 'File removed',
+                  desc: `The file was cleared from this ${reg.itemLabel.toLowerCase()}.` });
+        }
+      });
+    }
+
+    /* Global drag & drop — delegated on the editor so it works for every media-drop / media-slot including ones rendered dynamically */
+    (function wireDragDrop() {
+      const editor = document.getElementById('editor');
+      if (!editor || editor.dataset.dragWired === '1') return;
+      editor.dataset.dragWired = '1';
+      editor.addEventListener('dragover', (e) => {
+        const drop = e.target.closest('.media-drop, .media-slot');
+        if (!drop) return;
+        e.preventDefault();
+        drop.classList.add('is-dragover');
+        if (e.dataTransfer) e.dataTransfer.dropEffect = 'copy';
+      });
+      editor.addEventListener('dragleave', (e) => {
+        const drop = e.target.closest('.media-drop, .media-slot');
+        if (drop && !drop.contains(e.relatedTarget)) drop.classList.remove('is-dragover');
+      });
+      editor.addEventListener('drop', (e) => {
+        const drop = e.target.closest('.media-drop, .media-slot');
+        if (!drop) return;
+        e.preventDefault();
+        drop.classList.remove('is-dragover');
+        const file = e.dataTransfer && e.dataTransfer.files && e.dataTransfer.files[0];
+        if (file) attachFileToField(drop, file);
+      });
+    })();
+
     function onPreviewSection(sectionId) {
       const url = PAGES[currentId].url;
       if (url) window.open(url + '#' + sectionId, '_blank');
