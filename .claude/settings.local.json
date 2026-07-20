@@ -70,7 +70,13 @@
       "Bash(grep -nE 'text-shadow.*rgba\\\\\\(196|text-shadow.*rgba\\\\\\(136' 'E:/A - WORKS/A - ICTechnology/Works/Power House Law/Power House Law_Claude/assets/css/*.css')",
       "Bash(grep -nE '<!-- ═══ [0-9]+\\\\.|<!-- ═══ [A-Z]|<section [^>]*class|section-block-eyebrow|prose h2|prose h3' 'E:/A - WORKS/A - ICTechnology/Works/Power House Law/Power House Law_Claude/assault-offences.html')",
       "Bash(grep -n '^        offences:\\\\|^        defence:' 'E:/A - WORKS/A - ICTechnology/Works/Power House Law/Power House Law_Claude/cms.html')",
-      "Bash(grep -nE 'return \\\\{\\\\s*$|\\\\.faqs\\\\.length|const .* = practicePageTemplate|\\\\.filter\\\\\\(Boolean\\\\\\)' 'E:/A - WORKS/A - ICTechnology/Works/Power House Law/Power House Law_Claude/cms.html')"
+      "Bash(grep -nE 'return \\\\{\\\\s*$|\\\\.faqs\\\\.length|const .* = practicePageTemplate|\\\\.filter\\\\\\(Boolean\\\\\\)' 'E:/A - WORKS/A - ICTechnology/Works/Power House Law/Power House Law_Claude/cms.html')",
+      "mcp__970da43e-11b9-468e-8694-67668a22e4da__get_design_context",
+      "mcp__970da43e-11b9-468e-8694-67668a22e4da__get_screenshot",
+      "Bash(curl -sL -o \"C:/Users/Alfan/AppData/Local/Temp/claude/E--A---WORKS-A---ICTechnology-Works-Power-House-Law-Power-House-Law-Claude/ee4a9caa-19f8-4ab8-8d17-456d23030988/scratchpad/filament-overview.png\" \"https://www.figma.com/api/mcp/asset/57d952b5-221e-435a-8107-d515ba0ba257\")",
+      "Bash(curl -sL -o C:/Users/Alfan/AppData/Local/Temp/claude/E--A---WORKS-A---ICTechnology-Works-Power-House-Law-Power-House-Law-Claude/ee4a9caa-19f8-4ab8-8d17-456d23030988/scratchpad/filament-hires.png https://www.figma.com/api/mcp/asset/b49c2765-85b5-4459-bbc5-84419fa014b0)",
+      "Bash(grep -n \"id=\\\\\"cmsBrand\\\\\\\\|id=\\\\\"cmsNav\\\\\\\\|id=\\\\\"cmsSearch\\\\\\\\|id=\\\\\"topTitle\\\\\\\\|cms-topbar\\\\\\\\|cms-brand\\\\\\\\|cms-search\\\\\\\\|renderPageBanner\\\\\\\\|page-banner\" \"E:/A - WORKS/A - ICTechnology/Works/Power House Law/Power House Law_Claude/cms.html\")",
+      "Bash(grep -n \"class=\\\\\"cms-topbar\\\\\\\\|class=\\\\\"cms-brand\\\\\\\\|class=\\\\\"cms-search\\\\\\\\|class=\\\\\"page-banner\\\\\\\\|renderPageBanner\\\\\\\\|banner-eyebrow\" \"E:/A - WORKS/A - ICTechnology/Works/Power House Law/Power House Law_Claude/cms.html\")"
     ]
   }
 }
