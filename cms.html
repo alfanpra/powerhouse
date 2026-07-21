@@ -313,7 +313,7 @@
     /* Filament sidebar link — compact, subtle red-soft when active */
     .cms-link {
       display: flex; align-items: center; gap: 10px;
-      padding: 6px 10px;
+      padding: 10px 10px;
       border-radius: var(--r-md);
       color: var(--text-soft);
       font-size: 13px; font-weight: 500;
@@ -849,6 +849,7 @@
     }
     .section-block-anchor {
       font-family: var(--font-mono);
+      display: none;
       font-size: 11px; font-weight: 500;
       color: var(--text-mute);
       background: var(--surface-2);
@@ -896,6 +897,7 @@
     }
     .card-title-icon {
       width: 28px; height: 28px;
+      display: none !important;
       border-radius: var(--r-sm);
       background: var(--surface-2);
       color: var(--text-mute);
@@ -7053,9 +7055,6 @@
         <div class="page-banner">
           <div class="page-banner-body">
             <h1>${p.name}</h1>
-            <div class="page-banner-meta">
-              ${urlLine}
-            </div>
           </div>
         </div>
         ${p.sections.map(renderSection).join('')}
