@@ -5575,45 +5575,110 @@
       },
 
       barristers: {
-        name: 'Barristers', url: 'barristers-we-instruct.html', status: 'published',
+        name: 'Barristers We Instruct', url: 'barristers-we-instruct.html', status: 'published',
         edited: '1 day ago', editor: 'Chadi Irani', version: 'v2.1',
-        type: 'table',
-        table: {
-          singular: 'barrister',
-          plural: 'barristers',
-          reorderable: true,
-          showColumnToggle: false,
-          rowActions: ['edit'],
-          primaryAction: { label: 'New Barrister', onClick: 'onNewBarrister()' },
-          columns: [
-            { key: 'photo',    label: 'Photo',    render: 'photo' },
-            { key: 'name',     label: 'Name',     sortable: true, sortedAsc: true },
-            { key: 'chambers', label: 'Chambers', sortable: true },
-            { key: 'enabled',  label: 'Enabled',  render: 'enabled' }
-          ],
-          editFields: [
-            { label: 'Barrister name',        key: 'name',     type: 'text',  required: true },
-            { label: 'Level / post-nominals', key: 'level',    type: 'text',  help: 'e.g. "KC · SC", "SC", or "Barrister"' },
-            { label: 'Chambers name',         key: 'chambers', type: 'text',  required: true },
-            { label: 'Chambers profile URL',  key: 'href',     type: 'text',  placeholder: 'https://…' },
-            { label: 'Portrait photo',        key: 'photo',    type: 'media', placeholder: 'JPG or PNG · 800×1000 recommended', help: 'Barrister headshot shown on the card. Portrait crop, ~4:5 aspect.' },
-            { label: 'Enabled',               key: 'enabled',  type: 'select', options: [{ value: 'true', label: 'Yes — show on site' }, { value: 'false', label: 'No — hide from site' }], help: 'Disabled barristers are hidden from the live page.' }
-          ],
-          rows: [
-            { name: 'Chadi Irani',         chambers: '',                              level: 'Principal Solicitor', href: 'chadi-irani.html', photo: 'assets/img/Founder-photo.jpg',                                                enabled: true },
-            { name: 'Winston Terracini',   chambers: 'Sir Owen Dixon Chambers',       level: 'KC · SC',   href: 'https://trustchambers.com.au/barrister/anthony-bellanto-qc/',        photo: '', enabled: true },
-            { name: 'Tony Bellanto',       chambers: 'Trust Chambers',                level: 'SC',        href: 'https://trustchambers.com.au/barrister/anthony-bellanto-qc/',        photo: '', enabled: true },
-            { name: 'Peter Kondich',       chambers: 'Sir Owen Dixon Chambers',       level: 'Barrister', href: 'https://sirowendixon.com.au/barristers/peter-kondich',              photo: '', enabled: true },
-            { name: 'James Moore',         chambers: 'Samuel Griffith Chambers',      level: 'Barrister', href: 'https://www.samuelgriffithchambers.com.au/barrister/905/',           photo: '', enabled: true },
-            { name: 'Jeffrey Clarke',      chambers: 'Wardell Chambers',              level: 'Barrister', href: 'https://wardellchambers.com.au/barrister/jeff-clarke/',              photo: '', enabled: true },
-            { name: 'Peter Nematalla',     chambers: 'Lachlan Macquarie Chambers',    level: 'Barrister', href: 'https://www.lacmac.com.au/profile/peter-nematalla/',                 photo: '', enabled: true },
-            { name: 'Ramesh Rajalingam',   chambers: 'Black Chambers',                level: 'Barrister', href: 'https://blackchambers.com.au/our-barristers/ramesh-rajalingam/',     photo: '', enabled: true },
-            { name: 'Stephen Lawrence',    chambers: 'Black Chambers',                level: 'Barrister', href: 'https://blackchambers.com.au/our-barristers/stephen-lawrence/',      photo: '', enabled: true },
-            { name: 'Brian Royce',         chambers: 'Lachlan Macquarie Chambers',    level: 'Barrister', href: 'https://www.lacmac.com.au/profile/brian-royce/',                     photo: '', enabled: true },
-            { name: 'AJ Karim',            chambers: 'Sir Owen Dixon Chambers',       level: 'Barrister', href: '',                                                                    photo: '', enabled: true },
-            { name: 'David Price',         chambers: 'Sir Owen Dixon Chambers',       level: 'Barrister', href: '',                                                                    photo: '', enabled: true }
-          ]
-        }
+        sections: [
+          { id: 'hero', title: 'Hero Section', icon: 'hero',
+            note: 'Top of the page — eyebrow, H1, italic accent, subtitle, lead paragraph, CTA buttons.',
+            cards: [
+              { title: 'Text content', icon: 'text', fields: [
+                { type: 'text', label: 'Eyebrow', value: 'About Us · Counsel Network' },
+                { type: 'text', label: 'Main heading', required: true, value: 'The barristers we' },
+                { type: 'text', label: 'Italic heading accent', badge: 'Serif italic', value: 'instruct.' },
+                { type: 'text', label: 'Subtitle', value: 'Senior & Junior Counsel briefed by Powerhouse Law across NSW.' },
+                { type: 'textarea', label: 'Lead paragraph', required: true, rows: 5, value: 'A strong group of specialist Criminal Defence Barristers who know how to fight for your rights and win your case. We brief counsel on serious indictable matters and contested hearings — choosing the right silk or junior for the brief, the court, and the strategy.' }
+              ]},
+              { title: 'Hero buttons', icon: 'button', fields: [
+                { type: 'cta', label: 'Primary button', badge: 'Red', labelValue: 'Brief Counsel on Your Matter', linkValue: 'tel:1800100529', linkIcon: 'phone' },
+                { type: 'cta', label: 'Secondary button', badge: 'Outline', labelValue: 'View the Counsel', linkValue: '#counsel', linkIcon: 'text' }
+              ]}
+            ]
+          },
+
+          { id: 'why', title: 'Solicitor & Counsel', icon: 'text',
+            note: 'The "right barrister for the right brief" explainer — left summary, right prose block.',
+            cards: [
+              { title: 'Section heading', icon: 'text', fields: [
+                { type: 'text', label: 'Eyebrow', value: 'Solicitor & Counsel' },
+                { type: 'text', label: 'Section title', required: true, value: 'The right barrister for the' },
+                { type: 'text', label: 'Section italic title', badge: 'Serif italic', value: 'right brief.' },
+                { type: 'textarea', label: 'Paragraph (left column)', rows: 4, value: 'The solicitor-counsel partnership is at the heart of how serious criminal defence is run in New South Wales. We do not simply hand a brief to the nearest available barrister — every match is deliberate.' },
+                { type: 'textarea', label: 'Paragraph (right column)', rows: 8, value: "For contested hearings, defended jury trials and complex sentencing, the choice of counsel is one of the most consequential decisions in the matter. We consider the court, the evidence, the temperament of the bench, and the kind of advocacy the brief demands before briefing a barrister.\n\nWe instruct Senior Counsel on matters that warrant silk — the most serious indictable charges, appellate work in the Court of Criminal Appeal, and matters where the facts or law are unsettled. For Local and District Court matters that need a courtroom advocate alongside the solicitor, we brief Junior Counsel with directly relevant trial experience.\n\nOur barristers practice from leading NSW chambers including Sir Owen Dixon Chambers, Trust Chambers, Black Chambers, Wardell Chambers, Samuel Griffith Chambers and Lachlan Macquarie Chambers — Sydney's frontline criminal bar." }
+              ]}
+            ]
+          },
+
+          { id: 'counsel', title: 'The Counsel', icon: 'user',
+            note: 'The barristers roster — Senior & Junior Counsel we brief. Displayed as a card grid on the live site.',
+            table: {
+              singular: 'barrister',
+              plural: 'barristers',
+              reorderable: true,
+              showColumnToggle: false,
+              rowActions: ['edit'],
+              primaryAction: { label: 'New Barrister', onClick: 'onNewBarrister(this)' },
+              columns: [
+                { key: 'photo',    label: 'Photo',    render: 'photo' },
+                { key: 'name',     label: 'Name',     sortable: true, sortedAsc: true },
+                { key: 'chambers', label: 'Chambers', sortable: true },
+                { key: 'enabled',  label: 'Enabled',  render: 'enabled' }
+              ],
+              editFields: [
+                { label: 'Name',                  key: 'name',     type: 'text',  required: true },
+                { label: 'Level / post-nominals', key: 'level',    type: 'text',  help: 'e.g. "KC · SC", "SC", or "Barrister"' },
+                { label: 'Chambers name',         key: 'chambers', type: 'text',  required: true },
+                { label: 'Chambers profile URL',  key: 'href',     type: 'text',  placeholder: 'https://…' },
+                { label: 'Portrait photo',        key: 'photo',    type: 'media', placeholder: 'JPG or PNG · 800×1000 recommended', help: 'Barrister headshot shown on the card. Portrait crop, ~4:5 aspect.' },
+                { label: 'Enabled',               key: 'enabled',  type: 'select', options: [{ value: 'true', label: 'Yes — show on site' }, { value: 'false', label: 'No — hide from site' }], help: 'Disabled barristers are hidden from the live page.' }
+              ],
+              rows: [
+                { name: 'Chadi Irani',         chambers: '',                              level: 'Principal Solicitor', href: 'chadi-irani.html', photo: 'assets/img/Founder-photo.jpg',                                                enabled: true },
+                { name: 'Winston Terracini',   chambers: 'Sir Owen Dixon Chambers',       level: 'KC · SC',   href: 'https://trustchambers.com.au/barrister/anthony-bellanto-qc/',        photo: '', enabled: true },
+                { name: 'Tony Bellanto',       chambers: 'Trust Chambers',                level: 'SC',        href: 'https://trustchambers.com.au/barrister/anthony-bellanto-qc/',        photo: '', enabled: true },
+                { name: 'Peter Kondich',       chambers: 'Sir Owen Dixon Chambers',       level: 'Barrister', href: 'https://sirowendixon.com.au/barristers/peter-kondich',              photo: '', enabled: true },
+                { name: 'James Moore',         chambers: 'Samuel Griffith Chambers',      level: 'Barrister', href: 'https://www.samuelgriffithchambers.com.au/barrister/905/',           photo: '', enabled: true },
+                { name: 'Jeffrey Clarke',      chambers: 'Wardell Chambers',              level: 'Barrister', href: 'https://wardellchambers.com.au/barrister/jeff-clarke/',              photo: '', enabled: true },
+                { name: 'Peter Nematalla',     chambers: 'Lachlan Macquarie Chambers',    level: 'Barrister', href: 'https://www.lacmac.com.au/profile/peter-nematalla/',                 photo: '', enabled: true },
+                { name: 'Ramesh Rajalingam',   chambers: 'Black Chambers',                level: 'Barrister', href: 'https://blackchambers.com.au/our-barristers/ramesh-rajalingam/',     photo: '', enabled: true },
+                { name: 'Stephen Lawrence',    chambers: 'Black Chambers',                level: 'Barrister', href: 'https://blackchambers.com.au/our-barristers/stephen-lawrence/',      photo: '', enabled: true },
+                { name: 'Brian Royce',         chambers: 'Lachlan Macquarie Chambers',    level: 'Barrister', href: 'https://www.lacmac.com.au/profile/brian-royce/',                     photo: '', enabled: true },
+                { name: 'AJ Karim',            chambers: 'Sir Owen Dixon Chambers',       level: 'Barrister', href: '',                                                                    photo: '', enabled: true },
+                { name: 'David Price',         chambers: 'Sir Owen Dixon Chambers',       level: 'Barrister', href: '',                                                                    photo: '', enabled: true }
+              ]
+            }
+          },
+
+          { id: 'chambers', title: 'Chambers', icon: 'list',
+            note: 'The "chambers we regularly brief" list — appears after the barristers grid on the live site.',
+            cards: [
+              { title: 'Section heading', icon: 'text', fields: [
+                { type: 'text', label: 'Eyebrow', value: 'Chambers' },
+                { type: 'text', label: 'Section title', required: true, value: 'The chambers we' },
+                { type: 'text', label: 'Section italic title', badge: 'Serif italic', value: 'regularly brief.' },
+                { type: 'textarea', label: 'Paragraph', rows: 2, value: 'A working list of the NSW criminal-law chambers from which we instruct counsel.' }
+              ]},
+              { title: 'Chambers list', icon: 'list', hint: '6 chambers',
+                fields: [{ type: 'repeater',
+                  addLabel: 'Add chambers',
+                  itemLabel: 'Chambers',
+                  itemSchema: [
+                    { label: 'Chambers name', key: 't', type: 'text', required: true }
+                  ],
+                  items: [
+                    { t: 'Black Chambers' },
+                    { t: 'Lachlan Macquarie Chambers' },
+                    { t: 'Samuel Griffith Chambers' },
+                    { t: 'Sir Owen Dixon Chambers' },
+                    { t: 'Trust Chambers' },
+                    { t: 'Wardell Chambers' }
+                  ] }]
+              }
+            ]
+          },
+
+          ctaSection('Free 1st consultation — discreet & confidential.', "We're available 24/7 to discuss your matter."),
+          seoSection('Barristers We Instruct — Powerhouse Law Australia', 'Powerhouse Law briefs Senior and Junior Counsel from leading NSW chambers — Sir Owen Dixon, Trust, Black, Wardell, Samuel Griffith and Lachlan Macquarie — on serious indictable matters, contested hearings, and appeals across NSW.')
+        ]
       },
 
       courts: {
@@ -6740,6 +6805,17 @@
     }
 
     function renderSection(s) {
+      // Section-embedded data table (e.g. Barristers roster inside the "Counsel" section).
+      // The primary action lives in the section header instead of the page banner.
+      const primaryBtn = s.table && s.table.primaryAction
+        ? `<button class="cms-btn cms-btn--primary page-primary-action" onclick="${s.table.primaryAction.onClick || 'void 0'}">
+             ${s.table.primaryAction.icon !== false ? '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>' : ''}
+             ${escapeHtml(s.table.primaryAction.label)}
+           </button>`
+        : '';
+      const body = s.table
+        ? renderTablePage({ table: s.table })
+        : (s.cards || []).map(renderCard).join('');
       return `<div class="section-block" id="s-${s.id}" data-section-id="${s.id}">
         <div class="section-block-head">
           <div class="section-block-icon">${svg(s.icon || 'text', 17)}</div>
@@ -6748,12 +6824,28 @@
             <div class="section-block-note">${s.note || ''}</div>
           </div>
           <div class="section-block-actions">
-            
+            ${primaryBtn}
             <button class="icon-ghost" title="Preview on the live site" onclick="onPreviewSection('${s.id}')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg></button>
           </div>
         </div>
-        ${s.cards.map(renderCard).join('')}
+        ${body}
       </div>`;
+    }
+
+    /* Resolve the table config an in-DOM element belongs to.
+       For a section-embedded table, we walk up to the enclosing .section-block and read its data-section-id;
+       for a whole-page table (Contact Messages inbox), we fall back to PAGES[currentId].table. */
+    function resolveTableForEl(el) {
+      const p = PAGES[currentId];
+      if (!p) return null;
+      const sec = el && el.closest ? el.closest('.section-block') : null;
+      const sectionId = sec && sec.dataset ? sec.dataset.sectionId : null;
+      if (sectionId && p.sections) {
+        const section = p.sections.find(x => x.id === sectionId);
+        if (section && section.table) return { pageId: currentId, sectionId, table: section.table };
+      }
+      if (p.table) return { pageId: currentId, sectionId: null, table: p.table };
+      return null;
     }
 
     let dirty = false; // page has unsaved edits
@@ -6815,13 +6907,13 @@
         // Row actions — default View + Edit, but a page can opt out of View via t.rowActions
         const actionBtns = rowActions.map(a => {
           if (a === 'view') {
-            return `<button class="data-table-action" title="View" onclick="onTableRowView(${i})">
+            return `<button class="data-table-action" title="View" onclick="onTableRowView(${i}, this)">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
               View
             </button>`;
           }
           if (a === 'edit') {
-            return `<button class="data-table-action data-table-action--edit" title="Edit" onclick="onTableRowEdit(${i})">
+            return `<button class="data-table-action data-table-action--edit" title="Edit" onclick="onTableRowEdit(${i}, this)">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4z"/></svg>
               Edit
             </button>`;
@@ -6881,9 +6973,9 @@
     }
 
     /* Table row action stubs — mocked toast until wired to a real backend */
-    function onTableRowView(idx) {
-      const p = PAGES[currentId];
-      const row = p?.table?.rows?.[idx];
+    function onTableRowView(idx, btn) {
+      const ctx = resolveTableForEl(btn || document.querySelector('.section-block, .data-table-wrap'));
+      const row = ctx?.table?.rows?.[idx];
       if (!row) return;
       openModal({
         icon: 'info',
@@ -6898,21 +6990,23 @@
         onConfirm: () => closeModal()
       });
     }
-    function onTableRowEdit(idx) {
-      const p = PAGES[currentId];
-      const row = p?.table?.rows?.[idx];
-      const editFields = p?.table?.editFields;
+    function onTableRowEdit(idx, btn) {
+      const ctx = resolveTableForEl(btn || document.querySelector('.section-block, .data-table-wrap'));
+      const row = ctx?.table?.rows?.[idx];
+      const editFields = ctx?.table?.editFields;
       if (!row || !editFields) {
         toast({ type: 'info', title: 'Edit not wired',
                 desc: `The edit view for "${row?.name || 'this record'}" would open here.` });
         return;
       }
-      openTableRecordEditor(p, idx, false);
+      openTableRecordEditor(ctx, idx, false);
     }
 
-    /* Opens the record-editor modal used by both Edit (existing row) and New (empty row) actions on a table page. */
-    function openTableRecordEditor(p, idx, isNew) {
-      const t = p.table;
+    /* Opens the record-editor modal used by both Edit (existing row) and New (empty row) actions on a table
+       (either whole-page or section-embedded). `ctx` carries { pageId, sectionId, table }. */
+    function openTableRecordEditor(ctx, idx, isNew) {
+      const p = PAGES[ctx.pageId];
+      const t = ctx.table;
       const row = isNew ? {} : t.rows[idx];
       const singular = t.singular || 'record';
       const titleName = singular[0].toUpperCase() + singular.slice(1);
@@ -6935,23 +7029,18 @@
         return renderRepeaterField(sf, value, repId, 0);
       }).join('');
 
-      document.getElementById('sectionEditEyebrow').textContent = `${p.name} · ${isNew ? 'New' : 'Editing'} ${singular}`;
+      document.getElementById('sectionEditEyebrow').textContent = '';
       document.getElementById('sectionEditTitle').textContent = isNew
         ? `New ${singular}`
-        : `${titleName} · ${escapeHtml(row.name || row.t || '')}`;
+        : (row.name || row.t || `Edit ${singular}`);
 
-      document.getElementById('sectionEditBody').innerHTML = `<div class="card">
-        <div class="card-title">
-          <span class="card-title-icon">${svg('user', 12)}</span>
-          <span class="card-title-text">${escapeHtml(titleName)} details</span>
-        </div>
-        <div class="record-editor-fields">${fieldsHtml}</div>
-      </div>`;
+      document.getElementById('sectionEditBody').innerHTML =
+        `<div class="card"><div class="record-editor-fields">${fieldsHtml}</div></div>`;
 
       // Track that this modal edit is a table-row edit so saveSectionEdit knows how to commit.
       // The registry only holds ONE working record at index 0, so itemEditContext.idx is 0.
       // The table-row index lives in tableEdit.rowIdx.
-      itemEditContext = { repId, idx: 0, tableEdit: { pageId: currentId, rowIdx: idx, isNew } };
+      itemEditContext = { repId, idx: 0, tableEdit: { pageId: ctx.pageId, sectionId: ctx.sectionId || null, rowIdx: idx, isNew } };
       const body = document.getElementById('sectionEditBody');
       body.dataset.dirty = '';
       body.querySelectorAll('input, textarea, select').forEach(el => {
@@ -6961,7 +7050,11 @@
       document.body.style.overflow = 'hidden';
     }
 
-    function onNewBarrister() { openTableRecordEditor(PAGES[currentId], null, true); }
+    function onNewBarrister(btn) {
+      const ctx = resolveTableForEl(btn || document.querySelector('.section-block'));
+      if (!ctx) return;
+      openTableRecordEditor(ctx, null, true);
+    }
     function onTableSearch(input) {
       // Simple client-side filter — hide rows whose visible text doesn't match
       const q = input.value.trim().toLowerCase();
@@ -7822,11 +7915,21 @@
           if (itemEditContext.tableEdit) {
             const ctx = itemEditContext.tableEdit;
             const targetPage = PAGES[ctx.pageId];
-            if (targetPage && targetPage.table) {
+            // Section-embedded tables carry a sectionId; whole-page tables (inbox) leave it null.
+            let targetTable = null;
+            if (targetPage) {
+              if (ctx.sectionId && targetPage.sections) {
+                const section = targetPage.sections.find(x => x.id === ctx.sectionId);
+                targetTable = section && section.table ? section.table : null;
+              } else if (targetPage.table) {
+                targetTable = targetPage.table;
+              }
+            }
+            if (targetTable) {
               if (ctx.isNew) {
-                targetPage.table.rows.push(savedRow);
+                targetTable.rows.push(savedRow);
               } else {
-                targetPage.table.rows[ctx.rowIdx] = savedRow;
+                targetTable.rows[ctx.rowIdx] = savedRow;
               }
               renderPage(ctx.pageId);
             }
