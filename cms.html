@@ -493,6 +493,267 @@
       padding: 32px 40px 96px;
     }
 
+    /* ═══════════════════════════════════════════════════════════════
+       Filament Data Table — used by Contact Messages and other inbox-style pages.
+       Reference: Filament's Resources table listing.
+       ═══════════════════════════════════════════════════════════════ */
+    .data-table-wrap {
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: var(--r-lg);
+      overflow: hidden;
+    }
+    .data-table-toolbar {
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+      gap: 8px;
+      padding: 12px 16px;
+      border-bottom: 1px solid var(--line);
+      background: var(--surface);
+      min-height: 60px;
+    }
+    .data-table-search {
+      position: relative;
+      width: 240px;
+    }
+    .data-table-search svg {
+      position: absolute;
+      left: 12px; top: 50%; transform: translateY(-50%);
+      width: 15px; height: 15px;
+      color: var(--text-mute); pointer-events: none;
+    }
+    .data-table-search input {
+      width: 100%;
+      padding: 8px 12px 8px 36px;
+      background: var(--surface);
+      border: 1px solid var(--line-2);
+      border-radius: var(--r-md);
+      color: var(--text);
+      font-size: 13px;
+      outline: none;
+      transition: border-color .15s, box-shadow .15s;
+    }
+    .data-table-search input:focus {
+      border-color: var(--red-warm);
+      box-shadow: 0 0 0 1px var(--red-warm), 0 0 0 4px var(--ring-focus);
+    }
+    .data-table-search input::placeholder { color: var(--text-mute); }
+
+    .data-table-columns-btn {
+      width: 36px; height: 36px;
+      border: 1px solid var(--line-2);
+      border-radius: var(--r-md);
+      background: var(--surface);
+      color: var(--text-mute);
+      display: inline-flex; align-items: center; justify-content: center;
+      cursor: pointer;
+      transition: background .15s, color .15s;
+    }
+    .data-table-columns-btn:hover { color: var(--text); background: var(--surface-2); }
+    .data-table-columns-btn svg { width: 16px; height: 16px; }
+
+    .data-table-scroll { overflow-x: auto; }
+    .data-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13.5px;
+    }
+    .data-table th {
+      padding: 12px 16px;
+      text-align: left;
+      font-weight: 600;
+      font-size: 13px;
+      color: var(--text);
+      background: var(--surface);
+      border-bottom: 1px solid var(--line);
+      white-space: nowrap;
+    }
+    .data-table td {
+      padding: 14px 16px;
+      border-bottom: 1px solid var(--line);
+      color: var(--text-soft);
+      vertical-align: middle;
+    }
+    .data-table tbody tr:last-child td { border-bottom: 0; }
+    .data-table tbody tr:hover { background: var(--surface-3); }
+
+    /* Checkbox column (first column) */
+    .data-table-checkbox-cell {
+      width: 40px;
+      padding-right: 0 !important;
+    }
+    .data-table-checkbox-cell input[type="checkbox"] {
+      appearance: none;
+      -webkit-appearance: none;
+      width: 16px; height: 16px;
+      border: 1px solid var(--line-3);
+      border-radius: 4px;
+      background: var(--surface);
+      cursor: pointer;
+      display: block;
+      position: relative;
+      transition: background .12s, border-color .12s;
+    }
+    .data-table-checkbox-cell input[type="checkbox"]:hover { border-color: var(--red-warm); }
+    .data-table-checkbox-cell input[type="checkbox"]:checked {
+      background: var(--red-warm);
+      border-color: var(--red-warm);
+    }
+    .data-table-checkbox-cell input[type="checkbox"]:checked::after {
+      content: '';
+      position: absolute;
+      left: 4px; top: 1px;
+      width: 5px; height: 9px;
+      border: solid #fff;
+      border-width: 0 2px 2px 0;
+      transform: rotate(45deg);
+    }
+
+    /* Sortable header arrow */
+    .data-table-sort {
+      display: inline-flex; align-items: center; gap: 4px;
+      cursor: pointer;
+      user-select: none;
+    }
+    .data-table-sort svg { width: 14px; height: 14px; color: var(--text-mute); }
+
+    /* Photo thumbnail (Filament image column) */
+    .data-table-photo {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 36px; height: 36px;
+      border-radius: 50%;
+      object-fit: cover;
+      background: var(--surface-2);
+      color: var(--text-mute);
+      font-size: 12px; font-weight: 600;
+      overflow: hidden;
+      border: 1px solid var(--line);
+    }
+    .data-table-photo--placeholder {
+      background: var(--surface-2);
+      color: var(--text-soft);
+    }
+
+    /* Enabled badge — green ring w/ check when on, gray with dash when off */
+    .data-table-enabled {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 24px; height: 24px;
+      color: var(--line-3);
+    }
+    .data-table-enabled.is-on { color: var(--green); }
+    .data-table-enabled svg { width: 20px; height: 20px; }
+
+    /* Toolbar spacer — pushes reorder button to the far left */
+    .data-table-toolbar-spacer { flex: 1; }
+
+    /* Page primary action button — top-right of the page-banner (e.g. "New Barrister") */
+    .page-primary-action {
+      align-self: flex-start;
+      flex-shrink: 0;
+      padding: 10px 18px;
+      font-size: 13.5px;
+    }
+    .page-primary-action svg { width: 14px; height: 14px; }
+    .page-banner .page-primary-action { margin-left: auto; }
+
+    /* Modal record-editor: stack the fields vertically (single-column form inside the modal) */
+    .record-editor-fields { display: flex; flex-direction: column; gap: 16px; }
+    .record-editor-fields > .field { margin-bottom: 0; }
+
+    /* Read-status circle icon */
+    .data-table-read {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 24px; height: 24px;
+      border: 1.5px solid var(--red-warm);
+      border-radius: 50%;
+      color: var(--red-warm);
+    }
+    .data-table-read.is-read {
+      border-color: var(--green);
+      color: var(--green);
+    }
+    .data-table-read svg { width: 12px; height: 12px; }
+
+    /* Row action buttons (View + Edit) */
+    .data-table-actions-cell {
+      text-align: right;
+      white-space: nowrap;
+    }
+    .data-table-row-actions {
+      display: inline-flex;
+      gap: 14px;
+      justify-content: flex-end;
+    }
+    .data-table-action {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      padding: 0;
+      background: transparent;
+      border: 0;
+      color: var(--text-mute);
+      font-size: 13px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: color .15s;
+    }
+    .data-table-action:hover { color: var(--text); }
+    .data-table-action svg { width: 14px; height: 14px; }
+    .data-table-action--edit { color: var(--red); }
+    .data-table-action--edit:hover { color: var(--red-warm); }
+
+    .data-table-empty {
+      text-align: center;
+      padding: 40px 16px !important;
+      color: var(--text-mute);
+    }
+
+    /* Footer with count + per-page dropdown */
+    .data-table-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 12px 16px;
+      border-top: 1px solid var(--line);
+      color: var(--text-mute);
+      font-size: 13px;
+      background: var(--surface);
+    }
+    .data-table-per-page {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--text-soft);
+      font-size: 13px;
+    }
+    .data-table-per-page select {
+      padding: 4px 24px 4px 10px;
+      border: 1px solid var(--line-2);
+      border-radius: var(--r-md);
+      font-size: 13px;
+      color: var(--text);
+      background: var(--surface);
+      cursor: pointer;
+      appearance: none;
+      -webkit-appearance: none;
+      background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%236b7280' stroke-width='2'><path d='M6 9l6 6 6-6'/></svg>");
+      background-repeat: no-repeat;
+      background-position: right 6px center;
+      background-size: 14px;
+    }
+    .data-table-per-page select:focus {
+      outline: none;
+      border-color: var(--red-warm);
+      box-shadow: 0 0 0 3px var(--ring-focus);
+    }
+
     /* Filament per-page save footer — sticky action bar at end of page */
     .page-save-footer {
       display: flex; justify-content: flex-end; align-items: center; gap: 8px;
@@ -1395,6 +1656,7 @@
         { type: 'page', id: 'legal-aid',  label: 'Legal Aid NSW',              status: 'published' }
       ]},
       { type: 'link', id: 'contact', label: 'Contact', icon: 'phone', status: 'published' },
+      { type: 'link', id: 'contact-messages', label: 'Contact Messages', icon: 'quote' },
       { type: 'divider' },
       { type: 'link', id: 'global', label: 'Global Settings', icon: 'settings' }
     ];
@@ -5311,98 +5573,45 @@
       },
 
       barristers: {
-        name: 'Barristers We Instruct', url: 'barristers-we-instruct.html', status: 'published',
+        name: 'Barristers', url: 'barristers-we-instruct.html', status: 'published',
         edited: '1 day ago', editor: 'Chadi Irani', version: 'v2.1',
-        sections: [
-          { id: 'hero', title: 'Hero Section', icon: 'hero',
-            note: 'Top of the page — eyebrow, main heading, italic accent, subtitle and description.',
-            cards: [{ title: 'Text content', icon: 'text', hint: '5 fields', fields: [
-              { type: 'text', label: 'Eyebrow', value: 'About Us · Counsel Network' },
-              { type: 'text', label: 'Main heading', required: true, value: 'The barristers we' },
-              { type: 'text', label: 'Italic heading accent', badge: 'Serif italic', value: 'instruct.', help: 'The red serif italic word inside the H1.' },
-              { type: 'text', label: 'Subtitle', value: 'Senior & Junior Counsel briefed by Powerhouse Law across NSW.', help: 'Short line sitting directly under the H1.' },
-              { type: 'textarea', label: 'Description', required: true, rows: 3, value: 'Every matter is a match — the right advocate for the right brief. The strategic instructing of senior and junior counsel is one of the most consequential decisions we make to help protect your freedom and win your case. We brief counsel on serious indictable matters and contested hearings — always with intent.' }
-            ]}]
-          },
-          { id: 'why', title: 'Solicitor & Counsel', icon: 'info',
-            note: 'The "right barrister for the right brief" lead — two prose columns on the live page (left summary + right long-form body).',
-            cards: [
-              { title: 'Section heading', icon: 'text', fields: [
-                { type: 'text', label: 'Eyebrow', value: 'Solicitor & Counsel' },
-                { type: 'text', label: 'Section title', required: true, value: 'The right barrister for the' },
-                { type: 'text', label: 'Section italic title', badge: 'Serif italic', value: 'right brief.' },
-                { type: 'textarea', label: 'Section sub (left column)', rows: 4, value: 'The solicitor-counsel partnership is at the heart of how serious criminal defence is run in New South Wales. We do not simply hand a brief to the nearest available barrister — every match is deliberate.' },
-                { type: 'textarea', label: 'paragraph (right column)', rows: 4, value: 'The solicitor-counsel partnership is at the heart of how serious criminal defence is run in New South Wales. We do not simply hand a brief to the nearest available barrister — every match is deliberate.' },
-              ]}
-            ]
-          },
-          { id: 'counsel', title: 'The Counsel', icon: 'user',
-            note: '"Senior & Junior Counsel we brief." — the barrister roster grid.',
-            cards: [
-              { title: 'Section heading', icon: 'text', fields: [
-                { type: 'text', label: 'Eyebrow', value: 'The Counsel' },
-                { type: 'text', label: 'Section title', required: true, value: 'Senior & Junior Counsel we' },
-                { type: 'text', label: 'Section italic title', badge: 'Serif italic', value: 'brief.' },
-                { type: 'textarea', label: 'Paragraph', rows: 4, value: 'Specialist Criminal Defence Barristers from leading NSW chambers. We instruct Senior Counsel (SC, KC) on the most serious indictable and appellate matters, and Junior Counsel on contested hearings, jury trials and sentencing across every NSW court.' }
-              ]},
-              { title: 'Barrister cards', icon: 'grid', hint: '11 barristers',
-                fields: [{ type: 'repeater',
-                  addLabel: 'Add barrister',
-                  itemLabel: 'Barrister',
-                  itemSchema: [
-                    { label: 'Barrister name', key: 't', type: 'text', required: true },
-                    { label: 'Level / post-nominals', key: 'level', type: 'text', help: 'e.g. "KC · SC", "SC", or "Barrister"' },
-                    { label: 'Chambers name', key: 'd', type: 'text', required: true },
-                    { label: 'Chambers profile URL', key: 'href', type: 'text', placeholder: 'https://…' },
-                    { label: 'Portrait photo', key: 'photo', type: 'media', placeholder: 'JPG or PNG · 800×1000 recommended', help: 'Barrister headshot shown on the card. Portrait crop, ~4:5 aspect.' }
-                  ],
-                  items: [
-                    { t: 'Winston Terracini',   level: 'KC · SC',   d: 'Sir Owen Dixon Chambers',    href: 'https://trustchambers.com.au/barrister/anthony-bellanto-qc/' },
-                    { t: 'Tony Bellanto',       level: 'SC',        d: 'Trust Chambers',             href: 'https://trustchambers.com.au/barrister/anthony-bellanto-qc/' },
-                    { t: 'Peter Kondich',       level: 'Barrister', d: 'Sir Owen Dixon Chambers',    href: 'https://sirowendixon.com.au/barristers/peter-kondich' },
-                    { t: 'James Moore',         level: 'Barrister', d: 'Samuel Griffith Chambers',   href: 'https://www.samuelgriffithchambers.com.au/barrister/905/' },
-                    { t: 'Jeffrey Clarke',      level: 'Barrister', d: 'Wardell Chambers',           href: 'https://wardellchambers.com.au/barrister/jeff-clarke/' },
-                    { t: 'Peter Nematalla',     level: 'Barrister', d: 'Lachlan Macquarie Chambers', href: 'https://www.lacmac.com.au/profile/peter-nematalla/' },
-                    { t: 'Ramesh Rajalingam',   level: 'Barrister', d: 'Black Chambers',             href: 'https://blackchambers.com.au/our-barristers/ramesh-rajalingam/' },
-                    { t: 'Stephen Lawrence',    level: 'Barrister', d: 'Black Chambers',             href: 'https://blackchambers.com.au/our-barristers/stephen-lawrence/' },
-                    { t: 'Brian Royce',         level: 'Barrister', d: 'Lachlan Macquarie Chambers', href: 'https://www.lacmac.com.au/profile/brian-royce/' },
-                    { t: 'AJ Karim',            level: 'Barrister', d: 'Sir Owen Dixon Chambers',    href: '' },
-                    { t: 'David Price',         level: 'Barrister', d: 'Sir Owen Dixon Chambers',    href: '' }
-                  ] }]
-              }
-            ]
-          },
-          { id: 'chambers', title: 'The Chambers', icon: 'briefcase',
-            note: '"The chambers we regularly brief." — a simple public list of NSW criminal-law chambers.',
-            cards: [
-              { title: 'Section heading', icon: 'text', fields: [
-                { type: 'text', label: 'Eyebrow', value: 'Chambers' },
-                { type: 'text', label: 'Section title', required: true, value: 'The chambers we' },
-                { type: 'text', label: 'Section italic title', badge: 'Serif italic', value: 'regularly brief.' },
-                { type: 'textarea', label: 'Paragraph', rows: 2, value: 'A working list of the NSW criminal-law chambers from which we instruct counsel.' }
-              ]},
-              { title: 'Chambers list', icon: 'list', hint: '6 chambers',
-                fields: [{ type: 'repeater',
-                  addLabel: 'Add chambers',
-                  itemLabel: 'Chambers',
-                  itemSchema: [
-                    { label: 'Chambers name', key: 't', type: 'text', required: true },
-                    { label: 'Website URL', key: 'href', type: 'text', placeholder: 'https://…' }
-                  ],
-                  items: [
-                    { t: 'Black Chambers',             href: 'https://blackchambers.com.au/' },
-                    { t: 'Lachlan Macquarie Chambers', href: 'https://www.lacmac.com.au/' },
-                    { t: 'Samuel Griffith Chambers',   href: 'https://www.samuelgriffithchambers.com.au/' },
-                    { t: 'Sir Owen Dixon Chambers',    href: 'https://sirowendixon.com.au/' },
-                    { t: 'Trust Chambers',             href: 'https://trustchambers.com.au/' },
-                    { t: 'Wardell Chambers',           href: 'https://wardellchambers.com.au/' }
-                  ] }]
-              }
-            ]
-          },
-          ctaSection('Ready to speak with an Accredited Specialist?', 'Free first consultation. Available 24/7.'),
-          seoSection('Barristers We Instruct — Powerhouse Law Australia', 'The senior and junior counsel Powerhouse Law regularly briefs across NSW — from Sir Owen Dixon Chambers, Trust Chambers, Black Chambers and more.')
-        ]
+        type: 'table',
+        table: {
+          singular: 'barrister',
+          plural: 'barristers',
+          reorderable: true,
+          showColumnToggle: false,
+          rowActions: ['edit'],
+          primaryAction: { label: 'New Barrister', onClick: 'onNewBarrister()' },
+          columns: [
+            { key: 'photo',    label: 'Photo',    render: 'photo' },
+            { key: 'name',     label: 'Name',     sortable: true, sortedAsc: true },
+            { key: 'chambers', label: 'Chambers', sortable: true },
+            { key: 'enabled',  label: 'Enabled',  render: 'enabled' }
+          ],
+          editFields: [
+            { label: 'Barrister name',        key: 'name',     type: 'text',  required: true },
+            { label: 'Level / post-nominals', key: 'level',    type: 'text',  help: 'e.g. "KC · SC", "SC", or "Barrister"' },
+            { label: 'Chambers name',         key: 'chambers', type: 'text',  required: true },
+            { label: 'Chambers profile URL',  key: 'href',     type: 'text',  placeholder: 'https://…' },
+            { label: 'Portrait photo',        key: 'photo',    type: 'media', placeholder: 'JPG or PNG · 800×1000 recommended', help: 'Barrister headshot shown on the card. Portrait crop, ~4:5 aspect.' },
+            { label: 'Enabled',               key: 'enabled',  type: 'select', options: [{ value: 'true', label: 'Yes — show on site' }, { value: 'false', label: 'No — hide from site' }], help: 'Disabled barristers are hidden from the live page.' }
+          ],
+          rows: [
+            { name: 'Chadi Irani',         chambers: '',                              level: 'Principal Solicitor', href: 'chadi-irani.html', photo: 'assets/img/Founder-photo.jpg',                                                enabled: true },
+            { name: 'Winston Terracini',   chambers: 'Sir Owen Dixon Chambers',       level: 'KC · SC',   href: 'https://trustchambers.com.au/barrister/anthony-bellanto-qc/',        photo: '', enabled: true },
+            { name: 'Tony Bellanto',       chambers: 'Trust Chambers',                level: 'SC',        href: 'https://trustchambers.com.au/barrister/anthony-bellanto-qc/',        photo: '', enabled: true },
+            { name: 'Peter Kondich',       chambers: 'Sir Owen Dixon Chambers',       level: 'Barrister', href: 'https://sirowendixon.com.au/barristers/peter-kondich',              photo: '', enabled: true },
+            { name: 'James Moore',         chambers: 'Samuel Griffith Chambers',      level: 'Barrister', href: 'https://www.samuelgriffithchambers.com.au/barrister/905/',           photo: '', enabled: true },
+            { name: 'Jeffrey Clarke',      chambers: 'Wardell Chambers',              level: 'Barrister', href: 'https://wardellchambers.com.au/barrister/jeff-clarke/',              photo: '', enabled: true },
+            { name: 'Peter Nematalla',     chambers: 'Lachlan Macquarie Chambers',    level: 'Barrister', href: 'https://www.lacmac.com.au/profile/peter-nematalla/',                 photo: '', enabled: true },
+            { name: 'Ramesh Rajalingam',   chambers: 'Black Chambers',                level: 'Barrister', href: 'https://blackchambers.com.au/our-barristers/ramesh-rajalingam/',     photo: '', enabled: true },
+            { name: 'Stephen Lawrence',    chambers: 'Black Chambers',                level: 'Barrister', href: 'https://blackchambers.com.au/our-barristers/stephen-lawrence/',      photo: '', enabled: true },
+            { name: 'Brian Royce',         chambers: 'Lachlan Macquarie Chambers',    level: 'Barrister', href: 'https://www.lacmac.com.au/profile/brian-royce/',                     photo: '', enabled: true },
+            { name: 'AJ Karim',            chambers: 'Sir Owen Dixon Chambers',       level: 'Barrister', href: '',                                                                    photo: '', enabled: true },
+            { name: 'David Price',         chambers: 'Sir Owen Dixon Chambers',       level: 'Barrister', href: '',                                                                    photo: '', enabled: true }
+          ]
+        }
       },
 
       courts: {
@@ -6266,6 +6475,30 @@
         ]
       },
 
+      /* ───── CONTACT MESSAGES ─────
+         Table page — every row is a submission from the live contact form.
+         Rendered by the type:'table' branch of renderPage. */
+      'contact-messages': {
+        name: 'Contact Messages', url: null, status: 'system',
+        edited: 'Live inbox', editor: 'System', version: 'Auto-populated from contact-form submissions',
+        type: 'table',
+        table: {
+          singular: 'message',
+          plural: 'messages',
+          columns: [
+            { key: 'name',   label: 'Name' },
+            { key: 'email',  label: 'Email address' },
+            { key: 'phone',  label: 'Phone' },
+            { key: 'matter', label: 'Matter type' },
+            { key: 'date',   label: 'Message date', sortable: true, sortedDesc: true },
+            { key: 'read',   label: 'Is read', render: 'read-status', align: 'left' }
+          ],
+          rows: [
+            { name: 'test', email: 'test@email.com', phone: '1234567889', matter: 'Not sure / Other', date: 'Jul 16, 2026 06:17:52', read: false }
+          ]
+        }
+      },
+
       /* ───── GLOBAL SETTINGS ───── */
       global: {
         name: 'Global Settings', url: null, status: 'system',
@@ -6523,6 +6756,226 @@
 
     let dirty = false; // page has unsaved edits
 
+    /* ═══════════════════════════════════════════════════════════════
+       Filament-style data table (used by Contact Messages inbox etc.)
+       ═══════════════════════════════════════════════════════════════ */
+    function renderTablePage(p) {
+      const t = p.table || { columns: [], rows: [] };
+      const cols = t.columns || [];
+      const rows = t.rows || [];
+
+      const chevronDown = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>';
+
+      const headerCells = cols.map(c => {
+        const alignStyle = c.align === 'right' ? ' style="text-align:right;"' : '';
+        if (c.sortable) {
+          const arrow = c.sortedDesc ? chevronDown : (c.sortedAsc ? '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 15l6-6 6 6"/></svg>' : chevronDown);
+          return `<th${alignStyle}><span class="data-table-sort">${escapeHtml(c.label)} ${arrow}</span></th>`;
+        }
+        return `<th${alignStyle}>${escapeHtml(c.label)}</th>`;
+      }).join('');
+
+      const rowActions = Array.isArray(t.rowActions) && t.rowActions.length ? t.rowActions : ['view', 'edit'];
+      const rowHtml = rows.map((r, i) => {
+        const cells = cols.map(c => {
+          const value = r[c.key];
+          let content = '';
+          if (c.render === 'read-status') {
+            const isRead = !!value;
+            const iconPath = isRead
+              ? '<path d="M20 6L9 17l-5-5"/>'
+              : '<line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>';
+            content = `<span class="data-table-read${isRead ? ' is-read' : ''}" title="${isRead ? 'Read' : 'Unread'}">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">${iconPath}</svg>
+            </span>`;
+          } else if (c.render === 'enabled') {
+            // Green check circle for true, muted gray dash-circle for false
+            const on = !!value;
+            content = `<span class="data-table-enabled${on ? ' is-on' : ''}" title="${on ? 'Enabled' : 'Disabled'}">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/>${on ? '<path d="M8 12l3 3 5-6" stroke-width="2.4"/>' : '<line x1="8" y1="12" x2="16" y2="12"/>'}</svg>
+            </span>`;
+          } else if (c.render === 'photo') {
+            // Small image thumbnail — supports blob:, data:, http(s), asset paths, or falls back to initials avatar
+            const s = String(value || '').trim();
+            const isImage = /^(blob:|data:|https?:|\/|assets\/)/.test(s) || /\.(png|jpe?g|svg|webp|gif)$/i.test(s);
+            if (isImage) {
+              content = `<img class="data-table-photo" src="${escapeAttr(s)}" alt="" onerror="this.replaceWith(document.createRange().createContextualFragment('<span class=&quot;data-table-photo data-table-photo--placeholder&quot;>${escapeAttr((r.name || r.t || '').split(' ').map(w=>w[0]).join('').slice(0,2).toUpperCase())}</span>').firstChild)" />`;
+            } else {
+              const initials = (r.name || r.t || '').split(/\s+/).map(w => w[0]).join('').slice(0, 2).toUpperCase() || '—';
+              content = `<span class="data-table-photo data-table-photo--placeholder">${escapeHtml(initials)}</span>`;
+            }
+          } else {
+            content = escapeHtml(value != null ? String(value) : '—');
+          }
+          const alignStyle = c.align === 'right' ? ' style="text-align:right;"' : '';
+          return `<td${alignStyle}>${content}</td>`;
+        }).join('');
+        // Row actions — default View + Edit, but a page can opt out of View via t.rowActions
+        const actionBtns = rowActions.map(a => {
+          if (a === 'view') {
+            return `<button class="data-table-action" title="View" onclick="onTableRowView(${i})">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+              View
+            </button>`;
+          }
+          if (a === 'edit') {
+            return `<button class="data-table-action data-table-action--edit" title="Edit" onclick="onTableRowEdit(${i})">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4z"/></svg>
+              Edit
+            </button>`;
+          }
+          return '';
+        }).join('');
+        return `<tr>
+          <td class="data-table-checkbox-cell"><input type="checkbox" aria-label="Select row"></td>
+          ${cells}
+          <td class="data-table-actions-cell">
+            <div class="data-table-row-actions">${actionBtns}</div>
+          </td>
+        </tr>`;
+      }).join('');
+
+      const noun = rows.length === 1 ? (t.singular || 'result') : (t.plural || 'results');
+      const emptyHtml = `<tr><td colspan="${cols.length + 2}" class="data-table-empty">No ${t.plural || 'records'} yet</td></tr>`;
+
+      const reorderBtn = t.reorderable
+        ? `<button class="data-table-columns-btn data-table-reorder-btn" title="Reorder rows" aria-label="Reorder rows">
+             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 4v16M4 7l3-3 3 3"/><path d="M17 20V4M14 17l3 3 3-3"/></svg>
+           </button>`
+        : '';
+      const colToggleBtn = t.showColumnToggle === false ? '' : `<button class="data-table-columns-btn" title="Toggle columns" aria-label="Toggle columns">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="5" height="16" rx="1"/><rect x="10" y="4" width="4" height="16" rx="1"/><rect x="16" y="4" width="5" height="16" rx="1"/></svg>
+          </button>`;
+      return `<div class="data-table-wrap">
+        <div class="data-table-toolbar">
+          ${reorderBtn}
+          <div class="data-table-toolbar-spacer"></div>
+          <div class="data-table-search">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+            <input type="search" placeholder="Search" oninput="onTableSearch(this)">
+          </div>
+          ${colToggleBtn}
+        </div>
+        <div class="data-table-scroll">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th class="data-table-checkbox-cell"><input type="checkbox" aria-label="Select all"></th>
+                ${headerCells}
+                <th class="data-table-actions-cell" aria-label="Row actions"></th>
+              </tr>
+            </thead>
+            <tbody>${rowHtml || emptyHtml}</tbody>
+          </table>
+        </div>
+        <div class="data-table-footer">
+          <span class="data-table-count">Showing ${rows.length} ${noun}</span>
+          <label class="data-table-per-page">
+            Per page
+            <select><option>10</option><option>25</option><option>50</option><option>100</option></select>
+          </label>
+        </div>
+      </div>`;
+    }
+
+    /* Table row action stubs — mocked toast until wired to a real backend */
+    function onTableRowView(idx) {
+      const p = PAGES[currentId];
+      const row = p?.table?.rows?.[idx];
+      if (!row) return;
+      openModal({
+        icon: 'info',
+        title: `Message from ${row.name || 'Unknown'}`,
+        body: `<p><strong>Email:</strong> ${escapeHtml(row.email || '—')}</p>
+               <p><strong>Phone:</strong> ${escapeHtml(row.phone || '—')}</p>
+               <p><strong>Matter type:</strong> ${escapeHtml(row.matter || '—')}</p>
+               <p><strong>Received:</strong> ${escapeHtml(row.date || '—')}</p>
+               ${row.message ? `<p style="margin-top:12px;">${escapeHtml(row.message)}</p>` : ''}`,
+        confirmLabel: 'Close',
+        confirmVariant: 'secondary',
+        onConfirm: () => closeModal()
+      });
+    }
+    function onTableRowEdit(idx) {
+      const p = PAGES[currentId];
+      const row = p?.table?.rows?.[idx];
+      const editFields = p?.table?.editFields;
+      if (!row || !editFields) {
+        toast({ type: 'info', title: 'Edit not wired',
+                desc: `The edit view for "${row?.name || 'this record'}" would open here.` });
+        return;
+      }
+      openTableRecordEditor(p, idx, false);
+    }
+
+    /* Opens the record-editor modal used by both Edit (existing row) and New (empty row) actions on a table page. */
+    function openTableRecordEditor(p, idx, isNew) {
+      const t = p.table;
+      const row = isNew ? {} : t.rows[idx];
+      const singular = t.singular || 'record';
+      const titleName = singular[0].toUpperCase() + singular.slice(1);
+
+      // Register a synthetic "table-edit" repeater in REPEATER_REGISTRY so the media/text handlers
+      // can look up the working record via [data-rep-id][data-idx][data-key] attributes.
+      const repId = 'table-edit-' + Date.now();
+      REPEATER_REGISTRY[repId] = {
+        items: [ isNew ? {} : { ...row } ],   // clone so cancel discards cleanly
+        schema: t.editFields,
+        itemLabel: titleName,
+        addLabel: '',
+        emptyHint: ''
+      };
+
+      // Build the field HTML using renderRepeaterField so we get the same components
+      // (text input, textarea, media-drop, etc.) as the inline repeater cards.
+      const fieldsHtml = t.editFields.map(sf => {
+        const value = REPEATER_REGISTRY[repId].items[0][sf.key] != null ? REPEATER_REGISTRY[repId].items[0][sf.key] : '';
+        return renderRepeaterField(sf, value, repId, 0);
+      }).join('');
+
+      document.getElementById('sectionEditEyebrow').textContent = `${p.name} · ${isNew ? 'New' : 'Editing'} ${singular}`;
+      document.getElementById('sectionEditTitle').textContent = isNew
+        ? `New ${singular}`
+        : `${titleName} · ${escapeHtml(row.name || row.t || '')}`;
+
+      document.getElementById('sectionEditBody').innerHTML = `<div class="card">
+        <div class="card-title">
+          <span class="card-title-icon">${svg('user', 12)}</span>
+          <span class="card-title-text">${escapeHtml(titleName)} details</span>
+        </div>
+        <div class="record-editor-fields">${fieldsHtml}</div>
+      </div>`;
+
+      // Track that this modal edit is a table-row edit so saveSectionEdit knows how to commit.
+      // The registry only holds ONE working record at index 0, so itemEditContext.idx is 0.
+      // The table-row index lives in tableEdit.rowIdx.
+      itemEditContext = { repId, idx: 0, tableEdit: { pageId: currentId, rowIdx: idx, isNew } };
+      const body = document.getElementById('sectionEditBody');
+      body.dataset.dirty = '';
+      body.querySelectorAll('input, textarea, select').forEach(el => {
+        el.addEventListener('input', () => { body.dataset.dirty = '1'; });
+      });
+      document.getElementById('sectionEditModal').classList.add('show');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function onNewBarrister() { openTableRecordEditor(PAGES[currentId], null, true); }
+    function onTableSearch(input) {
+      // Simple client-side filter — hide rows whose visible text doesn't match
+      const q = input.value.trim().toLowerCase();
+      const rows = input.closest('.data-table-wrap').querySelectorAll('.data-table tbody tr');
+      let visible = 0;
+      rows.forEach(r => {
+        if (r.querySelector('.data-table-empty')) return;
+        const text = r.textContent.toLowerCase();
+        const show = !q || text.includes(q);
+        r.style.display = show ? '' : 'none';
+        if (show) visible++;
+      });
+      const count = input.closest('.data-table-wrap').querySelector('.data-table-count');
+      if (count) count.textContent = `Showing ${visible} ${visible === 1 ? 'result' : 'results'}`;
+    }
+
     function renderPage(id) {
       const p = PAGES[id];
       if (!p) return;
@@ -6534,22 +6987,26 @@
       if (topTitle) topTitle.textContent = p.name;
       resetSaveButtons();
 
-      // Jumpbar
+      // Jumpbar (skipped for section-less pages like table/inbox views)
       const jumpbar = document.getElementById('jumpbar');
-      jumpbar.innerHTML = `
-        <span class="cms-jumpbar-label">Sections</span>
-        <ul class="cms-jumpbar-list">
-          ${p.sections.map((s, i) => `<li><a data-jump="s-${s.id}" class="${i===0?'is-active':''}"><span class="cms-jumpbar-num">${String(i+1).padStart(2,'0')}</span> ${s.title.replace(' Section','').replace(' Row','').replace(' List','')}</a></li>`).join('')}
-        </ul>`;
-      jumpbar.querySelectorAll('[data-jump]').forEach(a => {
-        a.addEventListener('click', (e) => {
-          e.preventDefault();
-          jumpbar.querySelectorAll('[data-jump]').forEach(x => x.classList.remove('is-active'));
-          a.classList.add('is-active');
-          const t = document.getElementById(a.dataset.jump);
-          if (t) t.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      if (p.sections && p.sections.length) {
+        jumpbar.innerHTML = `
+          <span class="cms-jumpbar-label">Sections</span>
+          <ul class="cms-jumpbar-list">
+            ${p.sections.map((s, i) => `<li><a data-jump="s-${s.id}" class="${i===0?'is-active':''}"><span class="cms-jumpbar-num">${String(i+1).padStart(2,'0')}</span> ${s.title.replace(' Section','').replace(' Row','').replace(' List','')}</a></li>`).join('')}
+          </ul>`;
+        jumpbar.querySelectorAll('[data-jump]').forEach(a => {
+          a.addEventListener('click', (e) => {
+            e.preventDefault();
+            jumpbar.querySelectorAll('[data-jump]').forEach(x => x.classList.remove('is-active'));
+            a.classList.add('is-active');
+            const t = document.getElementById(a.dataset.jump);
+            if (t) t.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          });
         });
-      });
+      } else {
+        jumpbar.innerHTML = '';
+      }
 
       // Editor body — breadcrumb + page banner + sections + per-page save footer
       const editor = document.getElementById('editor');
@@ -6564,9 +7021,32 @@
           parentGroup = null; break;
         }
       }
-      const crumbs = parentGroup
+      let crumbs = parentGroup
         ? `<a href="#">CMS</a><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg><span>${parentGroup}</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg><span aria-current="page">${p.name}</span>`
         : `<a href="#">CMS</a><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg><span aria-current="page">${p.name}</span>`;
+
+      // Filament-style table page (Contact Messages inbox etc.) — breadcrumb is `PageName > List`, no Save footer
+      if (p.type === 'table') {
+        crumbs = `<a href="#">${escapeHtml(p.name)}</a><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg><span aria-current="page">List</span>`;
+        document.getElementById('jumpbar').innerHTML = '';
+        const primaryAction = p.table && p.table.primaryAction
+          ? `<button class="cms-btn cms-btn--primary page-primary-action" onclick="${p.table.primaryAction.onClick || 'void 0'}">
+               ${p.table.primaryAction.icon !== false ? '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>' : ''}
+               ${escapeHtml(p.table.primaryAction.label)}
+             </button>`
+          : '';
+        editor.innerHTML = `
+          <nav class="page-breadcrumb" aria-label="Breadcrumb">${crumbs}</nav>
+          <div class="page-banner">
+            <div class="page-banner-body">
+              <h1>${escapeHtml(p.name)}</h1>
+            </div>
+            ${primaryAction}
+          </div>
+          ${renderTablePage(p)}
+        `;
+        return;
+      }
 
       editor.innerHTML = `
         <nav class="page-breadcrumb" aria-label="Breadcrumb">${crumbs}</nav>
@@ -7325,20 +7805,49 @@
         saveBtn.textContent = 'Save changes';
 
         if (itemEditContext) {
-          // Persist changes into the repeater registry and re-render the affected row
           const reg = REPEATER_REGISTRY[itemEditContext.repId];
-          const idx = itemEditContext.idx;
+          const workingIdx = itemEditContext.idx != null ? itemEditContext.idx : 0;
           const fields = modalBody.querySelectorAll('.field');
+
+          // Read every field value back out of the DOM. For media fields the current value
+          // already lives on the registry (attachFileToField wrote it), so we skip empty inputs.
           reg.schema.forEach((f, i) => {
-            const el = fields[i] && fields[i].querySelector('input, textarea, select');
-            if (el) reg.items[idx][f.key] = el.value;
+            const fieldEl = fields[i];
+            if (!fieldEl) return;
+            const el = fieldEl.querySelector('input:not([type="checkbox"]), textarea, select');
+            if (el) reg.items[workingIdx][f.key] = el.value;
           });
+          const savedRow = reg.items[workingIdx];
+
+          // Table-page edit: commit into PAGES[pageId].table.rows and re-render the page
+          if (itemEditContext.tableEdit) {
+            const ctx = itemEditContext.tableEdit;
+            const targetPage = PAGES[ctx.pageId];
+            if (targetPage && targetPage.table) {
+              if (ctx.isNew) {
+                targetPage.table.rows.push(savedRow);
+              } else {
+                targetPage.table.rows[ctx.rowIdx] = savedRow;
+              }
+              renderPage(ctx.pageId);
+            }
+            document.getElementById('sectionEditModal').classList.remove('show');
+            document.body.style.overflow = '';
+            markDirty();
+            const noun = reg.itemLabel || 'Record';
+            toast({ type: 'success', title: `${noun} ${ctx.isNew ? 'created' : 'updated'}`,
+                    desc: `"${escapeHtml(savedRow[reg.schema[0].key] || '')}" ${ctx.isNew ? 'added to the list' : 'was saved'}.` });
+            itemEditContext = null;
+            return;
+          }
+
+          // Inline-repeater edit (legacy): update the visible row in place
           const rep = document.querySelector(`.repeater[data-rep-id="${itemEditContext.repId}"]`);
           if (rep) {
-            const row = rep.querySelector(`.repeater-item[data-idx="${idx}"]`);
+            const row = rep.querySelector(`.repeater-item[data-idx="${workingIdx}"]`);
             if (row) {
-              const primary = reg.items[idx][reg.schema[0].key] || '';
-              const secondary = reg.schema[1] ? (reg.items[idx][reg.schema[1].key] || '') : '';
+              const primary = savedRow[reg.schema[0].key] || '';
+              const secondary = reg.schema[1] ? (savedRow[reg.schema[1].key] || '') : '';
               const tEl = row.querySelector('.repeater-item-body .t');
               if (tEl) tEl.textContent = primary;
               let dEl = row.querySelector('.repeater-item-body .d');
@@ -7360,7 +7869,7 @@
           markDirty();
           const label = reg.itemLabel || 'Item';
           toast({ type: 'success', title: `${label} updated`,
-                  desc: `Changes to "${reg.items[idx][reg.schema[0].key] || ''}" saved. Publish to make them live.` });
+                  desc: `Changes to "${savedRow[reg.schema[0].key] || ''}" saved. Publish to make them live.` });
           itemEditContext = null;
           return;
         }
