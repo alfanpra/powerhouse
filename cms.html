@@ -936,6 +936,29 @@
       margin-top: 2px;
       line-height: 1.45;
     }
+    /* Static (locked) list — read-only preview used for fixed form fields */
+    .static-list {
+      display: flex; flex-direction: column; gap: 6px;
+      background: var(--surface-soft, #F9FAFB);
+      border: 1px dashed var(--line-2);
+      border-radius: var(--r-md);
+      padding: 8px;
+    }
+    .static-list-item {
+      display: flex; align-items: center; gap: 12px;
+      background: var(--surface);
+      border: 1px solid var(--line-2);
+      border-radius: var(--r-md);
+      padding: 10px 12px;
+    }
+    .static-list-item-body { flex: 1; min-width: 0; }
+    .static-list-item-t { font-size: 14px; font-weight: 600; color: var(--text); line-height: 1.3; }
+    .static-list-item-d { font-size: 12.5px; color: var(--text-mute); margin-top: 2px; }
+    .static-list-item-lock {
+      display: inline-flex; align-items: center; justify-content: center;
+      width: 24px; height: 24px; color: var(--text-mute); flex-shrink: 0;
+    }
+    .static-list-item-lock svg { width: 14px; height: 14px; }
     /* Filament TextInput / Textarea — 40px tall, gray-300 border, primary focus ring */
     .field-input, .field-textarea, .field-select {
       width: 100%;
@@ -1670,20 +1693,9 @@
       { label: 'Background image', badge: '1200 × 1600', name: 'chadi-image.png', meta: '1200 × 1600 · 340 KB · uploaded 12 Feb 2026', src: 'assets/img/chadi-image.png' },
       { label: 'Accreditation seal', badge: 'Circular', name: 'acredited-specialist-logo.png', meta: '512 × 512 · 24 KB · used on 4 pages', src: 'assets/img/acredited-specialist-logo.png', bg: '#fff' }
     ];
-    const ctaSection = (title, sub, btnLabel = 'Call 1800-100-529', btnHref = 'tel:1800100529') => ({
-      id: 'cta', title: 'CTA Section', icon: 'phone',
-      note: 'Bottom-of-page call to action strip.',
-      cards: [{
-        title: 'Content', icon: 'text',
-        fields: [
-          { type: 'row', fields: [
-            { type: 'text', label: 'Title', required: true, value: title },
-            { type: 'text', label: 'Subtitle', value: sub }
-          ]},
-          { type: 'cta', label: 'Call button', labelValue: btnLabel, linkValue: btnHref, linkIcon: 'phone' }
-        ]
-      }]
-    });
+    // CTA is now managed once in Global Settings → "Bottom CTA strip", so per-page ctaSection() calls
+    // return null and are filtered out of the section list at render time.
+    const ctaSection = () => null;
     const seoSection = (title, desc) => ({
       id: 'seo', title: 'Page SEO', icon: 'globe',
       anchor: 'meta',
@@ -1692,7 +1704,7 @@
         title: 'Meta content', icon: 'globe',
         fields: [
           { type: 'text', label: 'Meta title', required: true, value: title, counter: [title.length, 60] },
-          { type: 'textarea', label: 'Meta description', rows: 3, value: desc, counter: [desc.length, 160], help: 'Aim for 150–160 characters' },
+          { type: 'textarea', label: 'Meta description', rich: false, rows: 3, value: desc, counter: [desc.length, 160], help: 'Aim for 150–160 characters · Plain text only (no rich formatting)' },
           { type: 'media', label: 'Open Graph image', badge: '1200 × 630', name: 'og-social.jpg', meta: '1200 × 630 · 87 KB', placeholder: true }
         ]
       }]
@@ -1710,8 +1722,7 @@
           title: 'Text content', icon: 'text',
           fields: [
             { type: 'text', label: 'Eyebrow', value: cs.eyebrow || '' },
-            { type: 'text', label: 'Section title', required: true, value: cs.heading || '' },
-            { type: 'text', label: 'Section italic title', badge: 'Serif italic', value: cs.headingItalic || '', help: 'The red serif italic phrase inside the section H2. Leave blank if none.' },
+            { type: 'text', label: 'Section title', required: true, value: (cs.heading || '') + (cs.headingItalic ? ` <em>${cs.headingItalic}</em>` : '') },
             { type: 'textarea', label: 'Introduction paragraph', rows: 3, value: cs.body || '' }
           ]
         });
@@ -1777,8 +1788,7 @@
             cards: [
               { title: 'Text content', icon: 'text', hint: '4 fields', fields: [
                 { type: 'text', label: 'Eyebrow', value: heroEyebrow },
-                { type: 'text', label: 'Main heading', required: true, value: heroH1 },
-                { type: 'text', label: 'Italic heading accent', badge: 'Serif italic', value: heroH1Italic || '', help: 'The red serif italic word/phrase inside the H1. Leave blank if the H1 has no italic accent.' },
+                { type: 'text', label: 'Main heading', required: true, value: (heroH1 || '') + (heroH1Italic ? ` <em>${heroH1Italic}</em>` : '') },
                 { type: 'textarea', label: 'Description', required: true, rows: 3, value: heroSub, counter: [heroSub.length, 300] }
               ]},
               { title: 'Buttons', icon: 'button', fields: [
@@ -1837,7 +1847,6 @@
               { title: 'Section heading', icon: 'text', fields: [
                 { type: 'text', label: 'Eyebrow', value: defenceContent.eyebrow || 'Our Defence Approach' },
                 { type: 'text', label: 'Section title', required: true, value: defenceContent.heading || 'How we defend the charge.' },
-                { type: 'text', label: 'Section italic title', badge: 'Serif italic', value: defenceContent.headingItalic || '' },
                 { type: 'textarea', label: 'Paragraph', rows: 3, value: defenceContent.intro || '' }
               ]},
               { title: 'Defence cards', icon: 'grid', hint: `${(defenceContent.cards || []).length} items`,
@@ -1886,8 +1895,7 @@
             title: 'Text content', icon: 'text',
             fields: [
               { type: 'text', label: 'Eyebrow', value: heroEyebrow },
-              { type: 'text', label: 'Main heading', required: true, value: heroH1 },
-              { type: 'text', label: 'Italic heading accent', badge: 'Serif italic', value: heroH1Italic || '', help: 'The red serif italic word/phrase inside the H1. Leave blank if none.' },
+              { type: 'text', label: 'Main heading', required: true, value: (heroH1 || '') + (heroH1Italic ? ` <em>${heroH1Italic}</em>` : '') },
               { type: 'text', label: 'Subtitle', value: heroSubtitle || '', help: 'Optional short line between the H1 and the description paragraph.' },
               { type: 'textarea', label: 'Description', rows: 3, value: heroSub, counter: [heroSub.length, 300] }
             ]
@@ -2018,11 +2026,20 @@
                 { type: 'textarea', label: 'Sub', rows: 2, value: 'Real outcomes. Real reviews. Read what our clients say about working with us.' }
               ]},
               { title: 'Testimonial quotes', icon: 'quote', hint: '3 items · pulled from Google Reviews',
-                fields: [{ type: 'repeater', items: [
-                  { t: '"Chadi was outstanding from start to finish. Professional, honest and achieved an excellent result."', d: 'Google Review · ★★★★★ · Nov 2025' },
-                  { t: '"Highly recommend Powerhouse Law. Great communication and very clear advice throughout."',           d: 'Google Review · ★★★★★ · Sep 2025' },
-                  { t: '"Thanks to Chadi, my matter was resolved better than I expected. I can\'t thank him enough."',       d: 'Google Review · ★★★★★ · Aug 2025' }
-                ], addLabel: 'Add testimonial' }]
+                fields: [{ type: 'repeater',
+                  addLabel: 'Add testimonial',
+                  itemLabel: 'Testimonial',
+                  itemSchema: [
+                    { label: 'Author',    key: 'author',   type: 'text',     required: true, placeholder: 'e.g. Jane Doe' },
+                    { label: 'Rating',    key: 'rating',   type: 'number',   required: true, min: 1, max: 5, step: 1, placeholder: '1 – 5' },
+                    { label: 'Posted at', key: 'postedAt', type: 'datetime', required: true, fullWidth: true },
+                    { label: 'Content',   key: 'content',  type: 'textarea', required: true, rows: 3, placeholder: 'The client review text.' }
+                  ],
+                  items: [
+                    { author: 'M. Nguyen',   rating: 5, postedAt: '2025-11-14T10:30', content: 'Chadi was outstanding from start to finish. Professional, honest and achieved an excellent result.' },
+                    { author: 'S. Patel',    rating: 5, postedAt: '2025-09-22T15:10', content: 'Highly recommend Powerhouse Law. Great communication and very clear advice throughout.' },
+                    { author: 'J. Williams', rating: 5, postedAt: '2025-08-03T09:45', content: "Thanks to Chadi, my matter was resolved better than I expected. I can't thank him enough." }
+                  ] }]
               }
             ]
           },
@@ -2040,9 +2057,7 @@
             note: 'Top of the page — H1 with italic accent (no eyebrow on live), lead paragraph, CTAs. The urgent "24/7" card sits alongside on the right.',
             cards: [
               { title: 'Text content', icon: 'text', fields: [
-                { type: 'text', label: 'Main heading (line 1)', required: true, value: 'Assault offences &' },
-                { type: 'text', label: 'Italic heading accent', badge: 'Serif italic', value: 'cause-harm' },
-                { type: 'text', label: 'Main heading (suffix)', value: 'defence in NSW.', help: 'Plain text that follows the italic accent — used for headings where the italic is in the middle.' },
+                { type: 'text', label: 'Main heading', required: true, value: 'Assault offences & <em>cause-harm</em> defence in NSW.' },
                 { type: 'textarea', label: 'Lead paragraph', required: true, rows: 4, value: 'From a single push outside a venue to a serious indictable wounding charge, NSW assault offences run the full criminal calendar. We act across every level — Local, District and Supreme Court — and we go for Section 10 wherever the facts will bear it.' }
               ]},
               { title: 'Hero buttons', icon: 'button', fields: [
@@ -2094,9 +2109,7 @@
               },
               { title: 'Section block heading', icon: 'text', fields: [
                 { type: 'text', label: 'Eyebrow', value: 'Common Assault · s.61 Crimes Act', help: 'This section uses the section-block-eyebrow pattern, not the standard eyebrow.' },
-                { type: 'text', label: 'Section title', required: true, value: 'Common assault — the' },
-                { type: 'text', label: 'Section italic title', badge: 'Serif italic', value: 'broadest' },
-                { type: 'text', label: 'Section title (suffix)', value: 'assault charge.' },
+                { type: 'text', label: 'Section title', required: true, value: 'Common assault — the <em>broadest</em> assault charge.' },
                 { type: 'textarea', label: 'Intro paragraph', rows: 4, value: 'Section 61 of the Crimes Act 1900 creates the offence of common assault — and the legal definition is far broader than most people imagine. The Crown does not need to prove any actual injury, and in many cases does not even need to prove physical contact.' }
               ]},
               { title: 'What the Crown must prove', icon: 'list', hint: '4 items',
@@ -2148,8 +2161,7 @@
             cards: [
               { title: 'Section heading', icon: 'text', fields: [
                 { type: 'text', label: 'Eyebrow', value: 'Assault Occasioning ABH · s.59' },
-                { type: 'text', label: 'Section title', required: true, value: 'Where contact becomes' },
-                { type: 'text', label: 'Section italic title', badge: 'Serif italic', value: 'injury.' },
+                { type: 'text', label: 'Section title', required: true, value: 'Where contact becomes <em>injury.</em>' },
                 { type: 'textarea', label: 'Paragraph (left column)', rows: 4, value: 'Assault Occasioning Actual Bodily Harm sits above common assault on the seriousness scale. The dividing line is the injury — and the Crown only needs to prove that the injury was more than transient or trifling.' }
               ]},
               { title: 'What is "actual bodily harm"?', icon: 'list', hint: '5 items',
@@ -2220,9 +2232,7 @@
             cards: [
               { title: 'Section heading', icon: 'text', fields: [
                 { type: 'text', label: 'Eyebrow', value: 'Affray · Section 93C' },
-                { type: 'text', label: 'Section title', required: true, value: 'When violence becomes a' },
-                { type: 'text', label: 'Section italic title', badge: 'Serif italic', value: 'public' },
-                { type: 'text', label: 'Section title (suffix)', value: 'offence.' },
+                { type: 'text', label: 'Section title', required: true, value: 'When violence becomes a <em>public</em> offence.' },
                 { type: 'textarea', label: 'Paragraph', rows: 4, value: 'Section 93C of the Crimes Act 1900 creates the offence of affray — an offence directed not just at the immediate victim, but at the community at large. Affray is a District Court matter and carries a real custodial range.' }
               ]},
               { title: 'Penalty cards', icon: 'badge', hint: '2 cards',
@@ -2277,9 +2287,7 @@
             cards: [
               { title: 'Section heading', icon: 'text', fields: [
                 { type: 'text', label: 'Eyebrow', value: 'Reckless Wounding · Section 35' },
-                { type: 'text', label: 'Section title', required: true, value: 'The most serious' },
-                { type: 'text', label: 'Section italic title', badge: 'Serif italic', value: 'assault' },
-                { type: 'text', label: 'Section title (suffix)', value: 'charges.' },
+                { type: 'text', label: 'Section title', required: true, value: 'The most serious <em>assault</em> charges.' },
                 { type: 'textarea', label: 'Paragraph', rows: 4, value: 'Section 35 of the Crimes Act 1900 creates a tiered set of offences for the most serious assault matters in NSW. The distinctions matter — every tier carries a different maximum and a different sentencing trajectory.' }
               ]},
               { title: 'Penalty cards', icon: 'badge', hint: '4 cards',
@@ -2333,8 +2341,7 @@
             cards: [
               { title: 'Section heading', icon: 'text', fields: [
                 { type: 'text', label: 'Eyebrow', value: 'Related Charges' },
-                { type: 'text', label: 'Section title', required: true, value: 'Other offences that travel' },
-                { type: 'text', label: 'Section italic title', badge: 'Serif italic', value: 'with assault.' },
+                { type: 'text', label: 'Section title', required: true, value: 'Other offences that travel <em>with assault.</em>' },
                 { type: 'textarea', label: 'Paragraph', rows: 3, value: 'Assault charges are often laid alongside, or in the alternative to, other Crimes Act offences. These are the related charges we see most often — and how they fit into the sentencing framework.' }
               ]},
               { title: 'Penalty cards', icon: 'badge', hint: '4 cards',
@@ -2384,9 +2391,7 @@
             cards: [
               { title: 'Section heading', icon: 'text', fields: [
                 { type: 'text', label: 'Eyebrow', value: 'Our Defence Approach' },
-                { type: 'text', label: 'Section title', required: true, value: 'How we' },
-                { type: 'text', label: 'Section italic title', badge: 'Serif italic', value: 'defend' },
-                { type: 'text', label: 'Section title (suffix)', value: 'assault charges.' },
+                { type: 'text', label: 'Section title', required: true, value: 'How we <em>defend</em> assault charges.' },
                 { type: 'textarea', label: 'Paragraph', rows: 3, value: 'The right defence depends on the charge, the evidence and what is actually at stake. These are the angles we work first across assault matters — from common assault to wounding with intent.' }
               ]},
               { title: 'Defence items', icon: 'grid', hint: '6 items',
@@ -2414,8 +2419,7 @@
             cards: [
               { title: 'Section heading', icon: 'text', fields: [
                 { type: 'text', label: 'Eyebrow', value: 'Common Questions' },
-                { type: 'text', label: 'Section title', required: true, value: 'Assault Offences —' },
-                { type: 'text', label: 'Section italic title', badge: 'Serif italic', value: 'FAQ.' },
+                { type: 'text', label: 'Section title', required: true, value: 'Assault Offences — <em>FAQ.</em>' },
                 { type: 'textarea', label: 'Paragraph', rows: 3, value: 'The questions we hear most often in the first conversation after an assault charge.' }
               ]},
               { title: 'Questions', icon: 'help', hint: '6 Q&A',
@@ -2456,9 +2460,7 @@
             note: 'Top of the page — H1 with italic accent (no eyebrow on live), lead paragraph, CTAs. Urgent card sits alongside on the right.',
             cards: [
               { title: 'Text content', icon: 'text', fields: [
-                { type: 'text', label: 'Main heading (line 1)', required: true, value: 'Domestic Violence &' },
-                { type: 'text', label: 'Italic heading accent', badge: 'Serif italic', value: 'AVO' },
-                { type: 'text', label: 'Main heading (suffix)', value: 'defence in NSW.' },
+                { type: 'text', label: 'Main heading', required: true, value: 'Domestic Violence & <em>AVO</em> defence in NSW.' },
                 { type: 'textarea', label: 'Lead paragraph', required: true, rows: 4, value: 'Being accused of a domestic violence offence — or named in an apprehended violence order — can be overwhelming and confronting, especially where someone you care about is involved. We act discreetly, without judgment, and with one focus: your defence.' }
               ]},
               { title: 'Hero buttons', icon: 'button', fields: [
@@ -2509,8 +2511,7 @@
               },
               { title: 'Overview — section-block heading', icon: 'text', fields: [
                 { type: 'text', label: 'Eyebrow', value: 'Overview', help: 'This section uses the section-block-eyebrow pattern.' },
-                { type: 'text', label: 'Section title', required: true, value: 'When does a charge become' },
-                { type: 'text', label: 'Section italic title', badge: 'Serif italic', value: 'domestic?' },
+                { type: 'text', label: 'Section title', required: true, value: 'When does a charge become <em>domestic?</em>' },
                 { type: 'textarea', label: 'Intro paragraph 1', rows: 4, value: 'Under NSW law, an offence is classified as a domestic violence offence when it is committed against a person with whom the accused has a domestic relationship. That relationship is defined broadly under the Crimes (Domestic and Personal Violence) Act 2007 and covers far more than just current intimate partners. The label is significant. A domestic violence flag on a charge changes how police investigate, how bail is approached, what conditions are imposed, and how the matter is sentenced. It is also almost always accompanied by an interim AVO made on the spot.' }
               ]},
               { title: 'Who counts as in a "domestic relationship"', icon: 'list', hint: '6 items',
@@ -2541,9 +2542,7 @@
 
               { title: 'Common DV Charges — section-block heading', icon: 'text', fields: [
                 { type: 'text', label: 'Eyebrow', value: 'Common DV Charges' },
-                { type: 'text', label: 'Section title', required: true, value: 'The charges most often' },
-                { type: 'text', label: 'Section italic title', badge: 'Serif italic', value: 'flagged' },
-                { type: 'text', label: 'Section title (suffix)', value: 'as DV.' },
+                { type: 'text', label: 'Section title', required: true, value: 'The charges most often <em>flagged</em> as DV.' },
                 { type: 'textarea', label: 'Intro paragraph', rows: 3, value: 'Many criminal offences can be charged as domestic violence when committed against a person in a domestic relationship. The most common are set out below with their statutory maximums.' }
               ]},
               { title: 'Penalty cards', icon: 'badge', hint: '4 cards',
@@ -2574,8 +2573,7 @@
             cards: [
               { title: 'Section heading', icon: 'text', fields: [
                 { type: 'text', label: 'Eyebrow', value: 'Apprehended Violence Orders' },
-                { type: 'text', label: 'Section title', required: true, value: 'What an AVO does — and what it' },
-                { type: 'text', label: 'Section italic title', badge: 'Serif italic', value: 'does not.' },
+                { type: 'text', label: 'Section title', required: true, value: 'What an AVO does — and what it <em>does not.</em>' },
                 { type: 'textarea', label: 'Paragraph (left column)', rows: 3, value: 'An AVO is a civil protective order. It is not a criminal conviction in itself, but breaching one is — and the consequences for work, firearms and family life are real from the day it is made.' }
               ]},
               { title: 'Types of AVO', icon: 'list', hint: '2 items',
@@ -2634,9 +2632,7 @@
             cards: [
               { title: 'Section heading', icon: 'text', fields: [
                 { type: 'text', label: 'Eyebrow', value: 'Breach of AVO · Section 14' },
-                { type: 'text', label: 'Section title', required: true, value: 'Contravention is a' },
-                { type: 'text', label: 'Section italic title', badge: 'Serif italic', value: 'criminal' },
-                { type: 'text', label: 'Section title (suffix)', value: 'offence.' },
+                { type: 'text', label: 'Section title', required: true, value: 'Contravention is a <em>criminal</em> offence.' },
                 { type: 'textarea', label: 'Paragraph', rows: 4, value: 'The AVO itself is civil. Breaching it is not. Under section 14 of the Crimes (DPV) Act 2007, contravention is a stand-alone criminal charge — often treated more seriously than the underlying matter that brought the order into being.' }
               ]},
               { title: 'Penalty cards', icon: 'badge', hint: '2 cards',
@@ -2691,9 +2687,7 @@
             cards: [
               { title: 'Section heading', icon: 'text', fields: [
                 { type: 'text', label: 'Eyebrow', value: 'Our Defence Approach' },
-                { type: 'text', label: 'Section title', required: true, value: 'How we' },
-                { type: 'text', label: 'Section italic title', badge: 'Serif italic', value: 'defend' },
-                { type: 'text', label: 'Section title (suffix)', value: 'DV & AVO matters.' },
+                { type: 'text', label: 'Section title', required: true, value: 'How we <em>defend</em> DV & AVO matters.' },
                 { type: 'textarea', label: 'Paragraph', rows: 3, value: 'No two matters are the same. Below are the angles we work first — they vary case by case depending on facts, evidence, and what is actually at stake for you.' }
               ]},
               { title: 'Defence items', icon: 'grid', hint: '6 items',
@@ -2721,8 +2715,7 @@
             cards: [
               { title: 'Section heading', icon: 'text', fields: [
                 { type: 'text', label: 'Eyebrow', value: 'Common Questions' },
-                { type: 'text', label: 'Section title', required: true, value: 'DV & AVO —' },
-                { type: 'text', label: 'Section italic title', badge: 'Serif italic', value: 'FAQ.' },
+                { type: 'text', label: 'Section title', required: true, value: 'DV & AVO — <em>FAQ.</em>' },
                 { type: 'textarea', label: 'Paragraph', rows: 3, value: 'The questions clients most often ask us in the first conversation about an AVO or a domestic violence charge.' }
               ]},
               { title: 'Questions', icon: 'help', hint: '6 Q&A',
@@ -2763,9 +2756,7 @@
             note: 'Top of the page — H1 with italic accent (no eyebrow on live), lead paragraph, CTAs.',
             cards: [
               { title: 'Text content', icon: 'text', fields: [
-                { type: 'text', label: 'Main heading (line 1)', required: true, value: 'Drug offences in NSW &' },
-                { type: 'text', label: 'Italic heading accent', badge: 'Serif italic', value: 'Commonwealth.' },
-                { type: 'text', label: 'Main heading (suffix)', value: '' },
+                { type: 'text', label: 'Main heading', required: true, value: 'Drug offences in NSW & <em>Commonwealth.</em>' },
                 { type: 'textarea', label: 'Lead paragraph', required: true, rows: 4, value: 'From a single tablet found in a pocket to commercial importation at the border — drug charges run the entire length of the criminal justice system. We act across every level: possession, supply, manufacture and importation, in both State and Federal jurisdictions.' }
               ]},
               { title: 'Hero buttons', icon: 'button', fields: [
@@ -2814,8 +2805,7 @@
               },
               { title: 'Section-block heading', icon: 'text', fields: [
                 { type: 'text', label: 'Eyebrow', value: 'Section 10 · DMT Act' },
-                { type: 'text', label: 'Section title', required: true, value: 'Possession of' },
-                { type: 'text', label: 'Section italic title', badge: 'Serif italic', value: 'a prohibited drug.' },
+                { type: 'text', label: 'Section title', required: true, value: 'Possession of <em>a prohibited drug.</em>' },
                 { type: 'textarea', label: 'Intro paragraph', rows: 4, value: 'Under section 10(1) of the Drug Misuse and Trafficking Act 1985, a person is guilty of an offence if they have a prohibited drug in their possession. It sounds simple — but possession is a heavily worked legal concept and the Crown must prove every element.' }
               ]},
               { title: 'What "possession" actually requires', icon: 'list', hint: '4 items + closing paragraph',
@@ -2853,9 +2843,7 @@
             cards: [
               { title: 'Section heading', icon: 'text', fields: [
                 { type: 'text', label: 'Eyebrow', value: 'Supply · Section 25 DMT Act' },
-                { type: 'text', label: 'Section title', required: true, value: 'Supply is much' },
-                { type: 'text', label: 'Section italic title', badge: 'Serif italic', value: 'broader' },
-                { type: 'text', label: 'Section title (suffix)', value: 'than selling.' },
+                { type: 'text', label: 'Section title', required: true, value: 'Supply is much <em>broader</em> than selling.' },
                 { type: 'textarea', label: 'Section sub', rows: 3, value: 'Under section 25 of the Drug Misuse and Trafficking Act 1985, "supply" is one of the widest concepts in NSW criminal law. The Crown does not need to prove a sale — and in many matters there is no sale at all.' }
               ]},
               { title: 'What "supply" includes', icon: 'list', hint: '6 items',
@@ -2929,9 +2917,7 @@
             cards: [
               { title: 'Section heading', icon: 'text', fields: [
                 { type: 'text', label: 'Eyebrow', value: 'Manufacture & Cultivation · Sections 23 & 24' },
-                { type: 'text', label: 'Section title', required: true, value: 'Production,' },
-                { type: 'text', label: 'Section italic title', badge: 'Serif italic', value: 'cultivation' },
-                { type: 'text', label: 'Section title (suffix)', value: 'and the lab.' },
+                { type: 'text', label: 'Section title', required: true, value: 'Production, <em>cultivation</em> and the lab.' },
                 { type: 'textarea', label: 'Section sub', rows: 3, value: 'NSW treats the active production of prohibited drugs more seriously than possession or street-level supply. Section 23 covers cultivation of prohibited plants; section 24 covers the manufacture of drugs themselves.' }
               ]},
               { title: 'Penalty cards', icon: 'badge', hint: '4 cards',
@@ -2970,8 +2956,7 @@
             cards: [
               { title: 'Section heading', icon: 'text', fields: [
                 { type: 'text', label: 'Eyebrow', value: 'Importation · Commonwealth Jurisdiction' },
-                { type: 'text', label: 'Section title', required: true, value: 'Crossing the border changes' },
-                { type: 'text', label: 'Section italic title', badge: 'Serif italic', value: 'everything.' },
+                { type: 'text', label: 'Section title', required: true, value: 'Crossing the border changes <em>everything.</em>' },
                 { type: 'textarea', label: 'Section sub', rows: 3, value: 'Drug importation is a federal offence — prosecuted under the Criminal Code Act 1995 (Cth), not NSW law. That means the Commonwealth Director of Public Prosecutions runs the matter, the maximum penalties are higher, and the evidentiary regime is different.' }
               ]},
               { title: 'The principal Commonwealth provisions', icon: 'list', hint: '3 items',
@@ -3011,9 +2996,7 @@
             cards: [
               { title: 'Section heading', icon: 'text', fields: [
                 { type: 'text', label: 'Eyebrow', value: 'Our Defence Approach' },
-                { type: 'text', label: 'Section title', required: true, value: 'How we' },
-                { type: 'text', label: 'Section italic title', badge: 'Serif italic', value: 'defend' },
-                { type: 'text', label: 'Section title (suffix)', value: 'drug matters.' },
+                { type: 'text', label: 'Section title', required: true, value: 'How we <em>defend</em> drug matters.' },
                 { type: 'textarea', label: 'Paragraph', rows: 3, value: 'Drug matters are won and lost at the edges of the Crown brief — search and seizure, knowledge, joint occupancy, certification of the substance. These are the angles we work first, and where most of our results come from.' }
               ]},
               { title: 'Defence items', icon: 'grid', hint: '6 items',
@@ -3040,8 +3023,7 @@
             cards: [
               { title: 'Section heading', icon: 'text', fields: [
                 { type: 'text', label: 'Eyebrow', value: 'Common Questions' },
-                { type: 'text', label: 'Section title', required: true, value: 'Drug Offences —' },
-                { type: 'text', label: 'Section italic title', badge: 'Serif italic', value: 'FAQ.' },
+                { type: 'text', label: 'Section title', required: true, value: 'Drug Offences — <em>FAQ.</em>' },
                 { type: 'textarea', label: 'Paragraph', rows: 3, value: 'The questions we hear most often in the first conversation about a drug charge.' }
               ]},
               { title: 'Questions', icon: 'help', hint: '6 Q&A',
@@ -3075,9 +3057,7 @@
             note: 'Top of the page — H1 with italic accent (no eyebrow on live), lead paragraph, CTAs.',
             cards: [
               { title: 'Text content', icon: 'text', fields: [
-                { type: 'text', label: 'Main heading (line 1)', required: true, value: 'The Best Sexual Offences' },
-                { type: 'text', label: 'Italic heading accent', badge: 'Serif italic', value: 'Lawyers' },
-                { type: 'text', label: 'Main heading (suffix)', value: 'in Sydney.' },
+                { type: 'text', label: 'Main heading', required: true, value: 'The Best Sexual Offences <em>Lawyers</em> in Sydney.' },
                 { type: 'textarea', label: 'Lead paragraph', required: true, rows: 4, value: 'Sexual assault allegations are embarrassing, overwhelming and deeply upsetting. The law is complex and the consequences are severe. As Accredited Specialists in Criminal Law, we act discreetly, decisively, and with one focus — your defence. Speak with us before you speak with police.' }
               ]},
               { title: 'Hero buttons', icon: 'button', fields: [
@@ -3126,9 +3106,7 @@
               },
               { title: 'Overview — section-block heading', icon: 'text', fields: [
                 { type: 'text', label: 'Eyebrow', value: 'Overview · Section 61I' },
-                { type: 'text', label: 'Section title', required: true, value: 'What is' },
-                { type: 'text', label: 'Section italic title', badge: 'Serif italic', value: 'sexual assault' },
-                { type: 'text', label: 'Section title (suffix)', value: 'under NSW law?' },
+                { type: 'text', label: 'Section title', required: true, value: 'What is <em>sexual assault</em> under NSW law?' },
                 { type: 'textarea', label: 'Intro paragraph', rows: 4, value: 'Section 61I of the Crimes Act 1900 defines sexual assault as where a person has sexual intercourse with another person without the consent of that other person — and knows that the other person does not consent. It is one of the most serious offences in New South Wales. Sexual intercourse" is given a broad statutory meaning. It includes penetration of the genitalia of a woman or the anus of any person by a body part, or by any object manipulated by a person. The Crown must prove every element beyond reasonable doubt.' }
               ]},
               { title: 'The three elements the Crown must prove', icon: 'list', hint: '3 items + closing paragraph',
@@ -3152,8 +3130,7 @@
               },
               { title: 'Penalties — section heading', icon: 'text', fields: [
                 { type: 'text', label: 'Eyebrow', value: 'Penalties' },
-                { type: 'text', label: 'Section title', required: true, value: 'Maximum penalties &' },
-                { type: 'text', label: 'Section italic title', badge: 'Serif italic', value: 'sentencing.' },
+                { type: 'text', label: 'Section title', required: true, value: 'Maximum penalties & <em>sentencing.</em>' },
                 { type: 'textarea', label: 'Paragraph', rows: 3, value: 'Sexual offences in NSW carry standard non-parole periods and lengthy custodial maximums. The exact penalty depends on the section, whether aggravating features apply, and the court in which the matter is heard.' }
               ]},
               { title: 'Penalty cards', icon: 'badge', hint: '4 cards',
@@ -3175,8 +3152,7 @@
               },
               { title: 'Aggravating Circumstances — section heading', icon: 'text', fields: [
                 { type: 'text', label: 'Eyebrow', value: 'Aggravating Circumstances · Section 61J' },
-                { type: 'text', label: 'Section title', required: true, value: 'When the charge becomes' },
-                { type: 'text', label: 'Section italic title', badge: 'Serif italic', value: 'aggravated.' },
+                { type: 'text', label: 'Section title', required: true, value: 'When the charge becomes <em>aggravated.</em>' },
                 { type: 'textarea', label: 'Paragraph', rows: 3, value: 'The Crown may elect to charge under s.61J — increasing the maximum penalty to 20 years — where any one or more of the following circumstances of aggravation is alleged:' }
               ]},
               { title: 'Aggravating circumstances list', icon: 'list', hint: '8 items',
@@ -3209,9 +3185,7 @@
             cards: [
               { title: 'Section heading', icon: 'text', fields: [
                 { type: 'text', label: 'Eyebrow', value: 'Section 61KC · 61KD' },
-                { type: 'text', label: 'Section title', required: true, value: 'Sexual' },
-                { type: 'text', label: 'Section italic title', badge: 'Serif italic', value: 'touching' },
-                { type: 'text', label: 'Section title (suffix)', value: 'offences.' },
+                { type: 'text', label: 'Section title', required: true, value: 'Sexual <em>touching</em> offences.' },
                 { type: 'textarea', label: 'Section sub', rows: 3, value: 'A separate but related offence in the NSW Crimes Act, covering non-consensual sexual contact that falls short of intercourse.' }
               ]},
               { title: 'Prose paragraphs (Right)', icon: 'text', hint: '3 paragraphs', fields: [
@@ -3224,8 +3198,7 @@
             cards: [
               { title: 'Consent FAQ — section heading', icon: 'text', fields: [
                 { type: 'text', label: 'Eyebrow', value: 'Consent in NSW' },
-                { type: 'text', label: 'Section title', required: true, value: 'Frequently asked questions about' },
-                { type: 'text', label: 'Section italic title', badge: 'Serif italic', value: 'consent.' },
+                { type: 'text', label: 'Section title', required: true, value: 'Frequently asked questions about <em>consent.</em>' },
                 { type: 'textarea', label: 'Paragraph', rows: 3, value: 'NSW consent law was substantially reformed in 2022. The updated affirmative consent model requires positive, communicated agreement — and may require the person to seek consent more than once.' }
               ]},
               { title: 'Consent FAQ questions', icon: 'help', hint: '6 Q&A',
@@ -3246,8 +3219,7 @@
               },
               { title: 'Defence Strategy — section heading', icon: 'text', fields: [
                 { type: 'text', label: 'Eyebrow', value: 'Defence Strategy' },
-                { type: 'text', label: 'Section title', required: true, value: 'Plead not guilty — or plead' },
-                { type: 'text', label: 'Section italic title', badge: 'Serif italic', value: 'strategically.' },
+                { type: 'text', label: 'Section title', required: true, value: 'Plead not guilty — or plead <em>strategically.</em>' },
                 { type: 'textarea', label: 'Paragraph', rows: 4, value: 'The decision to defend or to enter a strategic plea is the most consequential one you will make. Sexual assault matters are committed to the District Court and heard by jury, requiring extensive preparation, research and clever advocacy. We act on every line of defence the evidence will bear:' }
               ]},
               { title: 'Defence items', icon: 'grid', hint: '6 items',
@@ -3269,8 +3241,7 @@
               },
               { title: 'Why Powerhouse — section heading', icon: 'text', fields: [
                 { type: 'text', label: 'Eyebrow', value: 'Why Powerhouse Law' },
-                { type: 'text', label: 'Section title', required: true, value: 'Specialist defence — when the stakes are' },
-                { type: 'text', label: 'Section italic title', badge: 'Serif italic', value: 'highest.' },
+                { type: 'text', label: 'Section title', required: true, value: 'Specialist defence — when the stakes are <em>highest.</em>' },
                 { type: 'textarea', label: 'Paragraph', rows: 4, value: 'Sexual assault matters demand a particular kind of advocate. Principal Solicitor Chadi Irani is an Accredited Specialist in Criminal Law with over 15 years defending serious indictable matters across NSW. You work directly with your solicitor — start to finish.' }
               ]}
             ]
@@ -3280,8 +3251,7 @@
             cards: [
               { title: 'Section heading', icon: 'text', fields: [
                 { type: 'text', label: 'Eyebrow', value: 'Where We Practice' },
-                { type: 'text', label: 'Section title', required: true, value: 'Defending clients across' },
-                { type: 'text', label: 'Section italic title', badge: 'Serif italic', value: 'Greater Sydney & NSW.' },
+                { type: 'text', label: 'Section title', required: true, value: 'Defending clients across <em>Greater Sydney & NSW.</em>' },
                 { type: 'textarea', label: 'Paragraph', rows: 3, value: 'We appear in every Local, District and Supreme Court across the state. Same-day urgent advice and bail applications, including weekends and public holidays.' }
               ]}
             ]
@@ -3300,9 +3270,7 @@
             cards: [
               { title: 'Text content', icon: 'text', fields: [
                 { type: 'text', label: 'Eyebrow', value: 'Court Outcomes · The Goal of Every Defence' },
-                { type: 'text', label: 'Main heading (line 1)', required: true, value: 'The outcomes that' },
-                { type: 'text', label: 'Italic heading accent', badge: 'Serif italic', value: 'matter.' },
-                { type: 'text', label: 'Main heading (suffix)', value: '' },
+                { type: 'text', label: 'Main heading', required: true, value: 'The outcomes that <em>matter.</em>' },
                 { type: 'textarea', label: 'Lead paragraph', required: true, rows: 4, value: 'Section 10 dismissals. Non-conviction Conditional Release Orders. Intensive Correction Orders avoiding gaol. Successful appeals. Mental health diversions. These are the real outcomes our defence strategy is built around — every brief, every matter, every appearance.' }
               ]},
               { title: 'Hero buttons', icon: 'button', fields: [
@@ -3330,8 +3298,7 @@
               },
               { title: 'Overview — section-block heading', icon: 'text', fields: [
                 { type: 'text', label: 'Eyebrow', value: 'Section 10 · Overview' },
-                { type: 'text', label: 'Section title', required: true, value: 'The Section 10 dismissal — no conviction,' },
-                { type: 'text', label: 'Section italic title', badge: 'Serif italic', value: 'no record.' },
+                { type: 'text', label: 'Section title', required: true, value: 'The Section 10 dismissal — no conviction, <em>no record.</em>' },
                 { type: 'textarea', label: 'Intro paragraph', rows: 4, value: 'Section 10 of the Crimes (Sentencing Procedure) Act 1999 is the most desirable outcome on a guilty plea (or after a finding of guilt at hearing). The Magistrate finds the charge proven — but dismisses the matter without recording a conviction. There is no record, no disqualification, no fine, and no community service. It is the difference between walking out of court with your professional registration, working with children check, security licence, employment and travel rights intact — and walking out with a criminal record that follows you for years.' }
               ]},
               { title: 'The three subcategories', icon: 'list', hint: '3 items',
@@ -3354,8 +3321,7 @@
               },
               { title: 'Section 10(3) Factors — section heading', icon: 'text', fields: [
                 { type: 'text', label: 'Eyebrow', value: 'Section 10(3) Factors' },
-                { type: 'text', label: 'Section title', required: true, value: 'What the Magistrate' },
-                { type: 'text', label: 'Section italic title', badge: 'Serif italic', value: 'weighs.' },
+                { type: 'text', label: 'Section title', required: true, value: 'What the Magistrate <em>weighs.</em>' },
                 { type: 'textarea', label: 'Intro paragraph', rows: 3, value: 'Section 10(3) of the Act lists the factors that must be considered before a Section 10 dismissal can be granted. Every factor is one we work to address in advance — in writing, with evidence:' }
               ]},
               { title: 'The Section 10(3) factors', icon: 'list', hint: '4 items',
@@ -3404,8 +3370,7 @@
             cards: [
               { title: 'Section heading', icon: 'text', fields: [
                 { type: 'text', label: 'Eyebrow', value: 'Section 9 & 10(1)(b) · CSPA' },
-                { type: 'text', label: 'Section title', required: true, value: 'Conditional Release' },
-                { type: 'text', label: 'Section italic title', badge: 'Serif italic', value: 'Orders.' },
+                { type: 'text', label: 'Section title', required: true, value: 'Conditional Release <em>Orders.</em>' },
                 { type: 'textarea', label: 'Section sub', rows: 3, value: 'Introduced in September 2018, the Conditional Release Order replaced the old "good behaviour bond". It is the most flexible of the non-custodial outcomes — and it can be granted with or without a conviction recorded.' }
               ]},
               { title: 'Two variants', icon: 'list', hint: '2 items',
@@ -3473,9 +3438,7 @@
             cards: [
               { title: 'Section heading', icon: 'text', fields: [
                 { type: 'text', label: 'Eyebrow', value: 'Section 7 · CSPA' },
-                { type: 'text', label: 'Section title', required: true, value: 'Intensive Correction Orders —' },
-                { type: 'text', label: 'Section italic title', badge: 'Serif italic', value: 'imprisonment' },
-                { type: 'text', label: 'Section title (suffix)', value: 'in the community.' },
+                { type: 'text', label: 'Section title', required: true, value: 'Intensive Correction Orders — <em>imprisonment</em> in the community.' },
                 { type: 'textarea', label: 'Section sub', rows: 4, value: 'The ICO is a sentence of imprisonment served in the community under intensive supervision. It replaced suspended sentences and home detention orders in September 2018 — and is now the principal alternative to full-time gaol for matters serious enough to attract a custodial range but where community-based supervision is appropriate.' }
               ]},
               { title: 'Penalty cards', icon: 'badge', hint: '4 cards',
@@ -3565,8 +3528,7 @@
             cards: [
               { title: 'Section heading', icon: 'text', fields: [
                 { type: 'text', label: 'Eyebrow', value: 'Crimes (Appeal and Review) Act 2001' },
-                { type: 'text', label: 'Section title', required: true, value: 'When the matter' },
-                { type: 'text', label: 'Section italic title', badge: 'Serif italic', value: 'goes up.' },
+                { type: 'text', label: 'Section title', required: true, value: 'When the matter <em>goes up.</em>' },
                 { type: 'textarea', label: 'Section sub', rows: 3, value: 'Sentencing in the Local Court is not the end of the road. The NSW criminal appeal framework provides clear, time-bounded pathways to review every decision — from a severity appeal in the District Court to special leave in the High Court.' }
               ]},
               { title: 'Penalty cards', icon: 'badge', hint: '4 cards',
@@ -3623,8 +3585,7 @@
             cards: [
               { title: 'Section heading', icon: 'text', fields: [
                 { type: 'text', label: 'Eyebrow', value: 'MHCIFP Act 2020 · Section 14' },
-                { type: 'text', label: 'Section title', required: true, value: 'Section 14 mental health' },
-                { type: 'text', label: 'Section italic title', badge: 'Serif italic', value: 'diversion.' },
+                { type: 'text', label: 'Section title', required: true, value: 'Section 14 mental health <em>diversion.</em>' },
                 { type: 'textarea', label: 'Section sub', rows: 3, value: 'For accused persons with a mental health impairment or cognitive impairment, the Mental Health and Cognitive Impairment Forensic Provisions Act 2020 provides a critical alternative to conviction: diversion from the criminal justice system into treatment, without a finding of guilt being recorded.' }
               ]},
               { title: 'What Section 14 does', icon: 'text', fields: [
@@ -3684,9 +3645,7 @@
             cards: [
               { title: 'Section heading', icon: 'text', fields: [
                 { type: 'text', label: 'Eyebrow', value: 'The Sentencing Spectrum' },
-                { type: 'text', label: 'Section title', required: true, value: 'The full' },
-                { type: 'text', label: 'Section italic title', badge: 'Serif italic', value: 'range' },
-                { type: 'text', label: 'Section title (suffix)', value: 'of NSW criminal outcomes.' },
+                { type: 'text', label: 'Section title', required: true, value: 'The full <em>range</em> of NSW criminal outcomes.' },
                 { type: 'textarea', label: 'Paragraph', rows: 3, value: 'From the lightest to the most serious, the NSW criminal courts have a graduated set of sentencing options. The five outcomes covered above sit within this wider spectrum — and the goal of strategic defence is to direct the matter as far up this list as the facts will support.' }
               ]},
               { title: 'Sentencing options (lightest → most serious)', icon: 'grid', hint: '8 items',
@@ -3740,9 +3699,7 @@
             note: 'Top of the page — H1 with italic accent, lead paragraph, CTAs.',
             cards: [
               { title: 'Text content', icon: 'text', fields: [
-                { type: 'text', label: 'Main heading (line 1)', required: true, value: 'Bail applications across every' },
-                { type: 'text', label: 'Italic heading accent', badge: 'Serif italic', value: 'NSW court.' },
-                { type: 'text', label: 'Main heading (suffix)', value: '' },
+                { type: 'text', label: 'Main heading', required: true, value: 'Bail applications across every <em>NSW court.</em>' },
                 { type: 'textarea', label: 'Lead paragraph', required: true, rows: 4, value: 'From the first appearance in the Local Court to a Supreme Court review, we appear on bail applications day and night — including weekends and public holidays. Bail allows you to remain in the community while your matter is resolved. Getting it right at the first application is critical.' }
               ]},
               { title: 'Hero buttons', icon: 'button', fields: [
@@ -3791,8 +3748,7 @@
               },
               { title: 'Section-block heading', icon: 'text', fields: [
                 { type: 'text', label: 'Eyebrow', value: 'Local Court Bail' },
-                { type: 'text', label: 'Section title', required: true, value: 'The first — and most important —' },
-                { type: 'text', label: 'Section italic title', badge: 'Serif italic', value: 'bail application.' },
+                { type: 'text', label: 'Section title', required: true, value: 'The first — and most important — <em>bail application.</em>' },
                 { type: 'textarea', label: 'Intro paragraph', rows: 4, value: 'After arrest, you will be brought before a Magistrate as soon as practicable — usually the next day, sometimes the same day if you are arrested in the morning. This is your first opportunity to apply for bail in court, and under the Bail Act 2013 you are entitled to one bail application as of right in the Local Court.' }
               ]},
               { title: 'Police bail vs Court bail', icon: 'text', fields: [
@@ -3831,8 +3787,7 @@
             cards: [
               { title: 'Section heading', icon: 'text', fields: [
                 { type: 'text', label: 'Eyebrow', value: 'District Court Bail' },
-                { type: 'text', label: 'Section title', required: true, value: 'A fresh hearing — with a' },
-                { type: 'text', label: 'Section italic title', badge: 'Serif italic', value: 'real chance.' },
+                { type: 'text', label: 'Section title', required: true, value: 'A fresh hearing — with a <em>real chance.</em>' },
                 { type: 'textarea', label: 'Section sub', rows: 3, value: 'For indictable matters committed for trial or sentence, the District Court takes over. For matters refused bail in the Local Court, the District Court is the next forum — and a chance to put a stronger application before a Judge.' }
               ]},
               { title: 'Two District Court situations', icon: 'list', hint: '2 items',
@@ -3886,8 +3841,7 @@
             cards: [
               { title: 'Section heading', icon: 'text', fields: [
                 { type: 'text', label: 'Eyebrow', value: 'Supreme Court Bail · The Final Review' },
-                { type: 'text', label: 'Section title', required: true, value: 'The most serious matters — and the' },
-                { type: 'text', label: 'Section italic title', badge: 'Serif italic', value: 'last avenue.' },
+                { type: 'text', label: 'Section title', required: true, value: 'The most serious matters — and the <em>last avenue.</em>' },
                 { type: 'textarea', label: 'Section sub', rows: 3, value: 'The Supreme Court hears bail on matters that warrant its supervisory jurisdiction: murder, treason, repeated applications where lower courts have refused, and Crown detention applications under section 74.' }
               ]},
               { title: 'Penalty cards', icon: 'badge', hint: '4 cards',
@@ -3943,9 +3897,7 @@
             cards: [
               { title: 'Section heading', icon: 'text', fields: [
                 { type: 'text', label: 'Eyebrow', value: 'Our Defence Approach' },
-                { type: 'text', label: 'Section title', required: true, value: 'How we' },
-                { type: 'text', label: 'Section italic title', badge: 'Serif italic', value: 'win' },
-                { type: 'text', label: 'Section title (suffix)', value: 'bail applications.' },
+                { type: 'text', label: 'Section title', required: true, value: 'How we <em>win</em> bail applications.' },
                 { type: 'textarea', label: 'Paragraph', rows: 3, value: 'Bail applications are won on preparation — surety, residence, conditions and the evidentiary brief that puts the case for release in its strongest form. These are the angles we work first.' }
               ]},
               { title: 'Defence items', icon: 'grid', hint: '6 items',
@@ -3972,8 +3924,7 @@
             cards: [
               { title: 'Section heading', icon: 'text', fields: [
                 { type: 'text', label: 'Eyebrow', value: 'Common Questions' },
-                { type: 'text', label: 'Section title', required: true, value: 'Bail —' },
-                { type: 'text', label: 'Section italic title', badge: 'Serif italic', value: 'FAQ.' },
+                { type: 'text', label: 'Section title', required: true, value: 'Bail — <em>FAQ.</em>' },
                 { type: 'textarea', label: 'Paragraph', rows: 3, value: 'The questions we hear most often in the first conversation about bail — usually from a partner or family member of the person in custody.' }
               ]},
               { title: 'Questions', icon: 'help', hint: '6 Q&A',
@@ -4009,9 +3960,7 @@
             note: 'Top of the page — H1 with italic accent, lead paragraph, CTAs.',
             cards: [
               { title: 'Text content', icon: 'text', fields: [
-                { type: 'text', label: 'Main heading (line 1)', required: true, value: 'Appeal a NSW' },
-                { type: 'text', label: 'Italic heading accent', badge: 'Serif italic', value: 'licence' },
-                { type: 'text', label: 'Main heading (suffix)', value: 'suspension.' },
+                { type: 'text', label: 'Main heading', required: true, value: 'Appeal a NSW <em>licence</em> suspension.' },
                 { type: 'textarea', label: 'Lead paragraph', required: true, rows: 4, value: 'You have the right to appeal a suspension to the Local Court — but the window closes fast. From a P1 demerit suspension to a police on-the-spot for speeding over 45 km/h, we run urgent Section 267 appeals on the same day where needed.' }
               ]},
               { title: 'Hero buttons', icon: 'button', fields: [
@@ -4060,8 +4009,7 @@
               },
               { title: 'Section-block heading', icon: 'text', fields: [
                 { type: 'text', label: 'Eyebrow', value: 'Provisional Licence Suspensions' },
-                { type: 'text', label: 'Section title', required: true, value: 'P1 & P2 drivers — a' },
-                { type: 'text', label: 'Section italic title', badge: 'Serif italic', value: 'tighter margin.' },
+                { type: 'text', label: 'Section title', required: true, value: 'P1 & P2 drivers — a <em>tighter margin.</em>' },
                 { type: 'textarea', label: 'Intro paragraph', rows: 4, value: 'Provisional drivers in NSW operate on a materially lower demerit point threshold than full-licence drivers. Hit the threshold and Transport for NSW issues an automatic Notice of Suspension. The threshold is not flexible — and the only avenue left is a Local Court appeal.' }
               ]},
               { title: 'The thresholds', icon: 'list', hint: '3 items',
@@ -4112,9 +4060,7 @@
             cards: [
               { title: 'Section heading', icon: 'text', fields: [
                 { type: 'text', label: 'Eyebrow', value: 'Speed-Related Suspensions' },
-                { type: 'text', label: 'Section title', required: true, value: 'Speed over 30 km/h —' },
-                { type: 'text', label: 'Section italic title', badge: 'Serif italic', value: 'automatic' },
-                { type: 'text', label: 'Section title (suffix)', value: 'suspension.' },
+                { type: 'text', label: 'Section title', required: true, value: 'Speed over 30 km/h — <em>automatic</em> suspension.' },
                 { type: 'textarea', label: 'Section sub', rows: 3, value: 'Two thresholds. Two different responses. Both attract an automatic Transport for NSW suspension — and both can be appealed.' }
               ]},
               { title: 'Speed thresholds', icon: 'list', hint: '2 tiers',
@@ -4170,8 +4116,7 @@
             cards: [
               { title: 'Section heading', icon: 'text', fields: [
                 { type: 'text', label: 'Eyebrow', value: 'The Appeal Process' },
-                { type: 'text', label: 'Section title', required: true, value: 'From notice to' },
-                { type: 'text', label: 'Section italic title', badge: 'Serif italic', value: 'court decision.' },
+                { type: 'text', label: 'Section title', required: true, value: 'From notice to <em>court decision.</em>' },
                 { type: 'textarea', label: 'Section sub', rows: 3, value: 'The Local Court appeal is a four-step process. Each step matters — particularly the first, where the 28-day clock is running from the moment you read the suspension notice.' }
               ]},
               { title: 'Process steps', icon: 'list', hint: '4 steps',
@@ -4215,9 +4160,7 @@
             cards: [
               { title: 'Section heading', icon: 'text', fields: [
                 { type: 'text', label: 'Eyebrow', value: 'Our Defence Approach' },
-                { type: 'text', label: 'Section title', required: true, value: 'How we' },
-                { type: 'text', label: 'Section italic title', badge: 'Serif italic', value: 'win' },
-                { type: 'text', label: 'Section title (suffix)', value: 'licence appeals.' },
+                { type: 'text', label: 'Section title', required: true, value: 'How we <em>win</em> licence appeals.' },
                 { type: 'textarea', label: 'Paragraph', rows: 3, value: "Licence appeals are decided on the strength of the evidentiary brief. The Magistrate decides on paper as much as on submissions — which is why our preparation is exhaustive and our appearances are tightly focused." }
               ]},
               { title: 'Defence items', icon: 'grid', hint: '6 items',
@@ -4244,8 +4187,7 @@
             cards: [
               { title: 'Section heading', icon: 'text', fields: [
                 { type: 'text', label: 'Eyebrow', value: 'Common Questions' },
-                { type: 'text', label: 'Section title', required: true, value: 'Licence Appeals —' },
-                { type: 'text', label: 'Section italic title', badge: 'Serif italic', value: 'FAQ.' },
+                { type: 'text', label: 'Section title', required: true, value: 'Licence Appeals — <em>FAQ.</em>' },
                 { type: 'textarea', label: 'Paragraph', rows: 3, value: 'The questions we hear most often in the first conversation after a suspension notice arrives — or after the licence is taken at the roadside.' }
               ]},
               { title: 'Questions', icon: 'help', hint: '6 Q&A',
@@ -4279,9 +4221,7 @@
             note: 'Top of the page — H1 with italic accent, lead paragraph, CTAs.',
             cards: [
               { title: 'Text content', icon: 'text', fields: [
-                { type: 'text', label: 'Main heading (line 1)', required: true, value: 'Drink driving &' },
-                { type: 'text', label: 'Italic heading accent', badge: 'Serif italic', value: 'PCA' },
-                { type: 'text', label: 'Main heading (suffix)', value: 'defence in NSW.' },
+                { type: 'text', label: 'Main heading', required: true, value: 'Drink driving & <em>PCA</em> defence in NSW.' },
                 { type: 'textarea', label: 'Lead paragraph', required: true, rows: 5, value: "For most clients, a PCA charge is their first encounter with the criminal justice system — and what's at stake is more than a fine. Licence loss, an alcohol interlock, insurance impact and a criminal record all turn on what happens at the first appearance. We act fast, and we go for Section 10 wherever the facts will support it." }
               ]},
               { title: 'Hero buttons', icon: 'button', fields: [
@@ -4330,8 +4270,7 @@
               },
               { title: 'PCA Offences — section-block heading', icon: 'text', fields: [
                 { type: 'text', label: 'Eyebrow', value: 'PCA Offences · s.110 RTA' },
-                { type: 'text', label: 'Section title', required: true, value: 'The five PCA ranges in' },
-                { type: 'text', label: 'Section italic title', badge: 'Serif italic', value: 'NSW.' },
+                { type: 'text', label: 'Section title', required: true, value: 'The five PCA ranges in <em>NSW.</em>' },
                 { type: 'textarea', label: 'Intro paragraph', rows: 5, value: 'Drink-driving in NSW is prosecuted as a Prescribed Concentration of Alcohol (PCA) offence under section 110 of the Road Transport Act 2013. The law sets five concentration ranges, and the range that applies determines every consequence: the fine, the disqualification, whether prison is in play, and whether the Mandatory Alcohol Interlock Program automatically applies.' }
               ]},
               { title: 'The five ranges', icon: 'list', hint: '5 items + closing paragraph',
@@ -4357,8 +4296,7 @@
               },
               { title: 'First-Offence Penalties — section heading', icon: 'text', fields: [
                 { type: 'text', label: 'Eyebrow', value: 'First-Offence Penalties' },
-                { type: 'text', label: 'Section title', required: true, value: 'Maximum penalties —' },
-                { type: 'text', label: 'Section italic title', badge: 'Serif italic', value: 'first offence.' },
+                { type: 'text', label: 'Section title', required: true, value: 'Maximum penalties — <em>first offence.</em>' },
                 { type: 'textarea', label: 'Intro paragraph', rows: 4, value: 'The maximums below apply to a first major alcohol-related offence within five years. The Magistrate has discretion within these ceilings; the disqualification figures show the minimum and the automatic (default) periods.' }
               ]},
               { title: 'First offence — penalty cards', icon: 'badge', hint: '4 cards',
@@ -4380,9 +4318,7 @@
               },
               { title: 'Second-Offence Penalties — section heading', icon: 'text', fields: [
                 { type: 'text', label: 'Eyebrow', value: 'Second-Offence Penalties' },
-                { type: 'text', label: 'Section title', required: true, value: 'Maximum penalties —' },
-                { type: 'text', label: 'Section italic title', badge: 'Serif italic', value: 'second offence' },
-                { type: 'text', label: 'Section title (suffix)', value: 'within 5 years.' },
+                { type: 'text', label: 'Section title', required: true, value: 'Maximum penalties — <em>second offence</em> within 5 years.' },
                 { type: 'textarea', label: 'Intro paragraph', rows: 4, value: 'The escalation on a second major alcohol-related offence within five years is significant. The interlock program becomes effectively unavoidable, the disqualification periods double, and prison is on the table for every range.' }
               ]},
               { title: 'Second offence — penalty cards', icon: 'badge', hint: '4 cards',
@@ -4412,8 +4348,7 @@
             cards: [
               { title: 'Section heading', icon: 'text', fields: [
                 { type: 'text', label: 'Eyebrow', value: 'Mandatory Alcohol Interlock Program' },
-                { type: 'text', label: 'Section title', required: true, value: 'The Interlock' },
-                { type: 'text', label: 'Section italic title', badge: 'Serif italic', value: 'Program.' },
+                { type: 'text', label: 'Section title', required: true, value: 'The Interlock <em>Program.</em>' },
                 { type: 'textarea', label: 'Section sub', rows: 4, value: 'Introduced in February 2015, the Mandatory Alcohol Interlock Program (MAIP) is now the standard sentencing pathway for serious drink-driving matters. For mid-range, high-range, repeat offenders and refusals, the program is the rule — not the exception.' }
               ]},
               { title: 'How the program works', icon: 'text', fields: [
@@ -4493,8 +4428,7 @@
             cards: [
               { title: 'Section heading', icon: 'text', fields: [
                 { type: 'text', label: 'Eyebrow', value: 'Related Offences' },
-                { type: 'text', label: 'Section title', required: true, value: 'Charges that travel' },
-                { type: 'text', label: 'Section italic title', badge: 'Serif italic', value: 'together.' },
+                { type: 'text', label: 'Section title', required: true, value: 'Charges that travel <em>together.</em>' },
                 { type: 'textarea', label: 'Section sub', rows: 3, value: 'A PCA charge rarely arrives alone. These are the related Road Transport Act offences we see paired with drink driving most often — and how each affects the sentencing framework.' }
               ]},
               { title: 'Penalty cards', icon: 'badge', hint: '4 cards',
@@ -4533,9 +4467,7 @@
             cards: [
               { title: 'Section heading', icon: 'text', fields: [
                 { type: 'text', label: 'Eyebrow', value: 'Our Defence Approach' },
-                { type: 'text', label: 'Section title', required: true, value: 'How we' },
-                { type: 'text', label: 'Section italic title', badge: 'Serif italic', value: 'defend' },
-                { type: 'text', label: 'Section title (suffix)', value: 'PCA matters.' },
+                { type: 'text', label: 'Section title', required: true, value: 'How we <em>defend</em> PCA matters.' },
                 { type: 'textarea', label: 'Paragraph', rows: 3, value: 'PCA matters are won in two places: the evidentiary brief (does the breath analysis stand up?) and the sentencing submission (will the Magistrate grant a Section 10?). We work both at once.' }
               ]},
               { title: 'Defence items', icon: 'grid', hint: '6 items',
@@ -4562,8 +4494,7 @@
             cards: [
               { title: 'Section heading', icon: 'text', fields: [
                 { type: 'text', label: 'Eyebrow', value: 'Common Questions' },
-                { type: 'text', label: 'Section title', required: true, value: 'Drink Driving —' },
-                { type: 'text', label: 'Section italic title', badge: 'Serif italic', value: 'FAQ.' },
+                { type: 'text', label: 'Section title', required: true, value: 'Drink Driving — <em>FAQ.</em>' },
                 { type: 'textarea', label: 'Paragraph', rows: 3, value: 'The questions we hear most often in the first conversation after a PCA charge.' }
               ]},
               { title: 'Questions', icon: 'help', hint: '6 Q&A',
@@ -4597,9 +4528,7 @@
             note: 'Top of the page — H1 with italic accent, lead paragraph, CTAs.',
             cards: [
               { title: 'Text content', icon: 'text', fields: [
-                { type: 'text', label: 'Main heading (line 1)', required: true, value: 'Drug driving &' },
-                { type: 'text', label: 'Italic heading accent', badge: 'Serif italic', value: 'roadside' },
-                { type: 'text', label: 'Main heading (suffix)', value: 'testing defence.' },
+                { type: 'text', label: 'Main heading', required: true, value: 'Drug driving & <em>roadside</em> testing defence.' },
                 { type: 'textarea', label: 'Lead paragraph', required: true, rows: 5, value: 'A positive swab at a Mobile Drug Test station — even days after the substance was used — can mean licence loss, a fine, and a criminal record. NSW drug-driving offences are strict liability: the Crown does not need to prove you were impaired, only that the drug was present. We act fast — and we work toward Section 10 wherever the facts will support it.' }
               ]},
               { title: 'Hero buttons', icon: 'button', fields: [
@@ -4648,9 +4577,7 @@
               },
               { title: 'Principal offence — section-block heading', icon: 'text', fields: [
                 { type: 'text', label: 'Eyebrow', value: 'Section 111 · Presence of Prescribed Illicit Drug' },
-                { type: 'text', label: 'Section title', required: true, value: 'The principal' },
-                { type: 'text', label: 'Section italic title', badge: 'Serif italic', value: 'drug-driving' },
-                { type: 'text', label: 'Section title (suffix)', value: 'offence in NSW.' },
+                { type: 'text', label: 'Section title', required: true, value: 'The principal <em>drug-driving</em> offence in NSW.' },
                 { type: 'textarea', label: 'Intro paragraph', rows: 4, value: 'Under section 111 of the Road Transport Act 2013, it is an offence to drive a motor vehicle with a prescribed illicit drug (PID) present in your oral fluid, blood, or urine. The Crown does not need to prove you were impaired. The presence of the substance is the offence. This is the central distinction between drug driving and the more familiar PCA regime for alcohol. PCA matters turn on a measured concentration. Drug driving under s.111 is zero tolerance — any detectable amount of a PID is enough to make out the charge.' }
               ]},
               { title: 'The four prescribed illicit drugs', icon: 'list', hint: '4 items',
@@ -4691,8 +4618,7 @@
               },
               { title: 'First-Offence Penalties — section heading', icon: 'text', fields: [
                 { type: 'text', label: 'Eyebrow', value: 'First-Offence Penalties' },
-                { type: 'text', label: 'Section title', required: true, value: 'Maximum penalties —' },
-                { type: 'text', label: 'Section italic title', badge: 'Serif italic', value: 'first offence.' },
+                { type: 'text', label: 'Section title', required: true, value: 'Maximum penalties — <em>first offence.</em>' },
                 { type: 'textarea', label: 'Paragraph', rows: 3, value: 'Simple presence under s.111 does not carry a custodial maximum on a first offence. The principal risk is licence loss and a recorded conviction.' }
               ]},
               { title: 'First offence — penalty cards', icon: 'badge', hint: '4 cards',
@@ -4714,9 +4640,7 @@
               },
               { title: 'Second-Offence Penalties — section heading', icon: 'text', fields: [
                 { type: 'text', label: 'Eyebrow', value: 'Second-Offence Penalties' },
-                { type: 'text', label: 'Section title', required: true, value: 'Maximum penalties —' },
-                { type: 'text', label: 'Section italic title', badge: 'Serif italic', value: 'second offence' },
-                { type: 'text', label: 'Section title (suffix)', value: 'within 5 years.' },
+                { type: 'text', label: 'Section title', required: true, value: 'Maximum penalties — <em>second offence</em> within 5 years.' },
                 { type: 'textarea', label: 'Paragraph', rows: 4, value: 'A second drug-driving offence within five years escalates significantly — and triggers the same mandatory interlock framework that applies to mid- and high-range PCA matters.' }
               ]},
               { title: 'Second offence — penalty cards', icon: 'badge', hint: '4 cards',
@@ -4743,8 +4667,7 @@
             cards: [
               { title: 'Section heading', icon: 'text', fields: [
                 { type: 'text', label: 'Eyebrow', value: 'The MDT Process' },
-                { type: 'text', label: 'Section title', required: true, value: 'From the swab to the' },
-                { type: 'text', label: 'Section italic title', badge: 'Serif italic', value: 'charge.' },
+                { type: 'text', label: 'Section title', required: true, value: 'From the swab to the <em>charge.</em>' },
                 { type: 'textarea', label: 'Section sub', rows: 3, value: 'Mobile Drug Testing in NSW follows a structured four-step process. The first three steps happen at the roadside; the fourth — the one that decides the charge — happens weeks later at the forensic laboratory.' }
               ]},
               { title: 'Step 1 — The initial roadside swab', icon: 'text', fields: [
@@ -4788,8 +4711,7 @@
             cards: [
               { title: 'Section heading', icon: 'text', fields: [
                 { type: 'text', label: 'Eyebrow', value: 'Related Offences' },
-                { type: 'text', label: 'Section title', required: true, value: 'Charges that travel' },
-                { type: 'text', label: 'Section italic title', badge: 'Serif italic', value: 'together.' },
+                { type: 'text', label: 'Section title', required: true, value: 'Charges that travel <em>together.</em>' },
                 { type: 'textarea', label: 'Section sub', rows: 3, value: 'A drug-driving charge rarely arrives alone. Where drugs are present in the vehicle, there is impairment, or where alcohol is in the mix, additional offences are typically charged in the alternative or alongside.' }
               ]},
               { title: 'Penalty cards', icon: 'badge', hint: '4 cards',
@@ -4828,9 +4750,7 @@
             cards: [
               { title: 'Section heading', icon: 'text', fields: [
                 { type: 'text', label: 'Eyebrow', value: 'Our Defence Approach' },
-                { type: 'text', label: 'Section title', required: true, value: 'How we' },
-                { type: 'text', label: 'Section italic title', badge: 'Serif italic', value: 'defend' },
-                { type: 'text', label: 'Section title (suffix)', value: 'drug-driving matters.' },
+                { type: 'text', label: 'Section title', required: true, value: 'How we <em>defend</em> drug-driving matters.' },
                 { type: 'textarea', label: 'Paragraph', rows: 3, value: 'The strict-liability character of section 111 narrows the defence space — but it does not close it. These are the angles we work first, and where most of our drug-driving results come from.' }
               ]},
               { title: 'Defence items', icon: 'grid', hint: '6 items',
@@ -4857,8 +4777,7 @@
             cards: [
               { title: 'Section heading', icon: 'text', fields: [
                 { type: 'text', label: 'Eyebrow', value: 'Common Questions' },
-                { type: 'text', label: 'Section title', required: true, value: 'Drug Driving —' },
-                { type: 'text', label: 'Section italic title', badge: 'Serif italic', value: 'FAQ.' },
+                { type: 'text', label: 'Section title', required: true, value: 'Drug Driving — <em>FAQ.</em>' },
                 { type: 'textarea', label: 'Paragraph', rows: 3, value: 'The questions we hear most often in the first conversation after a positive Mobile Drug Test.' }
               ]},
               { title: 'Questions', icon: 'help', hint: '6 Q&A',
@@ -4892,9 +4811,7 @@
             note: 'Top of the page — H1 with italic accent, lead paragraph, CTAs.',
             cards: [
               { title: 'Text content', icon: 'text', fields: [
-                { type: 'text', label: 'Main heading (line 1)', required: true, value: 'Serious traffic' },
-                { type: 'text', label: 'Italic heading accent', badge: 'Serif italic', value: 'matters' },
-                { type: 'text', label: 'Main heading (suffix)', value: 'defence in NSW.' },
+                { type: 'text', label: 'Main heading', required: true, value: 'Serious traffic <em>matters</em> defence in NSW.' },
                 { type: 'textarea', label: 'Lead paragraph', required: true, rows: 5, value: 'A negligent or dangerous driving charge — or driving while suspended or disqualified — is no ordinary infringement. These matters carry real custodial exposure, long disqualification periods and a criminal conviction that follows you for years. We act fast, attack the brief, and pursue every available pathway to a Section 10 or non-conviction outcome.' }
               ]},
               { title: 'Hero buttons', icon: 'button', fields: [
@@ -4943,8 +4860,7 @@
               },
               { title: 'Negligent Driving — section-block heading', icon: 'text', fields: [
                 { type: 'text', label: 'Eyebrow', value: 'Negligent Driving · s.117 RTA' },
-                { type: 'text', label: 'Section title', required: true, value: 'The three tiers of' },
-                { type: 'text', label: 'Section italic title', badge: 'Serif italic', value: 'negligent driving.' },
+                { type: 'text', label: 'Section title', required: true, value: 'The three tiers of <em>negligent driving.</em>' },
                 { type: 'textarea', label: 'Intro paragraph', rows: 4, value: 'Section 117 of the Road Transport Act 2013 creates a single offence — negligent driving — with three sentencing tiers that scale dramatically with the consequences of the driving. The standard is straightforward: did the manner of driving fall below what a reasonable and prudent driver would have done in the same circumstances?' }
               ]},
               { title: 'Three sentencing tiers', icon: 'list', hint: '3 items + closing paragraph',
@@ -4968,8 +4884,7 @@
               },
               { title: 'Penalty Framework — section heading', icon: 'text', fields: [
                 { type: 'text', label: 'Eyebrow', value: 'Penalty Framework' },
-                { type: 'text', label: 'Section title', required: true, value: 'Maximum penalties —' },
-                { type: 'text', label: 'Section italic title', badge: 'Serif italic', value: 'first offence.' },
+                { type: 'text', label: 'Section title', required: true, value: 'Maximum penalties — <em>first offence.</em>' },
                 { type: 'textarea', label: 'Paragraph', rows: 3, value: 'Penalties below are statutory maximums under section 117. The Magistrate has discretion within these ceilings, and on the right facts a Section 10 remains available even for the more serious tiers.' }
               ]},
               { title: 'Penalty cards', icon: 'badge', hint: '4 cards',
@@ -4991,8 +4906,7 @@
               },
               { title: 'What "Negligent" Means — section heading', icon: 'text', fields: [
                 { type: 'text', label: 'Eyebrow', value: 'What "Negligent" Means' },
-                { type: 'text', label: 'Section title', required: true, value: 'The legal standard —' },
-                { type: 'text', label: 'Section italic title', badge: 'Serif italic', value: 'reasonable and prudent.' },
+                { type: 'text', label: 'Section title', required: true, value: 'The legal standard — <em>reasonable and prudent.</em>' },
                 { type: 'textarea', label: 'Intro paragraph', rows: 3, value: 'The prosecution does not have to prove that you intended to drive badly, only that the driving fell short of the standard expected of a reasonable and prudent driver in the same circumstances. Common factual patterns include:' }
               ]},
               { title: 'Common factual patterns', icon: 'list', hint: '5 items + closing paragraph',
@@ -5023,8 +4937,7 @@
             cards: [
               { title: 'Section heading', icon: 'text', fields: [
                 { type: 'text', label: 'Eyebrow', value: 'Dangerous Driving · s.52A Crimes Act' },
-                { type: 'text', label: 'Section title', required: true, value: 'Dangerous' },
-                { type: 'text', label: 'Section italic title', badge: 'Serif italic', value: 'driving.' },
+                { type: 'text', label: 'Section title', required: true, value: 'Dangerous <em>driving.</em>' },
                 { type: 'textarea', label: 'Section sub', rows: 4, value: 'Dangerous driving is prosecuted under the Crimes Act 1900, not the Road Transport Act — and the penalty exposure reflects that. These are indictable charges, often committed to the District Court, with sentencing ranges that begin in years of imprisonment, not months.' }
               ]},
               { title: 'The four base offences', icon: 'list', hint: '4 items',
@@ -5084,8 +4997,7 @@
             cards: [
               { title: 'Section heading', icon: 'text', fields: [
                 { type: 'text', label: 'Eyebrow', value: 'Drive Whilst Suspended · s.54 RTA' },
-                { type: 'text', label: 'Section title', required: true, value: 'Drive whilst' },
-                { type: 'text', label: 'Section italic title', badge: 'Serif italic', value: 'suspended.' },
+                { type: 'text', label: 'Section title', required: true, value: 'Drive whilst <em>suspended.</em>' },
                 { type: 'textarea', label: 'Section sub', rows: 4, value: 'Being caught driving with a suspended licence is treated as a serious traffic offence in NSW — even where the underlying suspension was administrative (demerit points, unpaid fines, medical) rather than the result of a court order.' }
               ]},
               { title: 'Penalty cards', icon: 'badge', hint: '4 cards',
@@ -5124,8 +5036,7 @@
             cards: [
               { title: 'Section heading', icon: 'text', fields: [
                 { type: 'text', label: 'Eyebrow', value: 'Drive Whilst Disqualified · s.54 RTA' },
-                { type: 'text', label: 'Section title', required: true, value: 'Drive whilst' },
-                { type: 'text', label: 'Section italic title', badge: 'Serif italic', value: 'disqualified.' },
+                { type: 'text', label: 'Section title', required: true, value: 'Drive whilst <em>disqualified.</em>' },
                 { type: 'textarea', label: 'Section sub', rows: 4, value: 'Driving during a court-imposed disqualification period is the most serious form of the section 54 family. The court treats it as a defiance of an existing court order — and on a second offence, custodial sentences are the norm, not the exception.' }
               ]},
               { title: 'Penalty cards', icon: 'badge', hint: '4 cards',
@@ -5168,9 +5079,7 @@
             cards: [
               { title: 'Section heading', icon: 'text', fields: [
                 { type: 'text', label: 'Eyebrow', value: 'Our Defence Approach' },
-                { type: 'text', label: 'Section title', required: true, value: 'How we' },
-                { type: 'text', label: 'Section italic title', badge: 'Serif italic', value: 'defend' },
-                { type: 'text', label: 'Section title (suffix)', value: 'serious traffic matters.' },
+                { type: 'text', label: 'Section title', required: true, value: 'How we <em>defend</em> serious traffic matters.' },
                 { type: 'textarea', label: 'Paragraph', rows: 3, value: 'These charges are won by attacking the brief early and building a sentencing case in parallel. We do both from day one — not in the last fortnight before court.' }
               ]},
               { title: 'Defence items', icon: 'grid', hint: '6 items',
@@ -5197,8 +5106,7 @@
             cards: [
               { title: 'Section heading', icon: 'text', fields: [
                 { type: 'text', label: 'Eyebrow', value: 'Common Questions' },
-                { type: 'text', label: 'Section title', required: true, value: 'Serious Traffic —' },
-                { type: 'text', label: 'Section italic title', badge: 'Serif italic', value: 'FAQ.' },
+                { type: 'text', label: 'Section title', required: true, value: 'Serious Traffic — <em>FAQ.</em>' },
                 { type: 'textarea', label: 'Paragraph', rows: 3, value: 'The questions we hear most often in the first conversation after a serious driving charge.' }
               ]},
               { title: 'Questions', icon: 'help', hint: '6 Q&A',
@@ -5234,8 +5142,7 @@
             cards: [
               { title: 'Text content', icon: 'text', fields: [
                 { type: 'text', label: 'Eyebrow', value: 'Recent Results · Verified Outcomes' },
-                { type: 'text', label: 'Main heading', required: true, value: 'Real cases. Real' },
-                { type: 'text', label: 'Italic heading accent', badge: 'Serif italic', value: 'outcomes.' },
+                { type: 'text', label: 'Main heading', required: true, value: 'Real cases. Real <em>outcomes.</em>' },
                 { type: 'textarea', label: 'Lead paragraph', required: true, rows: 4, value: 'Six recent Powerhouse Law matters across criminal and traffic law — every client faced a serious consequence, every one walked away with the result they needed. Names have been initialised. The outcomes are not.' }
               ]},
               { title: 'Hero buttons', icon: 'button', fields: [
@@ -5250,8 +5157,7 @@
             cards: [
               { title: 'Section heading', icon: 'text', fields: [
                 { type: 'text', label: 'Eyebrow', value: 'The Cases' },
-                { type: 'text', label: 'Section title', required: true, value: 'Six matters. Six' },
-                { type: 'text', label: 'Section italic title', badge: 'Serif italic', value: 'wins.' },
+                { type: 'text', label: 'Section title', required: true, value: 'Six matters. Six <em>wins.</em>' },
                 { type: 'textarea', label: 'Paragraph', rows: 3, value: 'A representative cross-section of recent Powerhouse Law results — from indictable criminal matters in the District and Supreme Courts to local-court traffic appeals. Different facts, different charges, one constant.' }
               ]},
               { title: 'Case cards', icon: 'grid', hint: '6 cases',
@@ -5264,9 +5170,7 @@
                     { label: 'Penalty faced — label', key: 'facedLabel', type: 'text', help: 'Usually "Penalty Faced" or "Position Faced"' },
                     { label: 'Penalty faced — number', key: 'facedNum', type: 'text', required: true, help: 'e.g. "14 years max"' },
                     { label: 'Penalty faced — meta', key: 'facedMeta', type: 'text' },
-                    { label: 'Outcome number (plain)', key: 'outcomePlain', type: 'text', required: true, help: 'e.g. "Acquitted"' },
-                    { label: 'Outcome number (italic)', key: 'outcomeItalic', type: 'text', badge: 'Serif italic', help: 'e.g. "·" or "dismissal"' },
-                    { label: 'Outcome number (suffix)', key: 'outcomeSuffix', type: 'text', help: 'Trailing plain text after the italic, e.g. "Not guilty"' },
+                    { label: 'Outcome', key: 'outcome', type: 'text', required: true, help: 'e.g. "Acquitted <em>·</em> Not guilty" — wrap italic parts in &lt;em&gt;…&lt;/em&gt;.' },
                     { label: 'Outcome meta', key: 'outcomeMeta', type: 'text' },
                     { label: 'Case story', key: 'story', type: 'textarea', rows: 5, required: true },
                     { label: 'Client quote', key: 'quote', type: 'textarea', rows: 3, help: 'The pull-quote in italics on the card.' },
@@ -5275,37 +5179,37 @@
                   items: [
                     { t: 'Sexual Assault · s.61I', court: 'District Court · Sydney',
                       facedLabel: 'Penalty Faced', facedNum: '14 years max',      facedMeta: '+ Sex Offender Register · Career end',
-                      outcomePlain: 'Acquitted', outcomeItalic: '·', outcomeSuffix: 'Not guilty', outcomeMeta: 'Jury verdict · No record',
+                      outcome: 'Acquitted <em>·</em> Not guilty', outcomeMeta: 'Jury verdict · No record',
                       story: 'M.K., a young professional with no prior history, was charged with sexual assault following an alleged incident at a private function. The Crown case rested on credibility. We cross-examined to expose timeline inconsistencies, deployed contemporaneous messages, and ran the affirmative-consent defence. Jury returned a unanimous not-guilty verdict after four hours.',
                       quote: "We honestly never thought we'd get through this. Powerhouse fought for us every single day until the jury came back.",
                       d: '— M.K., Acquitted Client' },
                     { t: 'Supply Prohibited Drug · Indictable', court: 'District Court · Parramatta',
                       facedLabel: 'Penalty Faced', facedNum: '15 years max',       facedMeta: 'Commercial supply · Standard NPP',
-                      outcomePlain: 'Charges', outcomeItalic: 'withdrawn', outcomeSuffix: '', outcomeMeta: 'Personal-use plea on lesser matter',
+                      outcome: 'Charges <em>withdrawn</em>', outcomeMeta: 'Personal-use plea on lesser matter',
                       story: 'A.R. faced commercial-supply charges following a residential search. We brought a successful application under s.138 Evidence Act excluding the principal evidence on illegal-search grounds. The Crown reviewed the brief and withdrew the supply charge entirely — the residual matter resolved on a non-custodial outcome.',
                       quote: "I was facing fifteen years. Chadi found the evidence problem the Crown didn't see. The charges were gone.",
                       d: '— A.R., Charges Withdrawn' },
                     { t: 'Mid Range PCA · Drink Driving', court: 'Local Court · Penrith',
                       facedLabel: 'Penalty Faced', facedNum: '6-month suspension', facedMeta: '+ $2,200 fine · Conviction recorded',
-                      outcomePlain: 'Section 10', outcomeItalic: 'dismissal', outcomeSuffix: '', outcomeMeta: 'No conviction · Career preserved',
+                      outcome: 'Section 10 <em>dismissal</em>', outcomeMeta: 'No conviction · Career preserved',
                       story: 'J.T., a registered nurse, faced loss of her professional registration on a recorded conviction. We obtained character evidence from the hospital, an in-depth treatment plan, and submissions establishing the offence as entirely out of character. The Magistrate granted a Section 10 dismissal — no conviction recorded.',
                       quote: 'I would have lost my career. The Section 10 saved my registration, my licence, and my work.',
                       d: '— J.T., Registered Nurse' },
                     { t: 'Bail Application · Indictable', court: 'Supreme Court of NSW',
                       facedLabel: 'Position Faced', facedNum: 'Refused twice',    facedMeta: 'Local Court + District Court',
-                      outcomePlain: 'Bail', outcomeItalic: 'granted', outcomeSuffix: '', outcomeMeta: 'Released same day · Conditions met',
+                      outcome: 'Bail <em>granted</em>', outcomeMeta: 'Released same day · Conditions met',
                       story: 'After two refusals on serious indictable charges, we ran a Supreme Court bail application built around changed circumstances — new approved accommodation, a written employment offer, an acceptable surety. The Justice granted bail with conditions and our client was released the same day.',
                       quote: "Two courts said no. Powerhouse got me out the same day at the Supreme Court. I'll never forget what that meant for my family.",
                       d: '— S.B., Bail Granted' },
                     { t: 'Assault Occasioning ABH · s.59', court: 'Local Court · Bankstown',
                       facedLabel: 'Penalty Faced', facedNum: '5 years max',       facedMeta: '+ Conviction · ICO likely',
-                      outcomePlain: 'Section 10', outcomeItalic: 'dismissal', outcomeSuffix: '', outcomeMeta: 'No conviction · No record',
+                      outcome: 'Section 10 <em>dismissal</em>', outcomeMeta: 'No conviction · No record',
                       story: 'D.S., a young professional with no prior history, was charged after a late-night altercation outside a Sydney venue. We obtained a psychological report, comprehensive character references, and a structured treatment plan. The Magistrate accepted the matter was aberrant conduct and granted a Section 10 dismissal.',
                       quote: 'It was one night. They saved me from carrying it for the rest of my career.',
                       d: '— D.S., No Conviction Recorded' },
                     { t: 'Speed over 30km/h', court: 'Local Court · Licence Appeal',
                       facedLabel: 'Penalty Faced', facedNum: '3-month suspension', facedMeta: 'Automatic · Loss of livelihood',
-                      outcomePlain: 'Suspension', outcomeItalic: 'overturned', outcomeSuffix: '', outcomeMeta: 'Licence retained · Demerits preserved',
+                      outcome: 'Suspension <em>overturned</em>', outcomeMeta: 'Licence retained · Demerits preserved',
                       story: 'P.B., a Sydney courier and sole income earner for his family, faced losing his livelihood on an automatic suspension. We ran a Licence Appeal establishing exceptional hardship — no public-transport route, dependent parent, no alternative employment in his catchment. The Magistrate overturned the suspension entirely.',
                       quote: 'If I lost my licence I lost my job. They got me back on the road the same week.',
                       d: '— P.B., Courier' }
@@ -5319,8 +5223,7 @@
             cards: [
               { title: 'Section heading', icon: 'text', fields: [
                 { type: 'text', label: 'Eyebrow', value: 'Trusted by Clients' },
-                { type: 'text', label: 'Section title', required: true, value: "The trust we've" },
-                { type: 'text', label: 'Section italic title', badge: 'Serif italic', value: 'earned.' },
+                { type: 'text', label: 'Section title', required: true, value: 'The trust we\'ve <em>earned.</em>' },
                 { type: 'textarea', label: 'Paragraph', rows: 3, value: 'Five-star Google reviews from clients we have defended on criminal and traffic matters across New South Wales. The numbers speak — the words speak louder.' }
               ]},
               { title: 'Rating bar', icon: 'badge', fields: [
@@ -5374,8 +5277,7 @@
             cards: [
               { title: 'Section heading', icon: 'text', fields: [
                 { type: 'text', label: 'Eyebrow', value: 'How We Win' },
-                { type: 'text', label: 'Section title', required: true, value: 'A method, not a' },
-                { type: 'text', label: 'Section italic title', badge: 'Serif italic', value: 'routine.' },
+                { type: 'text', label: 'Section title', required: true, value: 'A method, not a <em>routine.</em>' },
                 { type: 'textarea', label: 'Paragraph', rows: 3, value: 'Each of the six outcomes above came from a different argument — a different combination of facts, character evidence and submissions. The method we apply to every matter is the same.' }
               ]},
               { title: 'Process steps', icon: 'list', hint: '4 steps',
@@ -5413,8 +5315,7 @@
             cards: [
               { title: 'Text content', icon: 'text', hint: '4 fields', fields: [
                 { type: 'text', label: 'Eyebrow', value: 'Principal Solicitor · Director' },
-                { type: 'text', label: 'Main heading', required: true, value: 'Meet' },
-                { type: 'text', label: 'Italic heading accent', badge: 'Serif italic', value: 'Chadi Irani.', help: 'Displays as the red serif italic word inside the H1.' },
+                { type: 'text', label: 'Main heading', required: true, value: 'Meet <em>Chadi Irani.</em>' },
                 { type: 'textarea', label: 'Description', required: true, rows: 3, value: 'Seventeen years across both sides of the bar — leading defence practice, Legal Aid frontline, and senior prosecutor at the DPP. The result is a rare strategic edge: a lawyer who reads the Crown brief the way it was written.' }
               ]},
               { title: 'Portrait image', icon: 'image', hint: 'Shown on the right of the hero', fields: [
@@ -5451,8 +5352,7 @@
             note: 'Long-form biography — "Both sides of the law. One mission — yours."',
             cards: [{ title: 'Text content', icon: 'text', fields: [
               { type: 'text', label: 'Eyebrow', value: 'The Story' },
-              { type: 'text', label: 'Section title', required: true, value: 'Both sides of the law.' },
-              { type: 'text', label: 'Section italic title', badge: 'Serif italic', value: 'One mission — yours.', help: 'The red serif italic phrase after the section title.' },
+              { type: 'text', label: 'Section title', required: true, value: 'Both sides of the law. <em>One mission — yours.</em>' },
               { type: 'textarea', label: 'Paragraph Left', rows: 3, value: 'From defending the disadvantaged at Legal Aid to running serious indictable prosecutions at the DPP, Chadi has stood at every position the criminal justice system offers. That perspective is now your defence.' },
               { type: 'textarea', label: 'Paragraph Right', rows: 3, value: "Chadi began his career at one of Sydney's most respected specialist criminal defence firms, cutting his teeth on the matters most lawyers spend a career trying to land — serious assaults, drugs, fraud, sexual offences." }
             ]}]
@@ -5462,8 +5362,7 @@
             cards: [
               { title: 'Section heading', icon: 'text', fields: [
                 { type: 'text', label: 'Eyebrow', value: 'How He Thinks' },
-                { type: 'text', label: 'Section title', required: true, value: 'Six instincts behind every' },
-                { type: 'text', label: 'Section italic title', badge: 'Serif italic', value: 'defence.', help: 'The red serif italic word at the end of the section heading.' },
+                { type: 'text', label: 'Section title', required: true, value: 'Six instincts behind every <em>defence.</em>' },
                 { type: 'textarea', label: 'Paragraph', rows: 3, value: 'The traits clients and colleagues consistently name when asked what makes Chadi different in a courtroom and at the conference table.' }
               ]},
               { title: 'Approach tiles', icon: 'grid', hint: '6 items',
@@ -5490,8 +5389,7 @@
             cards: [
               { title: 'Section heading', icon: 'text', fields: [
                 { type: 'text', label: 'Eyebrow', value: 'Areas of Practice' },
-                { type: 'text', label: 'Section title', required: true, value: 'What Chadi' },
-                { type: 'text', label: 'Section italic title', badge: 'Serif italic', value: 'defends.' },
+                { type: 'text', label: 'Section title', required: true, value: 'What Chadi <em>defends.</em>' },
                 { type: 'textarea', label: 'Paragraph', rows: 3, value: 'The matters that occupy his practice — from urgent bail through to jury trial and appeal.' }
               ]},
               { title: 'Practice pills', icon: 'grid', hint: 'Links to practice-area pages',
@@ -5519,8 +5417,7 @@
             cards: [
               { title: 'Section heading', icon: 'text', fields: [
                 { type: 'text', label: 'Eyebrow', value: 'Credentials' },
-                { type: 'text', label: 'Section title', required: true, value: 'The record,' },
-                { type: 'text', label: 'Section italic title', badge: 'Serif italic', value: 'plainly stated.' },
+                { type: 'text', label: 'Section title', required: true, value: 'The record, <em>plainly stated.</em>' },
                 { type: 'textarea', label: 'Paragraph', rows: 3, value: 'Qualifications, admissions, and the professional bodies and panels Chadi serves on.' }
               ]},
               { title: 'Credentials', icon: 'list', hint: '6 items',
@@ -5547,8 +5444,7 @@
             cards: [
               { title: 'Section heading', icon: 'text', fields: [
                 { type: 'text', label: 'Eyebrow', value: 'Client Testimonials' },
-                { type: 'text', label: 'Section title', required: true, value: 'Trusted by clients.' },
-                { type: 'text', label: 'Section italic title', badge: 'Serif italic', value: 'Proven by results.' },
+                { type: 'text', label: 'Section title', required: true, value: 'Trusted by clients. <em>Proven by results.</em>' },
                 { type: 'textarea', label: 'Paragraph', rows: 3, value: 'Real outcomes. Real reviews. Live-mirrored from Google.' }
               ]},
               { title: 'Testimonial quotes', icon: 'quote', hint: 'Same source as home page',
@@ -5583,8 +5479,7 @@
             cards: [
               { title: 'Text content', icon: 'text', fields: [
                 { type: 'text', label: 'Eyebrow', value: 'About Us · Counsel Network' },
-                { type: 'text', label: 'Main heading', required: true, value: 'The barristers we' },
-                { type: 'text', label: 'Italic heading accent', badge: 'Serif italic', value: 'instruct.' },
+                { type: 'text', label: 'Main heading', required: true, value: 'The barristers we <em>instruct.</em>' },
                 { type: 'text', label: 'Subtitle', value: 'Senior & Junior Counsel briefed by Powerhouse Law across NSW.' },
                 { type: 'textarea', label: 'Lead paragraph', required: true, rows: 5, value: 'A strong group of specialist Criminal Defence Barristers who know how to fight for your rights and win your case. We brief counsel on serious indictable matters and contested hearings — choosing the right silk or junior for the brief, the court, and the strategy.' }
               ]},
@@ -5600,8 +5495,7 @@
             cards: [
               { title: 'Section heading', icon: 'text', fields: [
                 { type: 'text', label: 'Eyebrow', value: 'Solicitor & Counsel' },
-                { type: 'text', label: 'Section title', required: true, value: 'The right barrister for the' },
-                { type: 'text', label: 'Section italic title', badge: 'Serif italic', value: 'right brief.' },
+                { type: 'text', label: 'Section title', required: true, value: 'The right barrister for the <em>right brief.</em>' },
                 { type: 'textarea', label: 'Paragraph (left column)', rows: 4, value: 'The solicitor-counsel partnership is at the heart of how serious criminal defence is run in New South Wales. We do not simply hand a brief to the nearest available barrister — every match is deliberate.' },
                 { type: 'textarea', label: 'Paragraph (right column)', rows: 8, value: "For contested hearings, defended jury trials and complex sentencing, the choice of counsel is one of the most consequential decisions in the matter. We consider the court, the evidence, the temperament of the bench, and the kind of advocacy the brief demands before briefing a barrister.\n\nWe instruct Senior Counsel on matters that warrant silk — the most serious indictable charges, appellate work in the Court of Criminal Appeal, and matters where the facts or law are unsettled. For Local and District Court matters that need a courtroom advocate alongside the solicitor, we brief Junior Counsel with directly relevant trial experience.\n\nOur barristers practice from leading NSW chambers including Sir Owen Dixon Chambers, Trust Chambers, Black Chambers, Wardell Chambers, Samuel Griffith Chambers and Lachlan Macquarie Chambers — Sydney's frontline criminal bar." }
               ]}
@@ -5653,8 +5547,7 @@
             cards: [
               { title: 'Section heading', icon: 'text', fields: [
                 { type: 'text', label: 'Eyebrow', value: 'Chambers' },
-                { type: 'text', label: 'Section title', required: true, value: 'The chambers we' },
-                { type: 'text', label: 'Section italic title', badge: 'Serif italic', value: 'regularly brief.' },
+                { type: 'text', label: 'Section title', required: true, value: 'The chambers we <em>regularly brief.</em>' },
                 { type: 'textarea', label: 'Paragraph', rows: 2, value: 'A working list of the NSW criminal-law chambers from which we instruct counsel.' }
               ]},
               { title: 'Chambers list', icon: 'list', hint: '6 chambers',
@@ -5690,8 +5583,7 @@
             cards: [
               { title: 'Text content', icon: 'text', fields: [
                 { type: 'text', label: 'Eyebrow', value: 'About Us · Statewide Practice' },
-                { type: 'text', label: 'Main heading', required: true, value: 'Courts we' },
-                { type: 'text', label: 'Italic heading accent', badge: 'Serif italic', value: 'attend.' },
+                { type: 'text', label: 'Main heading', required: true, value: 'Courts we <em>attend.</em>' },
                 { type: 'text', label: 'Subtitle', value: "Every Local, Children's, District and Supreme Court across NSW." },
                 { type: 'textarea', label: 'Lead paragraph', required: true, rows: 4, value: "Our experienced team of Criminal and Traffic Lawyers will defend you in all Local, Children's, District and Supreme Courts in NSW — from the Downing Centre to Parramatta and out across regional New South Wales." },
               ]},
@@ -5707,8 +5599,7 @@
             cards: [
               { title: 'Section heading', icon: 'text', fields: [
                 { type: 'text', label: 'Eyebrow', value: 'The NSW Court Hierarchy' },
-                { type: 'text', label: 'Section title', required: true, value: 'Which court hears' },
-                { type: 'text', label: 'Section italic title', badge: 'Serif italic', value: 'which matter.' },
+                { type: 'text', label: 'Section title', required: true, value: 'Which court hears <em>which matter.</em>' },
                 { type: 'textarea', label: 'Paragraph (left column)', rows: 4, value: "New South Wales runs a three-tier criminal court system, with the Children's Court sitting alongside the Local Court for matters involving young people. Where your matter is heard shapes how it should be defended." },
                 { type: 'textarea', label: 'Paragraph (right column)', rows: 4, value: "The Local Court is the entry point for almost every criminal and traffic matter in NSW. It hears summary offences in full and conducts committal proceedings for indictable matters before they go up.The District Court is the intermediate court — it hears strictly indictable charges (with two exceptions, murder and treason), runs jury trials, and sits on appeal from the Local Court for severity and conviction appeals.The Supreme Court of NSW hears the most serious matters — murder, treason, and any case where the law itself is unsettled. Sitting alongside it, the Court of Criminal Appeal is the appellate court for all serious criminal matters from the District and Supreme Courts.The Children's Court is a specialist jurisdiction for accused persons under 18 at the time of the alleged offence — running with its own rules, its own atmosphere, and its own approach to outcomes." }
               ]}
@@ -5720,8 +5611,7 @@
             cards: [
               { title: 'Section heading', icon: 'text', fields: [
                 { type: 'text', label: 'Eyebrow', value: 'The Courts' },
-                { type: 'text', label: 'Section title', required: true, value: 'Where we' },
-                { type: 'text', label: 'Section italic title', badge: 'Serif italic', value: 'appear.' },
+                { type: 'text', label: 'Section title', required: true, value: 'Where we <em>appear.</em>' },
                 { type: 'textarea', label: 'Paragraph', rows: 3, value: 'Four court tiers. One defence team. We appear daily across every court in the NSW criminal justice system, from urgent first mentions to multi-week jury trials.' }
               ]},
               { title: 'Court tier cards', icon: 'grid', hint: '4 tiers',
@@ -5730,14 +5620,13 @@
                   itemLabel: 'Court tier',
                   itemSchema: [
                     { label: 'Tier label', key: 'tier', type: 'text', required: true, help: 'e.g. "Tier 1 · Summary" or "Specialist Jurisdiction"' },
-                    { label: 'Court name (plain)',  key: 't',      type: 'text', required: true, help: 'e.g. "The"' },
-                    { label: 'Court name (italic)', key: 'italic', type: 'text', badge: 'Serif italic', required: true, help: 'e.g. "Local Court."' },
+                    { label: 'Court name',  key: 't',      type: 'text', required: true, help: 'Wrap italic parts in &lt;em&gt;…&lt;/em&gt;' },
                     { label: 'Jurisdiction description', key: 'd', type: 'textarea', rows: 4, required: true },
                     { label: 'Image path', key: 'photo', type: 'text', placeholder: 'assets/img/Court/local-court.png' },
                     { label: 'Matters list', key: 'matters', type: 'textarea', rows: 5, help: 'One item per line — displayed as the bullet list on the card.' }
                   ],
                   items: [
-                    { tier: 'Tier 1 · Summary',           t: 'The',           italic: 'Local Court.',
+                    { tier: 'Tier 1 · Summary',           t: 'The <em>Local Court.</em>',
                       d: 'The entry point for almost every criminal and traffic matter in NSW. The Local Court hears all summary offences, conducts committals for indictable matters, and deals with the bulk of the day-to-day criminal calendar.',
                       photo: 'assets/img/Court/local-court.png',
                       matters: 'All criminal & traffic charges\nBail applications\nDefended hearings\nSentence hearings\nLicence appeals\nCommittals\nAVOs\nBreach of bond\nAgent appearances' },
@@ -5745,11 +5634,11 @@
                       d: "A specialist jurisdiction for accused persons under 18 at the time of the alleged offence, including traffic offences for young people not yet eligible for a driver's licence. The procedures, sentencing principles and atmosphere are fundamentally different from the adult courts.",
                       photo: 'assets/img/Court/children-court.png',
                       matters: 'Bail applications\nDefended hearings\nSentence hearings\nAVOs\nSerious indictable offences\nCommittals' },
-                    { tier: 'Tier 2 · Indictable',        t: 'The',           italic: 'District Court.',
+                    { tier: 'Tier 2 · Indictable',        t: 'The <em>District Court.</em>',
                       d: 'The intermediate court of NSW — handling strictly indictable charges other than murder and treason. Jury trials, complex sentencing, and the appellate jurisdiction for matters coming up from the Local Court.',
                       photo: 'assets/img/Court/district-court.png',
                       matters: 'Armed robbery\nWounding / GBH\nDangerous driving causing death\nDrug supply / manufacture\nSexual assault\nFirearms offences\nJury trials\nSeverity & conviction appeals\nSection 32 appeals' },
-                    { tier: 'Tier 3 · Most Serious',      t: 'Supreme Court', italic: '& CCA.',
+                    { tier: 'Tier 3 · Most Serious',      t: 'Supreme Court <em>& CCA.</em>',
                       d: 'The Supreme Court of NSW hears the most serious criminal matters — including murder and treason. Alongside it, the Court of Criminal Appeal is the appellate court for serious criminal matters arising from the District and Supreme Courts.',
                       photo: 'assets/img/Court/Supreme-court.png',
                       matters: 'Murder & manslaughter\nTreason\nSupreme Court bail\nAppellate jurisdiction\nCrown appeals\nCases stated\nConviction appeals' }
@@ -5763,8 +5652,7 @@
             cards: [
               { title: 'Section heading', icon: 'text', fields: [
                 { type: 'text', label: 'Eyebrow', value: 'Sydney & Greater NSW Registries' },
-                { type: 'text', label: 'Section title', required: true, value: 'Court locations we' },
-                { type: 'text', label: 'Section italic title', badge: 'Serif italic', value: 'regularly attend.' },
+                { type: 'text', label: 'Section title', required: true, value: 'Court locations we <em>regularly attend.</em>' },
                 { type: 'textarea', label: 'Paragraph', rows: 3, value: 'Same-day urgent advice and appearance bookings — including weekends and public holidays — across every court in Greater Sydney and out across regional NSW.' }
               ]},
               { title: 'Court location chips', icon: 'list', hint: '15 locations',
@@ -5811,8 +5699,7 @@
             cards: [
               { title: 'Text content', icon: 'text', fields: [
                 { type: 'text', label: 'Eyebrow', value: 'Transparent Pricing · No Surprises' },
-                { type: 'text', label: 'Main heading', required: true, value: 'Honest fees for' },
-                { type: 'text', label: 'Italic heading accent', badge: 'Serif italic', value: 'serious work.' },
+                { type: 'text', label: 'Main heading', required: true, value: 'Honest fees for <em>serious work.</em>' },
                 { type: 'textarea', label: 'Lead paragraph', required: true, rows: 5, value: 'Legal fees should never be a guessing game. We quote in writing, in plain English, on a fixed-fee basis wherever possible — and we tell you the cost before we ask you to commit. No hourly meter, no padded retainers, no surprises at the end of the matter.' }
               ]},
               { title: 'Hero buttons', icon: 'button', fields: [
@@ -5821,9 +5708,7 @@
               ]},
               { title: 'Fee Promise panel', icon: 'shield', hint: 'The aside panel on the right of the hero', fields: [
                 { type: 'text', label: 'Panel eyebrow', value: 'Our Fee Promise' },
-                { type: 'text', label: 'Panel title', value: 'Four things we' },
-                { type: 'text', label: 'Panel italic accent', badge: 'Serif italic', value: 'guarantee', help: 'The red italic word in the panel title.' },
-                { type: 'text', label: 'Panel title suffix', value: 'on every matter.', help: 'Trailing plain text after the italic word.' }
+                { type: 'text', label: 'Panel title', value: 'Four things we <em>guarantee</em> on every matter.' },
               ]},
               { title: 'Fee Promise checklist', icon: 'list', hint: '4 items',
                 fields: [{ type: 'repeater',
@@ -5851,8 +5736,7 @@
             cards: [
               { title: 'Section heading', icon: 'text', fields: [
                 { type: 'text', label: 'Eyebrow', value: 'How We Price' },
-                { type: 'text', label: 'Section title', required: true, value: 'Four principles that' },
-                { type: 'text', label: 'Section italic title', badge: 'Serif italic', value: 'shape every quote.' },
+                { type: 'text', label: 'Section title', required: true, value: 'Four principles that <em>shape every quote.</em>' },
                 { type: 'textarea', label: 'Paragraph', rows: 3, value: 'We have one job — to defend the matter properly. The fee structure should never get in the way of that. These four principles are how we keep cost honest and predictable.' }
               ]},
               { title: 'Principle cards', icon: 'grid', hint: '4 items',
@@ -5879,8 +5763,7 @@
             cards: [
               { title: 'Section heading', icon: 'text', fields: [
                 { type: 'text', label: 'Eyebrow', value: 'Three Billing Pathways' },
-                { type: 'text', label: 'Section title', required: true, value: 'Pick the structure that' },
-                { type: 'text', label: 'Section italic title', badge: 'Serif italic', value: 'fits your matter.' },
+                { type: 'text', label: 'Section title', required: true, value: 'Pick the structure that <em>fits your matter.</em>' },
                 { type: 'textarea', label: 'Paragraph', rows: 3, value: 'Different matters call for different fee structures. We will walk you through each during the first consultation and recommend the one that best aligns with your case and your circumstances.' }
               ]},
               { title: 'Billing pathway blocks', icon: 'list', hint: '3 blocks',
@@ -5905,8 +5788,7 @@
             cards: [
               { title: 'Section heading', icon: 'text', fields: [
                 { type: 'text', label: 'Eyebrow', value: 'Indicative Fee Bands' },
-                { type: 'text', label: 'Section title', required: true, value: 'What things' },
-                { type: 'text', label: 'Section italic title', badge: 'Serif italic', value: 'typically cost.' },
+                { type: 'text', label: 'Section title', required: true, value: 'What things <em>typically cost.</em>' },
                 { type: 'textarea', label: 'Paragraph', rows: 3, value: 'The bands below are indicative ranges, not quotes. Every matter is different — and every quote we give is in writing, after we have heard the facts of your case. They are a starting point for the conversation, not a price list.' }
               ]},
               { title: 'Fee tier cards', icon: 'grid', hint: '4 tiers',
@@ -5915,8 +5797,7 @@
                   itemLabel: 'Fee tier',
                   itemSchema: [
                     { label: 'Tier number & label', key: 'tier', type: 'text', required: true, help: 'e.g. "Tier 01 · Traffic Plea"' },
-                    { label: 'Tier name (plain)',   key: 't',    type: 'text', required: true, help: 'e.g. "Local Court"' },
-                    { label: 'Tier name (italic)',  key: 'italic', type: 'text', badge: 'Serif italic', help: 'e.g. "traffic."' },
+                    { label: 'Tier name',   key: 't',    type: 'text', required: true, help: 'Wrap italic parts in &lt;em&gt;…&lt;/em&gt;' },
                     { label: 'Scope description',   key: 'd',    type: 'textarea', rows: 2, required: true },
                     { label: 'Inclusion 1', key: 'inc1', type: 'text' },
                     { label: 'Inclusion 2', key: 'inc2', type: 'text' },
@@ -5926,16 +5807,16 @@
                     { label: 'Featured (highlighted card)', key: 'featured', type: 'text', placeholder: 'yes / no', help: 'Marks the visually featured tier.' }
                   ],
                   items: [
-                    { tier: 'Tier 01 · Traffic Plea',      t: 'Local Court',     italic: 'traffic.',   d: 'Drink driving, drug driving, licence appeals and minor traffic matters resolved on a plea.',
+                    { tier: 'Tier 01 · Traffic Plea',      t: 'Local Court <em>traffic.</em>',   d: 'Drink driving, drug driving, licence appeals and minor traffic matters resolved on a plea.',
                       inc1: 'One Local Court appearance', inc2: 'Subjective material coordination', inc3: 'Written submissions on sentence', inc4: 'Section 10 strategy',
                       structure: 'Fixed Fee', featured: 'no' },
-                    { tier: 'Tier 02 · Criminal Plea',     t: 'Local Court',     italic: 'criminal.',  d: 'Assault, AVO, drug possession, breach and most summary criminal matters resolved on a plea.',
+                    { tier: 'Tier 02 · Criminal Plea',     t: 'Local Court <em>criminal.</em>',  d: 'Assault, AVO, drug possession, breach and most summary criminal matters resolved on a plea.',
                       inc1: 'Brief of evidence review', inc2: 'Negotiation with prosecution', inc3: 'Charge / facts amendments', inc4: 'Sentencing appearance & submissions',
                       structure: 'Fixed Fee', featured: 'yes' },
-                    { tier: 'Tier 03 · Defended Hearing',  t: 'Contested',       italic: 'hearings.',  d: 'Local Court matters run to a defended hearing — where the brief is fought, not pleaded.',
+                    { tier: 'Tier 03 · Defended Hearing',  t: 'Contested <em>hearings.</em>',  d: 'Local Court matters run to a defended hearing — where the brief is fought, not pleaded.',
                       inc1: 'Full brief preparation', inc2: 'Witness subpoenas & conferences', inc3: 'Hearing day appearance', inc4: 'Verdict & sentence submissions',
                       structure: 'Staged Fee', featured: 'no' },
-                    { tier: 'Tier 04 · Indictable',        t: 'District &',      italic: 'Supreme.',   d: 'Serious indictable matters — bail applications, committal, trial and appeal work in higher courts.',
+                    { tier: 'Tier 04 · Indictable',        t: 'District & <em>Supreme.</em>',   d: 'Serious indictable matters — bail applications, committal, trial and appeal work in higher courts.',
                       inc1: 'Bail application & review', inc2: 'Committal proceedings', inc3: 'Briefed barrister, where appropriate', inc4: 'Trial & sentence preparation',
                       structure: 'Staged Fee', featured: 'no' }
                   ] }]
@@ -5948,8 +5829,7 @@
             cards: [
               { title: 'Section heading', icon: 'text', fields: [
                 { type: 'text', label: 'Eyebrow', value: 'Inclusions & Exclusions' },
-                { type: 'text', label: 'Section title', required: true, value: 'Exactly' },
-                { type: 'text', label: 'Section italic title', badge: 'Serif italic', value: "what's in the quote." },
+                { type: 'text', label: 'Section title', required: true, value: 'Exactly <em>what\'s in the quote.</em>' },
                 { type: 'textarea', label: 'Paragraph', rows: 3, value: 'Transparency does not stop at the total. Every quote breaks down what is included and what is not, so there is no debate about scope later. The two columns below are representative — your written quote will set out your matter specifically.' }
               ]},
               { title: 'Always Included — left card', icon: 'check', hint: '9 items', fields: [
@@ -5999,8 +5879,7 @@
             cards: [
               { title: 'Section heading', icon: 'text', fields: [
                 { type: 'text', label: 'Eyebrow', value: 'Payment Plans' },
-                { type: 'text', label: 'Section title', required: true, value: 'A clear, four-step' },
-                { type: 'text', label: 'Section italic title', badge: 'Serif italic', value: 'payment pathway.' },
+                { type: 'text', label: 'Section title', required: true, value: 'A clear, four-step <em>payment pathway.</em>' },
                 { type: 'textarea', label: 'Paragraph', rows: 3, value: 'Most clients pay in instalments. The plan is agreed up front, in writing, and structured around your circumstances — not a one-size-fits-all schedule.' }
               ]},
               { title: 'Process steps', icon: 'list', hint: '4 steps',
@@ -6028,8 +5907,7 @@
             cards: [
               { title: 'Section heading', icon: 'text', fields: [
                 { type: 'text', label: 'Eyebrow', value: 'Common Fee Questions' },
-                { type: 'text', label: 'Section title', required: true, value: 'Fees & Costs —' },
-                { type: 'text', label: 'Section italic title', badge: 'Serif italic', value: 'FAQ.' },
+                { type: 'text', label: 'Section title', required: true, value: 'Fees & Costs — <em>FAQ.</em>' },
                 { type: 'textarea', label: 'Paragraph', rows: 3, value: 'The questions we hear most often when a client is weighing up cost — answered directly.' }
               ]},
               { title: 'Questions', icon: 'help', hint: '7 items',
@@ -6069,8 +5947,7 @@
           cards: [
             { title: 'Category heading', icon: 'text', fields: [
               { type: 'text', label: 'Eyebrow', value: `${num} · ${title}` },
-              { type: 'text', label: 'Section title', required: true, value: headingPlain },
-              { type: 'text', label: 'Section italic title', badge: 'Serif italic', value: headingItalic },
+              { type: 'text', label: 'Section title', required: true, value: (headingPlain || '') + (headingItalic ? ` <em>${headingItalic}</em>` : '') },
               { type: 'textarea', label: 'Paragraph', rows: 3, value: sub }
             ]},
             { title: 'Questions', icon: 'help', hint: `${items.length} Q&A`,
@@ -6086,8 +5963,7 @@
             note: 'Top of the page — H1, italic accent, lead paragraph and CTAs. Live hero has NO eyebrow.',
             cards: [
               { title: 'Text content', icon: 'text', fields: [
-                { type: 'text', label: 'Main heading', required: true, value: 'Your questions,' },
-                { type: 'text', label: 'Italic heading accent', badge: 'Serif italic', value: 'answered.' },
+                { type: 'text', label: 'Main heading', required: true, value: 'Your questions, <em>answered.</em>' },
                 { type: 'textarea', label: 'Lead paragraph', required: true, rows: 5, value: "A criminal charge or traffic matter raises a hundred questions before it raises any answers. This page gathers the questions we hear most often in a first consultation — about the process, the costs, court, bail, outcomes, and what to expect from us. If your question isn't here, call us — the first conversation is free." }
               ]},
               { title: 'Hero buttons', icon: 'button', fields: [
@@ -6234,8 +6110,7 @@
             cards: [
               { title: 'Section heading', icon: 'text', fields: [
                 { type: 'text', label: 'Eyebrow', value: 'Still Got Questions?' },
-                { type: 'text', label: 'Section title', required: true, value: 'Every case is' },
-                { type: 'text', label: 'Section italic title', badge: 'Serif italic', value: 'different.' },
+                { type: 'text', label: 'Section title', required: true, value: 'Every case is <em>different.</em>' },
                 { type: 'textarea', label: 'Paragraph', rows: 4, value: 'This page covers the questions we hear most often, but no FAQ can answer the one question that really matters: what should you do about your matter? That answer needs the facts of your case — and a real conversation with a senior criminal lawyer.' }
               ]},
               { title: 'Body text', icon: 'text', fields: [
@@ -6271,8 +6146,7 @@
             cards: [
               { title: 'Text content', icon: 'text', fields: [
                 { type: 'text', label: 'Eyebrow', value: 'Criminal Law · Legal Aid NSW Panel' },
-                { type: 'text', label: 'Main heading', required: true, value: 'Worried about' },
-                { type: 'text', label: 'Italic heading accent', badge: 'Serif italic', value: 'legal fees?' },
+                { type: 'text', label: 'Main heading', required: true, value: 'Worried about <em>legal fees?</em>' },
                 { type: 'textarea', label: 'Lead paragraph', required: true, rows: 5, value: 'Powerhouse Law Australia is a proud Legal Aid NSW panel firm. If you are eligible for a Grant of Aid, our criminal lawyers can appear in court and defend you — at no cost to you. And if you do not qualify, we still want to help: we accept transparent fixed quotes and flexible payment plans.' }
               ]},
               { title: 'Hero buttons', icon: 'button', fields: [
@@ -6281,8 +6155,7 @@
               ]},
               { title: 'Aid Panel — heading', icon: 'shield', hint: 'The aside panel on the right of the hero', fields: [
                 { type: 'text', label: 'Panel eyebrow', value: 'Legal Aid Panel Firm' },
-                { type: 'text', label: 'Panel title', value: 'What we defend under' },
-                { type: 'text', label: 'Panel italic accent', badge: 'Serif italic', value: 'a Grant of Aid.', help: 'The red italic phrase at the end of the panel title.' }
+                { type: 'text', label: 'Panel title', value: 'What we defend under <em>a Grant of Aid.</em>' },
               ]},
               { title: 'Aid Panel — checklist', icon: 'list', hint: '5 items',
                 fields: [{ type: 'repeater',
@@ -6310,8 +6183,7 @@
             cards: [
               { title: 'Section heading', icon: 'text', fields: [
                 { type: 'text', label: 'Eyebrow', value: 'What is Legal Aid?' },
-                { type: 'text', label: 'Section title', required: true, value: 'Public legal funding for' },
-                { type: 'text', label: 'Section italic title', badge: 'Serif italic', value: 'private defence.' },
+                { type: 'text', label: 'Section title', required: true, value: 'Public legal funding for <em>private defence.</em>' },
                 { type: 'textarea', label: 'Paragraph (left column)', rows: 4, value: 'Legal Aid NSW is a government organisation that provides legal services to socially and economically disadvantaged people across NSW. They fund private criminal lawyers — like us — to act for clients who could not otherwise afford serious criminal defence.' },
                 { type: 'textarea', label: 'Paragraph (left column)', rows: 4, value: 'Principal Solicitor Chadi Irani is on both the Legal Aid NSW Serious Crime Panel and the General Crime Panel — appointments held by a small minority of NSW defence lawyers. When Legal Aid approves a grant of aid, our firm can appear in court and run your defence at no out-of-pocket cost to you.We accept Legal Aid briefs from 10 Sydney-area Legal Aid offices and defend clients in matters including sexual assault, robbery, drug offences and other serious indictable charges across every NSW court.The decision on whether you qualify is made by Legal Aid NSW, not by us — but we will help you complete the application, gather the supporting documents, and lodge it. If aid is granted, your matter proceeds with our firm as your nominated solicitor.' }
               ]}
@@ -6323,8 +6195,7 @@
             cards: [
               { title: 'Section heading', icon: 'text', fields: [
                 { type: 'text', label: 'Eyebrow', value: 'How to Apply' },
-                { type: 'text', label: 'Section title', required: true, value: 'The path to a' },
-                { type: 'text', label: 'Section italic title', badge: 'Serif italic', value: 'Grant of Aid.' },
+                { type: 'text', label: 'Section title', required: true, value: 'The path to a <em>Grant of Aid.</em>' },
                 { type: 'textarea', label: 'Paragraph', rows: 3, value: 'A clear, four-step process. We do the heavy lifting on the paperwork so you can focus on your matter and your court date.' }
               ]},
               { title: 'Process steps', icon: 'list', hint: '4 steps',
@@ -6352,8 +6223,7 @@
             cards: [
               { title: 'Section heading', icon: 'text', fields: [
                 { type: 'text', label: 'Eyebrow', value: 'Not Eligible?' },
-                { type: 'text', label: 'Section title', required: true, value: "Don't worry — we still" },
-                { type: 'text', label: 'Section italic title', badge: 'Serif italic', value: 'want to help.' },
+                { type: 'text', label: 'Section title', required: true, value: 'Don\'t worry — we still <em>want to help.</em>' },
                 { type: 'textarea', label: 'Paragraph (left column)', rows: 4, value: 'If Legal Aid NSW determines you do not qualify for a grant, you have not run out of options. Powerhouse Law offers transparent fixed quotes and structured payment plans for every matter we take on.' }
               ]},
               { title: 'Intro paragraph (right column)', icon: 'text', fields: [
@@ -6395,8 +6265,7 @@
             cards: [
               { title: 'Text content', icon: 'text', hint: 'Left column', fields: [
                 { type: 'text', label: 'Eyebrow', value: 'Contact · 24/7 Legal Support' },
-                { type: 'text', label: 'Main heading', required: true, value: 'Get in' },
-                { type: 'text', label: 'Italic heading accent', badge: 'Serif italic', value: 'touch.' },
+                { type: 'text', label: 'Main heading', required: true, value: 'Get in <em>touch.</em>' },
                 { type: 'textarea', label: 'Lead paragraph', required: true, rows: 3, value: 'Send an enquiry or call us 24/7 — an Accredited Specialist Criminal Lawyer will respond the same business day. Free first consultation, no obligation.' }
               ]},
               { title: 'Hero contact list', icon: 'list', hint: '4 items · left column',
@@ -6422,26 +6291,6 @@
                 { type: 'text', label: 'Form title', value: 'Book a free consult.' },
                 { type: 'text', label: 'Form subtitle', value: 'Same business day response · Plain-English advice' }
               ]},
-              { title: 'Enquiry form fields', icon: 'form', hint: '5 fields',
-                fields: [{ type: 'repeater',
-                  addLabel: 'Add field',
-                  itemLabel: 'Form field',
-                  itemSchema: [
-                    { label: 'Label',        key: 't',    type: 'text', required: true, help: 'e.g. "Full name"' },
-                    { label: 'Field name',   key: 'name', type: 'text', required: true, help: 'HTML name attribute — e.g. "name", "phone", "email"' },
-                    { label: 'Field type',   key: 'type', type: 'text', required: true, help: 'text / tel / email / select / textarea' },
-                    { label: 'Placeholder',  key: 'placeholder', type: 'text' },
-                    { label: 'Required',     key: 'required',    type: 'text', placeholder: 'yes / no' },
-                    { label: 'Display sub',  key: 'd',    type: 'text', help: 'How the row appears in the CMS list.' }
-                  ],
-                  items: [
-                    { t: 'Full name',                    name: 'name',    type: 'text',     placeholder: 'Your name',              required: 'yes', d: 'text · required' },
-                    { t: 'Phone',                        name: 'phone',   type: 'tel',      placeholder: '04xx xxx xxx',           required: 'yes', d: 'tel · required' },
-                    { t: 'Email',                        name: 'email',   type: 'email',    placeholder: 'you@example.com',        required: 'yes', d: 'email · required' },
-                    { t: 'Matter type',                  name: 'matter',  type: 'select',   placeholder: 'Select…',                required: 'no',  d: 'select · 10 options' },
-                    { t: 'Briefly describe your matter', name: 'message', type: 'textarea', placeholder: 'The charge, the court, and any deadlines. Anything you tell us is confidential.', required: 'yes', d: 'textarea · required' }
-                  ] }]
-              },
               { title: 'Matter type options', icon: 'list', hint: '10 options',
                 fields: [{ type: 'repeater',
                   addLabel: 'Add option',
@@ -6461,40 +6310,35 @@
                     { t: 'Appeal' },
                     { t: 'Not sure / Other' }
                   ] }]
-              },
-              { title: 'Form submit', icon: 'button', fields: [
-                { type: 'cta', label: 'Submit button', badge: 'Red', labelValue: 'Send Enquiry', linkValue: '#', linkIcon: 'text' },
-                { type: 'textarea', label: 'Form disclaimer', rows: 2, value: 'Confidential · For urgent matters call 1800-100-529.' }
-              ]}
+              }
             ]
           },
 
           { id: 'quick-contact', title: 'Quick Contact Tiles', icon: 'grid',
-            note: 'The "Four ways to get in touch." section — 4 icon-tile grid.',
+            note: 'The "Four ways to get in touch."',
             cards: [
               { title: 'Section heading', icon: 'text', fields: [
                 { type: 'text', label: 'Eyebrow', value: 'Quickest Ways to Reach Us' },
-                { type: 'text', label: 'Section title', required: true, value: 'Four ways to' },
-                { type: 'text', label: 'Section italic title', badge: 'Serif italic', value: 'get in touch.' },
+                { type: 'text', label: 'Section title', required: true, value: 'Four ways to <em>get in touch.</em>' },
                 { type: 'textarea', label: 'Paragraph', rows: 3, value: 'Whichever channel suits you, we typically respond the same business day — and instantly on the 24/7 line for urgent matters.' }
               ]},
-              { title: 'Contact tiles', icon: 'grid', hint: '4 tiles',
-                fields: [{ type: 'repeater',
-                  addLabel: 'Add tile',
-                  itemLabel: 'Contact tile',
-                  itemSchema: [
-                    { label: 'Tile label', key: 't', type: 'text', required: true, help: 'e.g. "24/7 Emergency Line"' },
-                    { label: 'Tile value', key: 'd', type: 'text', required: true, help: 'e.g. "1800-100-529"' },
-                    { label: 'Icon name',  key: 'icon', type: 'text', placeholder: 'phone / message / clock / pin' },
-                    { label: 'Link URL',   key: 'href', type: 'text', placeholder: 'tel:1800100529 · #contact-form · leave blank' }
-                  ],
-                  items: [
-                    { t: '24/7 Emergency Line', d: '1800-100-529',                     icon: 'phone', href: 'tel:1800100529' },
-                    { t: 'Message Us',           d: 'Use Our Online Contact Form',     icon: 'form',  href: '#contact-form' },
-                    { t: 'Office Hours',         d: 'Mon–Fri 8:30am – 6:30pm',         icon: 'clock', href: '' },
-                    { t: 'Parramatta Office',    d: 'Suite 8, Level 4 · 20 Macquarie St', icon: 'pin', href: '' }
-                  ] }]
-              }
+              // { title: 'Contact tiles', icon: 'grid', hint: '4 tiles',
+              //   fields: [{ type: 'repeater',
+              //     addLabel: 'Add tile',
+              //     itemLabel: 'Contact tile',
+              //     itemSchema: [
+              //       { label: 'Tile label', key: 't', type: 'text', required: true, help: 'e.g. "24/7 Emergency Line"' },
+              //       { label: 'Tile value', key: 'd', type: 'text', required: true, help: 'e.g. "1800-100-529"' },
+              //       { label: 'Icon name',  key: 'icon', type: 'text', placeholder: 'phone / message / clock / pin' },
+              //       { label: 'Link URL',   key: 'href', type: 'text', placeholder: 'tel:1800100529 · #contact-form · leave blank' }
+              //     ],
+              //     items: [
+              //       { t: '24/7 Emergency Line', d: '1800-100-529',                     icon: 'phone', href: 'tel:1800100529' },
+              //       { t: 'Message Us',           d: 'Use Our Online Contact Form',     icon: 'form',  href: '#contact-form' },
+              //       { t: 'Office Hours',         d: 'Mon–Fri 8:30am – 6:30pm',         icon: 'clock', href: '' },
+              //       { t: 'Parramatta Office',    d: 'Suite 8, Level 4 · 20 Macquarie St', icon: 'pin', href: '' }
+              //     ] }]
+              // }
             ]
           },
 
@@ -6503,8 +6347,7 @@
             cards: [
               { title: 'Section heading', icon: 'text', fields: [
                 { type: 'text', label: 'Eyebrow', value: 'Visit Us' },
-                { type: 'text', label: 'Section title', required: true, value: 'Our Parramatta' },
-                { type: 'text', label: 'Section italic title', badge: 'Serif italic', value: 'office.' },
+                { type: 'text', label: 'Section title', required: true, value: 'Our Parramatta <em>office.</em>' },
                 { type: 'textarea', label: 'Paragraph', rows: 3, value: 'A short walk from Parramatta Local Court, Parramatta train station and the major bus interchange. Off-street parking nearby.' }
               ]},
               { title: 'Location map', icon: 'map', hint: 'Google Maps embed', fields: [
@@ -6512,9 +6355,7 @@
               ]},
               { title: 'Address card — heading', icon: 'text', fields: [
                 { type: 'text', label: 'Card eyebrow', value: 'Powerhouse Law Australia' },
-                { type: 'text', label: 'Card title (plain)', value: 'Suite 8, Level 4' },
-                { type: 'text', label: 'Card title (italic separator)', badge: 'Serif italic', value: '·' },
-                { type: 'text', label: 'Card title (suffix)', value: '20 Macquarie Street.' }
+                { type: 'text', label: 'Card title', required: true, value: 'Suite 8, Level 4 <em>·</em> 20 Macquarie Street.' }
               ]},
               { title: 'Address card — list', icon: 'list', hint: '3 items',
                 fields: [{ type: 'repeater',
@@ -6576,7 +6417,6 @@
             cards: [{ title: 'Brand assets', icon: 'image', fields: [
               { type: 'media', label: 'Primary logo',        name: 'logo.png',              meta: '512 × 200 · used in nav & footer', placeholder: true },
               { type: 'media', label: 'Logo (dark theme)',   name: 'logo-fill-dark.svg',    meta: 'SVG · used as watermarks', placeholder: true },
-              { type: 'media', label: 'Emblem / character',  name: 'logo-character.svg',    meta: 'SVG · loader & footer', placeholder: true },
               { type: 'media', label: 'Favicon',             name: 'logo-fill.svg',         meta: 'SVG favicon', placeholder: true }
             ]}]
           },
@@ -6609,12 +6449,21 @@
             note: 'The copy shown in the site footer.',
             cards: [{ title: 'Footer text', icon: 'text', fields: [
               { type: 'textarea', label: 'Brand description', rows: 2, value: 'Strategic criminal defence and traffic lawyers. Real results. Protecting your freedom.' },
-              { type: 'text', label: 'Copyright text', value: '© 2026 Powerhouse Law Australia Pty Ltd. All Rights Reserved.' },
-              { type: 'text', label: 'Legal / credit line', value: 'Designed and Developed by ICTechnology' }
+              { type: 'text', label: 'Copyright text', value: '© 2026 Powerhouse Law Australia Pty Ltd. All Rights Reserved.' }
             ]}]
           },
-          { id: 'globalcta', title: 'Global CTA', icon: 'phone',
-            note: 'The "Call Now" floating button on every page.',
+          { id: 'ctastrip', title: 'Bottom CTA Strip', icon: 'phone',
+            note: 'The bottom-of-page call-to-action strip shown at the end of every page. Edit once here — updates site-wide.',
+            cards: [{ title: 'Content', icon: 'text', fields: [
+              { type: 'row', fields: [
+                { type: 'text', label: 'Title', required: true, value: 'Free 1st consultation — discreet & confidential.' },
+                { type: 'text', label: 'Subtitle', value: "We're available 24/7 to discuss your matter." }
+              ]},
+              { type: 'cta', label: 'Call button', labelValue: 'Call 1800-100-529', linkValue: 'tel:1800100529', linkIcon: 'phone' }
+            ]}]
+          },
+          { id: 'globalcta', title: 'Floating Call Button', icon: 'phone',
+            note: 'The floating "Call Now" pill anchored to the bottom-right on every page.',
             cards: [{ title: 'Floating call button', icon: 'button', fields: [
               { type: 'cta', label: 'Call Now button', labelValue: 'Call Now', linkValue: 'tel:1800100529', linkIcon: 'phone' },
               { type: 'text', label: 'Sub-label', value: '1800-100-529' }
@@ -6627,17 +6476,6 @@
               { type: 'textarea', label: 'Default meta description', rows: 3, value: 'Accredited Specialist Criminal Lawyer in Parramatta, NSW. Free first consultation for criminal and traffic matters. Available 24/7.' },
               { type: 'media', label: 'Default OG image', name: 'og-default.jpg', meta: '1200 × 630 · used site-wide', placeholder: true }
             ]}]
-          },
-          { id: 'nav', title: 'Navigation Menu', icon: 'list',
-            note: 'The top-level navigation shown on every page.',
-            cards: [{ title: 'Menu structure', icon: 'list', hint: '4 top-level items',
-              fields: [{ type: 'repeater', items: [
-                { t: 'Practice Areas', d: 'Dropdown · Criminal Law · Traffic Law' },
-                { t: 'Results',        d: 'Direct link · recent-cases.html' },
-                { t: 'About Us',       d: 'Dropdown · 6 pages' },
-                { t: 'Contact',        d: 'Direct link · contact-us.html' }
-              ], addLabel: 'Add menu item' }]
-            }]
           }
         ]
       }
@@ -6711,6 +6549,19 @@
       switch (f.type) {
         case 'text':
           return `${label}<input class="field-input" type="text" placeholder="${escapeAttr(f.placeholder || '')}" value="${escapeAttr(f.value || '')}"${req} />${errMsg}${help}${counter}`;
+        case 'static-list': {
+          // Read-only preview of a fixed list of items — no add/edit/delete controls.
+          const items = f.items || [];
+          const lockIcon = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>';
+          const rows = items.map(it => `<div class="static-list-item">
+              <div class="static-list-item-body">
+                <div class="static-list-item-t">${escapeHtml(it.t || '')}</div>
+                <div class="static-list-item-d">${escapeHtml(it.d || '')}</div>
+              </div>
+              <span class="static-list-item-lock" title="Locked — not editable">${lockIcon}</span>
+            </div>`).join('');
+          return `${label}<div class="static-list" aria-readonly="true">${rows}</div>${help}`;
+        }
         case 'textarea': {
           const rows = f.rows || 3;
           const usesRich = f.rich !== false && (f.rich === true || rows >= 3);
@@ -7088,7 +6939,7 @@
         jumpbar.innerHTML = `
           <span class="cms-jumpbar-label">Sections</span>
           <ul class="cms-jumpbar-list">
-            ${p.sections.map((s, i) => `<li><a data-jump="s-${s.id}" class="${i===0?'is-active':''}"><span class="cms-jumpbar-num">${String(i+1).padStart(2,'0')}</span> ${s.title.replace(' Section','').replace(' Row','').replace(' List','')}</a></li>`).join('')}
+            ${p.sections.filter(Boolean).map((s, i) => `<li><a data-jump="s-${s.id}" class="${i===0?'is-active':''}"><span class="cms-jumpbar-num">${String(i+1).padStart(2,'0')}</span> ${s.title.replace(' Section','').replace(' Row','').replace(' List','')}</a></li>`).join('')}
           </ul>`;
         jumpbar.querySelectorAll('[data-jump]').forEach(a => {
           a.addEventListener('click', (e) => {
@@ -7150,7 +7001,7 @@
             <h1>${p.name}</h1>
           </div>
         </div>
-        ${p.sections.map(renderSection).join('')}
+        ${p.sections.filter(Boolean).map(renderSection).join('')}
         <div class="page-save-footer">
           <button class="cms-btn" onclick="onDiscardChanges()">Cancel</button>
           <button class="cms-btn cms-btn--primary" id="pageSaveBtn" onclick="onSavePage()">
@@ -7587,6 +7438,15 @@
           <div class="media-drop-title">Drag &amp; drop or <a>Browse</a></div>
           ${sf.placeholder ? `<div class="media-drop-hint">${escapeHtml(sf.placeholder)}</div>` : ''}
         </div>${errHtml}${helpHtml}</div>`;
+      }
+      if (sf.type === 'datetime' || sf.type === 'datetime-local') {
+        return `<div class="field${spanFull}">${labelHtml}<input class="field-input" type="datetime-local" value="${escapeAttr(value)}" ${dataAttrs}${placeholder}${req} />${errHtml}${helpHtml}</div>`;
+      }
+      if (sf.type === 'number') {
+        const min = sf.min != null ? ` min="${sf.min}"` : '';
+        const max = sf.max != null ? ` max="${sf.max}"` : '';
+        const step = sf.step != null ? ` step="${sf.step}"` : '';
+        return `<div class="field${spanFull}">${labelHtml}<input class="field-input" type="number" value="${escapeAttr(value)}" ${dataAttrs}${placeholder}${min}${max}${step}${req} />${errHtml}${helpHtml}</div>`;
       }
       // default: text input
       return `<div class="field${spanFull}">${labelHtml}<input class="field-input" type="text" value="${escapeAttr(value)}" ${dataAttrs}${placeholder}${req} />${errHtml}${helpHtml}</div>`;
