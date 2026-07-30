@@ -82,7 +82,24 @@
       "Bash(mkdir -p \"/c/Users/Alfan/AppData/Local/Temp/claude/E--A---WORKS-A---ICTechnology-Works-Power-House-Law-Power-House-Law-Claude/ee4a9caa-19f8-4ab8-8d17-456d23030988/scratchpad\" 2>/dev/null; echo ok)",
       "Bash(node \"C:/Users/Alfan/AppData/Local/Temp/claude/E--A---WORKS-A---ICTechnology-Works-Power-House-Law-Power-House-Law-Claude/ee4a9caa-19f8-4ab8-8d17-456d23030988/scratchpad/merge_headings.js\")",
       "Bash(node \"C:/Users/Alfan/AppData/Local/Temp/claude/E--A---WORKS-A---ICTechnology-Works-Power-House-Law-Power-House-Law-Claude/ee4a9caa-19f8-4ab8-8d17-456d23030988/scratchpad/merge_suffix_parens.js\")",
-      "Bash(node \"C:/Users/Alfan/AppData/Local/Temp/claude/E--A---WORKS-A---ICTechnology-Works-Power-House-Law-Power-House-Law-Claude/ee4a9caa-19f8-4ab8-8d17-456d23030988/scratchpad/merge_outcome_and_names.js\")"
+      "Bash(node \"C:/Users/Alfan/AppData/Local/Temp/claude/E--A---WORKS-A---ICTechnology-Works-Power-House-Law-Power-House-Law-Claude/ee4a9caa-19f8-4ab8-8d17-456d23030988/scratchpad/merge_outcome_and_names.js\")",
+      "Bash(where pdftoppm *)",
+      "Bash(where magick *)",
+      "Bash(where convert *)",
+      "Bash(where gs *)",
+      "Bash(python -c ' *)",
+      "Bash(where node *)",
+      "Bash(npm i *)",
+      "Bash(node -e ' *)",
+      "Bash(node pdf2png.mjs)",
+      "Bash(node split.mjs)",
+      "Bash(sed -i 's/scale: 1.2 }\\)/scale: 2.4 }\\)/; s/scale: 1.2 \\\\* scale/scale: 2.4 * scale/' pdf2png_contact.mjs)",
+      "Bash(node pdf2png_contact.mjs)",
+      "Bash(node \"C:/Users/Alfan/AppData/Local/Temp/claude/E--A---WORKS-A---ICTechnology-Works-Power-House-Law-Power-House-Law-Claude/ee4a9caa-19f8-4ab8-8d17-456d23030988/scratchpad/inject_heading_cards.mjs\")",
+      "Bash(git stash *)",
+      "Bash(node \"C:/Users/Alfan/AppData/Local/Temp/claude/E--A---WORKS-A---ICTechnology-Works-Power-House-Law-Power-House-Law-Claude/ee4a9caa-19f8-4ab8-8d17-456d23030988/scratchpad/fix_heading_injection.mjs\")",
+      "Bash(grep -n \"^      [a-z].*:\\\\s*{$\\\\|title: 'Heading', icon: 'text', fields: chargeHeadingCard\" \"E:/A - WORKS/A - ICTechnology/Works/Power House Law/Power House Law_Claude/cms.html\")",
+      "Bash(node \"C:/Users/Alfan/AppData/Local/Temp/claude/E--A---WORKS-A---ICTechnology-Works-Power-House-Law-Power-House-Law-Claude/ee4a9caa-19f8-4ab8-8d17-456d23030988/scratchpad/cleanup_wrong_headings.mjs\")"
     ]
   }
 }
